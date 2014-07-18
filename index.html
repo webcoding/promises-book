@@ -4,9 +4,9 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="generator" content="Asciidoctor 0.1.4">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="JavaScript Promiseの使い方やテスト、応用について解説したドキュメントです。">
-<meta name="keywords" content="JavaScript, ECMAScript, Promise, 日本語, 使い方, チュートリアル, リファレンス">
-<title>JavaScript Promiseの本</title>
+<meta name="description" content="关于JavaScript Promise基本使用方法以及测试的编写方法、应用及反模式等内容的文档。">
+<meta name="keywords" content="JavaScript, ECMAScript, Promise, 日语, 中文, 使用方法, 教程, 参考手册">
+<title>JavaScript Promise小书</title>
 <style>
 /* Asciidoctor default stylesheet | MIT License | http://asciidoctor.org */
 article, aside, details, figcaption, figure, footer, header, hgroup, main, nav, section, summary { display: block; }
@@ -464,25 +464,25 @@ span.line-numbers { border-right: 1px solid #E5E5E5; color: #999; display: inlin
 </head>
 <body class="article toc2 toc-left">
 <div id="header">
-<h1>JavaScript Promiseの本</h1>
+<h1>JavaScript Promise小书</h1>
 <span id="author" class="author">azu</span><br>
-<span id="revnumber">version 1.0.1</span>
+<span id="revnumber">version 1.1.2</span>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
-<li><a href="#introduction">はじめに</a></li>
+<li><a href="#introduction">前言</a></li>
 <li>
 <ul class="sectlevel2">
-<li><a href="#_">書籍の目的</a></li>
-<li><a href="#__2">本書を読むにあたって</a></li>
-<li><a href="#__3">表記法</a></li>
-<li><a href="#__4">推奨ブラウザ</a></li>
-<li><a href="#__5">サンプルコードの実行</a></li>
-<li><a href="#__6">本書のソースコード/ライセンス</a></li>
-<li><a href="#__7">意見や疑問点</a></li>
+<li><a href="#_">写作初衷</a></li>
+<li><a href="#__2">开始阅读之前</a></li>
+<li><a href="#__3">格式约定</a></li>
+<li><a href="#__4">推荐浏览器</a></li>
+<li><a href="#__5">运行示例代码</a></li>
+<li><a href="#__license">本书源代码/License</a></li>
+<li><a href="#__6">意见和疑问</a></li>
 </ul>
 </li>
-<li><a href="#chapter1-what-is-promise">1. Chapter.1 - Promiseとは何か</a></li>
+<li><a href="#chapter1-what-is-promise">1. Chapter.1 - 什么是Promise</a></li>
 <li>
 <ul class="sectlevel2">
 <li><a href="#what-is-promise">1.1. What Is Promise</a></li>
@@ -490,12 +490,12 @@ span.line-numbers { border-right: 1px solid #E5E5E5; color: #999; display: inlin
 <li><a href="#how-to-write-promise">1.3. Promiseの書き方</a></li>
 </ul>
 </li>
-<li><a href="#chapter2-how-to-write-promise">2. Chapter.2 - Promiseの書き方</a></li>
+<li><a href="#chapter2-how-to-write-promise">2. Chapter.2 - 实战Promise</a></li>
 <li>
 <ul class="sectlevel2">
 <li><a href="#ch2-promise-resolve">2.1. Promise.resolve</a></li>
 <li><a href="#ch2-promise-reject">2.2. Promise.reject</a></li>
-<li><a href="#promise-is-always-async">2.3. コラム: Promiseは常に非同期?</a></li>
+<li><a href="#promise-is-always-async">2.3. 专栏: Promise只能进行异步操作？</a></li>
 <li><a href="#ch2-promise.then">2.4. Promise#then</a></li>
 <li><a href="#ch2-promise-catch">2.5. Promise#catch</a></li>
 <li><a href="#then-return-new-promise">2.6. コラム: thenは常に新しいpromiseオブジェクトを返す</a></li>
@@ -510,7 +510,7 @@ span.line-numbers { border-right: 1px solid #E5E5E5; color: #999; display: inlin
 <ul class="sectlevel2">
 <li><a href="#basic-tests">3.1. 基本的なテスト</a></li>
 <li><a href="#mocha-promise">3.2. MochaのPromiseサポート</a></li>
-<li><a href="#controlable-tests">3.3. 意図したテストを書くには</a></li>
+<li><a href="#controllable-tests">3.3. 意図したテストを書くには</a></li>
 </ul>
 </li>
 <li><a href="#chapter4-advanced-promise">4. Chapter.4 - Advanced</a></li>
@@ -555,45 +555,43 @@ span.line-numbers { border-right: 1px solid #E5E5E5; color: #999; display: inlin
 <a href="https://github.com/azu/promises-book/"><img style="border: 0;" src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" /></a>
 </div>
 <div class="paragraph">
-<p><span class="icon"><a class="image" href="https://twitter.com/search?q=%23Promise%E6%9C%AC"><i class="icon-twitter icon-2x"></i></a></span> ハッシュタグは <a href="https://twitter.com/search?q=%23Promise%E6%9C%AC">#Promise本</a></p>
+<p><span class="icon"><a class="image" href="https://twitter.com/search?q=%23Promise%E6%9C%AC"><i class="icon-twitter icon-2x"></i></a></span> Hash tag <a href="https://twitter.com/search?q=%23Promise%E6%9C%AC">#Promise本</a></p>
 </div>
 <div class="paragraph">
-<p><span class="icon"><a class="image" href="https://github.com/azu/promises-book/releases.atom"><i class="icon-rss icon-2x"></i></a></span> 更新情報は <a href="https://github.com/azu/promises-book/releases.atom">RSS</a> から購読出来ます</p>
+<p><span class="icon"><a class="image" href="https://github.com/azu/promises-book/releases.atom"><i class="icon-rss icon-2x"></i></a></span> 可以从这里 <a href="https://github.com/azu/promises-book/releases.atom">RSS</a> 得到更新信息</p>
 </div>
 <div class="social-button-wrapper">
 <iframe src="http://ghbtns.com/github-btn.html?user=azu&repo=promises-book&type=watch&count=true"
   allowtransparency="true" frameborder="0" scrolling="0" width="100" height="20"></iframe>
 
-<a href="https://twitter.com/share" class="twitter-share-button" data-url="http://azu.github.io/promises-book/" data-lang="ja" data-hashtags="Promise本">ツイート</a>
+<a href="https://twitter.com/share" class="twitter-share-button" data-url="http://azu.github.io/promises-book/" data-lang="ja" data-hashtags="Promise本">Tweet</a>
 <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
 
-<a href="http://b.hatena.ne.jp/entry/http://azu.github.io/promises-book/" class="hatena-bookmark-button" data-hatena-bookmark-title="JavaScript Promiseの本" data-hatena-bookmark-layout="standard" title="このエントリーをはてなブックマークに追加"><img src="http://b.st-hatena.com/images/entry-button/button-only.gif" alt="" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="http://cdn-ak.b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
 </div>
 <div class="paragraph">
-<p>この書籍はCreative Commons Attribution-NonCommercialの <a href="https://github.com/azu/promises-book/#license">ライセンス</a> で公開されています。
-また、PDFとしてレンダリングしたバージョンは以下からダウンロードすることが出来ます。</p>
+<p>本书以Creative Commons Attribution-NonCommercial <a href="https://github.com/azu/promises-book/#license">许可证</a>发布。
+另外你也可以从下面的链接下载PDF版本。</p>
 </div>
 <div class="download-area">
-<a class="download-button pdf" id="download-pdf" href="http://azu.github.io/promises-book/javascript-promise-book.pdf" download="javascript-promise-book.pdf">PDF版をダウンロード</a>
-<a class="download-button source-code" href="https://github.com/azu/promises-book/">ソースコードをダウンロード</a>
+<a class="download-button pdf" id="download-pdf" href="http://azu.github.io/promises-book/javascript-promise-book.pdf" download="javascript-promise-book.pdf">下载本书PDF版本</a>
+<a class="download-button source-code" href="https://github.com/azu/promises-book/">下载源代码</a>
 </div>
 <div class="paragraph">
-<p>この電子書籍の作り方に興味がある方は、
-以下から <a href="https://gumroad.com/l/javascript-promise">おまけ</a> をダウンロードすることが出来ます。</p>
+<p>关于本电子书的创作过程有兴趣的读者，可以下载这个文档供参考 <a href="https://gumroad.com/l/javascript-promise">制作过程</a>。</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p><span class="image"><a class="image" href="https://gumroad.com/l/javascript-promise"><img src="./public/img/gumroad-green.svg" alt="おまけをダウンロード"></a></span> <a href="https://gumroad.com/l/javascript-promise">おまけをダウンロード</a></p>
+<p><span class="image"><a class="image" href="https://gumroad.com/l/javascript-promise"><img src="./public/img/gumroad-green.svg" alt="附录下载"></a></span> <a href="https://gumroad.com/l/javascript-promise">附录下载</a></p>
 </li>
 <li>
-<p>書き始めた理由や、どのように書いていったか、どのような仕組みで動いているかなどについて書かれています。</p>
+<p>本书开始编写的原因，如何编写的，以及编写过程是如何运转的。</p>
 </li>
 <li>
-<p>Gumroadで購入者が0円から任意の値段を決めてダウンロードすることが出来ます。</p>
+<p>可以在Gumroad上以包括0元在内的任何价格购买本附录内容。</p>
 </li>
 <li>
-<p>寄付などがしたい方はGumroadからおまけの購入で代用して下さい。</p>
+<p>如果你想捐赠，也可以使用本附录链接以任意的价格购买本附录即可。</p>
 </li>
 </ul>
 </div>
@@ -602,48 +600,44 @@ span.line-numbers { border-right: 1px solid #E5E5E5; color: #999; display: inlin
 </div>
 </div>
 <div class="sect1">
-<h2 id="introduction">はじめに</h2>
+<h2 id="introduction">前言</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_">書籍の目的</h3>
+<h3 id="_">写作初衷</h3>
 <div class="paragraph">
-<p>この書籍は現在策定中の<a href="#es6-promises">ECMAScript 6 Promises</a>という仕様を中心にし、
-JavaScriptにおけるPromiseについて学ぶことを目的とした書籍です。</p>
+<p>本书的目的是以目前还在制定中的<a href="#es6-promises">ECMAScript 6 Promises</a>规范为中心，着重向各位读者介绍JavaScript中的Promise相关支持。</p>
 </div>
 <div class="paragraph">
-<p>この書籍を読むことで学べる事として次の3つを目標としています</p>
+<p>通过阅读本书，我们希望各位读者能在下面三个目标上有所收获。</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>Promiseについて学び、パターンやテストを扱えるようになる事</p>
+<p>学习Promise相关内容，能熟练使用Promise模式及进行测试</p>
 </li>
 <li>
-<p>Promiseの向き不向きについて学び、何でもPromiseで解決するべきではないと知る事</p>
+<p>学习Promise适合什么不适合什么，知道Promise不是万能的，不能什么都想用Promise来解决</p>
 </li>
 <li>
-<p>ES6 Promisesを元に基本をよく学び、より発展した形を自分で形成できるようになる事</p>
+<p>以ES6 Promises为基础 を元に基本をよく学び、より発展した形を自分で形成できるようになる事</p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
-<p>この書籍では、先程も述べたように<a href="#es6-promises">ES6 Promises</a>、
-つまりJavaScriptの標準仕様をベースとしたPromiseについて書かれています。</p>
+<p>像上面所提到的那样，本书主要是以<a href="#es6-promises">ES6 Promises</a>，即JavaScript的标准规范为基础的Promise相关只是为主要内容。</p>
 </div>
 <div class="paragraph">
-<p>そのため、FirefoxやChromeなど先行実装しているブラウザでは、ライブラリを使うこと無く利用できる機能であり、
-またES6 Promisesは元が<a href="#promises-aplus">Promises/A+</a>というコニュニティベースの仕様であるため、多くの実装ライブラリがあります。</p>
+<p>Firefox和Chrome这样技术上比较超前的浏览器不需要安装额外的插件就能使用Promise功能，此外ES6 Promises的规范来源于<a href="#promises-aplus">Promises/A+</a>社区，它有很多版本的实现。</p>
 </div>
 <div class="paragraph">
-<p>ブラウザネイティブの機能 または ライブラリを使うことで今すぐ利用できるPromiseについて
-基本的なAPIから学んでいきます。
-その中でPromiseの得意/不得意を知り、Promiseを活用したJavaScriptを書けるようになることを目的としています。</p>
+<p>我们将会从基础API开始介绍可以在浏览器的原生支持或者通过插件支持的Proise功能。
+也希望各位读者能了解这其中Promise适合干什么，不适合干什么，能根据实际需求选择合适的技术实现方案。</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="__2">本書を読むにあたって</h3>
+<h3 id="__2">开始阅读之前</h3>
 <div class="paragraph">
-<p>この書籍ではJavaScriptの基本的な機能について既に学習していることを前提にしています。</p>
+<p>本书阅读对象需要对JavaScript有基本的了解和知识。</p>
 </div>
 <div class="ulist">
 <ul>
@@ -651,13 +645,13 @@ JavaScriptにおけるPromiseについて学ぶことを目的とした書籍で
 <p><a href="http://www.oreilly.co.jp/books/9784873113913/">JavaScript: The Good Parts</a></p>
 </li>
 <li>
-<p><a href="http://www.oreilly.co.jp/books/9784873114880/">JavaScriptパターン</a></p>
+<p><a href="http://www.oreilly.co.jp/books/9784873114880/">JavaScript模式</a></p>
 </li>
 <li>
 <p><a href="http://www.oreilly.co.jp/books/9784873115733/">JavaScript 第6版</a></p>
 </li>
 <li>
-<p><a href="http://gihyo.jp/book/2011/978-4-7741-4813-7?ard=1400715177">パーフェクトJavaScript</a></p>
+<p><a href="http://gihyo.jp/book/2011/978-4-7741-4813-7?ard=1400715177">Perfect JavaScript</a></p>
 </li>
 <li>
 <p><a href="http://books.shoeisha.co.jp/book/b107881.html">Effective JavaScript</a></p>
@@ -665,50 +659,48 @@ JavaScriptにおけるPromiseについて学ぶことを目的とした書籍で
 </ul>
 </div>
 <div class="paragraph">
-<p>のいずれかの書籍を読んだ事があれば十分読み解くことが出来る内容だと思います。</p>
+<p>如果你读过上面的一本书的话，则应该就能非常容易理解本书的内容了。</p>
 </div>
 <div class="paragraph">
-<p>または、JavaScriptでウェブアプリケーションを書いたことがある、
-Node.js でコマンドラインアプリやサーバサイドを書いたことがあれば、
-どこかで書いたことがあるような内容が出てくるかもしれません。</p>
+<p>另外如果你有使用JavaScript编写过Web应用程序，或者使用Node.js编写过命令行或服务器程序的话，那么你可能会对本文中的一些内容感到非常熟悉。</p>
 </div>
 <div class="paragraph">
-<p>一部セクションではNode.js環境での話となるため、Node.jsについて軽くでも知っておくとより理解がしやすいと思います。</p>
+<p>本书的一本分章节将会以Node.js环境为背景进行说明，如果你有Node.js基础的话，那么一定会非常容易这部分内容了。</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="__3">表記法</h3>
+<h3 id="__3">格式约定</h3>
 <div class="paragraph">
-<p>この書籍では短縮するために幾つかの表記を用いています。</p>
+<p>本书为了节约篇幅，用了下面一些格式上的约定。</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>Promiseに関する用語は<a href="#promise-glossary">用語集</a>を参照する。</p>
+<p>关于Promise的术语请参考<a href="#promise-glossary">术语集</a>。</p>
 <div class="ulist">
 <ul>
 <li>
-<p>大体、初回に出てきた際にはリンクを貼っています。</p>
+<p>一般一个名词第一次出现时都会附带相关链接。</p>
 </li>
 </ul>
 </div>
 </li>
 <li>
-<p>インスタンスメソッドを instance#method という表記で示す。</p>
+<p>实例方法都用 instance#method 的形式。</p>
 <div class="ulist">
 <ul>
 <li>
-<p>例えば、<code>Promise#then</code> という表記は、Promiseのインスタンスオブジェクトの<code>then</code>というメソッドを示しています。</p>
+<p>比如 <code>Promise#then</code> 这种写法表示的是 Promise的实例对象的 <code>then</code> 这一方法。</p>
 </li>
 </ul>
 </div>
 </li>
 <li>
-<p>オブジェクトメソッドを object.method という表記で示す。</p>
+<p>对象方法都采用 object.method 的形式。</p>
 <div class="ulist">
 <ul>
 <li>
-<p>これはJavaScriptの意味そのままで、<code>Promise.all</code> なら静的メソッドの事を示しています。</p>
+<p>这沿用了JavaScript中的使用方式，<code>Promise.all</code> 表示的是一个静态方法。</p>
 </li>
 </ul>
 </div>
@@ -729,28 +721,27 @@ Node.js でコマンドラインアプリやサーバサイドを書いたこと
 </div>
 </div>
 <div class="sect2">
-<h3 id="__4">推奨ブラウザ</h3>
+<h3 id="__4">推荐浏览器</h3>
 <div class="paragraph">
-<p>この書籍を読むにあたっての推奨ブラウザとしてはネイティブでPromiseをサポートしているブラウザとなっています。</p>
+<p>我们推荐使用内置对Promise支持的浏览器来阅读本书。</p>
 </div>
 <div class="paragraph">
-<p>Firefoxは29から、Chromeは35から<a href="#es6-promises">ES6 Promises</a>をサポートしています。</p>
+<p>Firefox &gt; 29、Chrome &gt; 35 的话都支持<a href="#es6-promises">ES6 Promises</a>标准。</p>
 </div>
 <div class="paragraph">
-<p>また、推奨環境ではありませんがiOSなどのモバイル端末でも閲覧は可能です。</p>
+<p>此外，虽然不是推荐的阅读环境，但是读者还是能在iOS等移动终端上阅读本书。</p>
 </div>
 <div class="iframe-wrapper" style="width: 100%; height: 350px; overflow: auto; -webkit-overflow-scrolling: touch;">
 <iframe src="http://caniuse.com/promises/embed/agents=desktop" width="100%" height="350px"></iframe>
 </div>
 </div>
 <div class="sect2">
-<h3 id="__5">サンプルコードの実行</h3>
+<h3 id="__5">运行示例代码</h3>
 <div class="paragraph">
-<p>このサイトでは、Promiseの<a href="#promise-polyfill">Polyfillライブラリ</a>を読み込んでいるため、
-Promiseをサポートしていないブラウザでもサンプルコードを実行することが出来ます。</p>
+<p>本网站使用了Promise的<a href="#promise-polyfill">Polyfill类库</a>，因此即使在不支持Promise的浏览器上也能执行示例代码。</p>
 </div>
 <div class="paragraph">
-<p>また、以下のように実行出来るサンプルコードには実行ボタンが表示されています。</p>
+<p>此外像下面这样，各位读者可以通过运行按钮来运行可执行的示例代码。</p>
 </div>
 <div class="listingblock executable">
 <div class="content">
@@ -765,23 +756,22 @@ promise.then(<span class="keyword">function</span>(value){
 </div>
 </div>
 <div class="tutorial-area">
-<button class="mirror-console-button mirror-console-run">実行</button> ボタンを押すことで、
-サンプルコードがエディタとなりコードを実行する事が出来ます。<br />
-<button class="mirror-console-button mirror-console-clear">ログをクリア</button>ボタンでは実行結果の<code>console.log</code>の内容をクリア出来ます。
+按下 <button class="mirror-console-button mirror-console-run">运行</button> 按钮之后，代码区会变成编辑区，并开始执行。<br />
+<button class="mirror-console-button mirror-console-clear">清除log</button> 按钮用于清除由 <code>console.log</code> 打印出来的log。
 <br />
-<button class="mirror-console-button mirror-console-exit">終了</button>ボタンではエディタモードを終了します。
+<button class="mirror-console-button mirror-console-exit">退出</button>按钮用来退出编辑模式。
 </div>
 <div class="paragraph">
-<p>気になるコードはその場で書き換えて実行することができるため、理解するための補助として使って下さい。</p>
+<p>如果你对哪里有疑问的话，都可以现场修改并执行，以加深对该代码的理解。</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="__6">本書のソースコード/ライセンス</h3>
+<h3 id="__license">本书源代码/License</h3>
 <div class="paragraph">
-<p>この書籍に登場するサンプルのソースコード また その文章のソースコードは全てGitHubから取得することができます。</p>
+<p>本书中示例代码都可以在GitHub上找到。</p>
 </div>
 <div class="paragraph">
-<p>この書籍は <a href="http://asciidoctor.org/">AsciiDoc</a> という形式で書かれています。</p>
+<p>本书以 <a href="http://asciidoctor.org/">AsciiDoc</a> 形式编写。</p>
 </div>
 <div class="ulist">
 <ul>
@@ -791,16 +781,16 @@ promise.then(<span class="keyword">function</span>(value){
 </ul>
 </div>
 <div class="paragraph">
-<p>またリポジトリには書籍中に出てくるサンプルコードのテストも含まれています。</p>
+<p>此外代码仓库中还包含本书示例代码的测试代码。</p>
 </div>
 <div class="paragraph">
-<p>ソースコードのライセンスはMITライセンスで、文章はCC-BY-NCで利用することができます。</p>
+<p>源代码的许可证为MIT许可证，文章内容可以基于CC-BY-NC使用。</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="__7">意見や疑問点</h3>
+<h3 id="__6">意见和疑问</h3>
 <div class="paragraph">
-<p>意見や疑問点がある場合はGitHubに直接Issueとして立てる事が出来ます。</p>
+<p>如果有意见或者问题的话，可以直接在GitHub上提Issue即可。</p>
 </div>
 <div class="ulist">
 <ul>
@@ -810,7 +800,7 @@ promise.then(<span class="keyword">function</span>(value){
 </ul>
 </div>
 <div class="paragraph">
-<p>また、この書籍についての <a href="https://gitter.im/azu/promises-book">チャットページ</a> に書いていくのもいいでしょう。</p>
+<p>此外，你也可以在 <a href="https://gitter.im/azu/promises-book">在线聊天</a> 上留言。</p>
 </div>
 <div class="ulist">
 <ul>
@@ -820,21 +810,16 @@ promise.then(<span class="keyword">function</span>(value){
 </ul>
 </div>
 <div class="paragraph">
-<p>Twitterでのハッシュタグは <span class="icon"><a class="image" href="https://twitter.com/search?q=%23Promise%E6%9C%AC"><i class="icon-twitter icon-2x"></i></a></span> <a href="https://twitter.com/search?q=%23Promise%E6%9C%AC">#Promise本</a>
-なので、こちらを利用するのもいいでしょう。</p>
-</div>
-<div class="paragraph">
-<p>この書籍は読める権利と同時に編集する権利があるため、
-GitHubで <a href="https://github.com/azu/promises-book/pulls">Pull Requests</a> も歓迎しています。</p>
+<p>各位读者除了能免费阅读本书，也有编辑本书的权利，可以在GitHub上通过GitHubで <a href="https://github.com/azu/promises-book/pulls">Pull Requests</a> 贡献自己的工作。</p>
 </div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="chapter1-what-is-promise">1. Chapter.1 - Promiseとは何か</h2>
+<h2 id="chapter1-what-is-promise">1. Chapter.1 - 什么是Promise</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>この章では、JavaScriptにおけるPromiseについて簡単に紹介していきます。</p>
+<p>本章将主要对JavaScript中的Promise进行简单的介绍。</p>
 </div>
 <div class="sect2">
 <h3 id="what-is-promise">1.1. What Is Promise</h3>
@@ -875,7 +860,7 @@ GitHubで <a href="https://github.com/azu/promises-book/pulls">Pull Requests</a>
 </table>
 </div>
 <div class="paragraph">
-<p>Node.js等JavaScriptでのコールバック関数の第一引数には<code>Error</code>オブジェクトを渡すというルールを用いるケースがあります。</p>
+<p>Node.js等JavaScriptでのコールバック関数の第一引数には <code>Error</code> オブジェクトを渡すというルールを用いるケースがあります。</p>
 </div>
 <div class="paragraph">
 <p>このようにコールバックでの非同期処理もルールが統一されていた場合、コールバック関数の書き方が明確になります。
@@ -913,7 +898,7 @@ promise.then(<span class="keyword">function</span>(result){
 非同期処理の書き方がpromiseオブジェクトのインターフェースに沿った書き方に限定されます。</p>
 </div>
 <div class="paragraph">
-<p>つまり、promiseオブジェクトに用意されてるメソッド(ここでは<code>then</code>や<code>catch</code>)以外は使えないため、
+<p>つまり、promiseオブジェクトに用意されてるメソッド(ここでは <code>then</code> や <code>catch</code>)以外は使えないため、
 コールバックのように引数に何を入れるかが自由に決められるわけではなく、一定のやり方に統一されます。</p>
 </div>
 <div class="paragraph">
@@ -931,26 +916,26 @@ Promiseを使う理由の一つであるといえるでしょう。</p>
 <div class="sect2">
 <h3 id="promises-overview">1.2. Promise Overview</h3>
 <div class="paragraph">
-<p><a href="#es6-promises">ES6 Promises</a>の仕様で定義されているAPIはそこまで多くはありません。</p>
+<p>以<a href="#es6-promises">ES6 Promises</a>的式样来定义的API还没有那么多 。</p>
 </div>
 <div class="paragraph">
-<p>大きく分けて以下の3種類になります。</p>
+<p>大致可以分为下面三种类型。</p>
 </div>
 <div class="paragraph">
 <p><strong>Constructor</strong></p>
 </div>
 <div class="paragraph">
-<p>Promiseは<code>XMLHttpRequest</code>のように、コンストラクタ関数である<code>Promise</code>からインスタンスとなる
-promiseオブジェクトを作成して利用します。</p>
+<p>Promise类似于 <code>XMLHttpRequest</code>、从构造函数<code>Promise</code> 来新建实例。
+生成promise对象后才能使用。</p>
 </div>
 <div class="paragraph">
-<p>promiseオブジェクトを作成するには、<code>Promise</code>コンストラクタを<code>new</code>でインスタンス化します。</p>
+<p>生成promise对象、要使用<code>new</code>来实例化<code>Promise</code> 构造器  。</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay"><code class="javascript language-javascript"><span class="keyword">var</span> promise = <span class="keyword">new</span> Promise(<span class="keyword">function</span>(resolve, reject) {
-    <span class="comment">// 非同期の処理</span>
-    <span class="comment">// 処理が終わったら、resolve または rejectを呼ぶ</span>
+    <span class="comment">// 非同期处理</span>
+    <span class="comment">// 处理结束后、调用resolve 或 reject</span>
 });</code></pre>
 </div>
 </div>
@@ -958,8 +943,8 @@ promiseオブジェクトを作成して利用します。</p>
 <p><strong>Instance Method</strong></p>
 </div>
 <div class="paragraph">
-<p>newによって生成されたpromiseオブジェクトにはpromiseの値を <strong>resolve</strong>(成功) / <strong>reject</strong>(失敗) した時に呼ばれる
-コールバック関数を登録するために <code>promise.then()</code> というインスタンスメソッドがあります。</p>
+<p>对通过new生成的promise对象为了设置其值在 <strong>resolve</strong>(成功) / <strong>reject</strong>(失败)时调用的回调函数
+可以使用<code>promise.then()</code> 实例方法。</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -968,23 +953,23 @@ promiseオブジェクトを作成して利用します。</p>
 </div>
 <div class="dlist">
 <dl>
-<dt class="hdlist1">resolve(成功)した時</dt>
+<dt class="hdlist1">resolve(成功)时</dt>
 <dd>
-<p><code>onFulfilled</code> が呼ばれる</p>
+<p><code>onFulfilled</code> 会被调用</p>
 </dd>
 <dt class="hdlist1">reject(失敗)した時</dt>
 <dd>
-<p><code>onRejected</code>  が呼ばれる</p>
+<p><code>onRejected</code>  会被调用</p>
 </dd>
 </dl>
 </div>
 <div class="paragraph">
-<p><code>onFulfilled</code>、<code>onRejected</code> どちらもオプショナルな引数となっています。</p>
+<p><code>onFulfilled</code>、<code>onRejected</code> 两个都为可选参数。</p>
 </div>
 <div class="paragraph">
-<p><code>promise.then</code> では成功時と失敗時の処理を同時に登録することが出来ます。
-また、エラー処理だけを書きたい場合には <code>promise.then(undefined, onRejected)</code> と同じ意味である
-<code>promise.catch(onRejected)</code>を使うことが出来ます。</p>
+<p><code>promise.then</code> 成功和失败时都可以使用。
+还有、只想添加异常处理时和 <code>promise.then(undefined, onRejected)</code> 的用法一样。
+<code>promise.catch(onRejected)</code> 这样也可以使用。</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -995,15 +980,15 @@ promiseオブジェクトを作成して利用します。</p>
 <p><strong>Static Method</strong></p>
 </div>
 <div class="paragraph">
-<p><code>Promise</code> というグローバルオブジェクトには幾つかの静的なメソッドが存在します。</p>
+<p>像<code>Promise</code> 这样的全局对象拥有几个静态方法。</p>
 </div>
 <div class="paragraph">
-<p><code>Promise.all()</code> や <code>Promise.resolve()</code> などが該当し、Promiseを扱う上での補助メソッドが中心となっています。</p>
+<p><code>Promise.all()</code> 还有 <code>Promise.resolve()</code> 等、主要用来作为在操作Promise时的辅助方法。</p>
 </div>
 <div class="sect3">
 <h4 id="_promise_workflow">1.2.1. Promise workflow</h4>
 <div class="paragraph">
-<p>以下のようなサンプルコードを見てみましょう。</p>
+<p>来看下下面的示例代码。</p>
 </div>
 <div id="promise-workflow.js" class="listingblock executable">
 <div class="title">promise-workflow.js</div>
@@ -1028,7 +1013,7 @@ asyncFunction().then(<span class="keyword">function</span> (value) {
 <table>
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>Promiseコンストラクタを<code>new</code>して、promiseオブジェクトを返します</td>
+<td>Promiseコンストラクタを <code>new</code> して、promiseオブジェクトを返します</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="2"></i><b>2</b></td>
@@ -1047,7 +1032,7 @@ asyncFunction().then(<span class="keyword">function</span> (value) {
 </div>
 <div class="paragraph">
 <p>この場合 <code>catch</code> のコールバックは呼ばれる事はないですが、
-<code>setTimout</code>が存在しない環境などでは、例外が発生し<code>catch</code>で登録したコールバック関数が呼ばれると思います。</p>
+<code>setTimeout</code> が存在しない環境などでは、例外が発生し <code>catch</code> で登録したコールバック関数が呼ばれると思います。</p>
 </div>
 <div class="paragraph">
 <p>もちろん、<code>promise.then(onFulfilled, onRejected)</code> というように、
@@ -1178,7 +1163,7 @@ asyncFunction().then(<span class="keyword">function</span> (value) {
 <p><code>new Promise(fn)</code> の返り値がpromiseオブジェクト</p>
 </li>
 <li>
-<p><code>fn</code>には非同期等の何らかの処理を書く</p>
+<p><code>fn</code> には非同期等の何らかの処理を書く</p>
 <div class="ulist">
 <ul>
 <li>
@@ -1201,7 +1186,7 @@ asyncFunction().then(<span class="keyword">function</span> (value) {
 <div class="sect4">
 <h5 id="_xhr_promise">XHRのpromiseオブジェクトを作る</h5>
 <div class="paragraph">
-<p>まずは、XHRをPromiseを使って包んだような<code>getURL</code>という関数を作ります。</p>
+<p>まずは、XHRをPromiseを使って包んだような <code>getURL</code> という関数を作ります。</p>
 </div>
 <div id="xhr-promise.js" class="listingblock executable">
 <div class="title">xhr-promise.js</div>
@@ -1233,14 +1218,14 @@ getURL(URL).then(<span class="keyword">function</span> <span class="function">on
 </div>
 </div>
 <div class="paragraph">
-<p>この<code>getURL</code>では、
+<p>この <code>getURL</code> では、
 XHRでの取得結果のステータスコードが200の場合のみ <code>resolve</code> - つまり取得に成功、
 それ以外はエラーであるとして <code>reject</code> しています。</p>
 </div>
 <div class="paragraph">
 <p><code>resolve(req.response)</code> ではレスポンスの内容を引数に入れています。
 resolveの引数に入れる値には特に決まりはありませんが、コールバックと同様に次の処理へ渡したい値を入れるといいでしょう。
-(この値は<code>then</code>メソッドで受け取ることが出来ます)</p>
+(この値は <code>then</code> メソッドで受け取ることが出来ます)</p>
 </div>
 <div class="paragraph">
 <p>Node.jsをやっている人は、コールバックを書く時に <code>callback(error, response)</code> と第一引数にエラーオブジェクトを
@@ -1251,8 +1236,8 @@ resolveにはresponseの値のみをいれるだけで問題ありません。</
 <p>次に、<code>reject</code> の方を見て行きましょう。</p>
 </div>
 <div class="paragraph">
-<p>XHRで<code>onerror</code>のイベントが呼ばれた場合はもちろんエラーなので<code>reject</code>を呼びます。
-ここで<code>reject</code>に渡している値に注目してみてください。</p>
+<p>XHRで <code>onerror</code> のイベントが呼ばれた場合はもちろんエラーなので <code>reject</code> を呼びます。
+ここで <code>reject</code> に渡している値に注目してみてください。</p>
 </div>
 <div class="paragraph">
 <p>エラーの場合は <code>reject(new Error(req.statusText));</code> というように、Errorオブジェクトを作成して渡している事がわかると思います。
@@ -1260,8 +1245,8 @@ resolveにはresponseの値のみをいれるだけで問題ありません。</
 </div>
 <div class="paragraph">
 <p><code>reject</code> に渡す値は、rejectする理由を書いたErrorオブジェクトとなっています。
-今回は、ステータスコードが200以外であるならrejectするとしていたため、<code>reject</code>にはstatusTextを入れています。
-(この値は<code>then</code>メソッドの第二引数 or <code>catch</code> メソッドで受け取ることが出来ます)</p>
+今回は、ステータスコードが200以外であるならrejectするとしていたため、<code>reject</code> にはstatusTextを入れています。
+(この値は <code>then</code> メソッドの第二引数 or <code>catch</code> メソッドで受け取ることが出来ます)</p>
 </div>
 </div>
 </div>
@@ -1299,7 +1284,7 @@ resolveにはresponseの値のみをいれるだけで問題ありません。</
 <div class="title">Figure 2. promise value flow</div>
 </div>
 <div class="paragraph">
-<p>まずは、<code>getURL</code>で通信が成功して値が取得出来た場合の処理を書いてみましょう。</p>
+<p>まずは、<code>getURL</code> で通信が成功して値が取得出来た場合の処理を書いてみましょう。</p>
 </div>
 <div class="paragraph">
 <p>この場合の <em>通信が成功した</em> というのは、
@@ -1326,7 +1311,7 @@ getURL(URL).then(<span class="keyword">function</span> <span class="function">on
 </div>
 <div class="paragraph">
 <p><a href="#xhr-promise.js">getURL関数</a> 内で <code>resolve(req.response);</code> によってpromiseオブジェクトが解決されると、
-値と共に<code>onFulfilled</code> 関数が呼ばれます。</p>
+値と共に <code>onFulfilled</code> 関数が呼ばれます。</p>
 </div>
 <div class="paragraph">
 <p>このままでは通信エラーが起きた場合などに何も処理がされないため、
@@ -1337,7 +1322,7 @@ getURL(URL).then(<span class="keyword">function</span> <span class="function">on
 rejectされたことより<em>promiseオブジェクトがRejectedの状態になった</em>時という事ですね。</p>
 </div>
 <div class="paragraph">
-<p><strong>reject</strong>された時の処理は、<a href="#promise.then"><code>.then</code>の第二引数</a> または <a href="#promise.catch"><code>.catch</code></a> メソッドに呼ばれたい関数を渡す事で行えます。</p>
+<p><strong>reject</strong>された時の処理は、<a href="#promise.then"><code>.then</code> の第二引数</a> または <a href="#promise.catch"><code>.catch</code></a> メソッドに呼ばれたい関数を渡す事で行えます。</p>
 </div>
 <div class="paragraph">
 <p>先ほどのソースにrejectされた場合の処理を追加してみましょう。</p>
@@ -1365,11 +1350,11 @@ getURL(URL).then(<span class="keyword">function</span> <span class="function">on
 </table>
 </div>
 <div class="paragraph">
-<p><code>getURL</code>の処理中に何らかの理由で例外が起きた場合、または明示的にrejectされた場合に、
+<p><code>getURL</code> の処理中に何らかの理由で例外が起きた場合、または明示的にrejectされた場合に、
 その理由(Errorオブジェクト)と共に <a href="#promise.catch"><code>.catch</code></a> の処理が呼ばれます。</p>
 </div>
 <div class="paragraph">
-<p><a href="#promise.catch"><code>.catch</code></a>は<code>promise.then(undefined, onRejected)</code>のエイリアスであるため、
+<p><a href="#promise.catch"><code>.catch</code></a>は <code>promise.then(undefined, onRejected)</code> のエイリアスであるため、
 同様の処理は以下のように書くことも出来ます。</p>
 </div>
 <div id="catch-as-alias" class="listingblock">
@@ -1390,7 +1375,7 @@ getURL(URL).then(<span class="keyword">function</span> <span class="function">on
 両者の違いについては <a href="#then-or-catch">thenとcatchの違い</a> で紹介します。</p>
 </div>
 <div class="sect4">
-<h5 id="__8">まとめ</h5>
+<h5 id="__7">まとめ</h5>
 <div class="paragraph">
 <p>この章では以下のことについて簡単に紹介しました。</p>
 </div>
@@ -1418,28 +1403,27 @@ getURL(URL).then(<span class="keyword">function</span> <span class="function">on
 </div>
 </div>
 <div class="sect1">
-<h2 id="chapter2-how-to-write-promise">2. Chapter.2 - Promiseの書き方</h2>
+<h2 id="chapter2-how-to-write-promise">2. Chapter.2 - 实战Promise</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>この章では、Promiseのメソッドの使い方、エラーハンドリングについて学びます。</p>
+<p>本章我们将会学习Promise提供的各种方法以及如何进行错误处理。</p>
 </div>
 <div class="sect2">
 <h3 id="ch2-promise-resolve">2.1. Promise.resolve</h3>
 <div class="paragraph">
-<p>一般に <code>new Promise()</code> を使う事でpromiseオブジェクトを生成しますが、
-それ以外にもpromiseオブジェクトを生成する方法があります。</p>
+<p>一般情况下我们都会使用 <code>new Promise()</code> 来创建promise对象，但是除此之外我们也可以使用其他方法。</p>
 </div>
 <div class="paragraph">
-<p>ここでは、<a href="#Promise.resolve"><code>Promise.resolve</code></a> と <a href="#Promise.reject"><code>Promise.reject</code></a> について学びたいと思います。</p>
+<p>在这里，我们将会学习如何使用 <a href="#Promise.resolve"><code>Promise.resolve</code></a> 和 <a href="#Promise.reject"><code>Promise.reject</code></a>这两个方法。</p>
 </div>
 <div class="sect3">
-<h4 id="_new_promise">2.1.1. new Promiseのショートカット</h4>
+<h4 id="_new_promise">2.1.1. new Promise的快捷方式</h4>
 <div class="paragraph">
-<p><a href="#Promise.resolve"><code>Promise.resolve(value)</code></a> という静的メソッドは、
-<code>new Promise()</code> のショートカットとなるメソッドです。</p>
+<p>静态方法<a href="#Promise.resolve"><code>Promise.resolve(value)</code></a> 可以认为是
+<code>new Promise()</code> 方法的快捷方式。</p>
 </div>
 <div class="paragraph">
-<p>例えば、 <code>Promise.resolve(42);</code> というのは下記のコードのシンタックスシュガーです。</p>
+<p>比如 <code>Promise.resolve(42);</code> 可以认为是以下代码的语法糖。</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1449,11 +1433,10 @@ getURL(URL).then(<span class="keyword">function</span> <span class="function">on
 </div>
 </div>
 <div class="paragraph">
-<p>結果的にすぐに<code>resolve(42);</code>と解決されて、次のthenの<code>onFulfilled</code>に設定された関数に<code>42</code>という値を渡します。</p>
+<p>在这段代码中的 <code>resolve(42);</code> 会让这个promise对象立即进入确定（即resolved）状态，并将 <code>42</code> 传递给后面then里所指定的 <code>onFulfilled</code> 函数。</p>
 </div>
 <div class="paragraph">
-<p><code>Promise.resolve(value);</code> で返ってくる値も同様にpromiseオブジェクトなので、
-以下のように続けて <code>.then</code> を使った処理を書くことが出来ます。</p>
+<p>方法 <code>Promise.resolve(value);</code> 的返回值也是一个promise对象，所以我们可以像下面那样接着对其返回值进行 <code>.then</code> 调用。</p>
 </div>
 <div class="listingblock executable">
 <div class="content">
@@ -1463,50 +1446,46 @@ getURL(URL).then(<span class="keyword">function</span> <span class="function">on
 </div>
 </div>
 <div class="paragraph">
-<p><a href="#Promise.resolve">Promise.resolve</a>は<code>new Promise()</code>のショートカットとして、
-promiseオブジェクトの初期化時やテストコードを書く際にも活用できます。</p>
+<p><a href="#Promise.resolve">Promise.resolve</a>作为 <code>new Promise()</code> 的快捷方式，在进行promise对象的初始化或者编写测试代码的生活都非常方便。</p>
 </div>
 </div>
 <div class="sect3">
 <h4 id="_thenable">2.1.2. Thenable</h4>
 <div class="paragraph">
-<p>もう一つ<code>Promise.resolve</code>の大きな特徴として、<a href="#Thenable">thenable</a>なオブジェクトをpromiseオブジェクトに変換するという機能があります。</p>
+<p><code>Promise.resolve</code> 方法另一个作用就是将 <a href="#Thenable">thenable</a> 对象转换为promise对象。</p>
 </div>
 <div class="paragraph">
-<p><a href="#es6-promises">ES6 Promises</a>には<a href="#Thenable">Thenable</a>という概念があり、簡単にいえばpromiseっぽいオブジェクトの事を言います。</p>
+<p><a href="#es6-promises">ES6 Promises</a>里提到了<a href="#Thenable">Thenable</a>这个概念，简单来说它就是一个非常类似promise的东西。</p>
 </div>
 <div class="paragraph">
-<p><code>.length</code>を持っているが配列ではないものをArray likeというのと同じで、
-thenableの場合は<code>.then</code>というメソッドを持ってるオブジェクトを言います。</p>
+<p>就像我们有时称具有 <code>.length</code> 方法的非数组对象为Array like一样，thenable指的是一个具有 <code>.then</code> 方法的对象。</p>
 </div>
 <div class="paragraph">
-<p>thenableなオブジェクトが持つ<code>then</code>は、Promiseの持つ<code>then</code>と同じような挙動を期待していて、
-thenableなオブジェクトが持つ元々の<code>then</code>を上手く利用できるようにしpromiseオブジェクトに変換するという仕組みです。</p>
+<p>这种将thenable对象转换为promise对象的机制要求thenable对象所拥有的 <code>then</code> 方法应该和Promise所拥有的 <code>then</code> 方法具有同样的功能和处理过程，在将thenable对象转换为promise对象的时候，还会巧妙的利用thenable对象原来具有的 <code>then</code> 方法。</p>
 </div>
 <div class="paragraph">
-<p>どういうものがthenableなのかというと、分かりやすい例では
-<a href="https://api.jquery.com/jQuery.ajax/">jQuery.ajax()</a>の返り値もthenableです。</p>
+<p>到底什么样的对象能算是thenable的呢，最简单的例子就是
+<a href="https://api.jquery.com/jQuery.ajax/">jQuery.ajax()</a>，它的返回值就是thenable的。</p>
 </div>
 <div class="paragraph">
-<p><code>jQuery.ajax()</code>の返り値は <a href="http://api.jquery.com/jQuery.ajax/#jqXHR">jqXHR Object</a> というもので、
-このオブジェクトは<code>.then</code>というメソッドを持っているためです。</p>
+<p>因为<code>jQuery.ajax()</code> 的返回值是 <a href="http://api.jquery.com/jQuery.ajax/#jqXHR">jqXHR Object</a> 对象，这个对象具有 <code>.then</code> 方法。</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay"><code class="javascript language-javascript"><span class="predefined">$</span>.ajax(<span class="string"><span class="delimiter">'</span><span class="content">/json/comment.json</span><span class="delimiter">'</span></span>);<span class="comment">// =&gt; `.then`を持つオブジェクト</span></code></pre>
+<pre class="CodeRay"><code class="javascript language-javascript"><span class="predefined">$</span>.ajax(<span class="string"><span class="delimiter">'</span><span class="content">/json/comment.json</span><span class="delimiter">'</span></span>);<span class="comment">// =&gt; 拥有 `.then` 方法的对象</span></code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>このthenableなオブジェクトを<code>Promise.resolve</code>ではpromiseオブジェクトにすることが出来ます。</p>
+<p>这个thenable的对象可以使用 <code>Promise.resolve</code> 来转换为一个promise对象。</p>
 </div>
 <div class="paragraph">
-<p>promiseオブジェクトにすることができれば、<code>then</code>や<code>catch</code>といった、
-<a href="#es6-promises">ES6 Promises</a>が持つ機能をそのまま利用することが出来るようになります。</p>
+<p>变成了promise对象的话，就能直接使用 <code>then</code> 或者 <code>catch</code> 等这些在
+<a href="#es6-promises">ES6 Promises</a>里定义的方法了。</p>
 </div>
 <div class="listingblock">
-<div class="title">thenableをpromiseオブジェクトにする</div>
+<div class="title">将thenable对象转换promise对象</div>
 <div class="content">
-<pre class="CodeRay"><code class="javascript language-javascript"><span class="keyword">var</span> promise = Promise.resolve(<span class="predefined">$</span>.ajax(<span class="string"><span class="delimiter">'</span><span class="content">/json/comment.json</span><span class="delimiter">'</span></span>));<span class="comment">// =&gt; promiseオブジェクト</span>
+<pre class="CodeRay"><code class="javascript language-javascript"><span class="keyword">var</span> promise = Promise.resolve(<span class="predefined">$</span>.ajax(<span class="string"><span class="delimiter">'</span><span class="content">/json/comment.json</span><span class="delimiter">'</span></span>));<span class="comment">// =&gt; promise对象</span>
 promise.then(<span class="keyword">function</span>(value){
    console.log(value);
 });</code></pre>
@@ -1519,20 +1498,18 @@ promise.then(<span class="keyword">function</span>(value){
 <i class="icon-warning" title="Warning"></i>
 </td>
 <td class="content">
-<div class="title">jQueryとthenable</div>
+<div class="title">jQuery和thenable</div>
 <div class="paragraph">
-<p><a href="https://api.jquery.com/jQuery.ajax/">jQuery.ajax()</a>の返り値も<code>.then</code>というメソッドを持った <a href="http://api.jquery.com/jQuery.ajax/#jqXHR">jqXHR Object</a>で、
-このオブジェクトは <a href="http://api.jquery.com/category/deferred-object/">Deferred Object</a> のメソッドやプロパティ等を継承しています。</p>
+<p><a href="https://api.jquery.com/jQuery.ajax/">jQuery.ajax()</a>的返回值是一个具有 <code>.then</code> 方法的 <a href="http://api.jquery.com/jQuery.ajax/#jqXHR">jqXHR Object</a>对象，这个对象继承了来自 <a href="http://api.jquery.com/category/deferred-object/">Deferred Object</a> 的方法和属性。</p>
 </div>
 <div class="paragraph">
-<p>しかし、このDeferred Objectは<a href="#promises-aplus">Promises/A+</a>や<a href="#es6-promises">ES6 Promises</a>に準拠したものではないため、
-変換できたように見えて一部欠損してしまう情報がでてしまうという問題があります。</p>
+<p>但是Deferred Object并没有遵循<a href="#promises-aplus">Promises/A+</a>或<a href="#es6-promises">ES6 Promises</a>标准，所以即使看上去这个对象转换成了一个promise对象，但是会出席缺失部分信息的问题。</p>
 </div>
 <div class="paragraph">
-<p>この問題はjQueryの <a href="http://api.jquery.com/category/deferred-object/">Deferred Object</a> の<code>then</code>の挙動が違うために発生します。</p>
+<p>这个问题的根源在于jQuery的 <a href="http://api.jquery.com/category/deferred-object/">Deferred Object</a> 的 <code>then</code> 方法机制与promise不同。</p>
 </div>
 <div class="paragraph">
-<p>そのため、<code>.then</code>というメソッドを持っていた場合でも、必ずES6 Promisesとして使えるとは限らない事は知っておくべきでしょう。</p>
+<p>所以我们应该注意，即使一个对象具有 <code>.then</code> 方法，也不一定就能作为ES6 Promises对象使用。</p>
 </div>
 <div class="ulist">
 <ul>
@@ -1552,15 +1529,13 @@ promise.then(<span class="keyword">function</span>(value){
 </table>
 </div>
 <div class="paragraph">
-<p><code>Promise.resolve</code>は共通の挙動である<code>then</code>だけを利用して、
-様々なライブラリ間でのpromiseオブジェクトを相互に変換して使える仕組みを持っている事になります。</p>
+<p><code>Promise.resolve</code> 只使用了共通的方法 <code>then</code> ，提供了在不同的类库之间进行promise对象互相转换的功能。</p>
 </div>
 <div class="paragraph">
-<p>このthenableを変換する機能は、以前は<code>Promise.cast</code>という名前であった事からもその挙動が想像できるかもしれません。</p>
+<p>这种转换为thenable的功能在之前是通过使用 <code>Promise.cast</code> 来完成的，从它的名字我们也不能想象它的功能是什么。</p>
 </div>
 <div class="paragraph">
-<p>ThenableについてはPromiseを使ったライブラリを書くとき等には知っておくべきですが、
-通常の利用だとそこまで使う機会がないものかもしれません。</p>
+<p>除了在编写使用Promise的类库等软件时需要对Thenable有所了解之外，通常的时候我们可能不会用到此功能。</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -1570,39 +1545,38 @@ promise.then(<span class="keyword">function</span>(value){
 </td>
 <td class="content">
 <div class="paragraph">
-<p>ThenableとPromise.resolveの具体的な例を交えたものは
-第4章の<a href="#resolve-thenable">Promise.resolveとThenable</a>にて詳しく解説しています。</p>
+<p>结合使用了Thenable和Promise.resolve的具体例子我们会在后面第4章的<a href="#resolve-thenable">Promise.resolve和Thenable</a>中进行详细的说明。</p>
 </div>
 </td>
 </tr>
 </table>
 </div>
 <div class="paragraph">
-<p><code>Promise.resolve</code> を簡単にまとめると、「渡した値でFulfilledされるpromiseオブジェクトを返すメソッド」と考えるのがいいでしょう。</p>
+<p>简单总结一下 <code>Promise.resolve</code> 方法的话，可以认为它的作用就是将传递给它的参数填充（Fulfilled）到promise对象后并返回这个promise对象。</p>
 </div>
 <div class="paragraph">
-<p>また、Promiseの多くの処理は内部的に<code>Promise.resolve</code>のアルゴリズムを使って値をpromiseオブジェクトに変換しています。</p>
+<p>此外，Promise的很多处理内部也是使用了 <code>Promise.resolve</code> 算法将值转换为promise对象后再进行处理的。</p>
 </div>
 </div>
 </div>
 <div class="sect2">
 <h3 id="ch2-promise-reject">2.2. Promise.reject</h3>
 <div class="paragraph">
-<p><a href="#Promise.reject"><code>Promise.reject(error)</code></a>は
-<a href="#Promise.resolve"><code>Promise.resolve(value)</code></a> と同じ静的メソッドで<code>new Promise()</code>のショートカットとなるメソッドです。</p>
+<p><a href="#Promise.reject"><code>Promise.reject(error)</code></a>是和
+<a href="#Promise.resolve"><code>Promise.resolve(value)</code></a> 类似的静态方法，是 <code>new Promise()</code> 方法的快捷方式。</p>
 </div>
 <div class="paragraph">
-<p>例えば、 <code>Promise.reject(new Error("エラー"))</code> というのは下記のコードのシンタックスシュガーです。</p>
+<p>比如 <code>Promise.reject(new Error("出错了"))</code> 就是下面代码的语法糖形式。</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay"><code class="javascript language-javascript"><span class="keyword">new</span> Promise(<span class="keyword">function</span>(resolve,reject){
-    reject(<span class="keyword">new</span> Error(<span class="string"><span class="delimiter">&quot;</span><span class="content">エラー</span><span class="delimiter">&quot;</span></span>));
+    reject(<span class="keyword">new</span> Error(<span class="string"><span class="delimiter">&quot;</span><span class="content">出错了</span><span class="delimiter">&quot;</span></span>));
 });</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>返り値のpromiseオブジェクトに対して、thenの<code>onRejected</code>に設定された関数にエラーオブジェクトが渡ります。</p>
+<p>这段代码的功能是调用该promise对象通过then指定的 <code>onRejected</code> 函数，并将错误（Error）对象传递给这个 <code>onRejected</code> 函数。</p>
 </div>
 <div class="listingblock executable">
 <div class="content">
@@ -1612,22 +1586,20 @@ promise.then(<span class="keyword">function</span>(value){
 </div>
 </div>
 <div class="paragraph">
-<p><a href="#Promise.resolve"><code>Promise.resolve(value)</code></a> との違いは resolveではなくrejectが呼ばれるという点で、
-テストコードやデバッグ、一貫性を保つために利用する機会などがあるかもしれません。</p>
+<p>它和<a href="#Promise.resolve"><code>Promise.resolve(value)</code></a> 的不同之处在于promise内调用的函数式reject而不是resolve，这在编写测试代码或者进行debug时，说不定会用得上。</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="promise-is-always-async">2.3. コラム: Promiseは常に非同期?</h3>
+<h3 id="promise-is-always-async">2.3. 专栏: Promise只能进行异步操作？</h3>
 <div class="paragraph">
-<p><a href="#Promise.resolve"><code>Promise.resolve(value)</code></a> 等を使った場合、
-promiseオブジェクトがすぐにresolveされるので、<code>.then</code> に登録した関数も同期的に処理が行われるように錯覚してしまいます。</p>
+<p>在使用<a href="#Promise.resolve"><code>Promise.resolve(value)</code></a> 等方法的饿时候，如果promise对象立刻就能resolve的话，那么你是不是觉得 <code>.then</code> 里面指定的方法就是同步调用的呢？</p>
 </div>
 <div class="paragraph">
-<p>しかし、実際には<code>.then</code>に登録した関数が呼ばれるのは、非同期となります。</p>
+<p>但实际上 <code>.then</code> 中指定的方法调用是异步进行的。</p>
 </div>
 <div class="listingblock executable">
 <div class="content">
-<pre class="CodeRay"><code class="javascript language-javascript"><span class="keyword">var</span> promise = <span class="keyword">new</span> Promise(<span class="keyword">function</span>(resolve){
+<pre class="CodeRay"><code class="javascript language-javascript"><span class="keyword">var</span> promise = <span class="keyword">new</span> Promise(<span class="keyword">function</span> (resolve){
     console.log(<span class="string"><span class="delimiter">&quot;</span><span class="content">inner promise</span><span class="delimiter">&quot;</span></span>);<i class="conum" data-value="1"></i><b>(1)</b>
     resolve(<span class="integer">42</span>);
 });
@@ -1638,7 +1610,7 @@ console.log(<span class="string"><span class="delimiter">&quot;</span><span clas
 </div>
 </div>
 <div class="paragraph">
-<p>上記のコードは数値の順に呼ばれるため、出力結果は以下のように非同期で呼ばれていることがわかります。</p>
+<p>执行上面的代码会输出下面的log，从这些log我们清楚地知道了上面代码的执行顺序。</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1648,16 +1620,153 @@ outer promise
 </div>
 </div>
 <div class="paragraph">
-<p>つまり、Promiseは常に非同期で処理が行われているという事になります。</p>
+<p>由于JavaScript代码会按照文件的从上到下的顺序执行，所以最开始 <code>&lt;1&gt;</code> 会执行，然后是 <code>resolve(42);</code> 被执行。这时候 <code>promise</code> 对象的已经变为确定状态，FulFilled被设置为了 <code>42</code> 。</p>
+</div>
+<div class="paragraph">
+<p>下面的代码 <code>promise.then</code> 注册了 <code>&lt;3&gt;</code> 这个回调函数，这是本专栏的焦点问题。</p>
+</div>
+<div class="paragraph">
+<p>由于 <code>promise.then</code> 执行的时候promise对象已经是确定状态，从程序上说对回调函数进行同步调用也是行得通的。</p>
+</div>
+<div class="paragraph">
+<p>但是即使在调用 <code>promise.then</code> 注册回调函数的时候promise对象已经是确定的状态，Promise也会以异步的方式调用该毁掉函数，这是在Promise设计上就决定了方针。</p>
+</div>
+<div class="paragraph">
+<p>因此 <code>&lt;2&gt;</code> 会最先被调用，最后才会调用回调函数 <code>&lt;3&gt;</code> 。</p>
+</div>
+<div class="paragraph">
+<p>为什么要对明明可以以同步方式进行调用的函数，非要使用异步的调用方式呢？</p>
+</div>
+<div class="sect3">
+<h4 id="__8">2.3.1. 同步调用和异步调用同时存在导致的混乱</h4>
+<div class="paragraph">
+<p>其实在Promise之外也存在这个问题，这里我们以一般的使用情况来考虑此问题。</p>
+</div>
+<div class="paragraph">
+<p>这个问题的本质是接收回调函数的函数，会根据具体的执行情况，可以选择是以同步还是异步的方式对回调函数进行调用。</p>
+</div>
+<div class="paragraph">
+<p>下面我们以 <code>onReady(fn)</code> 为例进行说明，这个函数会接收一个回调函数进行处理。</p>
+</div>
+<div id="mixed-onready.js" class="listingblock executable">
+<div class="title">mixed-onready.js</div>
+<div class="content">
+<pre class="CodeRay"><code class="javascript language-javascript"><span class="keyword">function</span> <span class="function">onReady</span>(fn) {
+    <span class="keyword">var</span> readyState = document.readyState;
+    <span class="keyword">if</span> (readyState == <span class="string"><span class="delimiter">'</span><span class="content">interactive</span><span class="delimiter">'</span></span> || readyState === <span class="string"><span class="delimiter">'</span><span class="content">complete</span><span class="delimiter">'</span></span>) {
+        fn();
+    } <span class="keyword">else</span> {
+        window.addEventListener(<span class="string"><span class="delimiter">'</span><span class="content">DOMContentLoaded</span><span class="delimiter">'</span></span>, fn);
+    }
+}
+onReady(<span class="keyword">function</span> () {
+    console.log(<span class="string"><span class="delimiter">'</span><span class="content">DOM fully loaded and parsed</span><span class="delimiter">'</span></span>);
+});
+console.log(<span class="string"><span class="delimiter">'</span><span class="content">==Starting==</span><span class="delimiter">'</span></span>);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a href="#mixed-onready.js">mixed-onready.js</a>会根据执行时的DOM是否装载完毕来决定是对回调函数进行同步或者是异步的调用。</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">如果在调用onReady之前DOM已经载入的话</dt>
+<dd>
+<p>对回调函数进行同步调用</p>
+</dd>
+<dt class="hdlist1">如果在调用onReady之前DOM还没有载入的话</dt>
+<dd>
+<p>通过注册 <code>DOMContentLoaded</code> 事件监听器来对回调函数进行异步调用</p>
+</dd>
+</dl>
+</div>
+<div class="paragraph">
+<p>因此，如果这段代码在源文件中出现的位置不同，在控制台上打印的log消息顺序也会不同。</p>
+</div>
+<div class="paragraph">
+<p>为了解决这个问题，我们可以选择统一使用异步调用方法。</p>
+</div>
+<div id="async-onready.js" class="listingblock executable">
+<div class="title">async-onready.js</div>
+<div class="content">
+<pre class="CodeRay"><code class="javascript language-javascript"><span class="keyword">function</span> <span class="function">onReady</span>(fn) {
+    <span class="keyword">var</span> readyState = document.readyState;
+    <span class="keyword">if</span> (readyState == <span class="string"><span class="delimiter">'</span><span class="content">interactive</span><span class="delimiter">'</span></span> || readyState === <span class="string"><span class="delimiter">'</span><span class="content">complete</span><span class="delimiter">'</span></span>) {
+        setTimeout(fn, <span class="integer">0</span>);
+    } <span class="keyword">else</span> {
+        window.addEventListener(<span class="string"><span class="delimiter">'</span><span class="content">DOMContentLoaded</span><span class="delimiter">'</span></span>, fn);
+    }
+}
+onReady(<span class="keyword">function</span> () {
+    console.log(<span class="string"><span class="delimiter">'</span><span class="content">DOM fully loaded and parsed</span><span class="delimiter">'</span></span>);
+});
+console.log(<span class="string"><span class="delimiter">'</span><span class="content">==Starting==</span><span class="delimiter">'</span></span>);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>关于这个问题，在 <a href="http://effectivejs.com/">Effective JavaScript</a> 的 <strong>第67项 不要对异步回调函数进行同步调用</strong> 中也有详细介绍。</p>
+</div>
+<div class="quoteblock">
+<blockquote>
+<div class="ulist">
+<ul>
+<li>
+<p>绝对不能对异步回调函数（即使在数据已经就绪）进行同步调用。</p>
+</li>
+<li>
+<p>如果对异步回调函数进行同步调用的话，处理顺序可能会与预期不符，可能带来意料之外的后果。</p>
+</li>
+<li>
+<p>对异步回调函数进行同步调用，还可能导致栈溢出或异常处理错乱等问题。</p>
+</li>
+<li>
+<p>如果想在将来某时刻调用异步回调函数的话，可以使用 <code>setTimeout</code> 等异步API。</p>
+</li>
+</ul>
+</div>
+</blockquote>
+<div class="attribution">
+<cite>Effective JavaScript</cite><br>
+&#8212; David Herman
+</div>
+</div>
+<div class="paragraph">
+<p>前面我们看到的 <code>promise.then</code> 也属于此类，为了不编码上述的同步异步调用可能引起的混乱，Promise在规范上规定 <strong>Promise只能使用异步调用方式</strong> 。</p>
+</div>
+<div class="paragraph">
+<p>最后，将上面的 <code>onReady</code> 函数用Promise重写的话，代码如下面所示。</p>
+</div>
+<div id="onready-as-promise.js" class="listingblock executable">
+<div class="title">onready-as-promise.js</div>
+<div class="content">
+<pre class="CodeRay"><code class="javascript language-javascript"><span class="keyword">function</span> <span class="function">onReadyPromise</span>() {
+    <span class="keyword">return</span> <span class="keyword">new</span> Promise(<span class="keyword">function</span> (resolve, reject) {
+        <span class="keyword">var</span> readyState = document.readyState;
+        <span class="keyword">if</span> (readyState == <span class="string"><span class="delimiter">'</span><span class="content">interactive</span><span class="delimiter">'</span></span> || readyState === <span class="string"><span class="delimiter">'</span><span class="content">complete</span><span class="delimiter">'</span></span>) {
+            resolve();
+        } <span class="keyword">else</span> {
+            window.addEventListener(<span class="string"><span class="delimiter">'</span><span class="content">DOMContentLoaded</span><span class="delimiter">'</span></span>, resolve);
+        }
+    });
+}
+onReadyPromise().then(<span class="keyword">function</span> () {
+    console.log(<span class="string"><span class="delimiter">'</span><span class="content">DOM fully loaded and parsed</span><span class="delimiter">'</span></span>);
+});
+console.log(<span class="string"><span class="delimiter">'</span><span class="content">==Starting==</span><span class="delimiter">'</span></span>);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>由于Promise保证了每次调用都是以异步方式进行的，所以我们在实际编码中不需要调用 <code>setTimeout</code> 来自己实现异步调用。</p>
+</div>
 </div>
 </div>
 <div class="sect2">
 <h3 id="ch2-promise.then">2.4. Promise#then</h3>
 <div class="paragraph">
-<p>先ほどの章でPromiseの基本となるインスタンスメソッドである<code>then</code>と<code>catch</code>の使い方を説明しました。</p>
+<p>先ほどの章でPromiseの基本となるインスタンスメソッドである <code>then</code> と <code>catch</code> の使い方を説明しました。</p>
 </div>
 <div class="paragraph">
-<p>その中で<code>.then().catch()</code>とメソッドチェーンで繋げて書いていたことからもわかるように、
+<p>その中で <code>.then().catch()</code> とメソッドチェーンで繋げて書いていたことからもわかるように、
 Promiseではいくらでもメソッドチェーンを繋げて処理を書いていくことが出来ます。</p>
 </div>
 <div class="listingblock">
@@ -1673,7 +1782,7 @@ Promiseではいくらでもメソッドチェーンを繋げて処理を書い�
 </div>
 </div>
 <div class="paragraph">
-<p><code>then</code>で登録するコールバック関数をそれぞれtaskというものにした時に、
+<p><code>then</code> で登録するコールバック関数をそれぞれtaskというものにした時に、
 taskA &#8594; task B という流れをPromiseのメソッドチェーンを使って書くことが出来ます。</p>
 </div>
 <div class="paragraph">
@@ -1741,7 +1850,7 @@ promise
 <div class="title">Figure 3. promise-then-catch-flow.jsの図</div>
 </div>
 <div class="paragraph">
-<p><a href="#promise-then-catch-flow.js">上記のコード</a>では<code>then</code>は第二引数(onRejected)を使っていないため、
+<p><a href="#promise-then-catch-flow.js">上記のコード</a>では <code>then</code> は第二引数(onRejected)を使っていないため、
 以下のように読み替えても問題ありません。</p>
 </div>
 <div class="dlist">
@@ -1774,18 +1883,18 @@ promise
 </ul>
 </div>
 <div class="paragraph">
-<p><a href="#how-to-write-promise">第一章</a>でPromiseの処理は常に<code>try-catch</code>されているようなものなので、
-例外が起きた場合もキャッチして、<code>catch</code>で登録された<code>onRejected</code>の処理を呼ぶことは学びましたね。</p>
+<p><a href="#how-to-write-promise">第一章</a>でPromiseの処理は常に <code>try-catch</code> されているようなものなので、
+例外が起きた場合もキャッチして、<code>catch</code> で登録された <code>onRejected</code> の処理を呼ぶことは学びましたね。</p>
 </div>
 <div class="paragraph">
 <p>もう一つの <em>Rejectedなpromiseオブジェクトがreturnされた時</em> については、
-<code>throw</code>を使わずにpromise chain中に<code>onRejected</code>を呼ぶ方法です。</p>
+<code>throw</code> を使わずにpromise chain中に <code>onRejected</code> を呼ぶ方法です。</p>
 </div>
 <div class="paragraph">
 <p>これについては、ここでは必要ない内容なので詳しくは、 第4章の <a href="#not-throw-use-reject">throwしないで、rejectしよう</a> にて解説しています。</p>
 </div>
 <div class="paragraph">
-<p>また、<em>onRejected</em> と <em>Final Task</em> には<code>catch</code>のpromise chainがこれより後ろにありません。
+<p>また、<em>onRejected</em> と <em>Final Task</em> には <code>catch</code> のpromise chainがこれより後ろにありません。
 つまり、この処理中に例外が起きた場合はキャッチすることができないことに気をつけましょう。</p>
 </div>
 <div class="paragraph">
@@ -1842,7 +1951,7 @@ promise
 </td>
 <td class="content">
 <div class="paragraph">
-<p>例では説明のためにtaskAで<code>throw</code>して例外を発生させています。
+<p>例では説明のためにtaskAで <code>throw</code> して例外を発生させています。
 しかし、実際に明示的にonRejectedを呼びたい場合は、Rejectedなpromiseオブジェクトを返すべきでしょう。
 それぞれの違いについては <a href="#not-throw-use-reject">throwしないで、rejectしよう</a> で解説しています。</p>
 </div>
@@ -1861,7 +1970,7 @@ promise
 <p>この時に、Task AがTask Bへ値を渡したい時はどうすれば良いでしょうか?</p>
 </div>
 <div class="paragraph">
-<p>答えはものすごく単純でTask Aの処理で<code>return</code>した値がTask Bが呼ばれるときに引数に設定されます。</p>
+<p>答えはものすごく単純でTask Aの処理で <code>return</code> した値がTask Bが呼ばれるときに引数に設定されます。</p>
 </div>
 <div class="paragraph">
 <p>実際に例を見てみましょう。</p>
@@ -1887,21 +1996,21 @@ promise
 </div>
 </div>
 <div class="paragraph">
-<p>スタートは<code>Promise.resolve(1);</code>で、この処理は以下のような流れでpromise chainが処理されていきます。</p>
+<p>スタートは <code>Promise.resolve(1);</code> で、この処理は以下のような流れでpromise chainが処理されていきます。</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p><code>Promise.resolve(1);</code> から 1 が <code>increment</code>に渡される</p>
+<p><code>Promise.resolve(1);</code> から 1 が <code>increment</code> に渡される</p>
 </li>
 <li>
-<p><code>increment</code>では渡された値に+1した値を<code>return</code>している</p>
+<p><code>increment</code> では渡された値に+1した値を <code>return</code> している</p>
 </li>
 <li>
-<p>この値(2)が次の<code>doubleUp</code>に渡される</p>
+<p>この値(2)が次の <code>doubleUp</code> に渡される</p>
 </li>
 <li>
-<p>最後に<code>output</code>が出力する</p>
+<p>最後に <code>output</code> が出力する</p>
 </li>
 </ol>
 </div>
@@ -1912,8 +2021,8 @@ promise
 <div class="title">Figure 5. promise-then-passing-value.jsの図</div>
 </div>
 <div class="paragraph">
-<p>この<code>return</code>する値は数字や文字列だけではなく、
-オブジェクトやpromiseオブジェクトも<code>return</code>することが出来ます。</p>
+<p>この <code>return</code> する値は数字や文字列だけではなく、
+オブジェクトやpromiseオブジェクトも <code>return</code> することが出来ます。</p>
 </div>
 <div class="paragraph">
 <p>returnした値は <code>Promise.resolve(returnされた値);</code> のように処理されるため、
@@ -1941,10 +2050,10 @@ promise
 <div class="sect2">
 <h3 id="ch2-promise-catch">2.5. Promise#catch</h3>
 <div class="paragraph">
-<p><a href="#ch2-promise.then">先ほどのPromise#then</a>についてでも<code>Promise#catch</code>は既に使っていましたね。</p>
+<p><a href="#ch2-promise.then">先ほどのPromise#then</a>についてでも <code>Promise#catch</code> は既に使っていましたね。</p>
 </div>
 <div class="paragraph">
-<p>改めて説明すると<a href="#promise.catch">Promise#catch</a>は<code>promise.then(undefined, onRejected);</code>のエイリアスとなるメソッドです。
+<p>改めて説明すると<a href="#promise.catch">Promise#catch</a>は <code>promise.then(undefined, onRejected);</code> のエイリアスとなるメソッドです。
 つまり、promiseオブジェクトがRejectedとなった時に呼ばれる関数を登録するためのメソッドです。</p>
 </div>
 <div class="admonitionblock note">
@@ -1996,11 +2105,11 @@ promise.<span class="keyword">catch</span>(<span class="keyword">function</span>
 <p>このコードをそれぞれのブラウザで実行させると、IE8以下では実行する段階で <strong>識別子がありません</strong> というSyntax Errorになってしまいます。</p>
 </div>
 <div class="paragraph">
-<p>これはどういう事かというと、<code>catch</code>という単語はECMAScriptにおける <a href="http://mothereff.in/js-properties#catch">予約語</a> であることが関係します。</p>
+<p>これはどういう事かというと、<code>catch</code> という単語はECMAScriptにおける <a href="http://mothereff.in/js-properties#catch">予約語</a> であることが関係します。</p>
 </div>
 <div class="paragraph">
 <p>ECMAScript 3では予約語はプロパティの名前に使うことが出来ませんでした。
-IE8以下はECMAScript 3の実装であるため、<code>catch</code>というプロパティを使う<code>promise.catch()</code>という書き方が出来ないため、
+IE8以下はECMAScript 3の実装であるため、<code>catch</code> というプロパティを使う <code>promise.catch()</code> という書き方が出来ないため、
 <strong>識別子がありません</strong>というエラーを起こしてしまう訳です。</p>
 </div>
 <div class="paragraph">
@@ -2016,8 +2125,8 @@ IE8以下はECMAScript 3の実装であるため、<code>catch</code>という�
 <td class="content">
 <div class="paragraph">
 <p>ECMAScript5でも予約語は <a href="http://es5.github.io/#x7.6">Identifier</a> 、つまり変数名、関数名には利用することが出来ません。
-<code>for</code>という変数が定義できてしまうと<code>for</code>文との区別ができなくなってしまいます。
-プロパティの場合は <code>object.for</code> と <code>for</code>文の区別はできるので、少し考えてみると自然な動作ですね。</p>
+<code>for</code> という変数が定義できてしまうと <code>for</code> 文との区別ができなくなってしまいます。
+プロパティの場合は <code>object.for</code> と <code>for</code> 文の区別はできるので、少し考えてみると自然な動作ですね。</p>
 </div>
 </td>
 </tr>
@@ -2045,7 +2154,7 @@ promise[<span class="string"><span class="delimiter">&quot;</span><span class="c
 </div>
 </div>
 <div class="paragraph">
-<p>もしくは単純に<code>catch</code>を使わずに、<code>then</code>を使うことでも回避できます。</p>
+<p>もしくは単純に <code>catch</code> を使わずに、<code>then</code> を使うことでも回避できます。</p>
 </div>
 <div class="listingblock executable">
 <div class="title">Promise#catchではなくPromise#thenを使う</div>
@@ -2057,21 +2166,21 @@ promise.then(<span class="predefined-constant">undefined</span>, <span class="ke
 </div>
 </div>
 <div class="paragraph">
-<p><code>catch</code>という識別子が問題となっているため、ライブラリによっては<code>caught</code>等の名前が違うだけのメソッドを用意しているケースがあります。</p>
+<p><code>catch</code> という識別子が問題となっているため、ライブラリによっては <code>caught</code> 等の名前が違うだけのメソッドを用意しているケースがあります。</p>
 </div>
 <div class="paragraph">
-<p>サポートブラウザにIE8以下を含める時は、この<code>catch</code>の問題に気をつけるといいでしょう。</p>
+<p>サポートブラウザにIE8以下を含める時は、この <code>catch</code> の問題に気をつけるといいでしょう。</p>
 </div>
 </div>
 </div>
 <div class="sect2">
 <h3 id="then-return-new-promise">2.6. コラム: thenは常に新しいpromiseオブジェクトを返す</h3>
 <div class="paragraph">
-<p><code>aPromise.then(...).catch(...)</code> は一見すると、全て最初の<code>aPromise</code>オブジェクトに
+<p><code>aPromise.then(...).catch(...)</code> は一見すると、全て最初の <code>aPromise</code> オブジェクトに
 メソッドチェーンで処理を書いてるように見えます。</p>
 </div>
 <div class="paragraph">
-<p>しかし、実際には<code>then</code>で新しいpromiseオブジェクト、<code>catch</code>でも別の新しいpromiseオブジェクトを作成して返しています。</p>
+<p>しかし、実際には <code>then</code> で新しいpromiseオブジェクト、<code>catch</code> でも別の新しいpromiseオブジェクトを作成して返しています。</p>
 </div>
 <div class="paragraph">
 <p>本当に新しいpromiseオブジェクトを返しているのか確認してみましょう。</p>
@@ -2093,7 +2202,7 @@ console.log(thenPromise !== catchPromise);<span class="comment">// =&gt; true</s
 </div>
 <div class="paragraph">
 <p><code>===</code> 厳密比較演算子によって比較するとそれぞれが別々のオブジェクトなので、
-本当に<code>then</code>や<code>catch</code>は別のpromiseオブジェクトを返していることが分かりました。</p>
+本当に <code>then</code> や <code>catch</code> は別のpromiseオブジェクトを返していることが分かりました。</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -2101,20 +2210,16 @@ console.log(thenPromise !== catchPromise);<span class="comment">// =&gt; true</s
 </div>
 </div>
 <div class="paragraph">
-<p>この挙動はPromise全般に当てはまるため、<code>Promise.all</code>や<code>Promise.race</code>も
-引数で受け取ったものとは別のpromiseオブジェクトを作って返しています。</p>
-</div>
-<div class="paragraph">
 <p>この仕組みはPromiseを拡張する時は意識しないと、いつのまにか触ってるpromiseオブジェクトが
 別のものであったという事が起こりえると思います。</p>
 </div>
 <div class="paragraph">
-<p>また、<code>then</code>は新しいオブジェクトを作って返すということがわかっていれば、
-次の<code>then</code>の使い方では意味が異なる事に気づくでしょう。</p>
+<p>また、<code>then</code> は新しいオブジェクトを作って返すということがわかっていれば、
+次の <code>then</code> の使い方では意味が異なる事に気づくでしょう。</p>
 </div>
 <div class="listingblock executable">
 <div class="content">
-<pre class="CodeRay"><code class="javascript language-javascript"><span class="comment">// 1: それぞれの`then`は同時に呼び出される</span>
+<pre class="CodeRay"><code class="javascript language-javascript"><span class="comment">// 1: それぞれの `then` は同時に呼び出される</span>
 <span class="keyword">var</span> aPromise = <span class="keyword">new</span> Promise(<span class="keyword">function</span> (resolve) {
     resolve(<span class="integer">100</span>);
 });
@@ -2130,7 +2235,7 @@ aPromise.then(<span class="keyword">function</span> (value) {
 
 <span class="comment">// vs</span>
 
-<span class="comment">// 2: `then`はpromise chain通り順番に呼び出される</span>
+<span class="comment">// 2: `then` はpromise chain通り順番に呼び出される</span>
 <span class="keyword">var</span> bPromise = <span class="keyword">new</span> Promise(<span class="keyword">function</span> (resolve) {
     resolve(<span class="integer">100</span>);
 });
@@ -2145,17 +2250,17 @@ bPromise.then(<span class="keyword">function</span> (value) {
 </div>
 <div class="paragraph">
 <p>1のpromiseをメソッドチェーン的に繋げない書き方はあまりすべきではありませんが、
-このような書き方をした場合、それぞれの<code>then</code>はほぼ同時に呼ばれ、また<code>value</code>に渡る値も全て同じ<code>100</code>となります。</p>
+このような書き方をした場合、それぞれの <code>then</code> はほぼ同時に呼ばれ、また <code>value</code> に渡る値も全て同じ <code>100</code> となります。</p>
 </div>
 <div class="paragraph">
 <p>2はメソッドチェーン的につなげて書くことにより、resolve &#8594; then &#8594; then &#8594; then と書いた順番にキチンと実行され、
-それぞれの<code>value</code>に渡る値は、一つ前のpromiseオブジェクトで<code>return</code>された値が渡ってくるようになります。</p>
+それぞれの <code>value</code> に渡る値は、一つ前のpromiseオブジェクトで <code>return</code> された値が渡ってくるようになります。</p>
 </div>
 <div class="paragraph">
 <p>1の書き方により発生するアンチパターンとしては以下のようなものが有名です。</p>
 </div>
 <div class="listingblock">
-<div class="title">✘ <code>then</code>の間違った使い方</div>
+<div class="title">✘ <code>then</code> の間違った使い方</div>
 <div class="content">
 <pre class="CodeRay"><code class="javascript language-javascript"><span class="keyword">function</span> <span class="function">anAsyncCall</span>() {
     <span class="keyword">var</span> promise = Promise.resolve();
@@ -2172,11 +2277,11 @@ bPromise.then(<span class="keyword">function</span> (value) {
 また、何かの値を返していてもそれを受け取る方法が無くなってしまいます。</p>
 </div>
 <div class="paragraph">
-<p>これは<code>promise.then</code>によって新たに作られたpromiseオブジェクトを返すようにすることで、
+<p>これは <code>promise.then</code> によって新たに作られたpromiseオブジェクトを返すようにすることで、
 2のようにpromise chainをつなげるようにするべきなので、次のように修正することが出来ます。</p>
 </div>
 <div class="listingblock">
-<div class="title"><code>then</code>で作成したオブジェクトを返す</div>
+<div class="title"><code>then</code> で作成したオブジェクトを返す</div>
 <div class="content">
 <pre class="CodeRay"><code class="javascript language-javascript"><span class="keyword">function</span> <span class="function">anAsyncCall</span>() {
     <span class="keyword">var</span> promise = Promise.resolve();
@@ -2190,6 +2295,10 @@ bPromise.then(<span class="keyword">function</span> (value) {
 <div class="paragraph">
 <p>これらのアンチパターンについて、詳しくは
 <a href="http://taoofcode.net/promise-anti-patterns/">Promise Anti-patterns</a> を参照して下さい。</p>
+</div>
+<div class="paragraph">
+<p>この挙動はPromise全般に当てはまるため、後に説明する<a href="#ch2-promise-all">Promise.all</a>や<a href="#ch2-promise-race">Promise.race</a>も
+引数で受け取ったものとは別のpromiseオブジェクトを作って返しています。</p>
 </div>
 </div>
 <div class="sect2">
@@ -2283,10 +2392,10 @@ main(<span class="keyword">function</span>(error, results){
 <div class="ulist">
 <ul>
 <li>
-<p><code>JSON.parse</code> をそのまま使うと例外となるケースがあるためラップした<code>jsonParse</code>関数を使う</p>
+<p><code>JSON.parse</code> をそのまま使うと例外となるケースがあるためラップした <code>jsonParse</code> 関数を使う</p>
 </li>
 <li>
-<p>複数のXHRをそのまま書くとネストが深くなるため、<code>allRequest</code>というrequest関数を実行するものを利用する</p>
+<p>複数のXHRをそのまま書くとネストが深くなるため、<code>allRequest</code> というrequest関数を実行するものを利用する</p>
 </li>
 <li>
 <p>コールバック関数には <code>callback(error,value)</code> というNode.jsでよく見られる引数を渡す</p>
@@ -2330,7 +2439,7 @@ main(<span class="keyword">function</span>(error, results){
 <h4 id="_promise_then">2.7.2. Promise#thenのみで複数の非同期処理</h4>
 <div class="paragraph">
 <p>先に述べておきますが、<code>Promise.all</code> というこのような処理に適切なものがあるため、
-ワザと <code>.then</code>の部分をクドく書いています。</p>
+ワザと <code>.then</code> の部分をクドく書いています。</p>
 </div>
 <div class="paragraph">
 <p><a href="#promise.then"><code>.then</code></a> を使った場合は、コールバックスタイルと完全に同等というわけではないですが以下のように書けると思います。</p>
@@ -2411,15 +2520,15 @@ main().then(<span class="keyword">function</span> (value) {
 <h3 id="ch2-promise-all">2.8. Promise.all</h3>
 <div class="paragraph">
 <p><a href="#Promise.all"><code>Promise.all</code></a> は promiseオブジェクトの配列を受け取り、
-その配列に入っているpromiseオブジェクトが全てresolveされた時に、次の<code>.then</code>を呼び出します。</p>
+その配列に入っているpromiseオブジェクトが全てresolveされた時に、次の <code>.then</code> を呼び出します。</p>
 </div>
 <div class="paragraph">
 <p>先ほどの複数のXHRの結果をまとめて取得する処理は、 <a href="#Promise.all"><code>Promise.all</code></a> を使うとシンプルに書くことができます。</p>
 </div>
 <div class="paragraph">
-<p>先ほどの例の<code>getURL</code>はXHRによる通信を抽象化したpromiseオブジェクトを返しています。
-<code>Promise.all</code>に通信を抽象化したpromiseオブジェクトの配列を渡すことで、
-全ての通信が完了(FulFilledまたRejected)した時に、次の<code>.then</code>が呼び出すこと事が出来ます。</p>
+<p>先ほどの例の <code>getURL</code> はXHRによる通信を抽象化したpromiseオブジェクトを返しています。
+<code>Promise.all</code> に通信を抽象化したpromiseオブジェクトの配列を渡すことで、
+全ての通信が完了(FulFilledまたRejected)した時に、次の <code>.then</code> が呼び出すこと事が出来ます。</p>
 </div>
 <div id="promise-all-xhr.js" class="listingblock executable">
 <div class="title">promise-all-xhr.js</div>
@@ -2484,7 +2593,7 @@ main().then(<span class="keyword">function</span> (value) {
 それぞれのpromiseの結果(resolve,rejectで渡される値)は、<a href="#Promise.all"><code>Promise.all</code></a>に渡した配列の順番となります。</p>
 </div>
 <div class="paragraph">
-<p>つまり、この場合に次の<code>.then</code>に渡される結果の配列は [comment, people]の順番になることが保証されています。</p>
+<p>つまり、この場合に次の <code>.then</code> に渡される結果の配列は [comment, people]の順番になることが保証されています。</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -2527,7 +2636,7 @@ Promise.all([
 promiseオブジェクトを返してくれます。</p>
 </div>
 <div class="paragraph">
-<p><code>Promise.all</code>に渡してるのは、それを複数作り配列にしたものですね。</p>
+<p><code>Promise.all</code> に渡してるのは、それを複数作り配列にしたものですね。</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -2540,7 +2649,7 @@ promiseオブジェクトを返してくれます。</p>
 </div>
 </div>
 <div class="paragraph">
-<p>この場合は、1, 32, 64, 128 ミリ秒後にそれぞれ<code>resolve</code>されます。</p>
+<p>この場合は、1, 32, 64, 128 ミリ秒後にそれぞれ <code>resolve</code> されます。</p>
 </div>
 <div class="paragraph">
 <p>つまり、このpromiseオブジェクトの配列がすべてresolveされるには、最低でも128msかかることがわかります。
@@ -2573,17 +2682,17 @@ promiseオブジェクトを返してくれます。</p>
 <div class="sect2">
 <h3 id="ch2-promise-race">2.9. Promise.race</h3>
 <div class="paragraph">
-<p><a href="#Promise.all"><code>Promise.all</code></a> と同様に複数のpromiseオブジェクトを扱う<a href="#Promise.race"><code>Promise.race</code></a>を見てみましょう。</p>
+<p>接着我们来看看和 <a href="#Promise.all"><code>Promise.all</code></a> 类似的对多个promise对象进行处理的 <a href="#Promise.race"><code>Promise.race</code></a> 方法。</p>
 </div>
 <div class="paragraph">
-<p>使い方はPromise.allと同様で、promiseオブジェクトの配列を引数に渡します。</p>
+<p>它的使用方法和Promise.all一样，接收一个promise对象数组参数。</p>
 </div>
 <div class="paragraph">
-<p><code>Promise.all</code>は、渡した全てのpromiseがFulFilled または Rejectedになるまで次の処理を待ちましたが、
-<code>Promise.race</code>は、どれか一つでもpromiseがFulFilled または Rejectedになったら次の処理を実行します。</p>
+<p><code>Promise.all</code> 在接收到的所有的对象promise都变为 FulFilled 或者 Rejected 状态之后才会继续进行后面的处理，
+与之相对的是 <code>Promise.race</code> 只要有一个promise对象进入 FulFilled 或者 Rejected 状态的话，就会继续进行后面的处理。</p>
 </div>
 <div class="paragraph">
-<p>Promise.allの時と同じく、タイマーを使った<code>Promise.race</code>の例を見てみましょう</p>
+<p>像Promise.all时的例子一样，我们来看一个带计时器的 <code>Promise.race</code> 的使用例子。</p>
 </div>
 <div id="promise-race-timer.js" class="listingblock executable">
 <div class="title">promise-race-timer.js</div>
@@ -2608,12 +2717,10 @@ Promise.race([
 </div>
 </div>
 <div class="paragraph">
-<p>上記のコードだと、1ms後、32ms後、64ms後、128ms後にそれぞれpromiseオブジェクトがFulFilledとなりますが、
-一番最初に1msのものがFulFilledとなった時点で、<code>.then</code> が呼ばれます。
-また、<code>resolve(1)</code>が呼ばれるため<code>value</code>に渡される値も1となります。</p>
+<p>上面的代码4个promise对象，这些对象会分别在1ms，32ms，64ms和128ms后变为确定状态，即FulFilled，并且在第一个变为确定状态的1ms后， <code>.then</code> 注册的回调函数就会被调用，这时候确定状态的promise对象会调用 <code>resolve(1)</code> 因此传递给 <code>value</code> 的值也是1，控制台上会打印出1来。</p>
 </div>
 <div class="paragraph">
-<p>最初にFulFilledとなったpromiseオブジェクト以外は、その後呼ばれているのかを見てみましょう。</p>
+<p>下面我们再来看看在第一个promise对象变为确定（FulFilled）状态后，它之后的promise对象是否还在继续运行。</p>
 </div>
 <div id="promise-race-other.js" class="listingblock executable">
 <div class="title">promise-race-other.js</div>
@@ -2637,14 +2744,13 @@ Promise.race([winnerPromise, loserPromise]).then(<span class="keyword">function<
 </div>
 </div>
 <div class="paragraph">
-<p>先ほどのコードに <code>console.log</code> をそれぞれ追加しただけの内容となっています。</p>
+<p>我们在前面代码的基础上增加了 <code>console.log</code> 用来输出调试信息。</p>
 </div>
 <div class="paragraph">
-<p>実行してみると、winnter/loser どちらも<code>setTimeout</code> の中身が実行されて <code>console.log</code> がそれぞれ出力されている事がわかります。</p>
+<p>执行上面代码的话，我们会看到 winnter和loser promise对象的 <code>setTimeout</code> 方法都会执行完毕， <code>console.log</code> 也会分别输出它们的信息。</p>
 </div>
 <div class="paragraph">
-<p>つまり、<a href="#Promise.race"><code>Promise.race</code></a>では、
-一番最初のpromiseオブジェクトがFulfilledとなっても、他のpromiseがキャンセルされるわけでは無いという事がわかります。</p>
+<p>也就是说， <a href="#Promise.race"><code>Promise.race</code></a> 在第一个promise对象变为Fulfilled之后，并不会取消其他promise对象的执行。</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -2653,10 +2759,7 @@ Promise.race([winnerPromise, loserPromise]).then(<span class="keyword">function<
 <i class="icon-note" title="Note"></i>
 </td>
 <td class="content">
-<a href="#es6-promises">ES6 Promises</a>の仕様には、キャンセルという概念はありません。
-必ず、resolve or rejectによる状態の解決が起こることが前提となっています。
-つまり、<a href="#promise-states">状態</a>が固定されてしまうかもしれない処理には不向きであると言えます。
-ライブラリによってはキャンセルを行う仕組みが用意されている場合があります。
+在 <a href="#es6-promises">ES6 Promises</a> 规范中，也没有取消promise对象执行的概念，我们必须要确保promise最终进入resolve or reject状态之一。也就是说Promise并不适用于 <a href="#promise-states">状态</a> 可能会固定不变的处理。也有一些类库提供了对promise进行取消的操作。
 </td>
 </tr>
 </table>
@@ -2671,7 +2774,7 @@ Promise.race([winnerPromise, loserPromise]).then(<span class="keyword">function<
 <p>この書籍では基本的には、<a href="#promise.catch"><code>.catch</code></a>を使い <a href="#promise.then"><code>.then</code></a> とは分けてエラーハンドリングを書くようにしています。</p>
 </div>
 <div class="paragraph">
-<p>ここでは、<code>.then</code>でまとめて指定した場合と、どのような違いがでるかについて学んでいきましょう。</p>
+<p>ここでは、<code>.then</code> でまとめて指定した場合と、どのような違いがでるかについて学んでいきましょう。</p>
 </div>
 <div class="sect3">
 <h4 id="__onrejected">2.10.1. エラー処理ができないonRejected</h4>
@@ -2707,20 +2810,20 @@ goodMain(<span class="keyword">function</span>(){
 ちゃんとエラーハンドリングが行える <code>goodMain</code> があります。</p>
 </div>
 <div class="paragraph">
-<p><code>badMain</code> がなぜ良くないかというと、<code>.then</code>の第二引数にはエラー処理を書くことが出来ますが、
-そのエラー処理は第一引数の<code>onFulfilled</code>で指定した関数内で起きたエラーをキャッチする事は出来ません。</p>
+<p><code>badMain</code> がなぜ良くないかというと、<code>.then</code> の第二引数にはエラー処理を書くことが出来ますが、
+そのエラー処理は第一引数の <code>onFulfilled</code> で指定した関数内で起きたエラーをキャッチする事は出来ません。</p>
 </div>
 <div class="paragraph">
 <p>つまり、この場合、 <code>throwError</code> でエラーがおきても、<code>onRejected</code> に指定した関数は呼ばれることなく、
 どこでエラーが発生したのかわからなくなってしまいます。</p>
 </div>
 <div class="paragraph">
-<p>それに対して、 <code>goodMain</code> は <code>throwError</code>&#8594;<code>onRejected</code>となるように書かれています。
-この場合は <code>throwError</code> でエラーが発生しても、次のchainである<code>.catch</code>が呼ばれるため、エラーハンドリングを行う事が出来ます。</p>
+<p>それに対して、 <code>goodMain</code> は <code>throwError</code>&#8594;<code>onRejected</code> となるように書かれています。
+この場合は <code>throwError</code> でエラーが発生しても、次のchainである <code>.catch</code> が呼ばれるため、エラーハンドリングを行う事が出来ます。</p>
 </div>
 <div class="paragraph">
-<p><code>.then</code>のonRejectedが扱う処理は、その(またはそれ以前の)promiseオブジェクトに対してであって、
-<code>.then</code>に書かれたonFulfilledは対象ではないためこのような違いが生まれます。</p>
+<p><code>.then</code> のonRejectedが扱う処理は、その(またはそれ以前の)promiseオブジェクトに対してであって、
+<code>.then</code> に書かれたonFulfilledは対象ではないためこのような違いが生まれます。</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -2730,7 +2833,7 @@ goodMain(<span class="keyword">function</span>(){
 </td>
 <td class="content">
 <div class="paragraph">
-<p><code>.then</code>や<code>.catch</code>はその場で<strong>新しい</strong>promiseオブジェクトを作って返します。
+<p><code>.then</code> や <code>.catch</code> はその場で<strong>新しい</strong>promiseオブジェクトを作って返します。
 Promiseではchainする度に異なるpromiseオブジェクトに対して処理を書くようになっています。</p>
 </div>
 </td>
@@ -2745,14 +2848,14 @@ Promiseではchainする度に異なるpromiseオブジェクトに対して処�
 </div>
 <div class="paragraph">
 <p>この場合の <code>then</code> は <code>Promise.resolve(42)</code> に対する処理となり、
-<code>onFulfilled</code>で例外が発生しても、同じ<code>then</code>で指定された<code>onRejected</code>はキャッチすることはありません。</p>
+<code>onFulfilled</code> で例外が発生しても、同じ <code>then</code> で指定された <code>onRejected</code> はキャッチすることはありません。</p>
 </div>
 <div class="paragraph">
-<p>この<code>then</code>で発生した例外をキャッチ出来るのは、次のchainで書かれた<code>catch</code>となります。</p>
+<p>この <code>then</code> で発生した例外をキャッチ出来るのは、次のchainで書かれた <code>catch</code> となります。</p>
 </div>
 <div class="paragraph">
-<p>もちろん<code>.catch</code>は<code>.then</code>のエイリアスなので、下記のように<code>.then</code>を使っても問題はありませんが、
-<code>.catch</code>を使ったほうが意図が明確で分かりやすいでしょう。</p>
+<p>もちろん <code>.catch</code> は <code>.then</code> のエイリアスなので、下記のように <code>.then</code> を使っても問題はありませんが、
+<code>.catch</code> を使ったほうが意図が明確で分かりやすいでしょう。</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -2772,17 +2875,17 @@ Promiseではchainする度に異なるpromiseオブジェクトに対して処�
 <div class="ulist">
 <ul>
 <li>
-<p><code>onFulfilled</code> で例外がおきても、この<code>onRejected</code>はキャッチできない</p>
+<p><code>onFulfilled</code> で例外がおきても、この <code>onRejected</code> はキャッチできない</p>
 </li>
 </ul>
 </div>
 </li>
 <li>
-<p><code>promise.then(onFulfilled).catch(onRejected)</code>とした場合</p>
+<p><code>promise.then(onFulfilled).catch(onRejected)</code> とした場合</p>
 <div class="ulist">
 <ul>
 <li>
-<p><code>then</code>で発生した例外を<code>.catch</code>でキャッチできる</p>
+<p><code>then</code> で発生した例外を <code>.catch</code> でキャッチできる</p>
 </li>
 </ul>
 </div>
@@ -2800,7 +2903,7 @@ Promiseではchainする度に異なるpromiseオブジェクトに対して処�
 </ol>
 </div>
 <div class="paragraph">
-<p><code>badMain</code>のような書き方をすると、意図とは異なりエラーハンドリングができないケースが存在することは覚えておきましょう。</p>
+<p><code>badMain</code> のような書き方をすると、意図とは異なりエラーハンドリングができないケースが存在することは覚えておきましょう。</p>
 </div>
 </div>
 </div>
@@ -2871,7 +2974,7 @@ MochaはNode.js製のテストフレームワークツールです。</p>
 </div>
 <div class="paragraph">
 <p>また、アサーションライブラリには、 <a href="https://github.com/twada/power-assert">power-assert</a>を利用しますが、
-アサーション自体はNode.jsの<code>assert</code>モジュールと全く同じであるため、今回はあまり気にしなくても問題ありません。</p>
+アサーション自体はNode.jsの <code>assert</code> モジュールと全く同じであるため、今回はあまり気にしなくても問題ありません。</p>
 </div>
 <div class="paragraph">
 <p>まずは、コールバック関数のテストと同じような形でテストを書いてみましょう。</p>
@@ -2881,7 +2984,7 @@ MochaはNode.js製のテストフレームワークツールです。</p>
 <h4 id="__11">3.1.2. コールバックスタイルのテスト</h4>
 <div class="paragraph">
 <p><a href="#promise-is-always-async">コラム: Promiseは常に非同期?</a>で確認したように、
-Promiseでは<code>then</code>で登録した関数が呼ばれるタイミングは常に非同期となります。</p>
+Promiseでは <code>then</code> で登録した関数が呼ばれるタイミングは常に非同期となります。</p>
 </div>
 <div class="paragraph">
 <p>まずはコールバックスタイルと同じようにPromiseのテストを書いてみましょう。</p>
@@ -2914,8 +3017,8 @@ describe(<span class="string"><span class="delimiter">&quot;</span><span class="
 </div>
 </div>
 <div class="paragraph">
-<p>Mochaは<code>it</code>の仮引数に<code>done</code>という感じで指定してあげると、
-<code>done()</code>が呼ばれるまでテストケースが終了しなくなることで非同期のテストをサポートしています。</p>
+<p>Mochaは <code>it</code> の仮引数に <code>done</code> という感じで指定してあげると、
+<code>done()</code> が呼ばれるまでテストケースが終了しなくなることで非同期のテストをサポートしています。</p>
 </div>
 <div class="paragraph">
 <p>Mochaでの非同期テストは以下のような流れになっています。</p>
@@ -2939,7 +3042,7 @@ describe(<span class="string"><span class="delimiter">&quot;</span><span class="
 </tr>
 <tr>
 <td><i class="conum" data-value="2"></i><b>2</b></td>
-<td><code>done</code>を呼ぶことでテストの終了を宣言</td>
+<td><code>done</code> を呼ぶことでテストの終了を宣言</td>
 </tr>
 </table>
 </div>
@@ -2948,7 +3051,7 @@ describe(<span class="string"><span class="delimiter">&quot;</span><span class="
 </div>
 </div>
 <div class="sect3">
-<h4 id="done-promise-test">3.1.3. <code>done</code>を使ったPromiseのテスト</h4>
+<h4 id="done-promise-test">3.1.3. <code>done</code> を使ったPromiseのテスト</h4>
 <div class="paragraph">
 <p>次に、Promiseのテストの方を見てみましょう。</p>
 </div>
@@ -2967,25 +3070,25 @@ describe(<span class="string"><span class="delimiter">&quot;</span><span class="
 <table>
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
-<td><code>Fulfilled</code>となるpromiseオブジェクトを作成</td>
+<td><code>Fulfilled</code> となるpromiseオブジェクトを作成</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="2"></i><b>2</b></td>
-<td><code>done</code>を呼ぶことでテストの終了を宣言</td>
+<td><code>done</code> を呼ぶことでテストの終了を宣言</td>
 </tr>
 </table>
 </div>
 <div class="paragraph">
 <p><a href="#Promise.resolve"><code>Promise.resolve</code></a> はpromiseオブジェクトを返しますが、
 そのpromiseオブジェクトはFulFilledの状態になります。
-その結果として<code>.then</code>で登録したコールバック関数が呼び出されます。</p>
+その結果として <code>.then</code> で登録したコールバック関数が呼び出されます。</p>
 </div>
 <div class="paragraph">
 <p><a href="#promise-is-always-async">コラム: Promiseは常に非同期?</a> でも出てきたように、
 promiseオブジェクトは常に非同期で処理されるため、テストも非同期に対応した書き方が必要となります。</p>
 </div>
 <div class="paragraph">
-<p>しかし、先ほどのテストコードでは<code>assert</code>が失敗した場合に問題が発生します。</p>
+<p>しかし、先ほどのテストコードでは <code>assert</code> が失敗した場合に問題が発生します。</p>
 </div>
 <div id="promise-assert-fail" class="listingblock">
 <div class="title">間違ったテストの書き方</div>
@@ -3000,7 +3103,7 @@ promiseオブジェクトは常に非同期で処理されるため、テスト�
 </div>
 </div>
 <div class="paragraph">
-<p>このテストは<code>assert</code>が失敗しているため、「テストは失敗する」と思うかもしれませんが、
+<p>このテストは <code>assert</code> が失敗しているため、「テストは失敗する」と思うかもしれませんが、
 実際にはテストが終わることがなくタイムアウトします。</p>
 </div>
 <div class="imageblock">
@@ -3010,16 +3113,16 @@ promiseオブジェクトは常に非同期で処理されるため、テスト�
 <div class="title">Figure 7. テストが終わることがないためタイムアウトするまでそこで止まる</div>
 </div>
 <div class="paragraph">
-<p><code>assert</code>が失敗した場合は通常はエラーをthrowし、
+<p><code>assert</code> が失敗した場合は通常はエラーをthrowし、
 テストフレームワークがそれをキャッチすることで、テストが失敗したと判断します。</p>
 </div>
 <div class="paragraph">
-<p>しかし、Promiseの場合は<code>.then</code>の中で行われた処理でエラーが発生しても、
+<p>しかし、Promiseの場合は <code>.then</code> の中で行われた処理でエラーが発生しても、
 Promiseがそれをキャッチしてしまい、テストフレームワークまでエラーがthrowされません。</p>
 </div>
 <div class="paragraph">
-<p><a href="#promise-assert-fail"><code>assert</code>が失敗してる例</a>を改善して、
-<code>assert</code>が失敗した場合にちゃんとテストが失敗となるようにしてみましょう。</p>
+<p><a href="#promise-assert-fail"><code>assert</code> が失敗してる例</a>を改善して、
+<code>assert</code> が失敗した場合にちゃんとテストが失敗となるようにしてみましょう。</p>
 </div>
 <div id="promise-assert-fail-fixed" class="listingblock">
 <div class="title">ちゃんとテストが失敗する例</div>
@@ -3033,17 +3136,17 @@ Promiseがそれをキャッチしてしまい、テストフレームワーク�
 </div>
 </div>
 <div class="paragraph">
-<p>ちゃんとテストが失敗する例では、必ず<code>done</code>が呼ばれるようにするため、
-最後に<code>.then(done, done);</code>を追加しています。</p>
+<p>ちゃんとテストが失敗する例では、必ず <code>done</code> が呼ばれるようにするため、
+最後に <code>.then(done, done);</code> を追加しています。</p>
 </div>
 <div class="paragraph">
-<p><code>assert</code>がパスした場合は単純に<code>done()</code>が呼ばれ、<code>assert</code>が失敗した場合は<code>done(error)</code>が呼ばれます。</p>
+<p><code>assert</code> がパスした場合は単純に <code>done()</code> が呼ばれ、<code>assert</code> が失敗した場合は <code>done(error)</code> が呼ばれます。</p>
 </div>
 <div class="paragraph">
 <p>これでようやく<a href="#callback-style-test">コールバックスタイルのテスト</a>と同等のPromiseのテストを書くことができました。</p>
 </div>
 <div class="paragraph">
-<p>しかし、<code>assert</code>が失敗した時のために<code>.then(done, done);</code>というものを付ける必要があります。
+<p>しかし、<code>assert</code> が失敗した時のために <code>.then(done, done);</code> というものを付ける必要があります。
 Promiseのテストを書くときにつけ忘れてしまうと終わらないテストが出来上がってしまう場合があることに気をつけましょう。</p>
 </div>
 <div class="paragraph">
@@ -3067,7 +3170,7 @@ Promiseのテストを書くときにつけ忘れてしまうと終わらない�
 </blockquote>
 </div>
 <div class="paragraph">
-<p>Promiseのテストの場合はコールバックとして<code>done()</code>を呼ぶ代わりに、promiseオブジェクトをreturnすることが出来ると書いてあります。</p>
+<p>Promiseのテストの場合はコールバックとして <code>done()</code> を呼ぶ代わりに、promiseオブジェクトをreturnすることが出来ると書いてあります。</p>
 </div>
 <div class="paragraph">
 <p>では、実際にどのように書くかの例を見て行きたいと思います。</p>
@@ -3088,7 +3191,7 @@ describe(<span class="string"><span class="delimiter">&quot;</span><span class="
 </div>
 </div>
 <div class="paragraph">
-<p><a href="#promise-assert-fail-fixed">先ほどの<code>done</code>を使った例</a>をMochaのPromiseテストの形式に変更しました。</p>
+<p><a href="#promise-assert-fail-fixed">先ほどの <code>done</code> を使った例</a>をMochaのPromiseテストの形式に変更しました。</p>
 </div>
 <div class="paragraph">
 <p>変更点としては以下の2つとなっています。</p>
@@ -3104,7 +3207,7 @@ describe(<span class="string"><span class="delimiter">&quot;</span><span class="
 </ul>
 </div>
 <div class="paragraph">
-<p>この書き方をした場合、<code>assert</code>が失敗した場合はもちろんテストが失敗します。</p>
+<p>この書き方をした場合、<code>assert</code> が失敗した場合はもちろんテストが失敗します。</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -3116,7 +3219,7 @@ describe(<span class="string"><span class="delimiter">&quot;</span><span class="
 </div>
 </div>
 <div class="paragraph">
-<p>これにより<code>.then(done, done);</code>というような本質的にはテストとは関係ない記述を省くことが出来るようになりました。</p>
+<p>これにより <code>.then(done, done);</code> というような本質的にはテストとは関係ない記述を省くことが出来るようになりました。</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -3140,7 +3243,7 @@ MochaのPromiseサポートについて書かれています。</p>
 しかし、この書き方にも意図しない結果になる例外が存在します。</p>
 </div>
 <div class="paragraph">
-<p>例えば、以下はある条件だとRejectedなpromiseオブジェクトを返す<code>mayBeRejected()</code>のテストコードです。</p>
+<p>例えば、以下はある条件だとRejectedなpromiseオブジェクトを返す <code>mayBeRejected()</code> のテストコードです。</p>
 </div>
 <div id="mocha-rejected-promise-test" class="listingblock">
 <div class="title">エラーオブジェクトをテストしたい</div>
@@ -3168,21 +3271,21 @@ it(<span class="string"><span class="delimiter">&quot;</span><span class="conten
 </div>
 <div class="dlist">
 <dl>
-<dt class="hdlist1"><code>mayBeRejected()</code>が返すpromiseオブジェクトがFulFilledとなった場合</dt>
+<dt class="hdlist1"><code>mayBeRejected()</code> が返すpromiseオブジェクトがFulFilledとなった場合</dt>
 <dd>
 <p>テストを失敗させる</p>
 </dd>
-<dt class="hdlist1"><code>mayBeRejected()</code>が返すpromiseオブジェクトがRejectedとなった場合</dt>
+<dt class="hdlist1"><code>mayBeRejected()</code> が返すpromiseオブジェクトがRejectedとなった場合</dt>
 <dd>
-<p><code>assert</code>でErrorオブジェクトをチェックする</p>
+<p><code>assert</code> でErrorオブジェクトをチェックする</p>
 </dd>
 </dl>
 </div>
 <div class="paragraph">
-<p>上記のテストコードでは、Rejectedとなって<code>onRejected</code>に登録された関数が呼ばれるためテストはパスしますね。</p>
+<p>上記のテストコードでは、Rejectedとなって <code>onRejected</code> に登録された関数が呼ばれるためテストはパスしますね。</p>
 </div>
 <div class="paragraph">
-<p>このテストで問題になるのは<code>mayBeRejected()</code>で返されたpromiseオブジェクトが
+<p>このテストで問題になるのは <code>mayBeRejected()</code> で返されたpromiseオブジェクトが
 <strong>FulFilledとなった場合</strong>に、必ずテストがパスしてしまうという問題が発生します。</p>
 </div>
 <div class="listingblock">
@@ -3206,12 +3309,12 @@ it(<span class="string"><span class="delimiter">&quot;</span><span class="conten
 </table>
 </div>
 <div class="paragraph">
-<p>この場合、<code>catch</code>で登録した<code>onRejected</code>の関数はそもそも呼ばれないため、
-<code>assert</code>がひとつも呼ばれることなくテストが必ずパスしてしまいます。</p>
+<p>この場合、<code>catch</code> で登録した <code>onRejected</code> の関数はそもそも呼ばれないため、
+<code>assert</code> がひとつも呼ばれることなくテストが必ずパスしてしまいます。</p>
 </div>
 <div class="paragraph">
-<p>これを解消しようとして、<code>.catch</code>の前に<code>.then</code>を入れて、
-<code>.then</code>が呼ばれたらテストを失敗にしたいと考えるかもしれません。</p>
+<p>これを解消しようとして、<code>.catch</code> の前に <code>.then</code> を入れて、
+<code>.then</code> が呼ばれたらテストを失敗にしたいと考えるかもしれません。</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -3238,7 +3341,7 @@ it(<span class="string"><span class="delimiter">&quot;</span><span class="conten
 </div>
 <div class="paragraph">
 <p>しかし、この書き方だと<a href="#then-or-catch">then or catch?</a>で紹介したように、
-<code>failTest</code>で投げられたエラーが<code>catch</code>されてしまいます。</p>
+<code>failTest</code> で投げられたエラーが <code>catch</code> されてしまいます。</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -3247,7 +3350,7 @@ it(<span class="string"><span class="delimiter">&quot;</span><span class="conten
 <div class="title">Figure 8. Then Catch flow</div>
 </div>
 <div class="paragraph">
-<p><code>then</code> &#8594; <code>catch</code> となり、<code>catch</code>に渡ってくるErrorオブジェクトは<code>AssertionError</code>となり、
+<p><code>then</code> &#8594; <code>catch</code> となり、<code>catch</code> に渡ってくるErrorオブジェクトは <code>AssertionError</code> となり、
 意図したものとは違うものが渡ってきてしまいます。</p>
 </div>
 <div class="paragraph">
@@ -3272,7 +3375,7 @@ it(<span class="string"><span class="delimiter">&quot;</span><span class="conten
 </dd>
 <dt class="hdlist1">Rejectedとなった場合</dt>
 <dd>
-<p><code>assert</code>でテストを行える</p>
+<p><code>assert</code> でテストを行える</p>
 </dd>
 </dl>
 </div>
@@ -3303,11 +3406,11 @@ it(<span class="string"><span class="delimiter">&quot;</span><span class="conten
 </div>
 <div class="paragraph">
 <p><a href="#then-or-catch">then or catch?</a>の時は、エラーの見逃しを避けるため、
-<code>.then(onFulfilled, onRejected)</code>の第二引数ではなく、<code>then</code> &#8594; <code>catch</code>と分けることを推奨していました。</p>
+<code>.then(onFulfilled, onRejected)</code> の第二引数ではなく、<code>then</code> &#8594; <code>catch</code> と分けることを推奨していました。</p>
 </div>
 <div class="paragraph">
 <p>しかし、テストの場合はPromiseの強力なエラーハンドリングが逆にテストの邪魔をしてしまいます。
-そのため<code>.then(failTest, onRejected)</code>と書くことで、どちらの状態になるのかを明示してテストを書くことができました。</p>
+そのため <code>.then(failTest, onRejected)</code> と書くことで、どちらの状態になるのかを明示してテストを書くことができました。</p>
 </div>
 </div>
 <div class="sect3">
@@ -3318,7 +3421,7 @@ it(<span class="string"><span class="delimiter">&quot;</span><span class="conten
 <div class="ulist">
 <ul>
 <li>
-<p>通常のコードは<code>then</code> &#8594; <code>catch</code>と分けた方がよい</p>
+<p>通常のコードは <code>then</code> &#8594; <code>catch</code> と分けた方がよい</p>
 <div class="ulist">
 <ul>
 <li>
@@ -3328,7 +3431,7 @@ it(<span class="string"><span class="delimiter">&quot;</span><span class="conten
 </div>
 </li>
 <li>
-<p>テストコードは<code>then</code>にまとめた方がよい</p>
+<p>テストコードは <code>then</code> にまとめた方がよい</p>
 <div class="ulist">
 <ul>
 <li>
@@ -3340,7 +3443,7 @@ it(<span class="string"><span class="delimiter">&quot;</span><span class="conten
 </ul>
 </div>
 <div class="paragraph">
-<p><code>.then(onFulfilled, onRejected)</code>を使うことで、
+<p><code>.then(onFulfilled, onRejected)</code> を使うことで、
 promiseオブジェクトがFulfilled、Rejectedどちらの状態になるかを明示してテストする必要があります。</p>
 </div>
 <div class="paragraph">
@@ -3360,7 +3463,7 @@ promiseオブジェクトがFulfilled、Rejectedどちらの状態になるか�
 </div>
 </div>
 <div class="sect2">
-<h3 id="controlable-tests">3.3. 意図したテストを書くには</h3>
+<h3 id="controllable-tests">3.3. 意図したテストを書くには</h3>
 <div class="paragraph">
 <p>ここでいう意図したテストとは以下のような定義で進めます。</p>
 </div>
@@ -3414,7 +3517,7 @@ promiseオブジェクトがFulfilled、Rejectedどちらの状態になるか�
 </ul>
 </div>
 <div class="paragraph">
-<p>先ほどの<code>.then</code>を使ったコードはRejectedを期待したテストとなっていますね。</p>
+<p>先ほどの <code>.then</code> を使ったコードはRejectedを期待したテストとなっていますね。</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -3431,7 +3534,7 @@ promiseオブジェクトがFulfilled、Rejectedどちらの状態になるか�
 Fulfilled or Rejected どちらの状態になって欲しいかを明示する必要があります。</p>
 </div>
 <div class="paragraph">
-<p>しかし、<code>.then</code>だと引数は省略可能なので、テストが落ちる条件を入れ忘れる可能性もあります。</p>
+<p>しかし、<code>.then</code> だと引数は省略可能なので、テストが落ちる条件を入れ忘れる可能性もあります。</p>
 </div>
 <div class="paragraph">
 <p>そこで、promiseオブジェクトに期待する状態を明示できるヘルパー関数を定義してみましょう。</p>
@@ -3452,8 +3555,8 @@ Fulfilled or Rejected どちらの状態になって欲しいかを明示する�
 </table>
 </div>
 <div class="paragraph">
-<p>まずは、先ほどの<code>.then</code>の例を元にonRejectedを期待してテスト出来る
-<code>shouldRejected</code>というヘルパー関数を作ってみたいと思います。</p>
+<p>まずは、先ほどの <code>.then</code> の例を元にonRejectedを期待してテスト出来る
+<code>shouldRejected</code> というヘルパー関数を作ってみたいと思います。</p>
 </div>
 <div id="shouldRejected-test.js" class="listingblock">
 <div class="title">shouldRejected-test.js</div>
@@ -3479,14 +3582,14 @@ it(<span class="string"><span class="delimiter">'</span><span class="content">sh
 </div>
 </div>
 <div class="paragraph">
-<p><code>shouldRejected</code>にpromiseオブジェクトを渡すと、<code>catch</code>というメソッドをもつオブジェクトを返します。</p>
+<p><code>shouldRejected</code> にpromiseオブジェクトを渡すと、<code>catch</code> というメソッドをもつオブジェクトを返します。</p>
 </div>
 <div class="paragraph">
-<p>この<code>catch</code>にはonRejectedで書くものと全く同じ使い方ができるので、
-<code>catch</code>の中にassertionによるテストを書けるようになっています。</p>
+<p>この <code>catch</code> にはonRejectedで書くものと全く同じ使い方ができるので、
+<code>catch</code> の中にassertionによるテストを書けるようになっています。</p>
 </div>
 <div class="paragraph">
-<p><code>shouldRejected</code>で囲む以外は、通常のpromiseの処理と似た感じになるので以下のようになります。</p>
+<p><code>shouldRejected</code> で囲む以外は、通常のpromiseの処理と似た感じになるので以下のようになります。</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
@@ -3494,7 +3597,7 @@ it(<span class="string"><span class="delimiter">'</span><span class="content">sh
 <p><code>shouldRejected</code> にテスト対象のpromiseオブジェクトを渡す</p>
 </li>
 <li>
-<p>返ってきたオブジェクトの<code>catch</code>メソッドでonRejectedの処理を書く</p>
+<p>返ってきたオブジェクトの <code>catch</code> メソッドでonRejectedの処理を書く</p>
 </li>
 <li>
 <p>onRejectedにassertionによるテストを書く</p>
@@ -3502,7 +3605,7 @@ it(<span class="string"><span class="delimiter">'</span><span class="content">sh
 </ol>
 </div>
 <div class="paragraph">
-<p><code>shouldRejected</code>を使った場合、Fulfilledが呼ばれるとエラーをthrowしてテストが失敗するようになっています。</p>
+<p><code>shouldRejected</code> を使った場合、Fulfilledが呼ばれるとエラーをthrowしてテストが失敗するようになっています。</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -3516,7 +3619,7 @@ shouldRejected(promise).<span class="keyword">catch</span>(<span class="keyword"
 </div>
 </div>
 <div class="paragraph">
-<p><code>shouldRejected</code>のようなヘルパー関数を使うことで、テストコードが少し直感的になりましたね。</p>
+<p><code>shouldRejected</code> のようなヘルパー関数を使うことで、テストコードが少し直感的になりましたね。</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -3525,7 +3628,7 @@ shouldRejected(promise).<span class="keyword">catch</span>(<span class="keyword"
 <div class="title">Figure 10. Promise onRejected test</div>
 </div>
 <div class="paragraph">
-<p>同様に、promiseオブジェクトがFulfilledになることを期待する<code>shouldFulfilled</code>も書いてみましょう。</p>
+<p>同様に、promiseオブジェクトがFulfilledになることを期待する <code>shouldFulfilled</code> も書いてみましょう。</p>
 </div>
 <div id="shouldFulfilled-test.js" class="listingblock">
 <div class="title">shouldFulfilled-test.js</div>
@@ -3551,7 +3654,7 @@ it(<span class="string"><span class="delimiter">'</span><span class="content">sh
 </div>
 </div>
 <div class="paragraph">
-<p><a href="#shouldRejected-test.js">shouldRejected-test.js</a>と基本は同じで、返すオブジェクトの<code>catch</code>が<code>then</code>になって中身が逆転しただけですね。</p>
+<p><a href="#shouldRejected-test.js">shouldRejected-test.js</a>と基本は同じで、返すオブジェクトの <code>catch</code> が <code>then</code> になって中身が逆転しただけですね。</p>
 </div>
 </div>
 <div class="sect3">
@@ -3567,7 +3670,7 @@ it(<span class="string"><span class="delimiter">'</span><span class="content">sh
 </td>
 <td class="content">
 <div class="paragraph">
-<p>今回書いた<code>shouldFulfilled</code>と<code>shouldRejected</code>はライブラリとして利用できるようになっています。</p>
+<p>今回書いた <code>shouldFulfilled</code> と <code>shouldRejected</code> はライブラリとして利用できるようになっています。</p>
 </div>
 <div class="paragraph">
 <p><a href="https://github.com/azu/promise-test-helper">azu/promise-test-helper</a> からダウンロードすることが出来ます。</p>
@@ -3578,15 +3681,15 @@ it(<span class="string"><span class="delimiter">'</span><span class="content">sh
 </div>
 <div class="paragraph">
 <p>また、今回のヘルパー関数は<a href="#mocha-promise">MochaのPromiseサポート</a>を前提とした書き方なので、
-<a href="#done-promise-test"><code>done</code>を使ったテスト</a>は利用しにくいと思います。</p>
+<a href="#done-promise-test"><code>done</code> を使ったテスト</a>では利用しにくいと思います。</p>
 </div>
 <div class="paragraph">
-<p>テストフレームワークのPromiseサポートを使うか、<code>done</code>のようにコールバックスタイルのテストを使うかは、
+<p>テストフレームワークのPromiseサポートを使うか、<code>done</code> のようにコールバックスタイルのテストを使うかは、
 人それぞれのスタイルの問題であるためそこまではっきりした優劣はないと思います。</p>
 </div>
 <div class="paragraph">
 <p>例えば、 <a href="http://coffeescript.org/">CoffeeScript</a>でテストを書いたりすると、
-CoffeeScriptには暗黙のreturnがあるので、<code>done</code>を使ったほうが分かりやすいかもしれません。</p>
+CoffeeScriptには暗黙のreturnがあるので、<code>done</code> を使ったほうが分かりやすいかもしれません。</p>
 </div>
 <div class="paragraph">
 <p>Promiseのテストは普通に非同期関数のテスト以上に落とし穴があるため、
@@ -3622,18 +3725,18 @@ Promise互換のライブラリについて紹介していきたいと思いま�
 </div>
 <div class="paragraph">
 <p><a href="#promises-aplus">Promises/A+</a>というのは<a href="#es6-promises">ES6 Promises</a>の前身となったもので、
-Promiseの<code>then</code>について取り決めたコミュニティベースの仕様です。</p>
+Promiseの <code>then</code> について取り決めたコミュニティベースの仕様です。</p>
 </div>
 <div class="paragraph">
-<p>Promises/A+互換と書かれていた場合は<code>then</code>についての動作は互換性があり、
-多くの場合はそれに加えて<code>Promise.all</code>や<code>catch</code>等と同様の機能が実装されています。</p>
+<p>Promises/A+互換と書かれていた場合は <code>then</code> についての動作は互換性があり、
+多くの場合はそれに加えて <code>Promise.all</code> や <code>catch</code> 等と同様の機能が実装されています。</p>
 </div>
 <div class="paragraph">
-<p>しかし、Promises/A+は<code>Promise#then</code>についてのみの仕様となっているため、
+<p>しかし、Promises/A+は <code>Promise#then</code> についてのみの仕様となっているため、
 他の機能は実装されていても名前が異なる場合があります。</p>
 </div>
 <div class="paragraph">
-<p>また、<code>then</code>というメソッドに互換性があるという事は、<a href="#Thenable">Thenable</a>であるということなので、
+<p>また、<code>then</code> というメソッドに互換性があるという事は、<a href="#Thenable">Thenable</a>であるということなので、
 <a href="#Promise.resolve">Promise.resolve</a>を使い、ES6のPromiseで定められたpromiseオブジェクトに変換することが出来ます。</p>
 </div>
 <div class="admonitionblock note">
@@ -3645,7 +3748,7 @@ Promiseの<code>then</code>について取り決めたコミュニティベー�
 <td class="content">
 <div class="paragraph">
 <p>ES6のPromiseで定められたpromiseオブジェクトというのは、
-<code>catch</code>というメソッドが使えたり、<code>Promise.all</code>で扱う際に問題が起こらないということです。</p>
+<code>catch</code> というメソッドが使えたり、<code>Promise.all</code> で扱う際に問題が起こらないということです。</p>
 </div>
 </td>
 </tr>
@@ -3711,7 +3814,7 @@ Promiseがサポートされてない環境でも実行出来るようになり�
 <dl>
 <dt class="hdlist1"><a href="https://github.com/kriskowal/q">kriskowal/q</a></dt>
 <dd>
-<p><code>Q</code>と呼ばれるPromisesやDeferredsを実装したライブラリです。
+<p><code>Q</code> と呼ばれるPromisesやDeferredsを実装したライブラリです。
 2009年から開発されており、Node.js向けのファイルIOのAPIを提供する <a href="https://github.com/kriskowal/q-io">Q-IO</a> 等、
 多くの状況で使える機能が用意されているライブラリです。</p>
 </dd>
@@ -3772,7 +3875,7 @@ Promiseがサポートされてない環境でも実行出来るようになり�
 <div class="sect2">
 <h3 id="resolve-thenable">4.2. Promise.resolveとThenable</h3>
 <div class="paragraph">
-<p><a href="#ch2-promise-resolve">第二章のPromise.resolve</a>にて、<code>Promise.resolve</code>の大きな特徴の一つとしてthenableなオブジェクトを変換する機能について紹介しました。</p>
+<p><a href="#ch2-promise-resolve">第二章のPromise.resolve</a>にて、<code>Promise.resolve</code> の大きな特徴の一つとしてthenableなオブジェクトを変換する機能について紹介しました。</p>
 </div>
 <div class="paragraph">
 <p>このセクションでは、thenableなオブジェクトからpromiseオブジェクトに変換してどのように利用するかについて学びたいと思います。</p>
@@ -3797,7 +3900,7 @@ Promiseがサポートされてない環境でも実行出来るようになり�
 </ul>
 </div>
 <div class="paragraph">
-<p>Web Notifications APIについて簡単に解説すると、以下のように<code>new Notification</code>をすることで通知メッセージが表示できます。</p>
+<p>Web Notifications APIについて簡単に解説すると、以下のように <code>new Notification</code> をすることで通知メッセージが表示できます。</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -3805,7 +3908,7 @@ Promiseがサポートされてない環境でも実行出来るようになり�
 </div>
 </div>
 <div class="paragraph">
-<p>しかし、通知を行うためには、<code>new Notification</code>をする前にユーザーに許可を取る必要があります。</p>
+<p>しかし、通知を行うためには、<code>new Notification</code> をする前にユーザーに許可を取る必要があります。</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -3814,7 +3917,7 @@ Promiseがサポートされてない環境でも実行出来るようになり�
 <div class="title">Figure 11. Notificationの許可ダイアログ</div>
 </div>
 <div class="paragraph">
-<p>この許可ダイアログで選択した結果は、<code>Notification.permission</code>に入りますが、
+<p>この許可ダイアログで選択した結果は、<code>Notification.permission</code> に入りますが、
 値は許可("granted")か不許可("denied")の2種類です。</p>
 </div>
 <div class="admonitionblock note">
@@ -3831,8 +3934,8 @@ Firefoxだと許可、不許可に加えて <em>永続</em> か <em>セッショ
 </table>
 </div>
 <div class="paragraph">
-<p>許可ダイアログは<code>Notification.requestPermission()</code>を実行すると表示され、
-ユーザーが選択した結果がコールバック関数の<code>status</code>に渡されます。</p>
+<p>許可ダイアログは <code>Notification.requestPermission()</code> を実行すると表示され、
+ユーザーが選択した結果がコールバック関数の <code>status</code> に渡されます。</p>
 </div>
 <div class="paragraph">
 <p>コールバックを受け付けることから分かるように、この許可、不許可は非同期的に行われます。</p>
@@ -3854,7 +3957,7 @@ Firefoxだと許可、不許可に加えて <em>永続</em> か <em>セッショ
 <p>ユーザーに通知の許可を受け付ける非同期処理がある</p>
 </li>
 <li>
-<p>許可がある場合は<code>new Notification</code>で通知を表示できる</p>
+<p>許可がある場合は <code>new Notification</code> で通知を表示できる</p>
 <div class="ulist">
 <ul>
 <li>
@@ -3878,7 +3981,7 @@ Firefoxだと許可、不許可に加えて <em>永続</em> か <em>セッショ
 <dl>
 <dt class="hdlist1">許可時("granted")</dt>
 <dd>
-<p><code>new Notification</code>で通知を作成</p>
+<p><code>new Notification</code> で通知を作成</p>
 </dd>
 <dt class="hdlist1">不許可時("denied")</dt>
 <dd>
@@ -3935,7 +4038,7 @@ Firefoxだと許可、不許可に加えて <em>永続</em> か <em>セッショ
     }
 }
 <span class="comment">// 実行例</span>
-<span class="comment">// 第二引数は`Notification`に渡すオプションオブジェクト</span>
+<span class="comment">// 第二引数は `Notification` に渡すオプションオブジェクト</span>
 notifyMessage(<span class="string"><span class="delimiter">&quot;</span><span class="content">Hi!</span><span class="delimiter">&quot;</span></span>, {}, <span class="keyword">function</span> (error, notification) {
     <span class="keyword">if</span>(error){
         <span class="keyword">return</span> console.error(error);
@@ -3945,8 +4048,8 @@ notifyMessage(<span class="string"><span class="delimiter">&quot;</span><span cl
 </div>
 </div>
 <div class="paragraph">
-<p>コールバックスタイルでは、許可がない場合は<code>error</code>に値が入り、
-許可がある場合は通知が行われて<code>notification</code>に値が入ってくるという感じにしました。</p>
+<p>コールバックスタイルでは、許可がない場合は <code>error</code> に値が入り、
+許可がある場合は通知が行われて <code>notification</code> に値が入ってくるという感じにしました。</p>
 </div>
 <div class="listingblock">
 <div class="title">コールバック関数はエラーとnotificationオブジェクトを受け取る</div>
@@ -3963,8 +4066,8 @@ notifyMessage(<span class="string"><span class="delimiter">&quot;</span><span cl
 <div class="sect3">
 <h4 id="_web_notification_as_promise">4.2.3. Web Notification as Promise</h4>
 <div class="paragraph">
-<p>先ほどのコールバックスタイルの<code>notifyMessage</code>とは別に、
-promiseオブジェクトを返す<code>notifyMessageAsPromise</code>を定義してみます。</p>
+<p>先ほどのコールバックスタイルの <code>notifyMessage</code> とは別に、
+promiseオブジェクトを返す <code>notifyMessageAsPromise</code> を定義してみます。</p>
 </div>
 <div id="notification-as-promise.js" class="listingblock executable">
 <div class="title">notification-as-promise.js</div>
@@ -4009,11 +4112,11 @@ notifyMessageAsPromise(<span class="string"><span class="delimiter">&quot;</span
 </div>
 </div>
 <div class="paragraph">
-<p>上記の実行例では、許可がある場合<code>"Hi!"</code>という通知が表示されます。</p>
+<p>上記の実行例では、許可がある場合 <code>"Hi!"</code> という通知が表示されます。</p>
 </div>
 <div class="paragraph">
-<p>許可されている場合は<code>.then</code>が呼ばれ、
-不許可となった場合は<code>.catch</code>が呼ばれます。</p>
+<p>許可されている場合は <code>.then</code> が呼ばれ、
+不許可となった場合は <code>.catch</code> が呼ばれます。</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -4030,19 +4133,19 @@ notifyMessageAsPromise(<span class="string"><span class="delimiter">&quot;</span
 <dl>
 <dt class="hdlist1">既に許可されている</dt>
 <dd>
-<p><code>.then</code>が呼ばれる</p>
+<p><code>.then</code> が呼ばれる</p>
 </dd>
 <dt class="hdlist1">許可ダイアログがでて許可された</dt>
 <dd>
-<p><code>.then</code>が呼ばれる</p>
+<p><code>.then</code> が呼ばれる</p>
 </dd>
 <dt class="hdlist1">既に不許可となっている</dt>
 <dd>
-<p><code>.catch</code>が呼ばれる</p>
+<p><code>.catch</code> が呼ばれる</p>
 </dd>
 <dt class="hdlist1">許可ダイアログが出て不許可となった</dt>
 <dd>
-<p><code>.catch</code>が呼ばれる</p>
+<p><code>.catch</code> が呼ばれる</p>
 </dd>
 </dl>
 </div>
@@ -4069,7 +4172,7 @@ notifyMessageAsPromise(<span class="string"><span class="delimiter">&quot;</span
 <div class="ulist">
 <ul>
 <li>
-<p>利用者に<code>Promise</code>があることを保証してもらう</p>
+<p>利用者に <code>Promise</code> があることを保証してもらう</p>
 </li>
 <li>
 <p>Promiseをサポートしてない環境では動かないことにする</p>
@@ -4077,7 +4180,7 @@ notifyMessageAsPromise(<span class="string"><span class="delimiter">&quot;</span
 </ul>
 </div>
 </dd>
-<dt class="hdlist1">ライブラリ自体に<code>Promise</code>の実装を入れてしまう</dt>
+<dt class="hdlist1">ライブラリ自体に <code>Promise</code> の実装を入れてしまう</dt>
 <dd>
 <div class="ulist">
 <ul>
@@ -4090,7 +4193,7 @@ notifyMessageAsPromise(<span class="string"><span class="delimiter">&quot;</span
 </ul>
 </div>
 </dd>
-<dt class="hdlist1">コールバックでも<code>Promise</code>でも使えるようにする</dt>
+<dt class="hdlist1">コールバックでも <code>Promise</code> でも使えるようにする</dt>
 <dd>
 <div class="ulist">
 <ul>
@@ -4106,18 +4209,18 @@ notifyMessageAsPromise(<span class="string"><span class="delimiter">&quot;</span
 </dl>
 </div>
 <div class="paragraph">
-<p><a href="#notification-as-promise.js">notification-as-promise.js</a>は<code>Promise</code>があることを前提としたような書き方です。</p>
+<p><a href="#notification-as-promise.js">notification-as-promise.js</a>は <code>Promise</code> があることを前提としたような書き方です。</p>
 </div>
 <div class="paragraph">
-<p>本題に戻り<a href="#Thenable">Thenable</a>はここでいう<strong>コールバックでも<code>Promise</code>でも使えるようにする</strong>という事を
+<p>本題に戻り<a href="#Thenable">Thenable</a>はここでいう<strong>コールバックでも <code>Promise</code> でも使えるようにする</strong>という事を
 実現するのに役立つ概念です。</p>
 </div>
 </div>
 <div class="sect3">
 <h4 id="_web_notifications_as_thenable">4.2.4. Web Notifications As Thenable</h4>
 <div class="paragraph">
-<p><a href="#Thenable">thenable</a>というのは<code>.then</code>というメソッドを持ってるオブジェクトのことを言いましたね。
-次は<a href="#notification-callback.js">notification-callback.js</a>に<code>thenable</code>を返すメソッドを追加してみましょう。</p>
+<p><a href="#Thenable">thenable</a>というのは <code>.then</code> というメソッドを持ってるオブジェクトのことを言いましたね。
+次は<a href="#notification-callback.js">notification-callback.js</a>に <code>thenable</code> を返すメソッドを追加してみましょう。</p>
 </div>
 <div id="notification-thenable.js" class="listingblock executable">
 <div class="title">notification-thenable.js</div>
@@ -4165,18 +4268,18 @@ Promise.resolve(notifyMessageAsThenable(<span class="string"><span class="delimi
 </div>
 </div>
 <div class="paragraph">
-<p><a href="#notification-thenable.js">notification-thenable.js</a> には<code>notifyMessageAsThenable</code>というそのままのメソッドを追加してみました。
-返すオブジェクトには<code>then</code>というメソッドがあります。</p>
+<p><a href="#notification-thenable.js">notification-thenable.js</a> には <code>notifyMessageAsThenable</code> というそのままのメソッドを追加してみました。
+返すオブジェクトには <code>then</code> というメソッドがあります。</p>
 </div>
 <div class="paragraph">
-<p><code>then</code>メソッドの仮引数には<code>new Promise(function (resolve, reject){})</code>と同じように、
-解決した時に呼ぶ<code>resolve</code>と、棄却した時に呼ぶ<code>reject</code>が渡ります。</p>
+<p><code>then</code> メソッドの仮引数には <code>new Promise(function (resolve, reject){})</code> と同じように、
+解決した時に呼ぶ <code>resolve</code> と、棄却した時に呼ぶ <code>reject</code> が渡ります。</p>
 </div>
 <div class="paragraph">
-<p><code>then</code>メソッドがやっている中身は<a href="#notification-as-promise.js">notification-as-promise.js</a>の<code>notifyMessageAsPromise</code>と同じですね。</p>
+<p><code>then</code> メソッドがやっている中身は<a href="#notification-as-promise.js">notification-as-promise.js</a>の <code>notifyMessageAsPromise</code> と同じですね。</p>
 </div>
 <div class="paragraph">
-<p>この<code>thenable</code>を<code>Promise.resolve(thenable)</code>を使いpromiseオブジェクトにしてから、
+<p>この <code>thenable</code> を <code>Promise.resolve(thenable)</code> を使いpromiseオブジェクトにしてから、
 Promiseとして利用していることが分かりますね。</p>
 </div>
 <div class="listingblock">
@@ -4198,17 +4301,17 @@ Promiseとして利用していることが分かりますね。</p>
 <div class="ulist">
 <ul>
 <li>
-<p>ライブラリ側に<code>Promise</code>実装そのものはでてこない</p>
+<p>ライブラリ側に <code>Promise</code> 実装そのものはでてこない</p>
 <div class="ulist">
 <ul>
 <li>
-<p>利用者が<code>Promise.resolve(thenable)</code>を使い<code>Promise</code>の実装を与える</p>
+<p>利用者が <code>Promise.resolve(thenable)</code> を使い <code>Promise</code> の実装を与える</p>
 </li>
 </ul>
 </div>
 </li>
 <li>
-<p>Promiseとして使う時に<code>Promise.resolve(thenable)</code>と一枚挟む必要がある</p>
+<p>Promiseとして使う時に <code>Promise.resolve(thenable)</code> と一枚挟む必要がある</p>
 </li>
 </ul>
 </div>
@@ -4220,7 +4323,7 @@ Promiseとして利用していることが分かりますね。</p>
 <div class="sect3">
 <h4 id="__19">4.2.5. まとめ</h4>
 <div class="paragraph">
-<p>このセクションではThenableとは何かやThenableを<code>Promise.resolve(thenable)</code>を使って、
+<p>このセクションではThenableとは何かやThenableを <code>Promise.resolve(thenable)</code> を使って、
 promiseオブジェクトとして利用する方法について学びました。</p>
 </div>
 <div class="paragraph">
@@ -4231,11 +4334,11 @@ promiseオブジェクトとして利用する方法について学びました�
 ライブラリが公開するAPIとしては中途半端なためあまり見かけることがないと思います。</p>
 </div>
 <div class="paragraph">
-<p>Thenable自体は<code>Promise</code>という機能に依存してはいませんが、Promise以外からの利用方法は特にないため、
+<p>Thenable自体は <code>Promise</code> という機能に依存してはいませんが、Promise以外からの利用方法は特にないため、
 間接的にはPromiseに依存しています。</p>
 </div>
 <div class="paragraph">
-<p>また、使うためには利用者が<code>Promise.resolve(thenable)</code>について理解している必要があるため、
+<p>また、使うためには利用者が <code>Promise.resolve(thenable)</code> について理解している必要があるため、
 ライブラリの公開APIとしては難しい部分があります。
 Thenable自体は公開APIより、内部的に使われてるケースが多いでしょう。</p>
 </div>
@@ -4272,7 +4375,7 @@ promiseオブジェクトを返す関数を公開APIとしても問題ないと�
 <div class="paragraph">
 <p>例えば、 QライブラリのPromiseのインスタンスであるQ promiseオブジェクトは、
 <a href="#es6-promises">ES6 Promises</a>のpromiseオブジェクトが持っていないメソッドを持っています。
-Q promiseオブジェクトには <code>promise.finally(callback)</code> や <code>promise.nodeify(callback)</code>などのメソッドが用意されてます。</p>
+Q promiseオブジェクトには <code>promise.finally(callback)</code> や <code>promise.nodeify(callback)</code> などのメソッドが用意されてます。</p>
 </div>
 <div class="paragraph">
 <p>ES6 PromisesのpromiseオブジェクトをQ promiseオブジェクトに変換するときに使われるのが、
@@ -4298,16 +4401,16 @@ Q(promise).then(<span class="keyword">function</span>(value){
 <table>
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>Q promiseオブジェクトとなったため<code>finally</code>が利用できる</td>
+<td>Q promiseオブジェクトとなったため <code>finally</code> が利用できる</td>
 </tr>
 </table>
 </div>
 <div class="paragraph">
-<p>最初に作成したpromiseオブジェクトは<code>then</code>というメソッドを持っているので、もちろんThenableです。
+<p>最初に作成したpromiseオブジェクトは <code>then</code> というメソッドを持っているので、もちろんThenableです。
 <code>Q(thenable)</code> とすることでThenableなオブジェクトをQ promiseオブジェクトへと変換することが出来ます。</p>
 </div>
 <div class="paragraph">
-<p>これは、<code>Promise.resolve(thenable)</code>と同じ仕組みといえるので、もちろん逆も可能です。</p>
+<p>これは、<code>Promise.resolve(thenable)</code> と同じ仕組みといえるので、もちろん逆も可能です。</p>
 </div>
 <div class="paragraph">
 <p>このように、Promiseライブラリはそれぞれ独自に拡張したpromiseオブジェクトを持っていますが、
@@ -4323,11 +4426,11 @@ Thenableという共通の概念を使うことでライブラリ間(もちろ�
 <div class="sect2">
 <h3 id="not-throw-use-reject">4.3. throwしないで、rejectしよう</h3>
 <div class="paragraph">
-<p>Promiseコンストラクタや、<code>then</code>で実行される関数は基本的に、
-<code>try...catch</code>で囲まれてるような状態なので、その中で<code>throw</code>をしてもプログラムは終了しません。</p>
+<p>Promiseコンストラクタや、<code>then</code> で実行される関数は基本的に、
+<code>try...catch</code> で囲まれてるような状態なので、その中で <code>throw</code> をしてもプログラムは終了しません。</p>
 </div>
 <div class="paragraph">
-<p>Promiseの中で<code>throw</code>による例外が発生した場合は自動的に<code>try...catch</code>され、そのpromiseオブジェクトはRejectedとなります。</p>
+<p>Promiseの中で <code>throw</code> による例外が発生した場合は自動的に <code>try...catch</code> され、そのpromiseオブジェクトはRejectedとなります。</p>
 </div>
 <div class="listingblock executable">
 <div class="content">
@@ -4341,7 +4444,7 @@ promise.<span class="keyword">catch</span>(<span class="keyword">function</span>
 </div>
 <div class="paragraph">
 <p>このように書いても動作的には問題ありませんが、<a href="#promise-states">promiseオブジェクトの状態</a>をRejectedにしたい場合は
-<code>reject</code>という与えられた関数を呼び出すのが一般的です。</p>
+<code>reject</code> という与えられた関数を呼び出すのが一般的です。</p>
 </div>
 <div class="paragraph">
 <p>先ほどのコードは以下のように書くことが出来ます。</p>
@@ -4357,16 +4460,16 @@ promise.<span class="keyword">catch</span>(<span class="keyword">function</span>
 </div>
 </div>
 <div class="paragraph">
-<p><code>throw</code>が<code>reject</code>に変わったと考えれば、<code>reject</code>にはErrorオブジェクトを渡すべきであるということが分かりやすいかもしれません。</p>
+<p><code>throw</code> が <code>reject</code> に変わったと考えれば、<code>reject</code> にはErrorオブジェクトを渡すべきであるということが分かりやすいかもしれません。</p>
 </div>
 <div class="sect3">
 <h4 id="__reject">4.3.1. なぜrejectした方がいいのか</h4>
 <div class="paragraph">
 <p>そもそも、promiseオブジェクトの状態をRejectedにしたい場合に、
-何故<code>throw</code>ではなく<code>reject</code>した方がいいのでしょうか?</p>
+何故 <code>throw</code> ではなく <code>reject</code> した方がいいのでしょうか?</p>
 </div>
 <div class="paragraph">
-<p>ひとつは<code>throw</code>が意図したものか、それとも本当に<strong>例外</strong>なのか区別が難しくなってしまうことにあります。</p>
+<p>ひとつは <code>throw</code> が意図したものか、それとも本当に<strong>例外</strong>なのか区別が難しくなってしまうことにあります。</p>
 </div>
 <div class="paragraph">
 <p>例えば、Chrome等の開発者ツールには例外が発生した時に、
@@ -4379,7 +4482,7 @@ promise.<span class="keyword">catch</span>(<span class="keyword">function</span>
 <div class="title">Figure 12. Pause On Caught Exceptions</div>
 </div>
 <div class="paragraph">
-<p>この機能を有効にしていた場合、以下のように<code>throw</code>するとbreakしてしまいます。</p>
+<p>この機能を有効にしていた場合、以下のように <code>throw</code> するとbreakしてしまいます。</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -4390,17 +4493,17 @@ promise.<span class="keyword">catch</span>(<span class="keyword">function</span>
 </div>
 <div class="paragraph">
 <p>本来デバッグとは関係ない場所でbreakしてしまうため、
-Promiseの中で<code>throw</code>している箇所があると、この機能が殆ど使い物にならなくなってしまうでしょう。</p>
+Promiseの中で <code>throw</code> している箇所があると、この機能が殆ど使い物にならなくなってしまうでしょう。</p>
 </div>
 </div>
 <div class="sect3">
 <h4 id="_then_reject">4.3.2. thenでもrejectする</h4>
 <div class="paragraph">
-<p>Promiseコンストラクタの中では<code>reject</code>という関数そのものがあるので、
-<code>throw</code>を使わないでpromiseオブジェクトをRejectedにするのは簡単でした。</p>
+<p>Promiseコンストラクタの中では <code>reject</code> という関数そのものがあるので、
+<code>throw</code> を使わないでpromiseオブジェクトをRejectedにするのは簡単でした。</p>
 </div>
 <div class="paragraph">
-<p>では、次のような<code>then</code>の中でrejectしたい場合はどうすればいいでしょうか?</p>
+<p>では、次のような <code>then</code> の中でrejectしたい場合はどうすればいいでしょうか?</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -4417,7 +4520,7 @@ promise.then(<span class="keyword">function</span> (value) {
 </div>
 </div>
 <div class="paragraph">
-<p>いわゆるタイムアウト処理ですが、<code>then</code>の中で<code>reject</code>を呼びたいと思った場合に、
+<p>いわゆるタイムアウト処理ですが、<code>then</code> の中で <code>reject</code> を呼びたいと思った場合に、
 コールバック関数に渡ってくるのは一つ前のpromiseオブジェクトの返した値だけなので困ってしまいます。</p>
 </div>
 <div class="admonitionblock note">
@@ -4433,18 +4536,18 @@ Promiseを使ったタイムアウト処理の実装については <a href="#ra
 </table>
 </div>
 <div class="paragraph">
-<p>ここで少し<code>then</code>の挙動について思い出してみましょう。</p>
+<p>ここで少し <code>then</code> の挙動について思い出してみましょう。</p>
 </div>
 <div class="paragraph">
-<p><code>then</code> に登録するコールバック関数では値を<code>return</code>することができます。
-この時returnした値が、次の<code>then</code>や<code>catch</code>のコールバックに渡されます。</p>
+<p><code>then</code> に登録するコールバック関数では値を <code>return</code> することができます。
+この時returnした値が、次の <code>then</code> や <code>catch</code> のコールバックに渡されます。</p>
 </div>
 <div class="paragraph">
 <p>また、returnするものはプリミティブな値に限らずオブジェクト、そしてpromiseオブジェクトも返す事が出来ます。</p>
 </div>
 <div class="paragraph">
 <p>この時、returnしたものがpromiseオブジェクトである場合、そのpromiseオブジェクトの状態によって、
-次の<code>then</code>に登録されたonFulfilledとonRejectedのうち、どちらが呼ばれるかを決めることが出来ます。</p>
+次の <code>then</code> に登録されたonFulfilledとonRejectedのうち、どちらが呼ばれるかを決めることが出来ます。</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -4466,8 +4569,8 @@ promise.then(<span class="keyword">function</span> () {
 </table>
 </div>
 <div class="paragraph">
-<p>つまり、この<code>retPromise</code>がRejectedになった場合は、<code>onRejected</code>が呼び出されるので、
-<code>throw</code>を使わなくても<code>then</code>の中でrejectすることが出来ます。</p>
+<p>つまり、この <code>retPromise</code> がRejectedになった場合は、<code>onRejected</code> が呼び出されるので、
+<code>throw</code> を使わなくても <code>then</code> の中でrejectすることが出来ます。</p>
 </div>
 <div class="listingblock executable">
 <div class="content">
@@ -4502,15 +4605,15 @@ promise.then(<span class="keyword">function</span> () {
 <div class="ulist">
 <ul>
 <li>
-<p><code>throw</code>ではなくて<code>reject</code>した方が安全</p>
+<p><code>throw</code> ではなくて <code>reject</code> した方が安全</p>
 </li>
 <li>
-<p><code>then</code>の中でもrejectする方法</p>
+<p><code>then</code> の中でもrejectする方法</p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
-<p>中々使いどころが多くはないかもしれませんが、安易に<code>throw</code>してしまうよりはいい事が多いので、
+<p>中々使いどころが多くはないかもしれませんが、安易に <code>throw</code> してしまうよりはいい事が多いので、
 覚えておくといいでしょう。</p>
 </div>
 <div class="paragraph">
@@ -4678,7 +4781,7 @@ getURL(URL).then(<span class="keyword">function</span> <span class="function">on
 </div>
 </div>
 <div class="paragraph">
-<p>2つの<code>getURL</code>を見比べて見ると以下のような違いがある事が分かります。</p>
+<p>2つの <code>getURL</code> を見比べて見ると以下のような違いがある事が分かります。</p>
 </div>
 <div class="ulist">
 <ul>
@@ -4707,7 +4810,7 @@ getURL(URL).then(<span class="keyword">function</span> <span class="function">on
 <div class="ulist">
 <ul>
 <li>
-<p><code>resolve</code>、<code>reject</code>を呼ぶタイミング</p>
+<p><code>resolve</code>、<code>reject</code> を呼ぶタイミング</p>
 </li>
 </ul>
 </div>
@@ -4723,7 +4826,7 @@ Deferredには特権的なメソッドを持っていることや自分で流れ
 </div>
 <div class="paragraph">
 <p>例えば、Promiseの場合はコンストラクタの中に処理を書くことが通例なので、
-<code>resolve</code>、<code>reject</code>を呼ぶタイミングが大体みて分かります。</p>
+<code>resolve</code>、<code>reject</code> を呼ぶタイミングが大体みて分かります。</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -4734,7 +4837,7 @@ Deferredには特権的なメソッドを持っていることや自分で流れ
 </div>
 <div class="paragraph">
 <p>一方Deferredの場合は、関数的なまとまりはないのでdeferredオブジェクトを作ったところから、
-任意のタイミングで<code>resolve</code>、<code>reject</code>を呼ぶ感じになります。</p>
+任意のタイミングで <code>resolve</code>、<code>reject</code> を呼ぶ感じになります。</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -4809,10 +4912,10 @@ Promise.raceを使ったタイムアウトの実装を学んでいきます。</
 <p>まずはタイムアウトをPromiseでどう実現するかを見て行きたいと思います。</p>
 </div>
 <div class="paragraph">
-<p>タイムアウトというのは一定時間経ったら何かするという処理なので、<code>setTimeout</code>を使えばいいことが分かりますね。</p>
+<p>タイムアウトというのは一定時間経ったら何かするという処理なので、<code>setTimeout</code> を使えばいいことが分かりますね。</p>
 </div>
 <div class="paragraph">
-<p>まずは単純に<code>setTimeout</code>をPromiseでラップした関数を作ってみましょう。</p>
+<p>まずは単純に <code>setTimeout</code> をPromiseでラップした関数を作ってみましょう。</p>
 </div>
 <div id="delayPromise.js" class="listingblock">
 <div class="title">delayPromise.js</div>
@@ -4826,7 +4929,7 @@ Promise.raceを使ったタイムアウトの実装を学んでいきます。</
 </div>
 <div class="paragraph">
 <p><code>delayPromise(ms)</code> は引数で指定したミリ秒後にonFulfilledを呼ぶpromiseオブジェクトを返すので、
-通常の<code>setTimeout</code>を直接使ったものと比較すると以下のように書けるだけの違いです。</p>
+通常の <code>setTimeout</code> を直接使ったものと比較すると以下のように書けるだけの違いです。</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -4846,7 +4949,7 @@ delayPromise(<span class="integer">100</span>).then(<span class="keyword">functi
 <div class="sect3">
 <h4 id="_promise_race">4.5.2. Promise.raceでタイムアウト</h4>
 <div class="paragraph">
-<p><code>Promise.race</code>について簡単に振り返ると、
+<p><code>Promise.race</code> について簡単に振り返ると、
 以下のようにどれか一つでもpromiseオブジェクトが解決状態になったら次の処理を実行する静的メソッドでした。</p>
 </div>
 <div class="listingblock">
@@ -4871,7 +4974,7 @@ Promise.race([winnerPromise, loserPromise]).then(<span class="keyword">function<
 </div>
 <div class="paragraph">
 <p>先ほどの<a href="#delayPromise.js">delayPromise</a>と別のpromiseオブジェクトを、
-<code>Promise.race</code>によって競争させることで簡単にタイムアウトが実装出来ます。</p>
+<code>Promise.race</code> によって競争させることで簡単にタイムアウトが実装出来ます。</p>
 </div>
 <div id="simple-timeout-promise.js" class="listingblock">
 <div class="title">simple-timeout-promise.js</div>
@@ -4891,7 +4994,7 @@ Promise.race([winnerPromise, loserPromise]).then(<span class="keyword">function<
 </div>
 <div class="paragraph">
 <p><code>timeoutPromise(比較対象のpromise, ms)</code> はタイムアウト処理を入れたい
-promiseオブジェクトとタイムアウトの時間を受け取り、<code>Promise.race</code>により競争させたpromiseオブジェクトを返します。</p>
+promiseオブジェクトとタイムアウトの時間を受け取り、<code>Promise.race</code> により競争させたpromiseオブジェクトを返します。</p>
 </div>
 <div class="paragraph">
 <p><code>timeoutPromise</code> を使うことで以下のようにタイムアウト処理を書くことが出来るようになります。</p>
@@ -4929,8 +5032,8 @@ timeoutPromise(taskPromise, <span class="integer">1000</span>).then(<span class=
 このままでは<em>通常のエラー</em>と<em>タイムアウトのエラー</em>の区別がつかなくなってしまいます。</p>
 </div>
 <div class="paragraph">
-<p>この<code>Error</code>オブジェクトの区別をしやすくするため、
-<code>Error</code>オブジェクトのサブクラスとして<code>TimeoutError</code>を定義したいと思います。</p>
+<p>この <code>Error</code> オブジェクトの区別をしやすくするため、
+<code>Error</code> オブジェクトのサブクラスとして <code>TimeoutError</code> を定義したいと思います。</p>
 </div>
 </div>
 <div class="sect3">
@@ -4939,8 +5042,8 @@ timeoutPromise(taskPromise, <span class="integer">1000</span>).then(<span class=
 <p><code>Error</code> オブジェクトはECMAScriptのビルトインオブジェクトです。</p>
 </div>
 <div class="paragraph">
-<p>ECMAScript5では完璧に<code>Error</code>を継承したものを作る事は不可能ですが(スタックトレース周り等)、
-今回は通常のErrorとは区別を付けたいという目的なので、それを満たせる<code>TimeoutError</code>オブジェクトを作成します。</p>
+<p>ECMAScript5では完璧に <code>Error</code> を継承したものを作る事は不可能ですが(スタックトレース周り等)、
+今回は通常のErrorとは区別を付けたいという目的なので、それを満たせる <code>TimeoutError</code> オブジェクトを作成します。</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -4950,7 +5053,7 @@ timeoutPromise(taskPromise, <span class="integer">1000</span>).then(<span class=
 </td>
 <td class="content">
 <div class="paragraph">
-<p>ECMAScript6では<code>class</code>構文を使うことで内部的にも正確に継承を行うことが出来ます。</p>
+<p>ECMAScript6では <code>class</code> 構文を使うことで内部的にも正確に継承を行うことが出来ます。</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -4964,7 +5067,7 @@ timeoutPromise(taskPromise, <span class="integer">1000</span>).then(<span class=
 </table>
 </div>
 <div class="paragraph">
-<p><code>error instanceof TimeoutError</code> というように利用できる<code>TimeoutError</code>を定義すると
+<p><code>error instanceof TimeoutError</code> というように利用できる <code>TimeoutError</code> を定義すると
 以下のようになります。</p>
 </div>
 <div id="TimeoutError.js" class="listingblock">
@@ -4985,10 +5088,10 @@ TimeoutError.prototype.constructor = TimeoutError;</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p><code>TimeoutError</code>というコンストラクタ関数を定義して、このコンストラクタにErrorをprototype継承させています。</p>
+<p><code>TimeoutError</code> というコンストラクタ関数を定義して、このコンストラクタにErrorをprototype継承させています。</p>
 </div>
 <div class="paragraph">
-<p>使い方は通常の<code>Error</code>オブジェクトと同じで以下のように<code>throw</code>するなどして利用できます。</p>
+<p>使い方は通常の <code>Error</code> オブジェクトと同じで以下のように <code>throw</code> するなどして利用できます。</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -5003,7 +5106,7 @@ promise.<span class="keyword">catch</span>(<span class="keyword">function</span>
 </div>
 </div>
 <div class="paragraph">
-<p>この<code>TimeoutError</code>を使えば、タイムアウトによるErrorオブジェクトなのか、他の原因のErrorオブジェクトなのかが容易に判定できるようになります。</p>
+<p>この <code>TimeoutError</code> を使えば、タイムアウトによるErrorオブジェクトなのか、他の原因のErrorオブジェクトなのかが容易に判定できるようになります。</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -5028,7 +5131,7 @@ promise.<span class="keyword">catch</span>(<span class="keyword">function</span>
 <p>ここまでくれば、どのようにPromiseを使ったXHRのキャンセルを実装するか見えてくるかもしれません。</p>
 </div>
 <div class="paragraph">
-<p>XHRのキャンセル自体は<code>XMLHttpRequest</code>オブジェクトの <code>abort()</code> メソッドを呼ぶだけなので難しくないですね。</p>
+<p>XHRのキャンセル自体は <code>XMLHttpRequest</code> オブジェクトの <code>abort()</code> メソッドを呼ぶだけなので難しくないですね。</p>
 </div>
 <div class="paragraph">
 <p><code>abort()</code> メソッドを外から呼べるようにするために、今までのセクションにもでてきた<a href="#xhr-promise.js"><code>getURL</code></a>を少し拡張して、
@@ -5077,10 +5180,10 @@ XHRを包んだpromiseオブジェクトと共にそのXHRを中止するメソ�
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p><code>cancelableXHR</code>を使いXHRのpromiseオブジェクトと中止を呼び出すメソッドを取得する</p>
+<p><code>cancelableXHR</code> を使いXHRのpromiseオブジェクトと中止を呼び出すメソッドを取得する</p>
 </li>
 <li>
-<p><code>timeoutPromise</code>を使いXHRのpromiseとタイムアウト用のpromiseを<code>Promise.race</code>で競争させる</p>
+<p><code>timeoutPromise</code> を使いXHRのpromiseとタイムアウト用のpromiseを <code>Promise.race</code> で競争させる</p>
 <div class="ulist">
 <ul>
 <li>
@@ -5088,7 +5191,7 @@ XHRを包んだpromiseオブジェクトと共にそのXHRを中止するメソ�
 <div class="olist loweralpha">
 <ol class="loweralpha" type="a">
 <li>
-<p>通常のpromiseと同様に<code>then</code>で中身を取得する</p>
+<p>通常のpromiseと同様に <code>then</code> で中身を取得する</p>
 </li>
 </ol>
 </div>
@@ -5098,10 +5201,10 @@ XHRを包んだpromiseオブジェクトと共にそのXHRを中止するメソ�
 <div class="olist loweralpha">
 <ol class="loweralpha" type="a">
 <li>
-<p><code>throw TimeoutError</code>されるので<code>catch</code>する</p>
+<p><code>throw TimeoutError</code> されるので <code>catch</code> する</p>
 </li>
 <li>
-<p>catchしたエラーオブジェクトが<code>TimeoutError</code>のものだったら<code>abort</code>を呼び出してXHRをキャンセルする</p>
+<p>catchしたエラーオブジェクトが <code>TimeoutError</code> のものだったら <code>abort</code> を呼び出してXHRをキャンセルする</p>
 </li>
 </ol>
 </div>
@@ -5208,10 +5311,10 @@ timeoutPromise(object.promise, <span class="integer">1000</span>).then(<span cla
 </div>
 <div class="paragraph">
 <p>一つの関数は一つの値(promiseオブジェクト)を返すほうが見通しがいいと思いますが、
-<code>cancelableXHR</code>の中で生成した<code>req</code>は外から参照できないので、特定のメソッド(先ほどのケースは<code>abort</code>)からは触れるようにする必要があります。</p>
+<code>cancelableXHR</code> の中で生成した <code>req</code> は外から参照できないので、特定のメソッド(先ほどのケースは <code>abort</code>)からは触れるようにする必要があります。</p>
 </div>
 <div class="paragraph">
-<p>返すpromiseオブジェクト自体を拡張して<code>abort</code>出来るようにするという手段もあると思いますが、
+<p>返すpromiseオブジェクト自体を拡張して <code>abort</code> 出来るようにするという手段もあると思いますが、
 promiseオブジェクトは値を抽象化したオブジェクトであるため、何でも操作用のメソッドをつけていくと複雑になってしまうかもしれません。</p>
 </div>
 <div class="paragraph">
@@ -5234,7 +5337,7 @@ promiseオブジェクトは値を抽象化したオブジェクトであるた�
 </div>
 <div class="paragraph">
 <p>モジュールの作り方は色々作法(AMD,CommonJS,ES6 module etc..)があるので
-ここでは、先ほどの<code>cancelableXHR</code>をNode.jsのモジュールとして作りなおしてみます。</p>
+ここでは、先ほどの <code>cancelableXHR</code> をNode.jsのモジュールとして作りなおしてみます。</p>
 </div>
 <div id="cancelableXHR.js" class="listingblock">
 <div class="title">cancelableXHR.js</div>
@@ -5292,8 +5395,8 @@ module.exports.abortPromise = abortPromise;</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>使い方もシンプルに<code>createXHRPromise</code>でXHRのpromiseオブジェクトを作成して、
-そのXHRを<code>abort</code>したい場合は<code>abortPromise(promise)</code>にpromiseオブジェクトを渡すという感じで利用できるようになります。</p>
+<p>使い方もシンプルに <code>createXHRPromise</code> でXHRのpromiseオブジェクトを作成して、
+そのXHRを <code>abort</code> したい場合は <code>abortPromise(promise)</code> にpromiseオブジェクトを渡すという感じで利用できるようになります。</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -5355,20 +5458,20 @@ cancelableXHR.abortPromise(xhrPromise);<i class="conum" data-value="2"></i><b>(2
 </div>
 <div class="paragraph">
 <p>それらのライブラリでは <code>Promise.prototype.done</code> というような実装が存在し、
-使い方は<code>then</code>と同じですが、promiseオブジェクトを返さないようになっています。</p>
+使い方は <code>then</code> と同じですが、promiseオブジェクトを返さないようになっています。</p>
 </div>
 <div class="paragraph">
 <p><code>Promise.prototype.done</code> は、<a href="#es6-promises">ES6 Promises</a>や<a href="#promises-aplus">Promises/A+</a>の仕様には
 存在していない記述ですが、多くのライブラリが実装しています。</p>
 </div>
 <div class="paragraph">
-<p>このセクションでは、<code>Promise.prototype.done</code>とは何か?
+<p>このセクションでは、<code>Promise.prototype.done</code> とは何か?
 また何故このようなメソッドが多くのライブラリで実装されているかについて学んでいきましょう。</p>
 </div>
 <div class="sect3">
 <h4 id="_done">4.6.1. doneを使ったコード例</h4>
 <div class="paragraph">
-<p>実際にdoneを使ったコードを見てみると<code>done</code>の挙動が分かりやすいと思います。</p>
+<p>実際にdoneを使ったコードを見てみると <code>done</code> の挙動が分かりやすいと思います。</p>
 </div>
 <div id="promise-done-example.js" class="listingblock executable">
 <div class="title">promise-done-example.js</div>
@@ -5390,11 +5493,11 @@ promise.done(<span class="keyword">function</span> () {
 </div>
 </div>
 <div class="paragraph">
-<p>最初に述べたように、<code>Promise.prototype.done</code>は仕様としては存在しないため、
+<p>最初に述べたように、<code>Promise.prototype.done</code> は仕様としては存在しないため、
 利用する際は実装されているライブラリを使うか自分で実装する必要があります。</p>
 </div>
 <div class="paragraph">
-<p>実装については後で解説しますが、まずは<code>then</code>を使った場合と<code>done</code>を使ったものを比較してみます。</p>
+<p>実装については後で解説しますが、まずは <code>then</code> を使った場合と <code>done</code> を使ったものを比較してみます。</p>
 </div>
 <div class="listingblock executable">
 <div class="title">thenを使った場合</div>
@@ -5417,7 +5520,7 @@ promise.then(<span class="keyword">function</span> () {
 <div class="ulist">
 <ul>
 <li>
-<p>つまり、doneの後に<code>catch</code>等のメソッドチェーンはできない</p>
+<p>つまり、doneの後に <code>catch</code> 等のメソッドチェーンはできない</p>
 </li>
 </ul>
 </div>
@@ -5471,11 +5574,11 @@ Promise chainの最後におくメソッドというのはわかると思いま�
 </div>
 </div>
 <div class="paragraph">
-<p>渡された値を<code>JSON.parse</code>してpromiseオブジェクトを返す関数ですね。</p>
+<p>渡された値を <code>JSON.parse</code> してpromiseオブジェクトを返す関数ですね。</p>
 </div>
 <div class="paragraph">
-<p>以下のように使うことができ、<code>JSON.parse</code>はパースに失敗すると例外を投げるので、
-それを<code>catch</code>することが出来ます。</p>
+<p>以下のように使うことができ、<code>JSON.parse</code> はパースに失敗すると例外を投げるので、
+それを <code>catch</code> することが出来ます。</p>
 </div>
 <div class="listingblock executable">
 <div class="content">
@@ -5495,7 +5598,7 @@ JSONPromise(string).then(<span class="keyword">function</span> (object) {
 </div>
 </div>
 <div class="paragraph">
-<p>ちゃんと<code>catch</code>していれば何も問題がないのですが、その処理を忘れてしまうというミスを
+<p>ちゃんと <code>catch</code> していれば何も問題がないのですが、その処理を忘れてしまうというミスを
 した時にどこでエラーが発生してるのかわからなくなるというヒューマンエラーを助長させる面があります。</p>
 </div>
 <div class="listingblock">
@@ -5516,7 +5619,7 @@ JSONPromise(string).then(<span class="keyword">function</span> (object) {
 </table>
 </div>
 <div class="paragraph">
-<p><code>JSON.parse</code>のような分かりやすい例の場合はまだ良いですが、
+<p><code>JSON.parse</code> のような分かりやすい例の場合はまだ良いですが、
 メソッドをtypoしたことによるSyntax Errorなどはより深刻な問題となりやすいです。</p>
 </div>
 <div class="listingblock">
@@ -5537,7 +5640,7 @@ JSONPromise(string).then(<span class="keyword">function</span> (object) {
 </table>
 </div>
 <div class="paragraph">
-<p>この場合は、<code>console</code>を<code>conosle</code>とtypoしているため、以下のようなエラーが発生するはずです。</p>
+<p>この場合は、<code>console</code> を <code>conosle</code> とtypoしているため、以下のようなエラーが発生するはずです。</p>
 </div>
 <div class="quoteblock">
 <blockquote>
@@ -5548,7 +5651,7 @@ JSONPromise(string).then(<span class="keyword">function</span> (object) {
 </div>
 <div class="paragraph">
 <p>しかし、Promiseではtry-catchされるため、エラーが握りつぶされてしまうという現象が発生しやすくなります。
-毎回、正しく<code>catch</code>の処理を書くことが出来る場合は何も問題ありませんが、
+毎回、正しく <code>catch</code> の処理を書くことが出来る場合は何も問題ありませんが、
 Promiseの実装によってはこのようなミスが検知しにくくなるケースがあることを知っておくべきでしょう。</p>
 </div>
 <div class="paragraph">
@@ -5607,8 +5710,8 @@ Rejectedされた時の処理がないというそのままの意味ですね。
 そもそもエラーハンドリングをしなければいい という豪快な解決方法を提供するメソッドです。</p>
 </div>
 <div class="paragraph">
-<p><code>done</code>はPromiseの上に実装することが出来るので、
-<code>Promise.prototype.done</code>というPromiseのprototype拡張として実装してみましょう。</p>
+<p><code>done</code> はPromiseの上に実装することが出来るので、
+<code>Promise.prototype.done</code> というPromiseのprototype拡張として実装してみましょう。</p>
 </div>
 <div id="promise-prototype-done.js" class="listingblock">
 <div class="title">promise-prototype-done.js</div>
@@ -5657,7 +5760,7 @@ setTimeoutの中でthrowをすることで、外へそのまま例外を投げ�
 </td>
 <td class="content">
 <div class="paragraph">
-<p>なぜ非同期の<code>callback</code>内での例外をキャッチ出来ないのかは以下が参考になります。</p>
+<p>なぜ非同期の <code>callback</code> 内での例外をキャッチ出来ないのかは以下が参考になります。</p>
 </div>
 <div class="ulist">
 <ul>
@@ -5671,12 +5774,12 @@ setTimeoutの中でthrowをすることで、外へそのまま例外を投げ�
 </table>
 </div>
 <div class="paragraph">
-<p><a href="#promise-prototype-done.js"><code>Promise.prototype.done</code></a> をよく見てみると、何も<code>return</code>していないこともわかると思います。
-つまり、<code>done</code>は「ここでPromise chainは終了して、例外が起きた場合はそのままpromiseの外へ投げ直す」という処理になっています。</p>
+<p><a href="#promise-prototype-done.js"><code>Promise.prototype.done</code></a> をよく見てみると、何も <code>return</code> していないこともわかると思います。
+つまり、<code>done</code> は「ここでPromise chainは終了して、例外が起きた場合はそのままpromiseの外へ投げ直す」という処理になっています。</p>
 </div>
 <div class="paragraph">
-<p>実装や環境がしっかり対応していれば、<em>unhandled rejection</em>の検知はできるため、必ずしも<code>done</code>が必要というわけではなく、
-また今回の<a href="#promise-prototype-done.js"><code>Promise.prototype.done</code></a>のように、<code>done</code>は既存のPromiseの上に実装することができるため、
+<p>実装や環境がしっかり対応していれば、<em>unhandled rejection</em>の検知はできるため、必ずしも <code>done</code> が必要というわけではなく、
+また今回の<a href="#promise-prototype-done.js"><code>Promise.prototype.done</code></a>のように、<code>done</code> は既存のPromiseの上に実装することができるため、
 <a href="#es6-promises">ES6 Promises</a>の仕様そのものには入らなかったと言えるかもしれません。</p>
 </div>
 <div class="admonitionblock note">
@@ -5686,7 +5789,7 @@ setTimeoutの中でthrowをすることで、外へそのまま例外を投げ�
 <i class="icon-note" title="Note"></i>
 </td>
 <td class="content">
-今回の<code>Promise.prototype.done</code>の実装は <a href="https://www.promisejs.org/">promisejs.org</a> を参考にしています。
+今回の <code>Promise.prototype.done</code> の実装は <a href="https://www.promisejs.org/">promisejs.org</a> を参考にしています。
 </td>
 </tr>
 </table>
@@ -5696,15 +5799,15 @@ setTimeoutの中でthrowをすることで、外へそのまま例外を投げ�
 <h4 id="__23">4.6.4. まとめ</h4>
 <div class="paragraph">
 <p>このセクションでは、 <a href="https://github.com/kriskowal/q/wiki/API-Reference#promisedoneonfulfilled-onrejected-onprogress">Q</a> や <a href="https://github.com/petkaantonov/bluebird">Bluebird</a> や <a href="https://github.com/cscott/prfun#promisedone&#8212;undefined">prfun</a> 等
-多くのPromiseライブラリで実装されている<code>done</code>の基礎的な実装と、<code>then</code>とはどのような違いがあるかについて学びました。</p>
+多くのPromiseライブラリで実装されている <code>done</code> の基礎的な実装と、<code>then</code> とはどのような違いがあるかについて学びました。</p>
 </div>
 <div class="paragraph">
-<p><code>done</code>には2つの側面があることがわかりました。</p>
+<p><code>done</code> には2つの側面があることがわかりました。</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p><code>done</code>の中で起きたエラーは外へ例外として投げ直す</p>
+<p><code>done</code> の中で起きたエラーは外へ例外として投げ直す</p>
 </li>
 <li>
 <p>Promise chain を終了するという宣言</p>
@@ -5716,8 +5819,8 @@ setTimeoutの中でthrowをすることで、外へそのまま例外を投げ�
 デバッグツールやライブラリの改善等で殆どのケースでは問題ではなくなるかもしれません。</p>
 </div>
 <div class="paragraph">
-<p>また、<code>done</code>は値を返さない事でそれ以上Promise chainを繋げる事ができなくなるため、
-そのような統一感を持たせるという用途で<code>done</code>を使うことも出来ます。</p>
+<p>また、<code>done</code> は値を返さない事でそれ以上Promise chainを繋げる事ができなくなるため、
+そのような統一感を持たせるという用途で <code>done</code> を使うことも出来ます。</p>
 </div>
 <div class="paragraph">
 <p><a href="#es6-promises">ES6 Promises</a> では根本に用意されてる機能はあまり多くありません。
@@ -5761,11 +5864,11 @@ Promiseの拡張を書く手法について書かれています。</p>
 <div class="sect2">
 <h3 id="promise-and-method-chain">4.7. Promiseとメソッドチェーン</h3>
 <div class="paragraph">
-<p>Promiseは<code>then</code>や<code>catch</code>等のメソッドを繋げて書いていきます。
+<p>Promiseは <code>then</code> や <code>catch</code> 等のメソッドを繋げて書いていきます。
 これはDOMやjQuery等でよくみられるメソッドチェーンとよく似ています。</p>
 </div>
 <div class="paragraph">
-<p>一般的なメソッドチェーンは<code>this</code>を返すことで、メソッドを繋げて書けるようになっています。</p>
+<p>一般的なメソッドチェーンは <code>this</code> を返すことで、メソッドを繋げて書けるようになっています。</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -5844,7 +5947,7 @@ File.read(inputFilePath)
 </div>
 <div class="paragraph">
 <p><code>transform</code> は引数で受け取った値を変更する関数を渡して処理するメソッドです。
-この場合は、readで読み込んだ内容の先頭に<code>&gt;&gt;</code>という文字列を追加しているだけです。</p>
+この場合は、readで読み込んだ内容の先頭に <code>&gt;&gt;</code> という文字列を追加しているだけです。</p>
 </div>
 </div>
 <div class="sect3">
@@ -5893,10 +5996,10 @@ module.exports = File;</code></pre>
 </div>
 <div class="paragraph">
 <p>内部に持ってるpromiseオブジェクトに対するエイリアスとして
-<code>then</code>と<code>catch</code>を持たせていますが、それ以外のインターフェースは全く同じ使い方となっています。</p>
+<code>then</code> と <code>catch</code> を持たせていますが、それ以外のインターフェースは全く同じ使い方となっています。</p>
 </div>
 <div class="paragraph">
-<p>そのため、先ほどのコードで<code>require</code>するモジュールを変更しただけで動作します。</p>
+<p>そのため、先ほどのコードで <code>require</code> するモジュールを変更しただけで動作します。</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -5912,7 +6015,7 @@ File.read(inputFilePath)
 </div>
 <div class="paragraph">
 <p><code>File.prototype.then</code> というメソッドは、
-<code>this.promise.then</code> が返す新しいpromiseオブジェクトを<code>this.promise</code>に対して代入しています。</p>
+<code>this.promise.then</code> が返す新しいpromiseオブジェクトを <code>this.promise</code> に対して代入しています。</p>
 </div>
 <div class="paragraph">
 <p>これはどういうことなのかというと、以下のように擬似的に展開してみると分かりやすいでしょう。</p>
@@ -5966,11 +6069,11 @@ promise.then(<span class="keyword">function</span> <span class="function">read</
 <h5 id="__26">エラーハンドリング</h5>
 <div class="paragraph">
 <p><a href="#fs-method-chain.js">fs-method-chain.js</a>にはエラーハンドリングの処理は入っていないですが、
-同期処理であるため全体を<code>try-catch</code>で囲む事で行えます。</p>
+同期処理であるため全体を <code>try-catch</code> で囲む事で行えます。</p>
 </div>
 <div class="paragraph">
 <p><a href="#fs-promise-chain.js">Promise版</a> では内部で利用するpromiseオブジェクトの
-<code>then</code>と<code>catch</code>へのエイリアスを用意してあるため、通常のpromiseと同じように<code>catch</code>によってエラーハンドリングが行えます。</p>
+<code>then</code> と <code>catch</code> へのエイリアスを用意してあるため、通常のpromiseと同じように <code>catch</code> によってエラーハンドリングが行えます。</p>
 </div>
 <div class="listingblock">
 <div class="title">fs-promise-chainでのエラーハンドリング</div>
@@ -6000,7 +6103,7 @@ Promiseを使うと比較的簡単に実装できると言えるかもしれま�
 </div>
 <div class="paragraph">
 <p><a href="http://nodejs.org/api/stream.html">Stream</a> を使うと、
-<code>this.lastValue</code>のような値を保持する必要がなくなる事や大きなファイルの扱いが改善されます。
+<code>this.lastValue</code> のような値を保持する必要がなくなる事や大きなファイルの扱いが改善されます。
 また、Promiseを使った例に比べるとより高速に処理できる可能性が高いと思います。</p>
 </div>
 <div class="listingblock">
@@ -6076,11 +6179,11 @@ fs.readFileAsync(<span class="string"><span class="delimiter">&quot;</span><span
 <h5 id="_array_promise">ArrayのPromiseラッパー</h5>
 <div class="paragraph">
 <p>先ほどの <a href="https://github.com/petkaantonov/bluebird/blob/master/API.md#promisification">Promisification</a> が何をやっているのか少しイメージしにくいので、
-次のようなネイティブ<code>Array</code>のPromise版となるメソッドを動的に定義する例を考えてみましょう。</p>
+次のようなネイティブ <code>Array</code> のPromise版となるメソッドを動的に定義する例を考えてみましょう。</p>
 </div>
 <div class="paragraph">
 <p>JavaScriptにはネイティブにもDOMやString等メソッドチェーンが行える機能が多くあります。
-<code>Array</code>もその一つで、<code>map</code>や<code>filter</code>等のメソッドは配列を返すため、メソッドチェーンが利用しやすい機能です</p>
+<code>Array</code> もその一つで、<code>map</code> や <code>filter</code> 等のメソッドは配列を返すため、メソッドチェーンが利用しやすい機能です</p>
 </div>
 <div id="array-promise-chain.js" class="listingblock">
 <div class="title">array-promise-chain.js</div>
@@ -6125,7 +6228,7 @@ module.exports.<span class="function">array</span> = <span class="keyword">funct
 </div>
 </div>
 <div class="paragraph">
-<p>ネイティブのArrayと<code>ArrayAsPromise</code>を使った場合の違いは
+<p>ネイティブのArrayと <code>ArrayAsPromise</code> を使った場合の違いは
 <a href="#array-promise-chain.js">上記のコード</a>のテストを見てみるのが分かりやすいでしょう。</p>
 </div>
 <div id="array-promise-chain-test.js" class="listingblock">
@@ -6168,8 +6271,8 @@ describe(<span class="string"><span class="delimiter">&quot;</span><span class="
 先ほどと同じように、ネイティブのArrayは同期処理で、<code>ArrayAsPromise</code> は非同期処理という違いがあります。</p>
 </div>
 <div class="paragraph">
-<p><code>ArrayAsPromise</code> の実装を見て気づくと思いますが、<code>Array.prototype</code>のメソッドを全て実装しています。
-しかし、<code>array.indexOf</code>など<code>Array.prototype</code>には配列を返さないものもあるため、全てをメソッドチェーンにするのは不自然なケースがあると思います。</p>
+<p><code>ArrayAsPromise</code> の実装を見て気づくと思いますが、<code>Array.prototype</code> のメソッドを全て実装しています。
+しかし、<code>array.indexOf</code> など <code>Array.prototype</code> には配列を返さないものもあるため、全てをメソッドチェーンにするのは不自然なケースがあると思います。</p>
 </div>
 <div class="paragraph">
 <p>ここで大事なのが、同じ値を受けるインターフェースを持っているAPIはこのような手段でPromise版のAPIを自動的に作成できるという点です。
@@ -6184,7 +6287,7 @@ describe(<span class="string"><span class="delimiter">&quot;</span><span class="
 <td class="content">
 <div class="paragraph">
 <p>先ほどの <a href="https://github.com/petkaantonov/bluebird/blob/master/API.md#promisification">Promisification</a> は
-Node.jsのCoreモジュールの非同期処理には <code>function(error,result){}</code> というように第一引数に<code>error</code>が来るというルールを利用して、
+Node.jsのCoreモジュールの非同期処理には <code>function(error,result){}</code> というように第一引数に <code>error</code> が来るというルールを利用して、
 自動的にPromiseでラップしたメソッドを生成しています</p>
 </div>
 </td>
@@ -6295,7 +6398,7 @@ main().then(<span class="keyword">function</span> (value) {
 </div>
 </div>
 <div class="paragraph">
-<p>この書き方だと、<code>request</code>の数が増える分<code>then</code>を書かないといけなくなってしまいます。</p>
+<p>この書き方だと、<code>request</code> の数が増える分 <code>then</code> を書かないといけなくなってしまいます。</p>
 </div>
 <div class="paragraph">
 <p>そこで、処理を配列にまとめて、forループで処理していければ、数が増えた場合も問題無いですね。
@@ -6359,14 +6462,14 @@ main().then(<span class="keyword">function</span> (value) {
 <a href="#promise.then">Promise#then</a> は新しいpromiseオブジェクトを返しています。</p>
 </div>
 <div class="paragraph">
-<p>そのため、<code>promise = promise.then(task).then(pushValue);</code>というのは<code>promise</code>という変数に上書きするというよりは、
+<p>そのため、<code>promise = promise.then(task).then(pushValue);</code> というのは <code>promise</code> という変数に上書きするというよりは、
 そのpromiseオブジェクトに処理を追加していくような処理になっています。</p>
 </div>
 <div class="paragraph">
-<p>しかし、この書き方だと一時変数として<code>promise</code>が必要で、処理の内容的にもあまりスッキリしません。</p>
+<p>しかし、この書き方だと一時変数として <code>promise</code> が必要で、処理の内容的にもあまりスッキリしません。</p>
 </div>
 <div class="paragraph">
-<p>このループの書き方は<code>Array.prototype.reduce</code>を使うともっとスマートに書くことが出来ます。</p>
+<p>このループの書き方は <code>Array.prototype.reduce</code> を使うともっとスマートに書くことが出来ます。</p>
 </div>
 </div>
 <div class="sect3">
@@ -6422,16 +6525,16 @@ main().then(<span class="keyword">function</span> (value) {
 </div>
 </div>
 <div class="paragraph">
-<p><code>main</code>以外の処理はforループのものと同様です。</p>
+<p><code>main</code> 以外の処理はforループのものと同様です。</p>
 </div>
 <div class="paragraph">
-<p><code>Array.prototype.reduce</code>は第二引数に初期値を入れることができます。
-つまりこの場合、最初の<code>promise</code>には<code>Promise.resolve()</code>が入り、
-そのときの<code>task</code>は<code>request.comment</code>となります。</p>
+<p><code>Array.prototype.reduce</code> は第二引数に初期値を入れることができます。
+つまりこの場合、最初の <code>promise</code> には <code>Promise.resolve()</code> が入り、
+そのときの <code>task</code> は <code>request.comment</code> となります。</p>
 </div>
 <div class="paragraph">
-<p>reduceの中で<code>return</code>したものが、次のループで<code>promise</code>に入ります。
-つまり、<code>then</code>を使って作成した新たなpromiseオブジェクトを返すことで、
+<p>reduceの中で <code>return</code> したものが、次のループで <code>promise</code> に入ります。
+つまり、<code>then</code> を使って作成した新たなpromiseオブジェクトを返すことで、
 forループの場合と同じように<a href="#promise-chain">Promise chain</a>を繋げることが出来ます。</p>
 </div>
 <div class="admonitionblock note">
@@ -6459,19 +6562,19 @@ forループの場合と同じように<a href="#promise-chain">Promise chain</a
 </table>
 </div>
 <div class="paragraph">
-<p>forループと異なる点は、一時変数としての<code>promise</code>が不要になることに伴い、
-<code>promise = promise.then(task).then(pushValue);</code>という不格好な書き方がなくなる点が大きな違いだと思います。</p>
+<p>forループと異なる点は、一時変数としての <code>promise</code> が不要になることに伴い、
+<code>promise = promise.then(task).then(pushValue);</code> という不格好な書き方がなくなる点が大きな違いだと思います。</p>
 </div>
 <div class="paragraph">
-<p><code>Array.prototype.reduce</code>とPromiseの逐次処理は相性が良いので覚えておくといいのですが、
+<p><code>Array.prototype.reduce</code> とPromiseの逐次処理は相性が良いので覚えておくといいのですが、
 初めて見た時にどういう動作をするのかがまだ分かりにくいという問題があります。</p>
 </div>
 <div class="paragraph">
 <p>そこで、処理するTaskとなる関数の配列を受け取って逐次処理を行う
-<code>sequenceTasks</code>というものを作ってみます。</p>
+<code>sequenceTasks</code> というものを作ってみます。</p>
 </div>
 <div class="paragraph">
-<p>以下のように書くことができれば、<code>tasks</code>が順番に処理されていく事が関数名から見てわかるようになります。</p>
+<p>以下のように書くことができれば、<code>tasks</code> が順番に処理されていく事が関数名から見てわかるようになります。</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -6501,7 +6604,7 @@ sequenceTasks(tasks);</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>一つ注意点として、<code>Promise.all</code>等と違い、引数に受け取るのは関数の配列です。</p>
+<p>一つ注意点として、<code>Promise.all</code> 等と違い、引数に受け取るのは関数の配列です。</p>
 </div>
 <div class="paragraph">
 <p>何故、渡すのがpromiseオブジェクトの配列ではないのかというと、
@@ -6509,10 +6612,10 @@ promiseオブジェクトを作った段階で既にXHRが実行されている�
 それを逐次処理しても意図とは異なる動作になるためです。</p>
 </div>
 <div class="paragraph">
-<p>そのため<code>sequenceTasks</code>では関数(promiseオブジェクトを返す)の配列を引数に受け取ります。</p>
+<p>そのため <code>sequenceTasks</code> では関数(promiseオブジェクトを返す)の配列を引数に受け取ります。</p>
 </div>
 <div class="paragraph">
-<p>最後に、<code>sequenceTasks</code>を使って最初の例を書き換えると以下のようになります。</p>
+<p>最後に、<code>sequenceTasks</code> を使って最初の例を書き換えると以下のようになります。</p>
 </div>
 <div id="promise-sequence-xhr.js" class="listingblock executable">
 <div class="title">promise-sequence-xhr.js</div>
@@ -6564,7 +6667,7 @@ main().then(<span class="keyword">function</span> (value) {
 </div>
 </div>
 <div class="paragraph">
-<p><code>main()</code>の中がかなりスッキリしたことが分かります。</p>
+<p><code>main()</code> の中がかなりスッキリしたことが分かります。</p>
 </div>
 <div class="paragraph">
 <p>このようにPromiseでは、逐次処理という事をするのに色々な書き方が出来ると思います。</p>
@@ -6586,7 +6689,7 @@ main().then(<span class="keyword">function</span> (value) {
 </ul>
 </div>
 <div class="paragraph">
-<p>しかし、これはJavaScriptで配列を扱うのにforループや<code>forEach</code>等、色々やり方があるのと本質的には違いはありません。
+<p>しかし、これはJavaScriptで配列を扱うのにforループや <code>forEach</code> 等、色々やり方があるのと本質的には違いはありません。
 そのため、Promiseを扱う場合も処理をまとめられるところは小さく関数に分けて、実装していくのがいいと言えるでしょう。</p>
 </div>
 </div>
@@ -6604,10 +6707,10 @@ Promiseであっても関数に処理を分けるという基本的な事は変�
 <p>Promiseで書くとPromise chainを繋げすぎて縦に長い処理を書いてしまうことがあります。</p>
 </div>
 <div class="paragraph">
-<p>そのような場面で、基本を振り返り処理を関数に分けることで全体の見通しを良くすることは大切です。</p>
+<p>そんな時は基本に振り返り、処理を関数に分けることで全体の見通しを良くすることは大切です。</p>
 </div>
 <div class="paragraph">
-<p>また、Promiseのコンストラクタ関数や<code>then</code>等は高階関数なので、
+<p>また、Promiseのコンストラクタ関数や <code>then</code> 等は高階関数なので、
 処理を関数に分けておくと組み合わせが行い易いという副次的な効果もあるため、意識してみるといいかもしれません。</p>
 </div>
 <div class="admonitionblock note">
@@ -6730,7 +6833,7 @@ asyncTask(taskName).then(<span class="keyword">function</span> (value) {
 </dd>
 <dt class="hdlist1">thenableなオブジェクトを受け取った場合</dt>
 <dd>
-<p><code>then</code>を持つオブジェクトを新たなpromiseオブジェクトにして返す</p>
+<p><code>then</code> を持つオブジェクトを新たなpromiseオブジェクトにして返す</p>
 </dd>
 <dt class="hdlist1">その他の値(オブジェクトやnull等も含む)を受け取った場合</dt>
 <dd>
@@ -6756,7 +6859,7 @@ asyncTask(taskName).then(<span class="keyword">function</span> (value) {
 <p>受け取った値でrejectされた新たなpromiseオブジェクトを返す。</p>
 </div>
 <div class="paragraph">
-<p>Promise.rejectに渡す値は<code>Error</code>オブジェクトとすべきである。</p>
+<p>Promise.rejectに渡す値は <code>Error</code> オブジェクトとすべきである。</p>
 </div>
 <div class="paragraph">
 <p>また、Promise.resolveとは異なり、promiseオブジェクトを渡した場合も常に新たなpromiseオブジェクトを作成する。</p>
@@ -6797,7 +6900,7 @@ Promise.all([p1, p2, p3]).then(<span class="keyword">function</span> (results) {
 <p>どれかの値がrejectされた場合は、その時点で新たなpromiseオブジェクトはrejectされる。</p>
 </div>
 <div class="paragraph">
-<p>渡された配列の値はそれぞれ<code>Promise.resolve</code>にラップされるため、
+<p>渡された配列の値はそれぞれ <code>Promise.resolve</code> にラップされるため、
 promiseオブジェクト以外が混在している場合も扱える。</p>
 </div>
 </div>
@@ -6841,7 +6944,7 @@ Promise.race([p1, p2, p3]).then(<span class="keyword">function</span> (value) {
 </dd>
 <dt class="hdlist1">promiseオブジェクト</dt>
 <dd>
-<p>プロミスオブジェクト、<code>Promise</code>のインスタンスオブジェクトの事</p>
+<p>プロミスオブジェクト、<code>Promise</code> のインスタンスオブジェクトの事</p>
 </dd>
 </dl>
 </div>
@@ -6867,7 +6970,7 @@ ES6 Promisesの前身となったコミュニティベースの仕様であり�
 <dt class="hdlist1">Thenable</dt>
 <dd>
 <p>Promiseライクなオブジェクトの事。
-<code>.then</code>というメソッドを持つオブジェクト。</p>
+<code>.then</code> というメソッドを持つオブジェクト。</p>
 </dd>
 </dl>
 </div>
@@ -6875,7 +6978,7 @@ ES6 Promisesの前身となったコミュニティベースの仕様であり�
 <dl>
 <dt class="hdlist1">promise chain</dt>
 <dd>
-<p>promiseオブジェクトを<code>then</code>や<code>catch</code>のメソッドチェーンでつなげたもの。
+<p>promiseオブジェクトを <code>then</code> や <code>catch</code> のメソッドチェーンでつなげたもの。
 この用語は書籍中のものであり、<a href="#es6-promises">ES6 Promises</a>で定められた用語ではありません。</p>
 </dd>
 </dl>
@@ -6966,8 +7069,8 @@ ES6 Promisesの前身となったコミュニティベースの仕様であり�
 </div>
 <div id="footer">
 <div id="footer-text">
-Version 1.0.1<br>
-Last updated 2014-06-23 22:57:33 UTC
+Version 1.1.2<br>
+Last updated 2014-07-18 22:48:57 CST
 </div>
 </div>
 </body>
