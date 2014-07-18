@@ -63,21 +63,21 @@ promise.catch(onRejected)
 ----
 include::embed/embed-promise-workflow.js[]
 ----
-<1> Promiseコンストラクタを `new` して、promiseオブジェクトを返します
-<2> <1>のpromiseオブジェクトに対して `.then` で値が返ってきた時のコールバックを設定します
+<1>  `new` Promise构造器之后，返回promise对象
+<2> <1>对promise对象用 `.then`来设定返回值后的回调函数。
 
-`asyncFunction` という関数 は promiseオブジェクトを返していて、
-そのpromiseオブジェクトに対して `then` でresolveした時のコールバックを、
-`catch` でエラーとなった場合のコールバックを設定しています。
+`asyncFunction` 这个函数返回promise对象，
+对这个promise对象用 `then` 来设置resolve后的回调函数，
+用`catch` 来设定发生错误时的回调函数。
 
-このpromiseオブジェクトはsetTimeoutで16ms後にresolveされるので、
-そのタイミングで `then` のコールバックが呼ばれ `'Async Hello world'` と出力されます。
+这个promise对象会在setTimeout之后的16ms时被resolve,
+这时 `then` 的回调函数会被调用并输出 `'Async Hello world'` 。
 
-この場合 `catch` のコールバックは呼ばれる事はないですが、
-`setTimeout` が存在しない環境などでは、例外が発生し `catch` で登録したコールバック関数が呼ばれると思います。
+这种情况下 `catch` 的回调函数并不会被执行，
+若在`setTimeout` 不存在的环境中，发生例外时在 `catch` 中的回调函数就会被执行。
 
-もちろん、`promise.then(onFulfilled, onRejected)` というように、
-`catch` を使わずに `then` を使い、以下のように2つのコールバック関数を設定することでもほぼ同様の動作になります。
+当然，像`promise.then(onFulfilled, onRejected)` 一样，
+不使用`catch` 只使用 `then` 时，如下所示即使设置了2个回调函数也会是相同的逻辑。
 
 [source,javascript]
 ----
