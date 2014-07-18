@@ -32,7 +32,7 @@ promise.then(onFulfilled, onRejected)
 
 resolve(成功)时::
     `onFulfilled` 会被调用
-reject(失敗)した時::
+reject(失败)时::
     `onRejected`  会被调用
 
 `onFulfilled`、`onRejected` 两个都为可选参数。
