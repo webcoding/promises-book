@@ -1,37 +1,41 @@
-# Promises Book [![Build Status](https://travis-ci.org/azu/promises-book.png)](https://travis-ci.org/azu/promises-book) [![Gitter chat](https://badges.gitter.im/azu/promises-book.png)](https://gitter.im/azu/promises-book)
+#注意：此文档中文版正在翻译中。认领翻译请到[wiki页面](https://github.com/liubin0329/promises-book/wiki)查看现在翻译状况并修改。
 
-Promisesについての薄い電子書籍です
+# Promises Book [![Build Status](https://travis-ci.org/azu/promises-book.svg)](https://travis-ci.org/azu/promises-book) [![Gitter chat](https://badges.gitter.im/azu/promises-book.png)](https://gitter.im/azu/promises-book)
 
-[http://azu.github.io/promises-book/](http://azu.github.io/promises-book/ "Promises book") から閲覧することが出来ます。
+Promises小书电子版
 
-[http://azu.github.io/promises-book/javascript-promise-book.pdf](http://azu.github.io/promises-book/javascript-promise-book.pdf) からPDF版をダウンロードすることが出来ます。
+在这里[http://azu.github.io/promises-book/](http://azu.github.io/promises-book/ "Promises book") 可以在线阅读。
 
-[https://gumroad.com/l/javascript-promise](https://gumroad.com/l/javascript-promise "JavaScript Promiseの本 付録") からおまけのPDFを無料また任意の値段でダウンロードすることが出来ます。
+也可以从这里[http://azu.github.io/promises-book/javascript-promise-book.pdf](http://azu.github.io/promises-book/javascript-promise-book.pdf) 下载PDF版。
 
-寄付などがしたい方は、[こちら](https://gumroad.com/l/javascript-promise "JavaScript Promiseの本 付録")を代用して下さい。
+你还可以从这里[https://gumroad.com/l/javascript-promise](https://gumroad.com/l/javascript-promise "JavaScript Promise小书 附录") 免费下载本书的附录，也可以自己设定价格购买，本附录记录了本书诞生的经纬。
+
+
+如果你想捐赠的话，可以到[这里](https://gumroad.com/l/javascript-promise "JavaScript Promise小书 附录")。
 
 ## Installation
 
-この書籍はAsciidocフォーマットで書かれています。
+本书采用Asciidoc格式编写。
 
-[Asciidoctor](http://asciidoctor.org/ "Asciidoctor")でビルドすることが出来ます。
+可以使用[Asciidoctor](http://asciidoctor.org/ "Asciidoctor")构建本书电子版。
 
-### HTMLのビルド
+### 编译为HTML
 
 ``` sh
-gem install asciidoctor coderay
-npm install -g gulp
+(sudo) gem install asciidoctor coderay
+(sudo) npm install -g gulp
 npm install
 make html
 open index.html
 ```
 
-### PDFのビルド
+### 编译为PDF
 
-フォントには[VL Gothic Font Family](http://vlgothic.dicey.org/ "VL Gothic Font Family")を使っています。
-[VL Gothic Font Family](http://vlgothic.dicey.org/download.html "VL Gothic Font Family")からダウンロードしてインストールする必要があります。
+本书字体使用了[VL Gothic Font Family](http://vlgothic.dicey.org/ "VL Gothic Font Family")。
+该字体可以从[VL Gothic Font Family](http://vlgothic.dicey.org/download.html "VL Gothic Font Family")下载，并需要进行安装。
 
-必要なもの
+
+所需软件
 
 * [VL Gothic Font Family](http://vlgothic.dicey.org/ "VL Gothic Font Family")
 * Java
@@ -42,10 +46,11 @@ make pdf
 open javascript-promise-book.pdf
 ```
 
-### Epubのビルド
+### 编译为Epub
 
-まだ完成度が高くないため品質はよくありません。
-[HTML版](http://azu.github.io/promises-book/)はスマートフォン等画面が小さくても見られるようになっているためそちらの利用を推奨します。
+由于本书还不是特别完善，因此质量会很一般。
+[HTML版](http://azu.github.io/promises-book/)在智能机等小画面尺寸的设备上也能很好的展现，所以推荐大家使用HTML方式阅读。
+
 
 ``` sh
 gem install specific_install
@@ -55,11 +60,11 @@ asciidoctor-epub3 -D output index.adoc
 
 ## Contributing
 
-Pull RequestやIssue等お気軽にどうぞ。
+欢迎各种Pull Request和Issue。
 
-[![Gitter chat](https://badges.gitter.im/azu/promises-book.png)](https://gitter.im/azu/promises-book) に書き込むだけでも問題ないです。
+也可以到这里[![Gitter chat](https://badges.gitter.im/azu/promises-book.png)](https://gitter.im/azu/promises-book) 留言。
 
-Pull Requestする場合は [CONTRIBUTE.md](CONTRIBUTE.md "CONTRIBUTE.md") も参考にして下さい。
+在Pull Request的时候请先参考 [CONTRIBUTING.md](CONTRIBUTING.md "CONTRIBUTING.md") 。
 
 1. Fork it!
 2. Create your feature branch: `git checkout -b my-new-feature`
@@ -69,8 +74,9 @@ Pull Requestする場合は [CONTRIBUTE.md](CONTRIBUTE.md "CONTRIBUTE.md") も�
 
 ## License
 
-プログラムコードはMITライセンスで利用できます。
+随书代码以MIT许可证发布。
 
-文章については<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">Creative Commons Attribution-NonCommercial</a>で利用できます。
 
-<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="クリエイティブ・コモンズ・ライセンス" style="border-width:0" src="http://i.creativecommons.org/l/by-nc/4.0/88x31.png" /></a>
+图书内容则遵循<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">Creative Commons Attribution-NonCommercial</a>许可证。
+
+<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc/4.0/88x31.png" /></a>
