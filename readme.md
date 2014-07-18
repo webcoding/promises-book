@@ -1,4 +1,4 @@
-#注意：此文档中文版正在翻译中。认领翻译请到wiki页面查看现在翻译状况并修改。
+#注意：此文档中文版正在翻译中。认领翻译请到[wiki页面](https://github.com/liubin0329/promises-book/wiki)查看现在翻译状况并修改。
 
 # Promises Book [![Build Status](https://travis-ci.org/azu/promises-book.svg)](https://travis-ci.org/azu/promises-book) [![Gitter chat](https://badges.gitter.im/azu/promises-book.png)](https://gitter.im/azu/promises-book)
 
