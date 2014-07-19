@@ -25,6 +25,7 @@ Promises小书电子版
 (sudo) gem install asciidoctor coderay
 (sudo) npm install -g gulp
 npm install
+rbenv rehash # 如果你是使用rbenv的话。
 make html
 open index.html
 ```
