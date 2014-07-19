@@ -10,7 +10,7 @@ include::promise-resolve.adoc[]
 // Promise.reject
 include::promise-reject.adoc[]
 
-// 专栏: Promise只能用于异步？
+// 专栏: Promise只能使用异步调用方式？
 include::column-promise-resolve.adoc[]
 
 // Promise#then

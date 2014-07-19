@@ -1,17 +1,15 @@
 [[ch2-promise-and-array]]
-== Promiseと配列
+== Promise和数组
 
-ここまでで、promiseオブジェクトが FulFilled または Rejected となった時の処理は <<promise.then,`.then`>> と <<promise.catch,`.catch`>> で登録出来る事を学びました。
+到目前为止我么已经学习了如何通过 <<promise.then,`.then`>> 和 <<promise.catch,`.catch`>> 来注册回调函数，这些回调函数会在promise对象变为 FulFilled 或 Rejected 状态之后被调用。
 
-一つのpromiseオブジェクトなら、そのpromiseオブジェクトに対して処理を書けば良いですが、
-複数のpromiseオブジェクトが全てFulFilledとなった時の処理を書く場合はどうすればよいでしょうか?
+如果只有一个promise对象的话我么可以像前面介绍的那样编写代码就可以了，如果要在多个promise对象都变为FulFilled状态的时候才要进行某种处理话该如何操作呢？
 
-例えば、複数のXHR(非同期処理)が全て終わった後に、何かをしたいという事例を考えてみます。
+我么以当所有XHR（异步处理）全部结束之要进行某操作为例来进行说明。
 
-少しイメージしにくいので、
-まずは、通常のコールバックスタイルを使って複数のXHRを行う以下のようなコードを見てみます。
+各位读者现在也许有点难以在大脑中描绘出这么一种场景，我么可以先看一下下面使用了普通的回调函数风格的XHR处理代码。
 
-=== コールバックで複数の非同期処理
+=== 通过回调函数来进行多个异步调用
 
 [role="executable"]
 [source,javascript]
@@ -19,7 +17,7 @@
 .multiple-xhr-callback.js
 ----
 include::embed/embed-multiple-xhr-callback.js[]
-// 実行例
+// 运行的例子
 main(function(error, results){
     if(error){
         return console.error(error);
@@ -28,38 +26,36 @@ main(function(error, results){
 });
 ----
 
-このコールバックスタイルでは幾つかの要素が出てきます。
+这段回调函数风格的代码有以下几个要点。
 
-* `JSON.parse` をそのまま使うと例外となるケースがあるためラップした `jsonParse` 関数を使う
-* 複数のXHRをそのまま書くとネストが深くなるため、`allRequest` というrequest関数を実行するものを利用する
-* コールバック関数には `callback(error,value)` というNode.jsでよく見られる引数を渡す
+* 直接使用 `JSON.parse` 函数的话可能会抛出异常，所以这里使用了一个包装函数 `jsonParse` 
+* 如果将多个XHR处理进行嵌套调用的话层次会比较深，所以使用了 `allRequest` 函数并在其中对request进行调用。
+* 回调函数采用了 `callback(error,value)` 这种在Node.js中常见的写法
 
-`jsonParse` 関数を使うときに `bind` を使うことで、部分適用を使って無名関数を減らすようにしています。
-(コールバックスタイルでも関数の処理などをちゃんと分離すれば、無名関数の使用も減らせると思います)
+在使用 `jsonParse` 函数的时候我么使用了 `bind` 进行绑定，通过使用这种偏函数（Partial Function）的方式就可以减少匿名函数的使用。（如果在函数回调风格的代码如果能很好的做到函数分离的话，也能减少匿名函数的数量）
 
 [source,javascript]
 ----
 jsonParse.bind(null, callback);
-// は以下のように置き換えるのと殆ど同じ
+// 可以认为这种写法可以转换为下面的写法
 function bindJSONParse(error, value){
     jsonParse(callback, error, value);
 }
 ----
 
-コールバックスタイルで書いたものを見ると以下のような点が気になります。
+在这段回调风格的代码中，我么也能发现如下一些问题。
 
-* 明示的な例外のハンドリングが必要
-* ネストを深くしないために、requestを扱う関数が必要
-* コールバックがたくさんでてくる
+* 需要显示进行异常处理
+* 为了不让嵌套层次太深，需要一个对request进行处理的函数
+* 到处都是回调函数
 
-次は、`Promise#then` を使って同様の事をしてみたいと思います。
+下面我们再来看看如何使用 `Promise#then` 来完成同样的工作。
 
-=== Promise#thenのみで複数の非同期処理
+=== 使用Promise#then进行复数个异步请求
 
-先に述べておきますが、`Promise.all` というこのような処理に適切なものがあるため、
-ワザと `.then` の部分をクドく書いています。
+需要事先说明的是 `Promise.all` 比较适合这种应用场景的需求，因此我们故意把 `.then` 写的比较クドく。
 
-<<promise.then,`.then`>> を使った場合は、コールバックスタイルと完全に同等というわけではないですが以下のように書けると思います。
+使用了<<promise.then,`.then`>> 的话，也并不是说能和回调风格完全一致，大概重写后如下所示。
 
 [role="executable"]
 [source,javascript]
@@ -67,7 +63,7 @@ function bindJSONParse(error, value){
 .multiple-xhr.js
 ----
 include::embed/embed-multiple-xhr.js[]
-// 実行例
+// 运行的例子
 main().then(function (value) {
     console.log(value);
 }).catch(function(error){
@@ -75,14 +71,14 @@ main().then(function (value) {
 });
 ----
 
-<<multiple-xhr-callback.js, コールバックスタイル>>と比較してみると次の事がわかります。
+将上述代码和<<multiple-xhr-callback.js, 回调函数风格>>相比我么得到以下结论。
 
-* `JSON.parse` をそのまま使っている
-* `main()` はpromiseオブジェクトを返している
-* エラーハンドリングは返ってきたpromiseオブジェクトに対して書いている
+* 可以直接使用 `JSON.parse` 函数
+* 函数 `main()` 返回promise对象
+* 错误处理的diff直接对返回的promise对象进行处理
 
-先ほども述べたように mainの `then` の部分がクドく感じます。
+向前面我们说的那样，main的 `then` 部分有点クドく的感觉。
 
-Promiseでは、このような複数の非同期処理をまとめて扱う `Promise.all` と `Promise.race` という静的メソッドが用意されています。
+Promise为这种需要对多个异步调用进行统一处理准备了 `Promise.all` 和 `Promise.race` 这两个静态方法。
 
-次のセクションではそれらについて学んでいきましょう。
+在下面的小节中我们将对这两个函数进行说明。
