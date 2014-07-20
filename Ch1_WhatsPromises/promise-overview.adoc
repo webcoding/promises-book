@@ -32,14 +32,14 @@ promise.then(onFulfilled, onRejected)
 
 resolve(成功)时::
     `onFulfilled` 会被调用
-reject(失敗)した時::
+reject(失败)时::
     `onRejected`  会被调用
 
 `onFulfilled`、`onRejected` 两个都为可选参数。
 
 `promise.then` 成功和失败时都可以使用。
-还有、只想添加异常处理时和 `promise.then(undefined, onRejected)` 的用法一样。
-`promise.catch(onRejected)` 这样也可以使用。
+另外在只想添加异常处理时和 `promise.then(undefined, onRejected)` 的用法一样。
+`promise.catch(onRejected)` 也可以使用。
 
 [source,javascript]
 promise.catch(onRejected)
@@ -63,21 +63,21 @@ promise.catch(onRejected)
 ----
 include::embed/embed-promise-workflow.js[]
 ----
-<1> Promiseコンストラクタを `new` して、promiseオブジェクトを返します
-<2> <1>のpromiseオブジェクトに対して `.then` で値が返ってきた時のコールバックを設定します
+<1>  `new` Promise构造器之后，会返回promise对象
+<2> <1>对promise对象用 `.then`来设定返回值后的回调函数。
 
-`asyncFunction` という関数 は promiseオブジェクトを返していて、
-そのpromiseオブジェクトに対して `then` でresolveした時のコールバックを、
-`catch` でエラーとなった場合のコールバックを設定しています。
+`asyncFunction` 这个函数会返回promise对象，
+对这个promise对象用 `then` 来设置resolve后的回调函数，
+用`catch` 来设定发生错误时的回调函数。
 
-このpromiseオブジェクトはsetTimeoutで16ms後にresolveされるので、
-そのタイミングで `then` のコールバックが呼ばれ `'Async Hello world'` と出力されます。
+这个promise对象会在setTimeout之后的16ms时被resolve,
+这时 `then` 的回调函数会被调用并输出 `'Async Hello world'` 。
 
-この場合 `catch` のコールバックは呼ばれる事はないですが、
-`setTimeout` が存在しない環境などでは、例外が発生し `catch` で登録したコールバック関数が呼ばれると思います。
+这种情况下 `catch` 的回调函数并不会被执行，
+若在没有`setTimeout` 时发生例外，那么 `catch` 中的回调函数就会被执行。
 
-もちろん、`promise.then(onFulfilled, onRejected)` というように、
-`catch` を使わずに `then` を使い、以下のように2つのコールバック関数を設定することでもほぼ同様の動作になります。
+当然，像`promise.then(onFulfilled, onRejected)` 一样，
+不使用`catch` 只使用 `then` 时，如下所示即使设置了2个回调函数也将会是相同的逻辑。
 
 [source,javascript]
 ----
@@ -88,26 +88,26 @@ asyncFunction().then(function (value) {
 });
 ----
 
-=== Promiseの状態 [[promise-states]]
+=== Promise的状态 [[promise-states]]
 
-Promiseの処理の流れが少しわかった所で、少しPromiseの状態について整理したいと思います。
+我们大概了解了Promise的处理流程，接下来让我们来稍微整理一下Promise的状态。
 
-`new Promise` でインスタンス化したpromiseオブジェクトには以下の3つの状態が存在します。
+用`new Promise` 实例化的promise对象有以下三个状态。
 
 "has-resolution" - Fulfilled::
-    resolve(成功)した時。この時 `onFulfilled` が呼ばれる
+    resolve(成功)时。此时会调用 `onFulfilled` 
 "has-rejection"  - Rejected::
-    reject(失敗)した時。この時 `onRejected`  が呼ばれる
+    reject(失败)时。此时会调用 `onRejected`  
 "unresolved" - Pending::
-    resolveまたはrejectではない時。つまりpromiseオブジェクトが作成された初期状態等が該当する
+    resolve或reject都不是时。也就是promise对象刚被做成后的初期状态等
 
-読み方ですが、
-左が<<es6-promises,ES6 Promises>>の仕様で定められている名前で、
-右が<<promises-aplus, Promises/A+>>で登場する状態の名前になっています。
+关于读法，
+左侧在<<es6-promises,ES6 Promises>>的式样中被定义的名称，
+右侧时在<<promises-aplus, Promises/A+>>中描述的状态的名称。
 
-基本的にこの状態をプログラムで直接触る事はないため、名前自体は余り気にしなくても問題ないです。
-この書籍では、 http://promises-aplus.github.io/promises-spec/[Promises/A+] の __Pending__、__Fulfilled__ 、__Rejected__
-を用いて解説していきます。
+基本上状态在代码中是不会涉及到的，所以名称也无需太在意。
+在这本书中， http://promises-aplus.github.io/promises-spec/[Promises/A+] 对 __Pending__、__Fulfilled__ 、__Rejected__
+会加以解说。
 
 .promise states
 image::img/promise-states.png[promise-states]
@@ -115,29 +115,29 @@ image::img/promise-states.png[promise-states]
 
 [NOTE]
 ====
-http://people.mozilla.org/~jorendorff/es6-draft.html#sec-promise-objects[ECMAScript Language Specification ECMA-262 6th Edition – DRAFT] では `[[PromiseStatus]]` という内部定義によって状態が定められています。
-`[[PromiseStatus]]` にアクセスするユーザーAPIは用意されていないため、基本的には知る方法はありません。
+http://people.mozilla.org/~jorendorff/es6-draft.html#sec-promise-objects[ECMAScript Language Specification ECMA-262 6th Edition – DRAFT] 中 `[[PromiseStatus]]` 是由内部定义的状态。
+访问`[[PromiseStatus]]` 的用户API还未被公开，暂时还没有查询方法。
 ====
 
-3つの状態を見たところで、既にこの章で全ての状態が出てきていることが分かります。
+到此在本文中我们已经介绍了所有的三种状态。
 
-promiseオブジェクトの状態は、一度__Pending__から__Fulfilled__や__Rejected__になると、
-そのpromiseオブジェクトの状態はそれ以降変化することはなくなります。
+promise对象的状态，从__Pending__到__Fulfilled__或__Rejected__之后，
+这个promise对象的状态就不会再发生变化。
 
-つまり、PromiseはEvent等とは違い、`.then` で登録した関数が呼ばれるのは1回限りという事が明確になっています。
+也就是说，Promise与Event等不同，在`.then` 后执行的函数可以肯定只能被调用一次。
 
-また、__Fulfilled__と__Rejected__のどちらかの状態であることを**Settled**(不変の)と表現することがあります。
+另外，__Fulfilled__和__Rejected__两个中的任一状态都可以表示为**Settled**(不变的)。
 
 Settled::
-    resolve(成功) または reject(失敗) した時。
+    resolve(成功) 或 reject(失败)。
 
-__Pedding__と__Settled__が対となる関係であると考えると、Promiseの状態の種類/遷移がシンプルであることがわかると思います。
+从__Pedding__と__Settled__的对称关系来看的花，Promise的状态的种类/迁移时非常简单易懂的。
 
-このpromiseオブジェクトの状態が変化した時に、一度だけ呼ばれる関数を登録するのが `.then` といったメソッドとなるわけです。
+这个promise的对象状态发生变化时，用`.then` 来定义只会被调用一次的函数。
 
 [NOTE]
 ====
 https://speakerdeck.com/kerrick/javascript-promises-thinking-sync-in-an-async-world[JavaScript Promises - Thinking Sync in an Async World // Speaker Deck]
-というスライドではPromiseの状態遷移について分かりやすく書かれています。
+这个ppt中有关Promise的状态迁移有简单明了的说明。
 ====
 
