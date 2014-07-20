@@ -38,8 +38,8 @@ reject(失败)时::
 `onFulfilled`、`onRejected` 两个都为可选参数。
 
 `promise.then` 成功和失败时都可以使用。
-还有、只想添加异常处理时和 `promise.then(undefined, onRejected)` 的用法一样。
-`promise.catch(onRejected)` 这样也可以使用。
+另外在只想添加异常处理时和 `promise.then(undefined, onRejected)` 的用法一样。
+`promise.catch(onRejected)` 也可以使用。
 
 [source,javascript]
 promise.catch(onRejected)
@@ -63,10 +63,10 @@ promise.catch(onRejected)
 ----
 include::embed/embed-promise-workflow.js[]
 ----
-<1>  `new` Promise构造器之后，返回promise对象
+<1>  `new` Promise构造器之后，会返回promise对象
 <2> <1>对promise对象用 `.then`来设定返回值后的回调函数。
 
-`asyncFunction` 这个函数返回promise对象，
+`asyncFunction` 这个函数会返回promise对象，
 对这个promise对象用 `then` 来设置resolve后的回调函数，
 用`catch` 来设定发生错误时的回调函数。
 
@@ -74,10 +74,10 @@ include::embed/embed-promise-workflow.js[]
 这时 `then` 的回调函数会被调用并输出 `'Async Hello world'` 。
 
 这种情况下 `catch` 的回调函数并不会被执行，
-若在`setTimeout` 不存在的环境中，发生例外时在 `catch` 中的回调函数就会被执行。
+若在没有`setTimeout` 时发生例外，那么 `catch` 中的回调函数就会被执行。
 
 当然，像`promise.then(onFulfilled, onRejected)` 一样，
-不使用`catch` 只使用 `then` 时，如下所示即使设置了2个回调函数也会是相同的逻辑。
+不使用`catch` 只使用 `then` 时，如下所示即使设置了2个回调函数也将会是相同的逻辑。
 
 [source,javascript]
 ----
@@ -101,9 +101,9 @@ asyncFunction().then(function (value) {
 "unresolved" - Pending::
     resolve或reject都不是时。也就是promise对象刚被做成后的初期状态等
 
-読み方ですが、
-左が<<es6-promises,ES6 Promises>>の仕様で定められている名前で、
-右が<<promises-aplus, Promises/A+>>で登場する状態の名前になっています。
+关于读法，
+左侧在<<es6-promises,ES6 Promises>>的式样中被定义的名称，
+右侧时在<<promises-aplus, Promises/A+>>中描述的状态的名称。
 
 基本上状态在代码中是不会涉及到的，所以名称也无需太在意。
 在这本书中， http://promises-aplus.github.io/promises-spec/[Promises/A+] 对 __Pending__、__Fulfilled__ 、__Rejected__
@@ -115,11 +115,11 @@ image::img/promise-states.png[promise-states]
 
 [NOTE]
 ====
-http://people.mozilla.org/~jorendorff/es6-draft.html#sec-promise-objects[ECMAScript Language Specification ECMA-262 6th Edition – DRAFT] では `[[PromiseStatus]]` という内部定義によって状態が定められています。
-`[[PromiseStatus]]` にアクセスするユーザーAPIは用意されていないため、基本的には知る方法はありません。
+http://people.mozilla.org/~jorendorff/es6-draft.html#sec-promise-objects[ECMAScript Language Specification ECMA-262 6th Edition – DRAFT] 中 `[[PromiseStatus]]` 是由内部定义的状态。
+访问`[[PromiseStatus]]` 的用户API还未被公开，暂时还没有查询方法。
 ====
 
-3つの状態を見たところで、既にこの章で全ての状態が出てきていることが分かります。
+到此在本文中我们已经介绍了所有的三种状态。
 
 promise对象的状态，从__Pending__到__Fulfilled__或__Rejected__之后，
 这个promise对象的状态就不会再发生变化。
@@ -133,7 +133,7 @@ Settled::
 
 从__Pedding__と__Settled__的对称关系来看的花，Promise的状态的种类/迁移时非常简单易懂的。
 
-这个promise的对象状态发生变化时，一度だけ呼ばれる関数を登録するのが 用`.then` 来定义只会被调用一次的函数。
+这个promise的对象状态发生变化时，用`.then` 来定义只会被调用一次的函数。
 
 [NOTE]
 ====
