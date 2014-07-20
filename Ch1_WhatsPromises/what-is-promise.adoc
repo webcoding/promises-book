@@ -1,20 +1,20 @@
 [[what-is-promise]]
 == What Is Promise
 
-まずPromiseとはそもそもどのようなものでしょうか?
+首先让我们来了解一下到底什么是Promise呢？
 
-Promiseは非同期処理を抽象化したオブジェクトとそれを操作する仕組みの事をいいます。
-詳しくはこれから学んでいくとして、PromiseはJavaScriptで発見された概念ではありません。
+Promise是抽象非同期处理的对象以及对其进行各种操作的组件。
+其详细内容在接下来我们还会学到，Promise并不是从JavaScript中发现的概念。
 
-最初に発見されたのは http://erights.org/elib/distrib/pipeline.html[E言語]におけるもので、
-並列/並行処理におけるプログラミング言語のデザインの一種です。
+最初被发现是在 http://erights.org/elib/distrib/pipeline.html[E言語]中，
+它是基于并列/并行处理设计的一种编程语言。
 
-このデザインをJavaScriptに持ってきたものが、この書籍で学ぶJavaScript Promiseです。
+JavaScript也拥有了这种特性，这就是本书所介绍的JavaScript Promise。
 
-一方、JavaScriptにおける非同期処理といえば、コールバックを利用する場合が多いと思います。
+另外，如果说到基于JavaScript的非同期处理，我想大多数都会利用回调函数。
 
 [source,javascript]
-.コールバックを使った非同期処理の一例
+.使用了回调函数的非同期处理
 ----
 getAsync("fileA.txt", function(error, result){// <1>
     if(error){// 取得失敗時の処理
