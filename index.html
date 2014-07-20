@@ -499,7 +499,7 @@ span.line-numbers { border-right: 1px solid #E5E5E5; color: #999; display: inlin
 <li><a href="#ch2-promise.then">2.4. Promise#then</a></li>
 <li><a href="#ch2-promise-catch">2.5. Promise#catch</a></li>
 <li><a href="#then-return-new-promise">2.6. コラム: thenは常に新しいpromiseオブジェクトを返す</a></li>
-<li><a href="#ch2-promise-and-array">2.7. Promiseと配列</a></li>
+<li><a href="#ch2-promise-and-array">2.7. Promise和数组</a></li>
 <li><a href="#ch2-promise-all">2.8. Promise.all</a></li>
 <li><a href="#ch2-promise-race">2.9. Promise.race</a></li>
 <li><a href="#then-or-catch">2.10. then or catch?</a></li>
@@ -824,24 +824,24 @@ promise.then(<span class="keyword">function</span>(value){
 <div class="sect2">
 <h3 id="what-is-promise">1.1. What Is Promise</h3>
 <div class="paragraph">
-<p>まずPromiseとはそもそもどのようなものでしょうか?</p>
+<p>首先让我们来了解一下到底什么是Promise呢？</p>
 </div>
 <div class="paragraph">
-<p>Promiseは非同期処理を抽象化したオブジェクトとそれを操作する仕組みの事をいいます。
-詳しくはこれから学んでいくとして、PromiseはJavaScriptで発見された概念ではありません。</p>
+<p>Promise是抽象非同期处理的对象以及对其进行各种操作的组件。
+其详细内容在接下来我们还会学到，Promise并不是从JavaScript中发现的概念。</p>
 </div>
 <div class="paragraph">
-<p>最初に発見されたのは <a href="http://erights.org/elib/distrib/pipeline.html">E言語</a>におけるもので、
-並列/並行処理におけるプログラミング言語のデザインの一種です。</p>
+<p>最初被发现是在 <a href="http://erights.org/elib/distrib/pipeline.html">E言語</a>中，
+它是基于并列/并行处理设计的一种编程语言。</p>
 </div>
 <div class="paragraph">
-<p>このデザインをJavaScriptに持ってきたものが、この書籍で学ぶJavaScript Promiseです。</p>
+<p>JavaScript也拥有了这种特性，这就是本书所介绍的JavaScript Promise。</p>
 </div>
 <div class="paragraph">
-<p>一方、JavaScriptにおける非同期処理といえば、コールバックを利用する場合が多いと思います。</p>
+<p>另外，如果说到基于JavaScript的非同期处理，我想大多数都会利用回调函数。</p>
 </div>
 <div class="listingblock">
-<div class="title">コールバックを使った非同期処理の一例</div>
+<div class="title">使用了回调函数的非同期处理</div>
 <div class="content">
 <pre class="CodeRay"><code class="javascript language-javascript">getAsync(<span class="string"><span class="delimiter">&quot;</span><span class="content">fileA.txt</span><span class="delimiter">&quot;</span></span>, <span class="keyword">function</span>(error, result){<i class="conum" data-value="1"></i><b>(1)</b>
     <span class="keyword">if</span>(error){<span class="comment">// 取得失敗時の処理</span>
@@ -957,7 +957,7 @@ Promiseを使う理由の一つであるといえるでしょう。</p>
 <dd>
 <p><code>onFulfilled</code> 会被调用</p>
 </dd>
-<dt class="hdlist1">reject(失敗)した時</dt>
+<dt class="hdlist1">reject(失败)时</dt>
 <dd>
 <p><code>onRejected</code>  会被调用</p>
 </dd>
@@ -968,8 +968,8 @@ Promiseを使う理由の一つであるといえるでしょう。</p>
 </div>
 <div class="paragraph">
 <p><code>promise.then</code> 成功和失败时都可以使用。
-还有、只想添加异常处理时和 <code>promise.then(undefined, onRejected)</code> 的用法一样。
-<code>promise.catch(onRejected)</code> 这样也可以使用。</p>
+另外在只想添加异常处理时和 <code>promise.then(undefined, onRejected)</code> 的用法一样。
+<code>promise.catch(onRejected)</code> 也可以使用。</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1013,30 +1013,30 @@ asyncFunction().then(<span class="keyword">function</span> (value) {
 <table>
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>Promiseコンストラクタを <code>new</code> して、promiseオブジェクトを返します</td>
+<td><code>new</code> Promise构造器之后，会返回promise对象</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="2"></i><b>2</b></td>
-<td>&lt;1&gt;のpromiseオブジェクトに対して <code>.then</code> で値が返ってきた時のコールバックを設定します</td>
+<td>&lt;1&gt;对promise对象用 <code>.then</code>来设定返回值后的回调函数。</td>
 </tr>
 </table>
 </div>
 <div class="paragraph">
-<p><code>asyncFunction</code> という関数 は promiseオブジェクトを返していて、
-そのpromiseオブジェクトに対して <code>then</code> でresolveした時のコールバックを、
-<code>catch</code> でエラーとなった場合のコールバックを設定しています。</p>
+<p><code>asyncFunction</code> 这个函数会返回promise对象，
+对这个promise对象用 <code>then</code> 来设置resolve后的回调函数，
+用<code>catch</code> 来设定发生错误时的回调函数。</p>
 </div>
 <div class="paragraph">
-<p>このpromiseオブジェクトはsetTimeoutで16ms後にresolveされるので、
-そのタイミングで <code>then</code> のコールバックが呼ばれ <code>'Async Hello world'</code> と出力されます。</p>
+<p>这个promise对象会在setTimeout之后的16ms时被resolve,
+这时 <code>then</code> 的回调函数会被调用并输出 <code>'Async Hello world'</code> 。</p>
 </div>
 <div class="paragraph">
-<p>この場合 <code>catch</code> のコールバックは呼ばれる事はないですが、
-<code>setTimeout</code> が存在しない環境などでは、例外が発生し <code>catch</code> で登録したコールバック関数が呼ばれると思います。</p>
+<p>这种情况下 <code>catch</code> 的回调函数并不会被执行，
+若在没有<code>setTimeout</code> 时发生例外，那么 <code>catch</code> 中的回调函数就会被执行。</p>
 </div>
 <div class="paragraph">
-<p>もちろん、<code>promise.then(onFulfilled, onRejected)</code> というように、
-<code>catch</code> を使わずに <code>then</code> を使い、以下のように2つのコールバック関数を設定することでもほぼ同様の動作になります。</p>
+<p>当然，像<code>promise.then(onFulfilled, onRejected)</code> 一样，
+不使用<code>catch</code> 只使用 <code>then</code> 时，如下所示即使设置了2个回调函数也将会是相同的逻辑。</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1049,38 +1049,38 @@ asyncFunction().then(<span class="keyword">function</span> (value) {
 </div>
 </div>
 <div class="sect3">
-<h4 id="promise-states">1.2.2. Promiseの状態</h4>
+<h4 id="promise-states">1.2.2. Promise的状态</h4>
 <div class="paragraph">
-<p>Promiseの処理の流れが少しわかった所で、少しPromiseの状態について整理したいと思います。</p>
+<p>我们大概了解了Promise的处理流程，接下来让我们来稍微整理一下Promise的状态。</p>
 </div>
 <div class="paragraph">
-<p><code>new Promise</code> でインスタンス化したpromiseオブジェクトには以下の3つの状態が存在します。</p>
+<p>用<code>new Promise</code> 实例化的promise对象有以下三个状态。</p>
 </div>
 <div class="dlist">
 <dl>
 <dt class="hdlist1">"has-resolution" - Fulfilled</dt>
 <dd>
-<p>resolve(成功)した時。この時 <code>onFulfilled</code> が呼ばれる</p>
+<p>resolve(成功)时。此时会调用 <code>onFulfilled</code></p>
 </dd>
 <dt class="hdlist1">"has-rejection"  - Rejected</dt>
 <dd>
-<p>reject(失敗)した時。この時 <code>onRejected</code>  が呼ばれる</p>
+<p>reject(失败)时。此时会调用 <code>onRejected</code></p>
 </dd>
 <dt class="hdlist1">"unresolved" - Pending</dt>
 <dd>
-<p>resolveまたはrejectではない時。つまりpromiseオブジェクトが作成された初期状態等が該当する</p>
+<p>resolve或reject都不是时。也就是promise对象刚被做成后的初期状态等</p>
 </dd>
 </dl>
 </div>
 <div class="paragraph">
-<p>読み方ですが、
-左が<a href="#es6-promises">ES6 Promises</a>の仕様で定められている名前で、
-右が<a href="#promises-aplus">Promises/A+</a>で登場する状態の名前になっています。</p>
+<p>关于读法，
+左侧在<a href="#es6-promises">ES6 Promises</a>的式样中被定义的名称，
+右侧时在<a href="#promises-aplus">Promises/A+</a>中描述的状态的名称。</p>
 </div>
 <div class="paragraph">
-<p>基本的にこの状態をプログラムで直接触る事はないため、名前自体は余り気にしなくても問題ないです。
-この書籍では、 <a href="http://promises-aplus.github.io/promises-spec/">Promises/A+</a> の <em>Pending</em>、<em>Fulfilled</em> 、<em>Rejected</em>
-を用いて解説していきます。</p>
+<p>基本上状态在代码中是不会涉及到的，所以名称也无需太在意。
+在这本书中， <a href="http://promises-aplus.github.io/promises-spec/">Promises/A+</a> 对 <em>Pending</em>、<em>Fulfilled</em> 、<em>Rejected</em>
+会加以解说。</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -1096,39 +1096,39 @@ asyncFunction().then(<span class="keyword">function</span> (value) {
 </td>
 <td class="content">
 <div class="paragraph">
-<p><a href="http://people.mozilla.org/~jorendorff/es6-draft.html#sec-promise-objects">ECMAScript Language Specification ECMA-262 6th Edition – DRAFT</a> では <code>[[PromiseStatus]]</code> という内部定義によって状態が定められています。
-<code>[[PromiseStatus]]</code> にアクセスするユーザーAPIは用意されていないため、基本的には知る方法はありません。</p>
+<p><a href="http://people.mozilla.org/~jorendorff/es6-draft.html#sec-promise-objects">ECMAScript Language Specification ECMA-262 6th Edition – DRAFT</a> 中 <code>[[PromiseStatus]]</code> 是由内部定义的状态。
+访问<code>[[PromiseStatus]]</code> 的用户API还未被公开，暂时还没有查询方法。</p>
 </div>
 </td>
 </tr>
 </table>
 </div>
 <div class="paragraph">
-<p>3つの状態を見たところで、既にこの章で全ての状態が出てきていることが分かります。</p>
+<p>到此在本文中我们已经介绍了所有的三种状态。</p>
 </div>
 <div class="paragraph">
-<p>promiseオブジェクトの状態は、一度<em>Pending</em>から<em>Fulfilled</em>や<em>Rejected</em>になると、
-そのpromiseオブジェクトの状態はそれ以降変化することはなくなります。</p>
+<p>promise对象的状态，从<em>Pending</em>到<em>Fulfilled</em>或<em>Rejected</em>之后，
+这个promise对象的状态就不会再发生变化。</p>
 </div>
 <div class="paragraph">
-<p>つまり、PromiseはEvent等とは違い、<code>.then</code> で登録した関数が呼ばれるのは1回限りという事が明確になっています。</p>
+<p>也就是说，Promise与Event等不同，在<code>.then</code> 后执行的函数可以肯定只能被调用一次。</p>
 </div>
 <div class="paragraph">
-<p>また、<em>Fulfilled</em>と<em>Rejected</em>のどちらかの状態であることを<strong>Settled</strong>(不変の)と表現することがあります。</p>
+<p>另外，<em>Fulfilled</em>和<em>Rejected</em>两个中的任一状态都可以表示为<strong>Settled</strong>(不变的)。</p>
 </div>
 <div class="dlist">
 <dl>
 <dt class="hdlist1">Settled</dt>
 <dd>
-<p>resolve(成功) または reject(失敗) した時。</p>
+<p>resolve(成功) 或 reject(失败)。</p>
 </dd>
 </dl>
 </div>
 <div class="paragraph">
-<p><em>Pedding</em>と<em>Settled</em>が対となる関係であると考えると、Promiseの状態の種類/遷移がシンプルであることがわかると思います。</p>
+<p>从<em>Pedding</em>と<em>Settled</em>的对称关系来看的花，Promise的状态的种类/迁移时非常简单易懂的。</p>
 </div>
 <div class="paragraph">
-<p>このpromiseオブジェクトの状態が変化した時に、一度だけ呼ばれる関数を登録するのが <code>.then</code> といったメソッドとなるわけです。</p>
+<p>这个promise的对象状态发生变化时，用<code>.then</code> 来定义只会被调用一次的函数。</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -1139,7 +1139,7 @@ asyncFunction().then(<span class="keyword">function</span> (value) {
 <td class="content">
 <div class="paragraph">
 <p><a href="https://speakerdeck.com/kerrick/javascript-promises-thinking-sync-in-an-async-world">JavaScript Promises - Thinking Sync in an Async World // Speaker Deck</a>
-というスライドではPromiseの状態遷移について分かりやすく書かれています。</p>
+这个ppt中有关Promise的状态迁移有简单明了的说明。</p>
 </div>
 </td>
 </tr>
@@ -2302,23 +2302,21 @@ bPromise.then(<span class="keyword">function</span> (value) {
 </div>
 </div>
 <div class="sect2">
-<h3 id="ch2-promise-and-array">2.7. Promiseと配列</h3>
+<h3 id="ch2-promise-and-array">2.7. Promise和数组</h3>
 <div class="paragraph">
-<p>ここまでで、promiseオブジェクトが FulFilled または Rejected となった時の処理は <a href="#promise.then"><code>.then</code></a> と <a href="#promise.catch"><code>.catch</code></a> で登録出来る事を学びました。</p>
+<p>到目前为止我么已经学习了如何通过 <a href="#promise.then"><code>.then</code></a> 和 <a href="#promise.catch"><code>.catch</code></a> 来注册回调函数，这些回调函数会在promise对象变为 FulFilled 或 Rejected 状态之后被调用。</p>
 </div>
 <div class="paragraph">
-<p>一つのpromiseオブジェクトなら、そのpromiseオブジェクトに対して処理を書けば良いですが、
-複数のpromiseオブジェクトが全てFulFilledとなった時の処理を書く場合はどうすればよいでしょうか?</p>
+<p>如果只有一个promise对象的话我么可以像前面介绍的那样编写代码就可以了，如果要在多个promise对象都变为FulFilled状态的时候才要进行某种处理话该如何操作呢？</p>
 </div>
 <div class="paragraph">
-<p>例えば、複数のXHR(非同期処理)が全て終わった後に、何かをしたいという事例を考えてみます。</p>
+<p>我么以当所有XHR（异步处理）全部结束之要进行某操作为例来进行说明。</p>
 </div>
 <div class="paragraph">
-<p>少しイメージしにくいので、
-まずは、通常のコールバックスタイルを使って複数のXHRを行う以下のようなコードを見てみます。</p>
+<p>各位读者现在也许有点难以在大脑中描绘出这么一种场景，我么可以先看一下下面使用了普通的回调函数风格的XHR处理代码。</p>
 </div>
 <div class="sect3">
-<h4 id="__9">2.7.1. コールバックで複数の非同期処理</h4>
+<h4 id="__9">2.7.1. 通过回调函数来进行多个异步调用</h4>
 <div id="multiple-xhr-callback.js" class="listingblock executable">
 <div class="title">multiple-xhr-callback.js</div>
 <div class="content">
@@ -2377,7 +2375,7 @@ bPromise.then(<span class="keyword">function</span> (value) {
 <span class="keyword">function</span> <span class="function">main</span>(callback) {
     allRequest([request.comment, request.people], callback, []);
 }
-<span class="comment">// 実行例</span>
+<span class="comment">// 运行的例子</span>
 main(<span class="keyword">function</span>(error, results){
     <span class="keyword">if</span>(error){
         <span class="keyword">return</span> console.error(error);
@@ -2387,62 +2385,60 @@ main(<span class="keyword">function</span>(error, results){
 </div>
 </div>
 <div class="paragraph">
-<p>このコールバックスタイルでは幾つかの要素が出てきます。</p>
+<p>这段回调函数风格的代码有以下几个要点。</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p><code>JSON.parse</code> をそのまま使うと例外となるケースがあるためラップした <code>jsonParse</code> 関数を使う</p>
+<p>直接使用 <code>JSON.parse</code> 函数的话可能会抛出异常，所以这里使用了一个包装函数 <code>jsonParse</code></p>
 </li>
 <li>
-<p>複数のXHRをそのまま書くとネストが深くなるため、<code>allRequest</code> というrequest関数を実行するものを利用する</p>
+<p>如果将多个XHR处理进行嵌套调用的话层次会比较深，所以使用了 <code>allRequest</code> 函数并在其中对request进行调用。</p>
 </li>
 <li>
-<p>コールバック関数には <code>callback(error,value)</code> というNode.jsでよく見られる引数を渡す</p>
+<p>回调函数采用了 <code>callback(error,value)</code> 这种在Node.js中常见的写法</p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
-<p><code>jsonParse</code> 関数を使うときに <code>bind</code> を使うことで、部分適用を使って無名関数を減らすようにしています。
-(コールバックスタイルでも関数の処理などをちゃんと分離すれば、無名関数の使用も減らせると思います)</p>
+<p>在使用 <code>jsonParse</code> 函数的时候我么使用了 <code>bind</code> 进行绑定，通过使用这种偏函数（Partial Function）的方式就可以减少匿名函数的使用。（如果在函数回调风格的代码如果能很好的做到函数分离的话，也能减少匿名函数的数量）</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay"><code class="javascript language-javascript">jsonParse.bind(<span class="predefined-constant">null</span>, callback);
-<span class="comment">// は以下のように置き換えるのと殆ど同じ</span>
+<span class="comment">// 可以认为这种写法可以转换为下面的写法</span>
 <span class="keyword">function</span> <span class="function">bindJSONParse</span>(error, value){
     jsonParse(callback, error, value);
 }</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>コールバックスタイルで書いたものを見ると以下のような点が気になります。</p>
+<p>在这段回调风格的代码中，我么也能发现如下一些问题。</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>明示的な例外のハンドリングが必要</p>
+<p>需要显示进行异常处理</p>
 </li>
 <li>
-<p>ネストを深くしないために、requestを扱う関数が必要</p>
+<p>为了不让嵌套层次太深，需要一个对request进行处理的函数</p>
 </li>
 <li>
-<p>コールバックがたくさんでてくる</p>
+<p>到处都是回调函数</p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
-<p>次は、<code>Promise#then</code> を使って同様の事をしてみたいと思います。</p>
+<p>下面我们再来看看如何使用 <code>Promise#then</code> 来完成同样的工作。</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_promise_then">2.7.2. Promise#thenのみで複数の非同期処理</h4>
+<h4 id="__promise_then">2.7.2. 使用Promise#then进行复数个异步请求</h4>
 <div class="paragraph">
-<p>先に述べておきますが、<code>Promise.all</code> というこのような処理に適切なものがあるため、
-ワザと <code>.then</code> の部分をクドく書いています。</p>
+<p>需要事先说明的是 <code>Promise.all</code> 比较适合这种应用场景的需求，因此我们故意把 <code>.then</code> 写的比较クドく。</p>
 </div>
 <div class="paragraph">
-<p><a href="#promise.then"><code>.then</code></a> を使った場合は、コールバックスタイルと完全に同等というわけではないですが以下のように書けると思います。</p>
+<p>使用了<a href="#promise.then"><code>.then</code></a> 的话，也并不是说能和回调风格完全一致，大概重写后如下所示。</p>
 </div>
 <div id="multiple-xhr.js" class="listingblock executable">
 <div class="title">multiple-xhr.js</div>
@@ -2481,7 +2477,7 @@ main(<span class="keyword">function</span>(error, results){
     <span class="keyword">var</span> pushValue = recordValue.bind(<span class="predefined-constant">null</span>, []);
     <span class="keyword">return</span> request.comment().then(pushValue).then(request.people).then(pushValue);
 }
-<span class="comment">// 実行例</span>
+<span class="comment">// 运行的例子</span>
 main().then(<span class="keyword">function</span> (value) {
     console.log(value);
 }).<span class="keyword">catch</span>(<span class="keyword">function</span>(error){
@@ -2490,29 +2486,29 @@ main().then(<span class="keyword">function</span> (value) {
 </div>
 </div>
 <div class="paragraph">
-<p><a href="#multiple-xhr-callback.js">コールバックスタイル</a>と比較してみると次の事がわかります。</p>
+<p>将上述代码和<a href="#multiple-xhr-callback.js">回调函数风格</a>相比我么得到以下结论。</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p><code>JSON.parse</code> をそのまま使っている</p>
+<p>可以直接使用 <code>JSON.parse</code> 函数</p>
 </li>
 <li>
-<p><code>main()</code> はpromiseオブジェクトを返している</p>
+<p>函数 <code>main()</code> 返回promise对象</p>
 </li>
 <li>
-<p>エラーハンドリングは返ってきたpromiseオブジェクトに対して書いている</p>
+<p>错误处理的diff直接对返回的promise对象进行处理</p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
-<p>先ほども述べたように mainの <code>then</code> の部分がクドく感じます。</p>
+<p>向前面我们说的那样，main的 <code>then</code> 部分有点クドく的感觉。</p>
 </div>
 <div class="paragraph">
-<p>Promiseでは、このような複数の非同期処理をまとめて扱う <code>Promise.all</code> と <code>Promise.race</code> という静的メソッドが用意されています。</p>
+<p>Promise为这种需要对多个异步调用进行统一处理准备了 <code>Promise.all</code> 和 <code>Promise.race</code> 这两个静态方法。</p>
 </div>
 <div class="paragraph">
-<p>次のセクションではそれらについて学んでいきましょう。</p>
+<p>在下面的小节中我们将对这两个函数进行说明。</p>
 </div>
 </div>
 </div>
