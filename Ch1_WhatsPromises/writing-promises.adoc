@@ -1,25 +1,25 @@
 [[how-to-write-promise]]
-== Promiseの書き方
+== Promise的写法
 
-Promiseの基本的な書き方について解説します。
+我们来介绍一下Promise的基本写法。
 
-=== promiseオブジェクトの作成
+=== promise对象的做成
 
-promiseオブジェクトを作る流れは以下のようになっています。
+做成promise对象的流程如下所示。
 
-. `new Promise(fn)` の返り値がpromiseオブジェクト
-. `fn` には非同期等の何らかの処理を書く
-    * 処理結果が正常なら、`resolve(結果の値)` を呼ぶ
-    * 処理結果がエラーなら、`reject(Errorオブジェクト)` を呼ぶ
+. `new Promise(fn)` 返回一个promise对象
+. 在`fn` 中写非同期等处理
+    * 处理结果正常的话，调用`resolve(结果的值)` 
+    * 处理结果错误的话，调用`reject(Error对象)` 
 
 
-この流れに沿っているものを実際に書いてみましょう。
+按这个流程我们来实际写下代码吧。
 
-非同期処理であるXMLHttpRequest(XHR)を使いデータを取得するものをPromiseで書いていきます。
+用Promise来获取非同期处理XMLHttpRequest(XHR)的数据。
 
-==== XHRのpromiseオブジェクトを作る
+==== 做成XHR的promise对象
 
-まずは、XHRをPromiseを使って包んだような `getURL` という関数を作ります。
+首先，用Promise把XHRを使って包んだような `getURL` という関数を作ります。
 
 [role="executable"]
 [[xhr-promise.js]]
@@ -138,14 +138,14 @@ getURL(URL).then(onFulfilled, onRejected);// <1>
 基本的には、<<promise.catch,`.catch`>>を使いresolveとrejectそれぞれを別々に処理した方がよいと考えられますが、
 両者の違いについては <<then-or-catch,thenとcatchの違い>> で紹介します。
 
-==== まとめ
+==== 总结
 
-この章では以下のことについて簡単に紹介しました。
+这章简单介绍了以下的内容。
 
-* `new Promise` を使ったpromiseオブジェクトの作成
-* <<promise.then,`.then`>> や <<promise.catch,`.catch`>> を使ったpromiseオブジェクトの処理
+* 用 `new Promise` 做成promise对象
+* 用<<promise.then,`.then`>> 或 <<promise.catch,`.catch`>> 处理promise对象
 
-Promiseの基本的な書き方について学びました。
+到此我们学习了Promise的基本写法。
 他の多くの処理はこれを発展させたり、用意された静的メソッドを利用したものになります。
 
 ここでは、同様の事はコールバック関数を渡す形でも出来るのに対してPromiseで書くメリットについては触れていませんでした。
