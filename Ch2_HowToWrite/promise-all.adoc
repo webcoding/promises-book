@@ -1,14 +1,12 @@
 [[ch2-promise-all]]
 == Promise.all
 
-<<Promise.all, `Promise.all`>> は promiseオブジェクトの配列を受け取り、
-その配列に入っているpromiseオブジェクトが全てresolveされた時に、次の `.then` を呼び出します。
+<<Promise.all, `Promise.all`>> 接收一个 promise对象的数组作为参数，当这个数组里的所有promise对象全部变为resolve状态的时候，它才会去调用 `.then` 方法。
 
-先ほどの複数のXHRの結果をまとめて取得する処理は、 <<Promise.all, `Promise.all`>> を使うとシンプルに書くことができます。
+前面我们看到的批量获得若干XHR的请求结果的例子，使用 <<Promise.all, `Promise.all`>> 的话代码会非常简单。
 
-先ほどの例の `getURL` はXHRによる通信を抽象化したpromiseオブジェクトを返しています。
-`Promise.all` に通信を抽象化したpromiseオブジェクトの配列を渡すことで、
-全ての通信が完了(FulFilledまたRejected)した時に、次の `.then` が呼び出すこと事が出来ます。
+之前例子中的 `getURL` 返回了一个promise对象，它封装了XHR通信的实现。
+向 `Promise.all` 传递一个由封装了XHR通信的promise对象数组的话，则只有在全部的XHR通信完成之后（变为FulFilled或Rejected状态）之后，才会调用 `.then` 方法。
 
 [role="executable"]
 [source,javascript]
@@ -16,7 +14,7 @@
 .promise-all-xhr.js
 ----
 include::embed/embed-promise-all-xhr.js[]
-// 実行例
+// 运行示例
 main().then(function (value) {
     console.log(value);
 }).catch(function(error){
@@ -24,19 +22,18 @@ main().then(function (value) {
 });
 ----
 
-実行方法は <<xhr-promise.js, 前回のもの>> と同じですね。
-<<Promise.all, `Promise.all`>> を使うことで以下のような違いがあることがわかります。
+这个例子的执行方法和 <<xhr-promise.js, 前面的例子>> 一样。
+<<Promise.all, `Promise.all`>> 在以下几点和之前的例子不太一样。
 
-* mainの処理がスッキリしている
-* Promise.all は promiseオブジェクトの配列を扱っている
+* main中的处理变得条理清晰
+* Promise.all 接收 promise对象组成的数组作为参数
 
 [source,javascript]
 Promise.all([request.comment(), request.people()]);
 
-というように処理を書いた場合は、`request.comment()` と `request.people()` は同時に実行されますが、
-それぞれのpromiseの結果(resolve,rejectで渡される値)は、<<Promise.all, `Promise.all`>>に渡した配列の順番となります。
+在上面的代码中，`request.comment()` 和 `request.people()` 会同时开始执行，而且每个promise的结果（resolve或reject时传递的参数值），和传递给 <<Promise.all, `Promise.all`>> 的promise数组的顺序是一致的。
 
-つまり、この場合に次の `.then` に渡される結果の配列は [comment, people]の順番になることが保証されています。
+也就是说，这时候 `.then` 得到的promise数组的执行结果的顺序是固定的，即 [comment, people]。
 
 [source,javascript]
 ----
@@ -45,8 +42,7 @@ main().then(function (results) {
 });
 ----
 
-<<Promise.all, `Promise.all`>> に渡したpromiseオブジェクトが同時に実行されてるのは、
-次のようなタイマーを使った例を見てみると分かりやすいです。
+如果像下面那样使用一个计时器来计算一下程序执行时间的话，那么就可以非常清楚的知道传递给 <<Promise.all, `Promise.all`>> 的promise数组是同时开始执行的。
 
 [role="executable"]
 [source,javascript]
@@ -56,10 +52,9 @@ main().then(function (results) {
 include::embed/embed-promise-all-timer.js[]
 ----
 
-`timerPromisefy` は引数で指定したミリ秒後に、その指定した値でFulFilledとなる
-promiseオブジェクトを返してくれます。
+`timerPromisefy` 会每隔一定时间（通过参数指定）之后，都会返回一个promise对象，状态为FulFilled，其状态值为传给 `timerPromisefy` 的参数。
 
-`Promise.all` に渡してるのは、それを複数作り配列にしたものですね。
+而传给 `Promise.all` 的则是由上述promise组成的数组。
 
 [source,javascript]
 ----
@@ -71,19 +66,16 @@ var promises = [
 ];
 ----
 
-この場合は、1, 32, 64, 128 ミリ秒後にそれぞれ `resolve` されます。
+这时候，每隔1, 32, 64, 128 ms都会有一个promise发生 `resolve` 行为。
 
-つまり、このpromiseオブジェクトの配列がすべてresolveされるには、最低でも128msかかることがわかります。
-実際に<<Promise.all, `Promise.all`>> で処理してみると 約128msかかる事がわかります。
+也就是说，这个promise对象数组中所有promise都变为resolve状态的话，至少需要128ms。实际我们计算一下<<Promise.all, `Promise.all`>> 的执行时间的话，它确实是需要128ms。
 
-この事から、<<Promise.all, `Promise.all`>> が一つづつ順番にやるわけではなく、
-渡されたpromiseオブジェクトの配列を並列に実行してるという事がわかります。
+从上述结果可以看出，传递给 <<Promise.all, `Promise.all`>> 的promise并不是一个个的顺序执行的，而是并行执行的。
 
 [NOTE]
 ====
-仮に逐次的に行われていた場合は、
-1ms待機 -> 32ms待機 -> 64ms待機 -> ... -> 128ms待機 となるので、
-全て完了するまで225ms程度かかる計算になります。
+如果这些promise全部串行处理的话，那么需要
+等待1ms -> 等待32ms -> 等待64ms -> ... -> 等待128ms ，全部执行完毕需要225ms的时间。
 
-実際にPromiseを逐次的に処理したいケースについては第4章の<<promise-sequence, Promiseによる逐次処理>>を参照して下さい。
+要想了解更多关于如何使用Promise进行串行处理的内容，可以参考第4章的<<promise-sequence, Promise中的串行处理>>。
 ====
