@@ -498,7 +498,7 @@ span.line-numbers { border-right: 1px solid #E5E5E5; color: #999; display: inlin
 <li><a href="#promise-is-always-async">2.3. 专栏: Promise只能进行异步操作？</a></li>
 <li><a href="#ch2-promise.then">2.4. Promise#then</a></li>
 <li><a href="#ch2-promise-catch">2.5. Promise#catch</a></li>
-<li><a href="#then-return-new-promise">2.6. コラム: thenは常に新しいpromiseオブジェクトを返す</a></li>
+<li><a href="#then-return-new-promise">2.6. 专栏: 每次调用then都会返回一个新创建的promise对象</a></li>
 <li><a href="#ch2-promise-and-array">2.7. Promise和数组</a></li>
 <li><a href="#ch2-promise-all">2.8. Promise.all</a></li>
 <li><a href="#ch2-promise-race">2.9. Promise.race</a></li>
@@ -552,7 +552,7 @@ span.line-numbers { border-right: 1px solid #E5E5E5; color: #999; display: inlin
 <div id="preamble">
 <div class="sectionbody">
 <div class="github-ribbon">
-<a href="https://github.com/azu/promises-book/"><img style="border: 0;" src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" /></a>
+<a href="https://github.com/liubin/promises-book/"><img style="border: 0;" src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" /></a>
 </div>
 <div class="paragraph">
 <p><span class="icon"><a class="image" href="https://twitter.com/search?q=%23Promise%E6%9C%AC"><i class="icon-twitter icon-2x"></i></a></span> Hash tag <a href="https://twitter.com/search?q=%23Promise%E6%9C%AC">#Promise本</a></p>
@@ -573,8 +573,8 @@ span.line-numbers { border-right: 1px solid #E5E5E5; color: #999; display: inlin
 另外你也可以从下面的链接下载PDF版本。</p>
 </div>
 <div class="download-area">
-<a class="download-button pdf" id="download-pdf" href="http://azu.github.io/promises-book/javascript-promise-book.pdf" download="javascript-promise-book.pdf">下载本书PDF版本</a>
-<a class="download-button source-code" href="https://github.com/azu/promises-book/">下载源代码</a>
+<a class="download-button pdf" id="download-pdf" href="http://liubin.github.io/promises-book/javascript-promise-book.pdf" download="javascript-promise-book.pdf">下载本书PDF版本</a>
+<a class="download-button source-code" href="https://github.com/liubin/promises-book/">下载源代码</a>
 </div>
 <div class="paragraph">
 <p>关于本电子书的创作过程有兴趣的读者，可以下载这个文档供参考 <a href="https://gumroad.com/l/javascript-promise">制作过程</a>。</p>
@@ -1753,14 +1753,13 @@ console.log(<span class="string"><span class="delimiter">'</span><span class="co
 <div class="sect2">
 <h3 id="ch2-promise.then">2.4. Promise#then</h3>
 <div class="paragraph">
-<p>先ほどの章でPromiseの基本となるインスタンスメソッドである <code>then</code> と <code>catch</code> の使い方を説明しました。</p>
+<p>在前面的章节里我们对Promise基本的实例方法 <code>then</code> 和 <code>catch</code> 的使用方法进行了说明</p>
 </div>
 <div class="paragraph">
-<p>その中で <code>.then().catch()</code> とメソッドチェーンで繋げて書いていたことからもわかるように、
-Promiseではいくらでもメソッドチェーンを繋げて処理を書いていくことが出来ます。</p>
+<p>这其中，我想大家已经认识了 <code>.then().catch()</code> 这种方法链式的写法了，其实在Promise里可以将任意个方法连在一起作为一个方法链（method chain）。</p>
 </div>
 <div class="listingblock">
-<div class="title">promiseはメソッドチェーンで繋げて書ける</div>
+<div class="title">promise可以写成方法链的形式</div>
 <div class="content">
 <pre class="CodeRay"><code class="javascript language-javascript">aPromise.then(<span class="keyword">function</span> <span class="function">taskA</span>(value){
 <span class="comment">// task A</span>
@@ -1772,22 +1771,22 @@ Promiseではいくらでもメソッドチェーンを繋げて処理を書い�
 </div>
 </div>
 <div class="paragraph">
-<p><code>then</code> で登録するコールバック関数をそれぞれtaskというものにした時に、
-taskA &#8594; task B という流れをPromiseのメソッドチェーンを使って書くことが出来ます。</p>
+<p>如果把在 <code>then</code> 中注册的每个回调函数称为task的话，那么我们就可以通过Promise方法链方式来编写taskA &#8594; task B 这种流程的逻辑了。</p>
 </div>
 <div class="paragraph">
-<p>Promiseのメソッドチェーンだと長いので、今後は<a href="#promise-chain">promise chain</a>と呼びます。
-このpromise chainがPromiseが非同期処理の流れを書きやすい理由の一つといえるかもしれません。</p>
+<p>Promise方法链这种叫法有点长（其实是在日语里有点长，中文还可以 --译者注），因此后面我们会简化为 <a href="#promise-chain">promise chain</a> 这种叫法。</p>
 </div>
 <div class="paragraph">
-<p>このセクションでは、<code>then</code> を使ったpromise chainの挙動と流れについて学んでいきましょう。</p>
+<p>Promise之所以适合编写异步处理较多的应用，promise chain 应该算是其中的一个原因吧。</p>
+</div>
+<div class="paragraph">
+<p>在本小节，我们将主要针对使用 <code>then</code> 的promise chain的行为和流程进行学习。</p>
 </div>
 <div class="sect3">
 <h4 id="_promise_chain">2.4.1. promise chain</h4>
 <div class="paragraph">
-<p>第一章の例だと、<a href="#promise-chain">promise chain</a>は
-then &#8594; catch というシンプルな例でしたが、このpromise chainをもっとつなげた場合に、
-それぞれのpromiseオブジェクトに登録された onFulfilledとonRejectedがどのように呼ばれるかを見て行きましょう。</p>
+<p>在第一章 <a href="#promise-chain">promise chain</a> 里我们看到了一各很简单的
+then &#8594; catch 的例子，如果我们将方法链的长度变得更长的话，那在每个promise对象中注册的onFulfilled和onRejected将会怎样执行呢？</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -1796,14 +1795,14 @@ then &#8594; catch というシンプルな例でしたが、このpromise chain
 <i class="icon-note" title="Note"></i>
 </td>
 <td class="content">
-promise chain - すなわちメソッドチェーンが短い事は良いことです。
-この例では説明のために長いメソッドチェーンを用います。
+promise chain - 即方法链越短越好。
+在这个例子里我们是为了方便说明才选择了较长的方法链。
 </td>
 </tr>
 </table>
 </div>
 <div class="paragraph">
-<p>次のようなpromise chainを見てみましょう。</p>
+<p>我们先来看看下面这样的promise chain。</p>
 </div>
 <div id="promise-then-catch-flow.js" class="listingblock executable">
 <div class="title">promise-then-catch-flow.js</div>
@@ -1830,80 +1829,73 @@ promise
 </div>
 </div>
 <div class="paragraph">
-<p>このようなpromise chainをつなげた場合、
-それぞれの処理の流れは以下のように図で表せます。</p>
+<p>上面代码中的promise chain的执行流程，如果用一张图来描述一下的话，像下面的图那样。</p>
 </div>
 <div id="promise-then-catch-flow.png" class="imageblock">
 <div class="content">
 <img src="Ch2_HowToWrite/img/promise-then-catch-flow.png" alt="promise-then-catch-flow">
 </div>
-<div class="title">Figure 3. promise-then-catch-flow.jsの図</div>
+<div class="title">Figure 3. promise-then-catch-flow.js附图</div>
 </div>
 <div class="paragraph">
-<p><a href="#promise-then-catch-flow.js">上記のコード</a>では <code>then</code> は第二引数(onRejected)を使っていないため、
-以下のように読み替えても問題ありません。</p>
+<p>在 <a href="#promise-then-catch-flow.js">上述代码</a> 中，我们没有为 <code>then</code> 方法指定第二个参数(onRejected)，也可以像下面这样来理解。</p>
 </div>
 <div class="dlist">
 <dl>
 <dt class="hdlist1"><code>then</code></dt>
 <dd>
-<p>onFulfilledの処理を登録</p>
+<p>注册onFulfilled时的回调函数</p>
 </dd>
 <dt class="hdlist1"><code>catch</code></dt>
 <dd>
-<p>onRejectedの処理を登録</p>
+<p>注册onRejected时的回调函数</p>
 </dd>
 </dl>
 </div>
 <div class="paragraph">
-<p><a href="#promise-then-catch-flow.png">図</a>の方に注目してもらうと、
-<em>Task A</em> と <em>Task B</em> それぞれから <em>onRejected</em> への線が出ていることが分かります。</p>
+<p>再看一下 <a href="#promise-then-catch-flow.png">上面的流程图</a> 的话，我们会发现 <em>Task A</em> 和 <em>Task B</em> 都有指向  <em>onRejected</em> 的线出来。</p>
 </div>
 <div class="paragraph">
-<p>これは、<em>Task A</em> または <em>Task B</em> の処理にて、次のような場合に <em>onRejected</em> が呼ばれるという事を示しています。</p>
+<p>这些线的意思是在 <em>Task A</em> 或 <em>Task B</em> 的处理中，在下面的情况下就会调用 <em>onRejected</em> 方法。</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>例外が発生した時</p>
+<p>发生异常的时候</p>
 </li>
 <li>
-<p>Rejectedなpromiseオブジェクトがreturnされた時</p>
+<p>返回了一个Rejected状态的promise</p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
-<p><a href="#how-to-write-promise">第一章</a>でPromiseの処理は常に <code>try-catch</code> されているようなものなので、
-例外が起きた場合もキャッチして、<code>catch</code> で登録された <code>onRejected</code> の処理を呼ぶことは学びましたね。</p>
+<p>在 <a href="#how-to-write-promise">第一章</a> 中我们已经看到，Promise中的处理习惯上都会采用 <code>try-catch</code> 的风格，当发生异常的时候，会被 <code>catch</code> 捕获并被由此函数注册的回调函数进行错误处理。</p>
 </div>
 <div class="paragraph">
-<p>もう一つの <em>Rejectedなpromiseオブジェクトがreturnされた時</em> については、
-<code>throw</code> を使わずにpromise chain中に <code>onRejected</code> を呼ぶ方法です。</p>
+<p>另一种异常处理策略是通过 <em>返回一个Rejected状态的promise对象</em> 来实现的，这种方法不通过使用 <code>throw</code> 就能在promise chain中对 <code>onRejected</code> 进行调用。</p>
 </div>
 <div class="paragraph">
-<p>これについては、ここでは必要ない内容なので詳しくは、 第4章の <a href="#not-throw-use-reject">throwしないで、rejectしよう</a> にて解説しています。</p>
+<p>关于这种方法由于和本小节关系不大就不在这里详述了，大家可以参考一下第4章 <a href="#not-throw-use-reject">使用reject而不是throw</a> 中的内容。</p>
 </div>
 <div class="paragraph">
-<p>また、<em>onRejected</em> と <em>Final Task</em> には <code>catch</code> のpromise chainがこれより後ろにありません。
-つまり、この処理中に例外が起きた場合はキャッチすることができないことに気をつけましょう。</p>
+<p>此外在promise chain中，由于在 <em>onRejected</em> 和 <em>Final Task</em> 后面没有 <code>catch</code> 处理了，因此在这两个Task中如果出现异常的话将不会被捕获，这点需要注意一下。</p>
 </div>
 <div class="paragraph">
-<p>もう少し具体的に、<em>Task A</em> &#8594; <em>onRejected</em> となる例を見てみます。</p>
+<p>下面我们再来看一个具体的关于 <em>Task A</em> &#8594; <em>onRejected</em> 的例子。</p>
 </div>
 <div class="sect4">
-<h5 id="_task_a">Task Aで例外が発生したケース</h5>
+<h5 id="_task_a">Task A产生异常的例子</h5>
 <div class="paragraph">
-<p><em>Task A</em> の処理中に例外が発生した場合、
-TaskA &#8594; onRejected &#8594; FinalTask という流れで処理が行われます。</p>
+<p><em>Task A</em> 处理中发生异常的话，会按照TaskA &#8594; onRejected &#8594; FinalTask 这个流程来进行处理。</p>
 </div>
 <div class="imageblock">
 <div class="content">
 <img src="Ch2_HowToWrite/img/promise-taska-rejected-flow.png" alt="promise taska rejected flow">
 </div>
-<div class="title">Figure 4. Task Aで例外が発生した時の図</div>
+<div class="title">Figure 4. Task A产生异常时的示意图</div>
 </div>
 <div class="paragraph">
-<p>コードにしてみると以下のようになります。</p>
+<p>将上面流程写成代码的话如下所示。</p>
 </div>
 <div id="promise-then-taska-throw.js" class="listingblock executable">
 <div class="title">promise-then-taska-throw.js</div>
@@ -1931,7 +1923,7 @@ promise
 </div>
 </div>
 <div class="paragraph">
-<p>実行してみると、<em>Task B</em> が呼ばれていない事がわかるでしょう。</p>
+<p>执行这段代码我们会发现 <em>Task B</em> 是不会被调用的。</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -1941,9 +1933,7 @@ promise
 </td>
 <td class="content">
 <div class="paragraph">
-<p>例では説明のためにtaskAで <code>throw</code> して例外を発生させています。
-しかし、実際に明示的にonRejectedを呼びたい場合は、Rejectedなpromiseオブジェクトを返すべきでしょう。
-それぞれの違いについては <a href="#not-throw-use-reject">throwしないで、rejectしよう</a> で解説しています。</p>
+<p>在本例中我们在taskA中使用了 <code>throw</code> 方法故意制造了一个异常。但在实际中想主动进行onRejected调用的时候，应该返回一个Rejected状态的promise对象。关于这种两种方法的异同，请参考 <a href="#not-throw-use-reject">使用reject而不是throw</a> で解説しています。</p>
 </div>
 </td>
 </tr>
@@ -1952,18 +1942,18 @@ promise
 </div>
 </div>
 <div class="sect3">
-<h4 id="_promise_chain_2">2.4.2. promise chainでの値渡し</h4>
+<h4 id="_promise_chain_2">2.4.2. promise chain 中如何传递参数</h4>
 <div class="paragraph">
-<p>先ほどの例ではそれぞれのTaskが独立していて、ただ呼ばれているだけでした。</p>
+<p>前面例子中的Task都是相互独立的，只是被简单调用而已。</p>
 </div>
 <div class="paragraph">
-<p>この時に、Task AがTask Bへ値を渡したい時はどうすれば良いでしょうか?</p>
+<p>这时候如果 Task A 想给 Task B 传递一个参数该怎么办呢？</p>
 </div>
 <div class="paragraph">
-<p>答えはものすごく単純でTask Aの処理で <code>return</code> した値がTask Bが呼ばれるときに引数に設定されます。</p>
+<p>答案非常简单，那就是在 Task A 中 <code>return</code> 的返回值，会在 Task B 执行时传给它。</p>
 </div>
 <div class="paragraph">
-<p>実際に例を見てみましょう。</p>
+<p>我们还是先来看一个具体例子吧。</p>
 </div>
 <div id="promise-then-passing-value.js" class="listingblock executable">
 <div class="title">promise-then-passing-value.js</div>
@@ -1986,21 +1976,21 @@ promise
 </div>
 </div>
 <div class="paragraph">
-<p>スタートは <code>Promise.resolve(1);</code> で、この処理は以下のような流れでpromise chainが処理されていきます。</p>
+<p>这段代码的入口函数是 <code>Promise.resolve(1);</code> ，整体的promise chain执行流程如下所示。</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p><code>Promise.resolve(1);</code> から 1 が <code>increment</code> に渡される</p>
+<p><code>Promise.resolve(1);</code> 传递 1 给 <code>increment</code> 函数</p>
 </li>
 <li>
-<p><code>increment</code> では渡された値に+1した値を <code>return</code> している</p>
+<p>函数 <code>increment</code> 对接收的参数进行 +1 操作并返回（通过<code>return</code>）</p>
 </li>
 <li>
-<p>この値(2)が次の <code>doubleUp</code> に渡される</p>
+<p>这时参数变为2，并再次传给 <code>doubleUp</code> 函数</p>
 </li>
 <li>
-<p>最後に <code>output</code> が出力する</p>
+<p>最后在函数 <code>output</code> 中打印结果</p>
 </li>
 </ol>
 </div>
@@ -2008,15 +1998,13 @@ promise
 <div class="content">
 <img src="Ch2_HowToWrite/img/promise-then-passing-value.png" alt="promise-then-passing-value">
 </div>
-<div class="title">Figure 5. promise-then-passing-value.jsの図</div>
+<div class="title">Figure 5. promise-then-passing-value.js示意图</div>
 </div>
 <div class="paragraph">
-<p>この <code>return</code> する値は数字や文字列だけではなく、
-オブジェクトやpromiseオブジェクトも <code>return</code> することが出来ます。</p>
+<p>每个方法中 <code>return</code> 的值不仅只局限于字符串或者数值类型，也可以是对象或者promise对象等复杂类型。</p>
 </div>
 <div class="paragraph">
-<p>returnした値は <code>Promise.resolve(returnされた値);</code> のように処理されるため、
-何をreturnしても最終的には新しいpromiseオブジェクトを返します。</p>
+<p>return的值会由 <code>Promise.resolve(return的返回值);</code> 进行相应的包装处理，因此不管回调函数中会返回一个什么样的值，最终 <code>then</code> 的结果都是返回一个新创建的promise对象。</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -2025,26 +2013,24 @@ promise
 <i class="icon-note" title="Note"></i>
 </td>
 <td class="content">
-これについて詳しくは <a href="#then-return-new-promise">thenは常に新しいpromiseオブジェクトを返す</a> にて、
-よくある間違いと共に紹介しています。
+关于这部分内容可以参考 <a href="#then-return-new-promise">每次调用then都会返回一个新创建的promise对象</a> ，那里也对一些常见错误进行了介绍。
 </td>
 </tr>
 </table>
 </div>
 <div class="paragraph">
-<p>つまり、 <code>Promise#then</code> は単にコールバックとなる関数を登録するだけではなく、
-受け取った値を変化させて別のpromiseオブジェクトを生成する という機能も持っていることを覚えておくといいでしょう。</p>
+<p>也就是说， <code>Promise#then</code> 不仅仅是注册一个回调函数那么简单，它还会将回调函数的返回值进行变换，创建并返回一个promise对象。</p>
 </div>
 </div>
 </div>
 <div class="sect2">
 <h3 id="ch2-promise-catch">2.5. Promise#catch</h3>
 <div class="paragraph">
-<p><a href="#ch2-promise.then">先ほどのPromise#then</a>についてでも <code>Promise#catch</code> は既に使っていましたね。</p>
+<p>在 <a href="#ch2-promise.then">前面的Promise#then</a> 的章节里，我们已经简单的使用了 <code>Promise#catch</code> 方法。</p>
 </div>
 <div class="paragraph">
-<p>改めて説明すると<a href="#promise.catch">Promise#catch</a>は <code>promise.then(undefined, onRejected);</code> のエイリアスとなるメソッドです。
-つまり、promiseオブジェクトがRejectedとなった時に呼ばれる関数を登録するためのメソッドです。</p>
+<p>这里我们再说一遍，实际上 <a href="#promise.catch">Promise#catch</a> 只是 <code>promise.then(undefined, onRejected);</code> 方法的一个别名而已。
+也就是说，这个方法用来注册当promise对象状态变为Rejected时的回调函数。</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -2053,19 +2039,19 @@ promise
 <i class="icon-note" title="Note"></i>
 </td>
 <td class="content">
-<a href="#promise.then">Promise#then</a>と<a href="#promise.catch">Promise#catch</a>の使い分けについては、
-<a href="#then-or-catch">then or catch?</a>で紹介しています。
+关于如何按场景使用 <a href="#promise.then">Promise#then</a> 和 <a href="#promise.catch">Promise#catch</a> 可以参考
+ <a href="#then-or-catch">then or catch?</a> 中介绍的内容。
 </td>
 </tr>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_ie8">2.5.1. IE8以下での問題</h4>
+<h4 id="_ie8">2.5.1. IE8的问题</h4>
 <div class="paragraph">
 <p><span class="image"><a class="image" href="https://ci.testling.com/azu/promise-catch-error"><img src="Ch2_HowToWrite/img/promise-catch-error.png" alt="Build Status"></a></span></p>
 </div>
 <div class="paragraph">
-<p>このバッジは以下のコードが、 <a href="https://github.com/jakearchibald/es6-promise">polyfill</a> を用いた状態でそれぞれのブラウザで正しく実行できているかを示したものです。</p>
+<p>上面的这张图，是下面这段代码在使用 <a href="https://github.com/jakearchibald/es6-promise">polyfill</a> 的情况下在个浏览器上执行的结果。</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -2075,15 +2061,15 @@ promise
 </td>
 <td class="content">
 <div class="paragraph">
-<p>polyfillとはその機能が実装されていないブラウザでも、その機能が使えるようにするライブラリのことです。
-この例では <a href="https://github.com/jakearchibald/es6-promise">jakearchibald/es6-promise</a> を利用しています。</p>
+<p>polyfill是一个支持在不具备某功能的浏览器上使用该功能的Library。
+这里我们使用的例子则来源于 <a href="https://github.com/jakearchibald/es6-promise">jakearchibald/es6-promise</a> 。</p>
 </div>
 </td>
 </tr>
 </table>
 </div>
 <div class="listingblock executable">
-<div class="title">Promise#catchの実行結果</div>
+<div class="title">Promise#catch的运行结果</div>
 <div class="content">
 <pre class="CodeRay"><code class="javascript language-javascript"><span class="keyword">var</span> promise = Promise.reject(<span class="keyword">new</span> Error(<span class="string"><span class="delimiter">&quot;</span><span class="content">message</span><span class="delimiter">&quot;</span></span>));
 promise.<span class="keyword">catch</span>(<span class="keyword">function</span> (error) {
@@ -2092,19 +2078,17 @@ promise.<span class="keyword">catch</span>(<span class="keyword">function</span>
 </div>
 </div>
 <div class="paragraph">
-<p>このコードをそれぞれのブラウザで実行させると、IE8以下では実行する段階で <strong>識別子がありません</strong> というSyntax Errorになってしまいます。</p>
+<p>如果我们在各种浏览器中执行这段代码，那么在IE8及以下版本则会出现 <strong>identifier not found</strong> 的语法错误。</p>
 </div>
 <div class="paragraph">
-<p>これはどういう事かというと、<code>catch</code> という単語はECMAScriptにおける <a href="http://mothereff.in/js-properties#catch">予約語</a> であることが関係します。</p>
+<p>这是怎么回事呢？ 实际上这和 <code>catch</code> 是ECMAScript的 <a href="http://mothereff.in/js-properties#catch">保留字</a> (Reserved Word)有关。</p>
 </div>
 <div class="paragraph">
-<p>ECMAScript 3では予約語はプロパティの名前に使うことが出来ませんでした。
-IE8以下はECMAScript 3の実装であるため、<code>catch</code> というプロパティを使う <code>promise.catch()</code> という書き方が出来ないため、
-<strong>識別子がありません</strong>というエラーを起こしてしまう訳です。</p>
+<p>在ECMAScript 3中保留字是不能作为对象的属性名使用的。
+而IE8及以下版本都是基于ECMAScript 3实现的，因此不能将 <code>catch</code> 作为属性来使用，也就不能编写类似 <code>promise.catch()</code> 的代码，因此就出现了 <strong>identifier not found</strong> 这种语法错误了。</p>
 </div>
 <div class="paragraph">
-<p>一方、現在のブラウザが実装済みであるECMAScript 5以降では、
-予約語を <a href="http://es5.github.io/#x7.6">IdentifierName</a> 、つまりプロパティ名に利用することが可能となっています。</p>
+<p>而现在的浏览器都是基于ECMAScript 5的，而在ECMAScript 5中保留字都属于 <a href="http://es5.github.io/#x7.6">IdentifierName</a> ，也可以作为属性名使用了。</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -2114,28 +2098,29 @@ IE8以下はECMAScript 3の実装であるため、<code>catch</code> という�
 </td>
 <td class="content">
 <div class="paragraph">
-<p>ECMAScript5でも予約語は <a href="http://es5.github.io/#x7.6">Identifier</a> 、つまり変数名、関数名には利用することが出来ません。
-<code>for</code> という変数が定義できてしまうと <code>for</code> 文との区別ができなくなってしまいます。
-プロパティの場合は <code>object.for</code> と <code>for</code> 文の区別はできるので、少し考えてみると自然な動作ですね。</p>
+<p>在ECMAScript5中保留字也不能作为 <a href="http://es5.github.io/#x7.6">Identifier</a> 即变量名或方法名使用。
+如果我们定义了一个名为 <code>for</code> 的变量的话，那么就不能和循环语句的 <code>for</code> 区分了。
+而作为属性名的话，我们还是很容易区分 <code>object.for</code> 和 <code>for</code> 的，仔细想想我们就应该能接受将保留字属性名来使用了。</p>
 </div>
 </td>
 </tr>
 </table>
 </div>
 <div class="paragraph">
-<p>このECMAScript 3の予約語の問題を回避する書き方も存在します。</p>
+<p>当然，我们也可以想办法回避这个ECMAScript 3保留字带来的问题。
+ here; you’ll have to use :</p>
 </div>
 <div class="paragraph">
-<p><a href="https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Operators/Property_Accessors#Dot_notation">ドット表記法</a>
-はプロパティ名が有効な識別子(ECMAScript 3の場合は予約語が使えない)でないといけませんが、
-<a href="https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Operators/Property_Accessors#Bracket_notation">ブラケット表記法</a>
-は有効な識別子ではなくても利用できます。</p>
+<p><a href="https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Operators/Property_Accessors#Dot_notation">点标记法（dot notation）</a> 要求对象的属性必须是有效的标识符（在ECMAScript 3中则不能使用保留字），</p>
 </div>
 <div class="paragraph">
-<p>つまり、先ほどのコードは以下のように書き換えれば、IE8以下でも実行することが出来ます。(もちろんpolyfillは必要です)</p>
+<p>但是使用 <a href="https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Operators/Property_Accessors#Bracket_notation">中括号标记法（bracket notation）</a>的话，则可以将非合法标识符作为对象的属性名使用。</p>
+</div>
+<div class="paragraph">
+<p>也就是说，上面的代码如果像下面这样重写的话，就能在IE8及以下版本的浏览器中运行了（当然还需要polyfill）。</p>
 </div>
 <div class="listingblock executable">
-<div class="title">Promise#catchの識別子エラーの回避</div>
+<div class="title">解决Promise#catch标识符冲突问题</div>
 <div class="content">
 <pre class="CodeRay"><code class="javascript language-javascript"><span class="keyword">var</span> promise = Promise.reject(<span class="keyword">new</span> Error(<span class="string"><span class="delimiter">&quot;</span><span class="content">message</span><span class="delimiter">&quot;</span></span>));
 promise[<span class="string"><span class="delimiter">&quot;</span><span class="content">catch</span><span class="delimiter">&quot;</span></span>](<span class="keyword">function</span> (error) {
@@ -2144,10 +2129,10 @@ promise[<span class="string"><span class="delimiter">&quot;</span><span class="c
 </div>
 </div>
 <div class="paragraph">
-<p>もしくは単純に <code>catch</code> を使わずに、<code>then</code> を使うことでも回避できます。</p>
+<p>或者我们不单纯的使用 <code>catch</code> ，而是使用 <code>then</code> 也是可以避免这个问题的。</p>
 </div>
 <div class="listingblock executable">
-<div class="title">Promise#catchではなくPromise#thenを使う</div>
+<div class="title">使用Promise#then代替Promise#catch</div>
 <div class="content">
 <pre class="CodeRay"><code class="javascript language-javascript"><span class="keyword">var</span> promise = Promise.reject(<span class="keyword">new</span> Error(<span class="string"><span class="delimiter">&quot;</span><span class="content">message</span><span class="delimiter">&quot;</span></span>));
 promise.then(<span class="predefined-constant">undefined</span>, <span class="keyword">function</span> (error) {
@@ -2156,24 +2141,23 @@ promise.then(<span class="predefined-constant">undefined</span>, <span class="ke
 </div>
 </div>
 <div class="paragraph">
-<p><code>catch</code> という識別子が問題となっているため、ライブラリによっては <code>caught</code> 等の名前が違うだけのメソッドを用意しているケースがあります。</p>
+<p>由于 <code>catch</code> 标识符可能会导致问题出现，因此一些类库（Library）也采用了 <code>caught</code> 作为函数名，而函数要完成的工作是一样的。</p>
 </div>
 <div class="paragraph">
-<p>サポートブラウザにIE8以下を含める時は、この <code>catch</code> の問題に気をつけるといいでしょう。</p>
+<p>如果各位读者需要支持IE8及以下版本的浏览器的话，那么一定要将这个 <code>catch</code> 问题牢记在心中。</p>
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="then-return-new-promise">2.6. コラム: thenは常に新しいpromiseオブジェクトを返す</h3>
+<h3 id="then-return-new-promise">2.6. 专栏: 每次调用then都会返回一个新创建的promise对象</h3>
 <div class="paragraph">
-<p><code>aPromise.then(...).catch(...)</code> は一見すると、全て最初の <code>aPromise</code> オブジェクトに
-メソッドチェーンで処理を書いてるように見えます。</p>
+<p>从代码上乍一看， <code>aPromise.then(...).catch(...)</code> 像是针对最初的 <code>aPromise</code> 对象进行了一连串的方法链调用。</p>
 </div>
 <div class="paragraph">
-<p>しかし、実際には <code>then</code> で新しいpromiseオブジェクト、<code>catch</code> でも別の新しいpromiseオブジェクトを作成して返しています。</p>
+<p>然而实际上不管是 <code>then</code> 还是 <code>catch</code> 方法调用，都返回了一个新的promise对象。</p>
 </div>
 <div class="paragraph">
-<p>本当に新しいpromiseオブジェクトを返しているのか確認してみましょう。</p>
+<p>下面我们就来看看如何确认这两个方法返回的到底是不是新的promise对象。</p>
 </div>
 <div class="listingblock executable">
 <div class="content">
@@ -2191,8 +2175,7 @@ console.log(thenPromise !== catchPromise);<span class="comment">// =&gt; true</s
 </div>
 </div>
 <div class="paragraph">
-<p><code>===</code> 厳密比較演算子によって比較するとそれぞれが別々のオブジェクトなので、
-本当に <code>then</code> や <code>catch</code> は別のpromiseオブジェクトを返していることが分かりました。</p>
+<p><code>===</code> 是严格相等比较运算符，我们可以看出这三个对象都是互不相同的，这也就证明了 <code>then</code> 和 <code>catch</code> 都返回和调用者不同的promise对象。</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -2200,16 +2183,14 @@ console.log(thenPromise !== catchPromise);<span class="comment">// =&gt; true</s
 </div>
 </div>
 <div class="paragraph">
-<p>この仕組みはPromiseを拡張する時は意識しないと、いつのまにか触ってるpromiseオブジェクトが
-別のものであったという事が起こりえると思います。</p>
+<p>我们需要在对Promise进行扩展的时候牢牢记住这一点，否则稍不留神就有可能对错误的promis对象进行了处理。</p>
 </div>
 <div class="paragraph">
-<p>また、<code>then</code> は新しいオブジェクトを作って返すということがわかっていれば、
-次の <code>then</code> の使い方では意味が異なる事に気づくでしょう。</p>
+<p>如果我们知道了 <code>then</code> 方法每次都会创建并返回一个新的promise对象的话，那么我们就应该不难理解下面代码中对 <code>then</code> 的使用方式上的差别了。</p>
 </div>
 <div class="listingblock executable">
 <div class="content">
-<pre class="CodeRay"><code class="javascript language-javascript"><span class="comment">// 1: それぞれの `then` は同時に呼び出される</span>
+<pre class="CodeRay"><code class="javascript language-javascript"><span class="comment">// 1: 对同一个promise对象同时调用 `then` 方法</span>
 <span class="keyword">var</span> aPromise = <span class="keyword">new</span> Promise(<span class="keyword">function</span> (resolve) {
     resolve(<span class="integer">100</span>);
 });
@@ -2225,7 +2206,7 @@ aPromise.then(<span class="keyword">function</span> (value) {
 
 <span class="comment">// vs</span>
 
-<span class="comment">// 2: `then` はpromise chain通り順番に呼び出される</span>
+<span class="comment">// 2: 对 `then` 进行 promise chain 方式进行调用</span>
 <span class="keyword">var</span> bPromise = <span class="keyword">new</span> Promise(<span class="keyword">function</span> (resolve) {
     resolve(<span class="integer">100</span>);
 });
@@ -2239,23 +2220,21 @@ bPromise.then(<span class="keyword">function</span> (value) {
 </div>
 </div>
 <div class="paragraph">
-<p>1のpromiseをメソッドチェーン的に繋げない書き方はあまりすべきではありませんが、
-このような書き方をした場合、それぞれの <code>then</code> はほぼ同時に呼ばれ、また <code>value</code> に渡る値も全て同じ <code>100</code> となります。</p>
+<p>第1种写法中并没有使用promise的方法链方式，这在Promise中是应该极力避免的写法。这种写法中的 <code>then</code> 调用几乎是在同时开始执行的，而且传给每个 <code>then</code> 方法的 <code>value</code> 值都是 <code>100</code> 。</p>
 </div>
 <div class="paragraph">
-<p>2はメソッドチェーン的につなげて書くことにより、resolve &#8594; then &#8594; then &#8594; then と書いた順番にキチンと実行され、
-それぞれの <code>value</code> に渡る値は、一つ前のpromiseオブジェクトで <code>return</code> された値が渡ってくるようになります。</p>
+<p>第2中写法则采用了方法链的方式将对 <code>then</code> 的调用串连在了一起，各函数也会严格按照 resolve &#8594; then &#8594; then &#8594; then 的顺序执行，并且传给每个 <code>then</code> 方法的 <code>value</code> 的值都是前一个promise对象通过 <code>return</code> 返回的值。</p>
 </div>
 <div class="paragraph">
-<p>1の書き方により発生するアンチパターンとしては以下のようなものが有名です。</p>
+<p>下面是一个由方法1中的 <code>then</code> 用法导致的比较容易出现的很有代表性的反模式的例子。</p>
 </div>
 <div class="listingblock">
-<div class="title">✘ <code>then</code> の間違った使い方</div>
+<div class="title">✘ <code>then</code> 的错误使用方法</div>
 <div class="content">
 <pre class="CodeRay"><code class="javascript language-javascript"><span class="keyword">function</span> <span class="function">anAsyncCall</span>() {
     <span class="keyword">var</span> promise = Promise.resolve();
     promise.then(<span class="keyword">function</span>() {
-        <span class="comment">// 何かの処理</span>
+        <span class="comment">// 任意一些处理</span>
         <span class="keyword">return</span> newVar;
     });
     <span class="keyword">return</span> promise;
@@ -2263,32 +2242,29 @@ bPromise.then(<span class="keyword">function</span> (value) {
 </div>
 </div>
 <div class="paragraph">
-<p>このように書いてしまうと、<code>promise.then</code> の中で例外が発生するとその例外を取得する方法がなくなり、
-また、何かの値を返していてもそれを受け取る方法が無くなってしまいます。</p>
+<p>这种写法有很多问题，首先在 <code>promise.then</code> 中产生的异常不会被外部捕获，此外，也不能得到 <code>then</code> 的返回值，即使其有返回值。</p>
 </div>
 <div class="paragraph">
-<p>これは <code>promise.then</code> によって新たに作られたpromiseオブジェクトを返すようにすることで、
-2のようにpromise chainをつなげるようにするべきなので、次のように修正することが出来ます。</p>
+<p>由于每次 <code>promise.then</code> 调用都会返回一个新创建的promise对象，因此需要像上述方式2那样，采用promise chain的方式将调用进行链式化，修改后的代码如下所示。</p>
 </div>
 <div class="listingblock">
-<div class="title"><code>then</code> で作成したオブジェクトを返す</div>
+<div class="title"><code>then</code> 返回返回新创建的promise对象</div>
 <div class="content">
 <pre class="CodeRay"><code class="javascript language-javascript"><span class="keyword">function</span> <span class="function">anAsyncCall</span>() {
     <span class="keyword">var</span> promise = Promise.resolve();
     <span class="keyword">return</span> promise.then(<span class="keyword">function</span>() {
-        <span class="comment">// 何かの処理</span>
+        <span class="comment">// 任意处理</span>
         <span class="keyword">return</span> newVar;
     });
 }</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>これらのアンチパターンについて、詳しくは
-<a href="http://taoofcode.net/promise-anti-patterns/">Promise Anti-patterns</a> を参照して下さい。</p>
+<p>关于这些反模式，详细内容可以参考 <a href="http://taoofcode.net/promise-anti-patterns/">Promise Anti-patterns</a> 。</p>
 </div>
 <div class="paragraph">
-<p>この挙動はPromise全般に当てはまるため、後に説明する<a href="#ch2-promise-all">Promise.all</a>や<a href="#ch2-promise-race">Promise.race</a>も
-引数で受け取ったものとは別のpromiseオブジェクトを作って返しています。</p>
+<p>这种函数的行为贯穿在Promise整体之中，
+包括我们后面要进行说明的 <a href="#ch2-promise-all">Promise.all</a> 和 <a href="#ch2-promise-race">Promise.race</a> ，也都返回和接收参数不同的新的promise对象。</p>
 </div>
 </div>
 <div class="sect2">
@@ -2746,18 +2722,18 @@ Promise.race([winnerPromise, loserPromise]).then(<span class="keyword">function<
 <div class="sect2">
 <h3 id="then-or-catch">2.10. then or catch?</h3>
 <div class="paragraph">
-<p><a href="#catch-as-alias">前の章</a>で <a href="#promise.catch"><code>.catch</code></a> は  <code>promise.then(undefined, onRejected)</code> であるという事を紹介しました。</p>
+<p>在 <a href="#catch-as-alias">上一章</a> 里，我们说过 <a href="#promise.catch"><code>.catch</code></a> 也可以理解为 <code>promise.then(undefined, onRejected)</code> 。</p>
 </div>
 <div class="paragraph">
-<p>この書籍では基本的には、<a href="#promise.catch"><code>.catch</code></a>を使い <a href="#promise.then"><code>.then</code></a> とは分けてエラーハンドリングを書くようにしています。</p>
+<p>在本书里我们还是会将 <a href="#promise.catch"><code>.catch</code></a> 和 <a href="#promise.then"><code>.then</code></a> 分开使用来进行错误处理的。</p>
 </div>
 <div class="paragraph">
-<p>ここでは、<code>.then</code> でまとめて指定した場合と、どのような違いがでるかについて学んでいきましょう。</p>
+<p>此外我们也会学习一下，在 <code>.then</code> 里同时指定处理对错误进行处理的函数相比，和使用 <code>catch</code> 又有什么异同。</p>
 </div>
 <div class="sect3">
-<h4 id="__onrejected">2.10.1. エラー処理ができないonRejected</h4>
+<h4 id="__onrejected">2.10.1. 不能进行错误处理的onRejected</h4>
 <div class="paragraph">
-<p>次のようなコードを見ていきます。</p>
+<p>我们看看下面的这段代码。</p>
 </div>
 <div id="then-throw-error.js" class="listingblock executable">
 <div class="title">then-throw-error.js</div>
@@ -2774,7 +2750,7 @@ Promise.race([winnerPromise, loserPromise]).then(<span class="keyword">function<
 <span class="keyword">function</span> <span class="function">goodMain</span>(onRejected) {
     <span class="keyword">return</span> Promise.resolve(<span class="integer">42</span>).then(throwError).<span class="keyword">catch</span>(onRejected);
 }
-<span class="comment">// 実行例</span>
+<span class="comment">// 运行示例</span>
 badMain(<span class="keyword">function</span>(){
     console.log(<span class="string"><span class="delimiter">&quot;</span><span class="content">BAD</span><span class="delimiter">&quot;</span></span>);
 });
@@ -2784,24 +2760,21 @@ goodMain(<span class="keyword">function</span>(){
 </div>
 </div>
 <div class="paragraph">
-<p>このコード例では、(必ずしも悪いわけではないですが)良くないパターンの <code>badMain</code> と
-ちゃんとエラーハンドリングが行える <code>goodMain</code> があります。</p>
+<p>上面的代码中， <code>badMain</code> 是一个不太好的实现方式（但也不是说它有多坏）， <code>goodMain</code> 则是一个能非常好的进行错误处理的版本。</p>
 </div>
 <div class="paragraph">
-<p><code>badMain</code> がなぜ良くないかというと、<code>.then</code> の第二引数にはエラー処理を書くことが出来ますが、
-そのエラー処理は第一引数の <code>onFulfilled</code> で指定した関数内で起きたエラーをキャッチする事は出来ません。</p>
+<p>为什么说 <code>badMain</code> 不好呢？，因为虽然我们在 <code>.then</code> 的第二个参数中指定了用来错误处理的函数，但实际上它却不能捕获第一个参数 <code>onFulfilled</code> 指定的函数（本例为 <code>throwError</code> ）里面出现的错误。</p>
 </div>
 <div class="paragraph">
-<p>つまり、この場合、 <code>throwError</code> でエラーがおきても、<code>onRejected</code> に指定した関数は呼ばれることなく、
-どこでエラーが発生したのかわからなくなってしまいます。</p>
+<p>也就是说，这时候即使 <code>throwError</code> 抛出了异常，<code>onRejected</code> 指定的函数也不会被调用（即不会输出"BAD"字样）。</p>
 </div>
 <div class="paragraph">
-<p>それに対して、 <code>goodMain</code> は <code>throwError</code>&#8594;<code>onRejected</code> となるように書かれています。
-この場合は <code>throwError</code> でエラーが発生しても、次のchainである <code>.catch</code> が呼ばれるため、エラーハンドリングを行う事が出来ます。</p>
+<p>与此相对的是， <code>goodMain</code> 的代码则遵循了 <code>throwError</code>&#8594;<code>onRejected</code> 的调用流程。
+这时候 <code>throwError</code> 中出现异常的话，在会被方法链中的下一个方法，即 <code>.catch</code> 所捕获，进行相应的错误处理。</p>
 </div>
 <div class="paragraph">
-<p><code>.then</code> のonRejectedが扱う処理は、その(またはそれ以前の)promiseオブジェクトに対してであって、
-<code>.then</code> に書かれたonFulfilledは対象ではないためこのような違いが生まれます。</p>
+<p><code>.then</code> 方法中的onRejected参数所指定的回调函数，实际上针对的是其promise对象或者之前的promise对象，而不是针对
+<code>.then</code> 方法里面指定的第一个参数，即onFulfilled所指向的对象，这也是 <code>then</code> 和 <code>catch</code> 表现不同的原因。</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -2811,8 +2784,8 @@ goodMain(<span class="keyword">function</span>(){
 </td>
 <td class="content">
 <div class="paragraph">
-<p><code>.then</code> や <code>.catch</code> はその場で<strong>新しい</strong>promiseオブジェクトを作って返します。
-Promiseではchainする度に異なるpromiseオブジェクトに対して処理を書くようになっています。</p>
+<p><code>.then</code> 和 <code>.catch</code> 都会创建并返回一个 <strong>新的</strong> promise对象。
+Promise实际上每次在方法链中增加一次处理的时候都是针对不同的promise对象进行的。</p>
 </div>
 </td>
 </tr>
@@ -2825,15 +2798,13 @@ Promiseではchainする度に異なるpromiseオブジェクトに対して処�
 <div class="title">Figure 6. Then Catch flow</div>
 </div>
 <div class="paragraph">
-<p>この場合の <code>then</code> は <code>Promise.resolve(42)</code> に対する処理となり、
-<code>onFulfilled</code> で例外が発生しても、同じ <code>then</code> で指定された <code>onRejected</code> はキャッチすることはありません。</p>
+<p>这种情况下 <code>then</code> 是针对 <code>Promise.resolve(42)</code> 的处理，在<code>onFulfilled</code> 中发生异常，在同一个 <code>then</code> 方法中指定的 <code>onRejected</code> 也不能捕获该异常。</p>
 </div>
 <div class="paragraph">
-<p>この <code>then</code> で発生した例外をキャッチ出来るのは、次のchainで書かれた <code>catch</code> となります。</p>
+<p>在这个 <code>then</code> 中发生的异常，只有在该方法链后面出现的 <code>catch</code> 方法才能捕获。</p>
 </div>
 <div class="paragraph">
-<p>もちろん <code>.catch</code> は <code>.then</code> のエイリアスなので、下記のように <code>.then</code> を使っても問題はありませんが、
-<code>.catch</code> を使ったほうが意図が明確で分かりやすいでしょう。</p>
+<p>当然，由于 <code>.catch</code> 方法是 <code>.then</code> 的别名，我们使用 <code>.then</code> 也能完成同样的工作。只不过使用 <code>.catch</code> 的话意图更明确，更容易理解。</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -2842,38 +2813,38 @@ Promiseではchainする度に異なるpromiseオブジェクトに対して処�
 </div>
 </div>
 <div class="sect3">
-<h4 id="__10">2.10.2. まとめ</h4>
+<h4 id="__10">2.10.2. 总结</h4>
 <div class="paragraph">
-<p>ここでは次のような事について学びました。</p>
+<p>这里我们又学习到了如下一些内容。</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p><code>promise.then(onFulfilled, onRejected)</code> において</p>
+<p>使用<code>promise.then(onFulfilled, onRejected)</code> 的话</p>
 <div class="ulist">
 <ul>
 <li>
-<p><code>onFulfilled</code> で例外がおきても、この <code>onRejected</code> はキャッチできない</p>
+<p>在 <code>onFulfilled</code> 中发生异常的话，在 <code>onRejected</code> 中是捕获不到这个异常的。</p>
 </li>
 </ul>
 </div>
 </li>
 <li>
-<p><code>promise.then(onFulfilled).catch(onRejected)</code> とした場合</p>
+<p>在 <code>promise.then(onFulfilled).catch(onRejected)</code> 的情况下</p>
 <div class="ulist">
 <ul>
 <li>
-<p><code>then</code> で発生した例外を <code>.catch</code> でキャッチできる</p>
+<p><code>then</code> 中产生的异常能在 <code>.catch</code> 中捕获</p>
 </li>
 </ul>
 </div>
 </li>
 <li>
-<p><a href="#promise.then"><code>.then</code></a>と<a href="#promise.catch"><code>.catch</code></a>に本質的な意味の違いはない</p>
+<p><a href="#promise.then"><code>.then</code></a> 和 <a href="#promise.catch"><code>.catch</code></a> 在本质上是没有区别的</p>
 <div class="ulist">
 <ul>
 <li>
-<p>使い分けると意図が明確になる</p>
+<p>需要分场合使用。</p>
 </li>
 </ul>
 </div>
@@ -2881,7 +2852,7 @@ Promiseではchainする度に異なるpromiseオブジェクトに対して処�
 </ol>
 </div>
 <div class="paragraph">
-<p><code>badMain</code> のような書き方をすると、意図とは異なりエラーハンドリングができないケースが存在することは覚えておきましょう。</p>
+<p>我们需要注意如果代码类似 <code>badMain</code> 那样的话，就可能出现程序不会按预期运行的情况，从而不能正确的进行错误处理。</p>
 </div>
 </div>
 </div>
@@ -7048,7 +7019,7 @@ ES6 Promisesの前身となったコミュニティベースの仕様であり�
 <div id="footer">
 <div id="footer-text">
 Version 1.1.2<br>
-Last updated 2014-07-17 15:22:59 CST
+Last updated 2014-07-25 19:04:01 CST
 </div>
 </div>
 </body>
