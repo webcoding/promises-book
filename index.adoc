@@ -18,7 +18,7 @@ azu
 ifeval::["{backend}" == "html5"]
 ++++
 <div class="github-ribbon">
-<a href="https://github.com/azu/promises-book/"><img style="border: 0;" src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" /></a>
+<a href="https://github.com/liubin/promises-book/"><img style="border: 0;" src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" /></a>
 </div>
 ++++
 
@@ -42,8 +42,8 @@ icon:rss[2x, link=https://github.com/azu/promises-book/releases.atom] 可以从�
 
 ++++
 <div class="download-area">
-<a class="download-button pdf" id="download-pdf" href="http://azu.github.io/promises-book/javascript-promise-book.pdf" download="javascript-promise-book.pdf">下载本书PDF版本</a>
-<a class="download-button source-code" href="https://github.com/azu/promises-book/">下载源代码</a>
+<a class="download-button pdf" id="download-pdf" href="http://liubin.github.io/promises-book/javascript-promise-book.pdf" download="javascript-promise-book.pdf">下载本书PDF版本</a>
+<a class="download-button source-code" href="https://github.com/liubin/promises-book/">下载源代码</a>
 </div>
 ++++
 
