@@ -1,8 +1,8 @@
 [[not-throw-use-reject]]
-== throwしないで、rejectしよう
+== 使用reject而不是throw
 
-Promiseコンストラクタや、`then` で実行される関数は基本的に、
-`try...catch` で囲まれてるような状態なので、その中で `throw` をしてもプログラムは終了しません。
+Promise的构造函数，以及被 `then` 调用执行的函数基本上都可以认为是在 
+`try...catch` 代码块中执行的，所以在这些代码中即使使用 `throw` ，程序本身也不会因为异常而终止。
 
 Promiseの中で `throw` による例外が発生した場合は自動的に `try...catch` され、そのpromiseオブジェクトはRejectedとなります。
 
@@ -94,7 +94,7 @@ Promiseを使ったタイムアウト処理の実装については <<race-delay
 
 また、returnするものはプリミティブな値に限らずオブジェクト、そしてpromiseオブジェクトも返す事が出来ます。
 
-// TODO 仕様的な解説 - PromiseReactionTask
+// TODO 规范上的说明 - PromiseReactionTask
 
 この時、returnしたものがpromiseオブジェクトである場合、そのpromiseオブジェクトの状態によって、
 次の `then` に登録されたonFulfilledとonRejectedのうち、どちらが呼ばれるかを決めることが出来ます。
@@ -139,12 +139,12 @@ promise.then(function () {
 }).catch(onRejected);
 ----
 
-=== まとめ
+=== 总结
 
-このセクションでは、以下のことについて学びました。
+在本小节我们主要学习了
 
-* `throw` ではなくて `reject` した方が安全
-* `then` の中でもrejectする方法
+* 使用 `reject` 会比使用 `throw` 安全
+* 在 `then` 中使用reject的方法
 
 中々使いどころが多くはないかもしれませんが、安易に `throw` してしまうよりはいい事が多いので、
 覚えておくといいでしょう。
