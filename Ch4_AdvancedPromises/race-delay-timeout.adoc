@@ -1,5 +1,5 @@
 [[race-delay-timeout]]
-== Promise.raceとdelayによるXHRのキャンセル
+== 使用Promise.race和delay取消XHR请求
 
 このセクションでは<<ch2-promise-race,2章>>で紹介した<<Promise.race,`Promise.race`>>のユースケースとして、
 Promise.raceを使ったタイムアウトの実装を学んでいきます。
@@ -8,7 +8,7 @@ Promise.raceを使ったタイムアウトの実装を学んでいきます。
 これを利用すると簡単に出来ますが、複数のXHRを束ねたタイムアウトや他の機能でも応用が効くため、
 分かりやすい非同期処理であるXHRにおけるタイムアウトによるキャンセルを例にしています。
 
-=== Promiseで一定時間待つ
+=== 让Promise等待指定时间
 
 まずはタイムアウトをPromiseでどう実現するかを見て行きたいと思います。
 
@@ -68,9 +68,9 @@ promiseオブジェクトとタイムアウトの時間を受け取り、`Promis
 [source,javascript]
 ----
 include::embed/embed-simple-timeout-promise.js[]
-// 実行例
+// 运行示例
 var taskPromise = new Promise(function(resolve){
-    // 何らかの処理
+    // 随便一些什么处理
     var delay = Math.random() * 2000;
     setTimeout(function(){
         resolve(delay + "ms");
@@ -103,7 +103,7 @@ ECMAScript6では `class` 構文を使うことで内部的にも正確に継承
 [source,javascript]
 ----
 class MyError extends Error{
-    // Errorを継承したオブジェクト
+    // 继承了Error类的对象
 }
 ----
 ====
@@ -233,7 +233,7 @@ cancelableXHR.abortPromise(xhrPromise);// <2>
 <2> 1で作成したpromiseオブジェクトのリクエストをキャンセル
 
 
-=== まとめ
+=== 总结
 
 ここでは以下の事について学びました。
 

@@ -86,12 +86,12 @@ include::embed/embed-json-promise.js[]
 [source,javascript]
 ----
 include::embed/embed-json-promise.js[]
-// 実行例
-var string = "jsonではない文字列";
+// 运行示例
+var string = "非合法json编码字符串";
 JSONPromise(string).then(function (object) {
     console.log(object);
 }).catch(function(error){
-    // => JSON.parseで例外が発生した時
+    // => JSON.parse抛出异常时
     console.error(error);
 });
 ----
@@ -202,7 +202,7 @@ try{
 [NOTE]
 今回の `Promise.prototype.done` の実装は https://www.promisejs.org/[promisejs.org] を参考にしています。
 
-=== まとめ
+=== 总结
 
 このセクションでは、 https://github.com/kriskowal/q/wiki/API-Reference#promisedoneonfulfilled-onrejected-onprogress[Q] や https://github.com/petkaantonov/bluebird[Bluebird] や https://github.com/cscott/prfun#promisedone--undefined[prfun] 等
 多くのPromiseライブラリで実装されている `done` の基礎的な実装と、`then` とはどのような違いがあるかについて学びました。
@@ -227,13 +227,11 @@ try{
 
 [NOTE]
 ====
-http://blog.getify.com/promises-part-4/[Promises: The Extension Problem (part 4) | getiblog] では、
-Promiseの拡張を書く手法について書かれています。
+在 http://blog.getify.com/promises-part-4/[Promises: The Extension Problem (part 4) | getiblog] 中，介绍了一些如何编写Promise扩展程序的方法。
 
-* `Promise.prototype` を拡張する方法
-* Wrapper/Delegate を使った抽象レイヤーを作る方法
+* 扩展 `Promise.prototype` 的方法
+* 利用 Wrapper/Delegate 创建抽象层
 
-また、Delegateを利用した方法については、 http://speakingjs.com/es5/ch28.html[Chapter 28. Subclassing Built-ins] にて
-詳しく解説されています。
+此外，关于 Delegate 的详细使用方法，也可以参考 http://speakingjs.com/es5/ch28.html[Chapter 28. Subclassing Built-ins] ，那里有详细的说明。
 
 ====
