@@ -1,26 +1,23 @@
 [[promise-sequence]]
-== Promiseによる逐次処理
+== 使用Promise进行顺序（sequence）处理
 
-第2章の<<ch2-promise-all, Promise.all>>では、
-複数のpromiseオブジェクトをまとめて処理する方法について学びました。
+在第2章 <<ch2-promise-all, Promise.all>> 中，我们已经学习了如何让多个promise对象同时开始执行的方法。
 
-しかし、`Promise.all` は全ての処理を並行に行うため、
-Aの処理 が終わったら Bの処理 というような逐次的な処理を扱うことが出来ません。
+但是 `Promise.all` 方法会同时运行多个promise对象，如果想进行在A处理完成之后再开始B的处理这种顺序执行的话就无能为力了。
 
-また、同じ2章の<<ch2-promise-and-array,Promiseと配列>>では、
-効率的ではないですが、<<multiple-xhr.js,thenを連ねた書き方>>でそのような逐次処理を行っていました。
+此外，在同一章的<<ch2-promise-and-array,Promise和数组>> 中，我们也介绍了一种效率不是特别高的，使用了 <<multiple-xhr.js,重复使用多个then的方法>> 来实现如何按顺序进行处理。
 
-このセクションでは、Promiseを使った逐次処理の書き方について学んで行きたいと思います。
+在本小节中，我们将对如何在Promise中进行顺序处理进行介绍。
 
-=== ループと逐次処理
+=== 循环和顺序处理
 
-<<multiple-xhr.js,thenを連ねた書き方>>では以下のような書き方でしたね。
+在 <<multiple-xhr.js,重复使用多个then的方法>> 中的实现方法如下。
 
 [role="executable"]
 [source,javascript]
 ----
 include::../Ch2_HowToWrite/embed/embed-multiple-xhr.js[]
-// 実行例
+// 运行示例
 main().then(function (value) {
     console.log(value);
 }).catch(function(error){
@@ -28,10 +25,9 @@ main().then(function (value) {
 });
 ----
 
-この書き方だと、`request` の数が増える分 `then` を書かないといけなくなってしまいます。
+使用这种写法的话那么随着 `request` 中元素数量的增加，我们也需要不断增加对 `then` 方法的调用
 
-そこで、処理を配列にまとめて、forループで処理していければ、数が増えた場合も問題無いですね。
-まずはforループを使って先ほどと同じ処理を書いてみたいと思います。
+因此，如果我们将处理内容统一放到数组里，再配合for循环进行处理的话，那么处理内容的增加将不会再带来什么问题。首先我们就使用for循环来完成和前面同样的处理。
 
 [role="executable"]
 [source,javascript]
@@ -39,7 +35,7 @@ main().then(function (value) {
 .promise-foreach-xhr.js
 ----
 include::embed/embed-promise-foreach-xhr.js[]
-// 実行例
+// 运行示例
 main().then(function (value) {
     console.log(value);
 }).catch(function(error){
@@ -47,20 +43,17 @@ main().then(function (value) {
 });
 ----
 
-forループで書く場合、<<then-return-new-promise,コラム: thenは常に新しいpromiseオブジェクトを返す
->>や<<promise-and-method-chain,Promiseとメソッドチェーン>>で学んだように、
-<<promise.then, Promise#then>> は新しいpromiseオブジェクトを返しています。
+使用for循环的时候，如同我们在 <<then-return-new-promise,专栏: 每次调用then都会返回一个新创建的promise对象>> 以及 <<promise-and-method-chain,Promise和方法链>> 中学到的那样，每次调用 <<promise.then, Promise#then>> 方法都会返回一个新的promise对象。
 
-そのため、`promise = promise.then(task).then(pushValue);` というのは `promise` という変数に上書きするというよりは、
-そのpromiseオブジェクトに処理を追加していくような処理になっています。
+因此类似 `promise = promise.then(task).then(pushValue);` 的代码就是通过不断对promise进行处理，不断的覆盖 `promise` 变量的值，以达到对promise对象的累积处理效果。
 
-しかし、この書き方だと一時変数として `promise` が必要で、処理の内容的にもあまりスッキリしません。
+但是这种方法需要 `promise` 这个临时变量，从代码质量上来说显得不那么简洁。
 
-このループの書き方は `Array.prototype.reduce` を使うともっとスマートに書くことが出来ます。
+如果将这种循环写法改用 `Array.prototype.reduce` 的话，那么代码就会变得聪明多了。
 
-=== Promise chainとreduce
+=== Promise chain和reduce
 
-`Array.prototype.reduce` を使って書き直すと以下のようになります。
+如果将上面的代码用 `Array.prototype.reduce` 重写的话，会像下面一样。
 
 [role="executable"]
 [source,javascript]
@@ -68,7 +61,7 @@ forループで書く場合、<<then-return-new-promise,コラム: thenは常に
 .promise-reduce-xhr.js
 ----
 include::embed/embed-promise-reduce-xhr.js[]
-// 実行例
+// 运行示例
 main().then(function (value) {
     console.log(value);
 }).catch(function(error){
@@ -76,34 +69,27 @@ main().then(function (value) {
 });
 ----
 
-`main` 以外の処理はforループのものと同様です。
+这段代码中除了 `main` 函数之外的其他处理都和使用for循环的时候相同。
 
-`Array.prototype.reduce` は第二引数に初期値を入れることができます。
-つまりこの場合、最初の `promise` には `Promise.resolve()` が入り、
-そのときの `task` は `request.comment` となります。
+`Array.prototype.reduce` 的第二个参数用来设置盛放计算结果的初始值。在这个例子中， `Promise.resolve()` 会赋值给 `promise` ，此时的 `task` 为 `request.comment` 。
 
-reduceの中で `return` したものが、次のループで `promise` に入ります。
-つまり、`then` を使って作成した新たなpromiseオブジェクトを返すことで、
-forループの場合と同じように<<promise-chain, Promise chain>>を繋げることが出来ます。
+在reduce中第一个参数中被 `return` 的值，则会被赋值为下次循环时的 `promise` 。也就是说，通过返回由 `then` 创建的新的promise对象，就实现了和for循环类似的 <<promise-chain, Promise chain>> 了。
 
 [NOTE]
 =====
-`Array.prototype.reduce` については詳しくは以下を参照して下さい。
+下面是关于 `Array.prototype.reduce` 的详细说明。
 
 * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/Reduce[Array.prototype.reduce() - JavaScript | MDN]
 * http://glide.so/azu/6919649[azu / Array.prototype.reduce Dance - Glide]
 =====
 
-forループと異なる点は、一時変数としての `promise` が不要になることに伴い、
-`promise = promise.then(task).then(pushValue);` という不格好な書き方がなくなる点が大きな違いだと思います。
+使用reduce和for循环不同的地方是reduce不再需要临时变量 `promise` 了，因此也不用编写 `promise = promise.then(task).then(pushValue);` 这样冗长的代码了，这是非常大的进步。
 
-`Array.prototype.reduce` とPromiseの逐次処理は相性が良いので覚えておくといいのですが、
-初めて見た時にどういう動作をするのかがまだ分かりにくいという問題があります。
+虽然 `Array.prototype.reduce` 非常适合用来在Promise中进行顺序处理，但是上面的代码有可能让人难以理解它是如何工作的。
 
-そこで、処理するTaskとなる関数の配列を受け取って逐次処理を行う
-`sequenceTasks` というものを作ってみます。
+因此我们再来编写一个名为 `sequenceTasks` 的函数，它接收一个数组作为参数，数组里面存放的是要进行的处理Task。
 
-以下のように書くことができれば、`tasks` が順番に処理されていく事が関数名から見てわかるようになります。
+从下面的调用代码中我们可以非常容易的从其函数名想到，该函数的功能是对 `tasks` 中的处理进行顺序执行了。
 
 [source,javascript]
 ----
@@ -111,9 +97,9 @@ var tasks = [request.comment, request.people];
 sequenceTasks(tasks);
 ----
 
-=== 逐次処理を行う関数を定義する
+=== 定义进行顺序处理的函数
 
-基本的には、<<promise-reduce-xhr.js,reduceを使ったやり方>>を関数として切り離せばいいだけですね。
+基本上我们只需要基于 <<promise-reduce-xhr.js,使用reduce的方法>> 重构出一个函数。
 
 [source,javascript]
 [[promise-sequence.js]]
@@ -122,15 +108,13 @@ sequenceTasks(tasks);
 include::embed/embed-promise-sequence.js[]
 ----
 
-一つ注意点として、`Promise.all` 等と違い、引数に受け取るのは関数の配列です。
+需要注意的一点是，和 `Promise.all` 等不同，这个函数接收的参数是一个函数的数组。
 
-何故、渡すのがpromiseオブジェクトの配列ではないのかというと、
-promiseオブジェクトを作った段階で既にXHRが実行されている状態なので、
-それを逐次処理しても意図とは異なる動作になるためです。
+为什么传给这个函数的不是一个promise对象的数组呢？这是因为promise对象创建的时候，XHR已经开始执行了，因此再对这些promise对象进行顺序处理的话就不能正常工作了。
 
-そのため `sequenceTasks` では関数(promiseオブジェクトを返す)の配列を引数に受け取ります。
+因此 `sequenceTasks` 将函数(该函数返回一个promise对象)的数组作为参数。
 
-最後に、`sequenceTasks` を使って最初の例を書き換えると以下のようになります。
+最后，使用 `sequenceTasks` 重写最开始的例子的话，如下所示。
 
 [role="executable"]
 [source,javascript]
@@ -138,7 +122,7 @@ promiseオブジェクトを作った段階で既にXHRが実行されている�
 .promise-sequence-xhr.js
 ----
 include::embed/embed-promise-sequence-xhr.js[]
-// 実行例
+// 运行示例
 main().then(function (value) {
     console.log(value);
 }).catch(function(error){
@@ -146,32 +130,29 @@ main().then(function (value) {
 });
 ----
 
-`main()` の中がかなりスッキリしたことが分かります。
+怎样， `main()` 中的流程是不是更清晰易懂了。
 
-このようにPromiseでは、逐次処理という事をするのに色々な書き方が出来ると思います。
+如上所述，在Promise中，我们可以选择多种方法来实现处理的按顺序执行。
 
-* <<multiple-xhr.js, thenをその場に並べた書き方>>
-* <<promise-foreach-xhr.js, forループを使った書き方>>
-* <<promise-reduce-xhr.js, reduceを使った書き方>>
-* <<promise-sequence.js, 逐次処理する関数を分けた書き方>>
+* <<multiple-xhr.js, 循环使用then调用的方法>>
+* <<promise-foreach-xhr.js, 使用for循环的方法>>
+* <<promise-reduce-xhr.js, 使用reduce的方法>>
+* <<promise-sequence.js, 分离出顺序处理函数的方法>>
 
-しかし、これはJavaScriptで配列を扱うのにforループや `forEach` 等、色々やり方があるのと本質的には違いはありません。
-そのため、Promiseを扱う場合も処理をまとめられるところは小さく関数に分けて、実装していくのがいいと言えるでしょう。
+但是，这些方法都是基于JavaScript中对数组及进行操作的for循环或 `forEach` 等，本质上并无大区别。
+因此从一定程度上来说，在处理Promise的时候，将大块的处理分成小函数来实现是一个非常好的实践。
 
-=== まとめ
+=== 总结
 
-このセクションでは、<<Promise.all, `Promise.all`>>とは違い、
-一つづつ順番に処理したい場合に、Promiseでどのように実装していくかについて学びました。
+在本小节中，我们对如何在Promise中进行和 <<Promise.all, `Promise.all`>> 相反，一个个对promise进行处理的实现方式进行了介绍。
 
-手続き的な書き方から、逐次処理を行う関数を定義するところまで見ていき、
-Promiseであっても関数に処理を分けるという基本的な事は変わらないことを示しました。
+为了实现顺序处理，我们也对从过程风格的编码方式到自定义顺序处理函数的方式等实现方式进行了介绍，也再次强调了在Promise领域我们应遵循将处理按照函数进行划分的基本原则。
 
-Promiseで書くとPromise chainを繋げすぎて縦に長い処理を書いてしまうことがあります。
+在Promise中如果还使用了Promise chain将多个处理链接起来的话，那么还可能使源代码中的一条语句变得很长。
 
-そんな時は基本に振り返り、処理を関数に分けることで全体の見通しを良くすることは大切です。
+这时候如果我们回想一下这些编程的基本原则进行函数拆分的话，代码整体结构会变得非常清晰。
 
-また、Promiseのコンストラクタ関数や `then` 等は高階関数なので、
-処理を関数に分けておくと組み合わせが行い易いという副次的な効果もあるため、意識してみるといいかもしれません。
+此外,Promise的构造函数以及 `then` 都是高阶函数，如果将处理分割为函数的话，还能得到对函数进行灵活组合使用的副作用，意识到这一点对我们会有一些帮助的。
 
 [NOTE]
-高階関数とは引数に関数オブジェクトを受け取る関数のこと
+高阶函数指的是一个函数可以接受其参数为函数对象的实例
