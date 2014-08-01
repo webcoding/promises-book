@@ -1,5 +1,5 @@
 [[promise-done]]
-== Promise.prototype.done とは何か?
+== 什么是 Promise.prototype.done ？
 
 既存のPromise実装ライブラリを利用したことがある人は、
 `then` の代わりに使う `done` というメソッドを見たことがあるかもしれません。
