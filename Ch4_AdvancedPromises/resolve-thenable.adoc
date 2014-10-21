@@ -141,29 +141,26 @@ notifyMessageAsPromise("Hi!").then(function (notification) {
 
 上面的 <<notification-as-promise.js>> 虽然看上去很方便，但是实际上使用的时候，很可能出现 **在不支持Promise的环境下不能使用** 的问题。
 
-<<notification-as-promise.js>>のようなPromiseスタイルで使えるライブラリを作る場合、
-ライブラリ作成者には以下の選択肢があると思います。
+如果你想编写像<<notification-as-promise.js>>这样具有Promise风格和的类库的话，我觉得你有如下的一些选择。
 
 [[promise-library-choice]]
-Promiseが使える環境を前提とする::
-* 利用者に `Promise` があることを保証してもらう
-* Promiseをサポートしてない環境では動かないことにする
-ライブラリ自体に `Promise` の実装を入れてしまう::
-* ライブラリ自体にPromiseの実装を取り込む
-* 例) https://github.com/mozilla/localForage[localForage]
-コールバックでも `Promise` でも使えるようにする::
-* 利用者がどちらを使うかを選択出来るようにする
-* Thenableを返せるようにする
+支持Promise的环境是前提::
+* 需要最终用户保证支持`Promise`
+* 在不支持Promise的环境下不能正常工作（即应该出错）。
+在类库中实现`Promise`::
+* 在类库中实现`Promise`功能
+* 例如） https://github.com/mozilla/localForage[localForage]
+在回调函数中也应该能够使用 `Promise`::
+* 用户可以选择合适的使用方式
+* 返回Thenable类型
 
-<<notification-as-promise.js>>は `Promise` があることを前提としたような書き方です。
+<<notification-as-promise.js>>就是以`Promise`存在为前提的写法。
 
-本題に戻り<<Thenable,Thenable>>はここでいう**コールバックでも `Promise` でも使えるようにする**という事を
-実現するのに役立つ概念です。
+回归正文，在这里<<Thenable,Thenable>>是为了帮助实现**在回调函数中也能使用`Promise`**的一个概念。
 
 === Web Notifications As Thenable
 
-<<Thenable,thenable>>というのは `.then` というメソッドを持ってるオブジェクトのことを言いましたね。
-次は<<notification-callback.js>>に `thenable` を返すメソッドを追加してみましょう。
+我们已经说过，<<Thenable,thenable>>就是一个具有 `.then`方法的一个对象。下面我们就在<<notification-callback.js>>中增加一个返回值为 `thenable` 类型的方法。 
 
 [role="executable"]
 [source,javascript]
@@ -179,16 +176,13 @@ Promise.resolve(notifyMessageAsThenable("message")).then(function (notification)
 });
 ----
 
-<<notification-thenable.js>> には `notifyMessageAsThenable` というそのままのメソッドを追加してみました。
-返すオブジェクトには `then` というメソッドがあります。
+<<notification-thenable.js>>里增加了一个 `notifyMessageAsThenable`方法。这个方法返回的对象具备一个`then`方法。 
 
-`then` メソッドの仮引数には `new Promise(function (resolve, reject){})` と同じように、
-解決した時に呼ぶ `resolve` と、棄却した時に呼ぶ `reject` が渡ります。
+`then`方法的参数和 `new Promise(function (resolve, reject){})` 一样，在确定时执行 `resolve` 方法，拒绝时调用 `reject` 方法。
 
-`then` メソッドがやっている中身は<<notification-as-promise.js>>の `notifyMessageAsPromise` と同じですね。
+`then` 方法和 <<notification-as-promise.js>> 中的 `notifyMessageAsPromise` 方法完成了同样的工作。
 
-この `thenable` を `Promise.resolve(thenable)` を使いpromiseオブジェクトにしてから、
-Promiseとして利用していることが分かりますね。
+我们可以看出， `Promise.resolve(thenable)` 通过使用了  `thenable` 这个promise对象，就能利用Promise功能了。
 
 [source,javascript]
 ----
@@ -199,58 +193,47 @@ Promise.resolve(notifyMessageAsThenable("message")).then(function (notification)
 });
 ----
 
-Thenableを使った<<notification-thenable.js>>とPromiseに依存した<<notification-as-promise.js>>は、
-非常に似た使い方ができることがわかります。
+使用了Thenable的<<notification-thenable.js>> 和依赖于Promise的 <<notification-as-promise.js>> ，实际上都是非常相似的使用方法。
 
-<<notification-thenable.js>>には<<notification-as-promise.js>>と比べた時に、次のような違いがあります。
+<<notification-thenable.js>> 和 <<notification-as-promise.js>>比起来，有以下的不同点。
 
-* ライブラリ側に `Promise` 実装そのものはでてこない
-** 利用者が `Promise.resolve(thenable)` を使い `Promise` の実装を与える
-* Promiseとして使う時に `Promise.resolve(thenable)` と一枚挟む必要がある
+* 类库侧没有出现 `Promise` 的实现
+** 用户通过 `Promise.resolve(thenable)` 来自己实现了 `Promise`
+* 作为Promise使用的时候，需要和 `Promise.resolve(thenable)` 一起配合使用
 
-<<Thenable,Thenable>>オブジェクトを利用することで、
-既存のコールバックスタイルとPromiseスタイルの中間的な実装をすることができました。
+通过使用<<Thenable,Thenable>>对象，我们可以实现类似已有的回调式风格和Promise风格中间的一种实现风格。
 
 === 总结
 
-このセクションではThenableとは何かやThenableを `Promise.resolve(thenable)` を使って、
-promiseオブジェクトとして利用する方法について学びました。
+在本小节我们主要学习了什么是Thenable，以及如何通过`Promise.resolve(thenable)` 使用Thenable，将其作为promise对象来使用。
 
 Callback -- Thenable -- Promise
 
-Thenableスタイルは、コールバックスタイルとPromiseスタイルの中間的な表現で、
-ライブラリが公開するAPIとしては中途半端なためあまり見かけることがないと思います。
+Thenable风格表现为位于回调和Promise风格中间的一种状态，作为类库的公开API有点不太成熟，所以并不常见。
 
-Thenable自体は `Promise` という機能に依存してはいませんが、Promise以外からの利用方法は特にないため、
-間接的にはPromiseに依存しています。
+Thenable本身并不依赖于`Promise`功能，但是Promise之外也没有使用Thenable的方式，所以可以认为Thenable间接依赖于Promise。
 
-また、使うためには利用者が `Promise.resolve(thenable)` について理解している必要があるため、
-ライブラリの公開APIとしては難しい部分があります。
-Thenable自体は公開APIより、内部的に使われてるケースが多いでしょう。
+另外，用户需要对 `Promise.resolve(thenable)` 有所理解才能使用好Thenable，因此作为类库的公开API有一部分会比较难。和公开API想必，更多情况下是在内部使用Thenable。
 
 [NOTE]
 ====
-非同期処理を行うライブラリを書く際には、まずはコールバックスタイルの関数を書いて公開APIとすることをオススメします。
+在编写异步处理的类库的时候，推荐采用先编写回调风格的函数，然后再转换为公开API这种方式。
 
-Node.jsのCore moduleがこの方法をとっているように、ライブラリが提供するのは基本となるコールバックスタイル関数としたほうが、
-利用者がPromiseやGenerator等の好きな方法で実装ができるためです。
+貌似Node.js的Core module就采用了这种方式，除了类库提供的基本回调风格的函数之外，用户也可以通过Promise或者Generator等自己擅长的方式进行实现。
 
-最初からPromiseで利用することを目的としたライブラリや、その機能がPromiseに依存している場合は、
-promiseオブジェクトを返す関数を公開APIとしても問題ないと思います。
+最初就是以能被Promise使用为目的的类库，或者其本身依赖于Promise等情况下，我想将返回promise对象的函数作为公开API应该也没什么问题。
 ====
 
 ==== 什么时候该使用Thenable？
 
 那么，又是在什么情况下应该使用Thenable呢？
 
-恐らく、一番多く使われている所は<<promise-library,Promiseのライブラリ>>間での相互変換でしょう。
+恐怕最可能被使用的是在 <<promise-library,Promise类库>> 之间进行相互转换了。
 
-例えば、 QライブラリのPromiseのインスタンスであるQ promiseオブジェクトは、
-<<es6-promises,ES6 Promises>>のpromiseオブジェクトが持っていないメソッドを持っています。
-Q promiseオブジェクトには `promise.finally(callback)` や `promise.nodeify(callback)` などのメソッドが用意されてます。
+比如，类库Q的Promise实例为Q promise对象，提供了 <<es6-promises,ES6 Promises>> 的promise对象不具备的方法。Q promise对象提供了 `promise.finally(callback)` 和 `promise.nodeify(callback)` 等方法。
 
-ES6 PromisesのpromiseオブジェクトをQ promiseオブジェクトに変換するときに使われるのが、
-まさにこのThenableです。
+如果你想将ES6 Promises的promise对象转换为Q promise的对象，轮到Thenable大显身手的时候就到了。
+
 
 [source,javascript]
 .使用thenable将promise对象转换为Q promise对象
@@ -269,13 +252,10 @@ Q(promise).then(function(value){
 ----
 <1> 因为是Q promise对象所以可以使用 `finally` 方法
 
-最初に作成したpromiseオブジェクトは `then` というメソッドを持っているので、もちろんThenableです。
-`Q(thenable)` とすることでThenableなオブジェクトをQ promiseオブジェクトへと変換することが出来ます。
+上面代码中最开始被创建的promise对象具备`then`方法，因此是一个Thenable对象。我们可以通过`Q(thenable)`方法，将这个Thenable对象转换为Q promise对象。
 
-これは、`Promise.resolve(thenable)` と同じ仕組みといえるので、もちろん逆も可能です。
+可以说它的机制和 `Promise.resolve(thenable)` 一样，当然反过来也一样。 
 
-このように、Promiseライブラリはそれぞれ独自に拡張したpromiseオブジェクトを持っていますが、
-Thenableという共通の概念を使うことでライブラリ間(もちろんネイティブPromiseも含めて)で相互にpromiseオブジェクトを変換することが出来ます。
+像这样，Promise类库虽然都有自己类型的promise对象，但是它们之间可以通过Thenable这个共通概念，在类库之间（当然也包括native Promise）进行promise对象的相互转换。
 
-このようにThenableが使われる所の多くはライブラリ内部の実装であるため、あまり目にする機会はないかもしれません。
-しかしこのThenableはPromiseでも大事な概念であるため知っておくとよいでしょう。
+我们看到，就像上面那样，Thenable多在类库内部实现中使用，所以从外部来说不会经常看到Thenable的使用。但是我们必须牢记Thenable是Promise中一个非常重要的概念。
