@@ -135,12 +135,11 @@ promise.catch(function(error){
 
 === 通过超时取消XHR操作
 
-ここまでくれば、どのようにPromiseを使ったXHRのキャンセルを実装するか見えてくるかもしれません。
+到这里，我想各位读者都已经对如何使用Promise来取消一个XHR请求都有一些思路了吧。
 
-XHRのキャンセル自体は `XMLHttpRequest` オブジェクトの `abort()` メソッドを呼ぶだけなので難しくないですね。
+取消XHR操作本身的话并不难，只需要调用 `XMLHttpRequest` 对象的 `abort()` 方法就可以了。 
 
-`abort()` メソッドを外から呼べるようにするために、今までのセクションにもでてきた<<xhr-promise.js,`getURL`>>を少し拡張して、
-XHRを包んだpromiseオブジェクトと共にそのXHRを中止するメソッドを持つオブジェクトを返すようにしています。
+为了能在外部调用 `abort()` 方法，我们先对之前本节出现的 <<xhr-promise.js,`getURL`>> 进行简单的扩展，`cancelableXHR` 方法除了返回一个包装了XHR的promise对象之外，还返回了一个用于取消该XHR请求的`abort`方法。
 
 [source,javascript]
 [[delay-race-cancel.js]]
@@ -149,18 +148,17 @@ XHRを包んだpromiseオブジェクトと共にそのXHRを中止するメソ�
 include::embed/embed-delay-race-cancel.js[]
 ----
 
-これで必要な要素は揃ったので後は、Promiseを使った処理のフローに並べていくだけです。
-大まかな流れとしては以下のようになります。
+在这些问题都明了之后，剩下只需要进行Promise处理的流程进行编码即可。大体的流程就像下面这样。
 
-. `cancelableXHR` を使いXHRのpromiseオブジェクトと中止を呼び出すメソッドを取得する
-. `timeoutPromise` を使いXHRのpromiseとタイムアウト用のpromiseを `Promise.race` で競争させる
-* XHRが時間内に取得出来た場合
-.. 通常のpromiseと同様に `then` で中身を取得する
-* タイムアウトとなった場合は
-.. `throw TimeoutError` されるので `catch` する
-.. catchしたエラーオブジェクトが `TimeoutError` のものだったら `abort` を呼び出してXHRをキャンセルする
+. 通过 `cancelableXHR` 方法取得包装了XHR的promise对象和取消该XHR请求的方法
+. 在 `timeoutPromise` 方法中通过 `Promise.race` 让XHR的包装promise和超时用promise进行竞争。
+* XHR在超时前返回结果的话
+.. 和正常的promise一样，通过 `then` 返回请求结果
+* 发生超时的时候
+.. 抛出 `throw TimeoutError` 异常并被 `catch`
+.. catch的错误对象如果是 `TimeoutError` 类型的话，则调用 `abort` 方法取消XHR请求
 
-これらの要素を全てまとめると次のように書けます。
+将上面的步骤总结一下的话，代码如下所示。
 
 [role="executable"]
 [source,javascript]
@@ -170,33 +168,27 @@ include::embed/embed-delay-race-cancel.js[]
 include::embed/embed-delay-race-cancel-play.js[]
 ----
 
-これで、一定時間後に解決されるpromiseオブジェクトを使ったタイムアウト処理が実現できました。
+上面的代码就通过在一定的时间内变为解决状态的promise对象实现了超时处理。
 
 [NOTE]
-通常の開発の場合は繰り返し使えるように、それぞれファイルに分割して定義しておくといいですね。
+通常进行开发的情况下，由于这些逻辑会频繁使用，因此将这些代码分割到不同的文件是一种不错的选择。
 
 === promise和操作方法
 
-先ほどの<<delay-race-cancel.js,`cancelableXHR`>>はpromiseオブジェクトと操作のメソッドが
-一緒になったオブジェクトを返すようにしていたため少し分かりにくかったかもしれません。
+在前面的 <<delay-race-cancel.js,`cancelableXHR`>> 中，promise对象及其操作方法都是在一个对象中返回的，看起来稍微有些不太好理解。
 
-一つの関数は一つの値(promiseオブジェクト)を返すほうが見通しがいいと思いますが、
-`cancelableXHR` の中で生成した `req` は外から参照できないので、特定のメソッド(先ほどのケースは `abort`)からは触れるようにする必要があります。
+从代码组织的角度来说一个函数只返回一个值（promise对象）是一个非常好的习惯，但是由于在外面不能访问 `cancelableXHR` 方法中创建的 `req` 变量，所以我们需要编写一个专门的函数（上面的例子中的`abort`）来对这些内部对象进行处理。
 
-返すpromiseオブジェクト自体を拡張して `abort` 出来るようにするという手段もあると思いますが、
-promiseオブジェクトは値を抽象化したオブジェクトであるため、何でも操作用のメソッドをつけていくと複雑になってしまうかもしれません。
+当然也可以考虑到对返回的promise对象进行扩展，使其支持`abort`方法，但是由于promise对象是对值进行抽象化的对象，如果不加限制的增加操作用的方法的话，会使整体变得非常复杂。
 
-一つの関数で全てやろうとしてるのがそもそも良くないので、
-ひとつの関数で何でもやるのは止めて、以下のように関数に分離していくというのが妥当な気がします。
+大家都知道一个函数做太多的工作都不认为是一个好的习惯，因此我们不会让一个函数完成所有功能，也许像下面这样对函数进行分割是一个不错的选择。
 
-* XHRを行うpromiseオブジェクトを返す
-* promiseオブジェクトを渡したら該当するXHRを止める
+* 返回包含XHR的promise对象
+* 接收promise对象作为参数并取消该对象中的XHR请求
 
-これらの処理をまとめたモジュールを作れば今後の拡張がしやすいですし、
-一つの関数がやることも小さくて済むので見通しも良くなると思います。
+将这些处理整理为一个模块的话，以后扩展起来也方便，一个函数所做的工作也会比较精炼，代码也会更容易阅读和维护。
 
-モジュールの作り方は色々作法(AMD,CommonJS,ES6 module etc..)があるので
-ここでは、先ほどの `cancelableXHR` をNode.jsのモジュールとして作りなおしてみます。
+我们有很多方法来创建一个模块（AMD,CommonJS,ES6 module etc..），在这里，我们将会把前面的 `cancelableXHR` 整理为一个Node.js的模块使用。
 
 [source,javascript]
 [[cancelableXHR.js]]
@@ -205,8 +197,7 @@ promiseオブジェクトは値を抽象化したオブジェクトであるた�
 include::lib/cancelableXHR.js[]
 ----
 
-使い方もシンプルに `createXHRPromise` でXHRのpromiseオブジェクトを作成して、
-そのXHRを `abort` したい場合は `abortPromise(promise)` にpromiseオブジェクトを渡すという感じで利用できるようになります。
+使用方法也非常简单，我们通过 `createXHRPromise` 方法得到XHR的promise对象，当想对这个XHR进行`abort`操作的时候，将这个promise对象传递给  `abortPromise(promise)` 方法就可以了。 
 
 [source,javascript]
 ----
@@ -214,23 +205,21 @@ var cancelableXHR = require("./cancelableXHR");
 
 var xhrPromise = cancelableXHR.createXHRPromise('http://httpbin.org/get');// <1>
 xhrPromise.catch(function (error) {
-    // abort されたエラーが呼ばれる
+    // 调用 abort 抛出的错误
 });
 cancelableXHR.abortPromise(xhrPromise);// <2>
 ----
-<1> XHRをラップしたpromiseオブジェクトを作成
-<2> 1で作成したpromiseオブジェクトのリクエストをキャンセル
+<1> 创建包装了XHR的promise对象
+<2> 取消在1中创建的promise对象的请求操作
 
 
 === 总结
 
-ここでは以下の事について学びました。
+在这里我们学到了如下内容。
 
-* 一定時間後に解決されるdelayPromise
-* delayPromiseとPromise.raceを使ったタイムアウトの実装
-* XHRのpromiseのリクエストのキャンセル
-* モジュール化によるpromiseオブジェクトと操作の分離
+* 经过一定时间后变为解决状态的delayPromise
+* 基于delayPromise和Promise.race的超时实现方式
+* 取消XHR promise请求
+* 通过模块化实现promise对象和操作的分离
 
-Promiseは処理のフローを制御する力に優れているため、
-それを最大限活かすためには一つの関数でやり過ぎないで処理を小さく分けること等、
-今までのJavaScriptで言われているような事をより意識していいのかもしれません。
+Promise能非常灵活的进行处理流程的控制，为了充分发挥它的能力，我们需要注意不要将一个函数写的过于庞大冗长，而是应该将其分割成更小更简单的处理，并对之前JavaScript中提到的机制进行更深入的了解。
