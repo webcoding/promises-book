@@ -5003,14 +5003,13 @@ promise.<span class="keyword">catch</span>(<span class="keyword">function</span>
 <div class="sect3">
 <h4 id="__xhr">4.5.4. 通过超时取消XHR操作</h4>
 <div class="paragraph">
-<p>ここまでくれば、どのようにPromiseを使ったXHRのキャンセルを実装するか見えてくるかもしれません。</p>
+<p>到这里，我想各位读者都已经对如何使用Promise来取消一个XHR请求都有一些思路了吧。</p>
 </div>
 <div class="paragraph">
-<p>XHRのキャンセル自体は <code>XMLHttpRequest</code> オブジェクトの <code>abort()</code> メソッドを呼ぶだけなので難しくないですね。</p>
+<p>取消XHR操作本身的话并不难，只需要调用 <code>XMLHttpRequest</code> 对象的 <code>abort()</code> 方法就可以了。</p>
 </div>
 <div class="paragraph">
-<p><code>abort()</code> メソッドを外から呼べるようにするために、今までのセクションにもでてきた<a href="#xhr-promise.js"><code>getURL</code></a>を少し拡張して、
-XHRを包んだpromiseオブジェクトと共にそのXHRを中止するメソッドを持つオブジェクトを返すようにしています。</p>
+<p>为了能在外部调用 <code>abort()</code> 方法，我们先对之前本节出现的 <a href="#xhr-promise.js"><code>getURL</code></a> 进行简单的扩展，<code>cancelableXHR</code> 方法除了返回一个包装了XHR的promise对象之外，还返回了一个用于取消该XHR请求的<code>abort</code>方法。</p>
 </div>
 <div id="delay-race-cancel.js" class="listingblock">
 <div class="title">delay-race-cancel.js</div>
@@ -5049,37 +5048,36 @@ XHRを包んだpromiseオブジェクトと共にそのXHRを中止するメソ�
 </div>
 </div>
 <div class="paragraph">
-<p>これで必要な要素は揃ったので後は、Promiseを使った処理のフローに並べていくだけです。
-大まかな流れとしては以下のようになります。</p>
+<p>在这些问题都明了之后，剩下只需要进行Promise处理的流程进行编码即可。大体的流程就像下面这样。</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p><code>cancelableXHR</code> を使いXHRのpromiseオブジェクトと中止を呼び出すメソッドを取得する</p>
+<p>通过 <code>cancelableXHR</code> 方法取得包装了XHR的promise对象和取消该XHR请求的方法</p>
 </li>
 <li>
-<p><code>timeoutPromise</code> を使いXHRのpromiseとタイムアウト用のpromiseを <code>Promise.race</code> で競争させる</p>
+<p>在 <code>timeoutPromise</code> 方法中通过 <code>Promise.race</code> 让XHR的包装promise和超时用promise进行竞争。</p>
 <div class="ulist">
 <ul>
 <li>
-<p>XHRが時間内に取得出来た場合</p>
+<p>XHR在超时前返回结果的话</p>
 <div class="olist loweralpha">
 <ol class="loweralpha" type="a">
 <li>
-<p>通常のpromiseと同様に <code>then</code> で中身を取得する</p>
+<p>和正常的promise一样，通过 <code>then</code> 返回请求结果</p>
 </li>
 </ol>
 </div>
 </li>
 <li>
-<p>タイムアウトとなった場合は</p>
+<p>发生超时的时候</p>
 <div class="olist loweralpha">
 <ol class="loweralpha" type="a">
 <li>
-<p><code>throw TimeoutError</code> されるので <code>catch</code> する</p>
+<p>抛出 <code>throw TimeoutError</code> 异常并被 <code>catch</code></p>
 </li>
 <li>
-<p>catchしたエラーオブジェクトが <code>TimeoutError</code> のものだったら <code>abort</code> を呼び出してXHRをキャンセルする</p>
+<p>catch的错误对象如果是 <code>TimeoutError</code> 类型的话，则调用 <code>abort</code> 方法取消XHR请求</p>
 </li>
 </ol>
 </div>
@@ -5090,7 +5088,7 @@ XHRを包んだpromiseオブジェクトと共にそのXHRを中止するメソ�
 </ol>
 </div>
 <div class="paragraph">
-<p>これらの要素を全てまとめると次のように書けます。</p>
+<p>将上面的步骤总结一下的话，代码如下所示。</p>
 </div>
 <div id="delay-race-cancel-play.js" class="listingblock executable">
 <div class="title">delay-race-cancel-play.js</div>
@@ -5163,7 +5161,7 @@ timeoutPromise(object.promise, <span class="integer">1000</span>).then(<span cla
 </div>
 </div>
 <div class="paragraph">
-<p>これで、一定時間後に解決されるpromiseオブジェクトを使ったタイムアウト処理が実現できました。</p>
+<p>上面的代码就通过在一定的时间内变为解决状态的promise对象实现了超时处理。</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -5172,7 +5170,7 @@ timeoutPromise(object.promise, <span class="integer">1000</span>).then(<span cla
 <i class="icon-note" title="Note"></i>
 </td>
 <td class="content">
-通常の開発の場合は繰り返し使えるように、それぞれファイルに分割して定義しておくといいですね。
+通常进行开发的情况下，由于这些逻辑会频繁使用，因此将这些代码分割到不同的文件是一种不错的选择。
 </td>
 </tr>
 </table>
@@ -5181,38 +5179,32 @@ timeoutPromise(object.promise, <span class="integer">1000</span>).then(<span cla
 <div class="sect3">
 <h4 id="_promise_4">4.5.5. promise和操作方法</h4>
 <div class="paragraph">
-<p>先ほどの<a href="#delay-race-cancel.js"><code>cancelableXHR</code></a>はpromiseオブジェクトと操作のメソッドが
-一緒になったオブジェクトを返すようにしていたため少し分かりにくかったかもしれません。</p>
+<p>在前面的 <a href="#delay-race-cancel.js"><code>cancelableXHR</code></a> 中，promise对象及其操作方法都是在一个对象中返回的，看起来稍微有些不太好理解。</p>
 </div>
 <div class="paragraph">
-<p>一つの関数は一つの値(promiseオブジェクト)を返すほうが見通しがいいと思いますが、
-<code>cancelableXHR</code> の中で生成した <code>req</code> は外から参照できないので、特定のメソッド(先ほどのケースは <code>abort</code>)からは触れるようにする必要があります。</p>
+<p>从代码组织的角度来说一个函数只返回一个值（promise对象）是一个非常好的习惯，但是由于在外面不能访问 <code>cancelableXHR</code> 方法中创建的 <code>req</code> 变量，所以我们需要编写一个专门的函数（上面的例子中的<code>abort</code>）来对这些内部对象进行处理。</p>
 </div>
 <div class="paragraph">
-<p>返すpromiseオブジェクト自体を拡張して <code>abort</code> 出来るようにするという手段もあると思いますが、
-promiseオブジェクトは値を抽象化したオブジェクトであるため、何でも操作用のメソッドをつけていくと複雑になってしまうかもしれません。</p>
+<p>当然也可以考虑到对返回的promise对象进行扩展，使其支持<code>abort</code>方法，但是由于promise对象是对值进行抽象化的对象，如果不加限制的增加操作用的方法的话，会使整体变得非常复杂。</p>
 </div>
 <div class="paragraph">
-<p>一つの関数で全てやろうとしてるのがそもそも良くないので、
-ひとつの関数で何でもやるのは止めて、以下のように関数に分離していくというのが妥当な気がします。</p>
+<p>大家都知道一个函数做太多的工作都不认为是一个好的习惯，因此我们不会让一个函数完成所有功能，也许像下面这样对函数进行分割是一个不错的选择。</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>XHRを行うpromiseオブジェクトを返す</p>
+<p>返回包含XHR的promise对象</p>
 </li>
 <li>
-<p>promiseオブジェクトを渡したら該当するXHRを止める</p>
+<p>接收promise对象作为参数并取消该对象中的XHR请求</p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
-<p>これらの処理をまとめたモジュールを作れば今後の拡張がしやすいですし、
-一つの関数がやることも小さくて済むので見通しも良くなると思います。</p>
+<p>将这些处理整理为一个模块的话，以后扩展起来也方便，一个函数所做的工作也会比较精炼，代码也会更容易阅读和维护。</p>
 </div>
 <div class="paragraph">
-<p>モジュールの作り方は色々作法(AMD,CommonJS,ES6 module etc..)があるので
-ここでは、先ほどの <code>cancelableXHR</code> をNode.jsのモジュールとして作りなおしてみます。</p>
+<p>我们有很多方法来创建一个模块（AMD,CommonJS,ES6 module etc..），在这里，我们将会把前面的 <code>cancelableXHR</code> 整理为一个Node.js的模块使用。</p>
 </div>
 <div id="cancelableXHR.js" class="listingblock">
 <div class="title">cancelableXHR.js</div>
@@ -5270,8 +5262,7 @@ module.exports.abortPromise = abortPromise;</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>使い方もシンプルに <code>createXHRPromise</code> でXHRのpromiseオブジェクトを作成して、
-そのXHRを <code>abort</code> したい場合は <code>abortPromise(promise)</code> にpromiseオブジェクトを渡すという感じで利用できるようになります。</p>
+<p>使用方法也非常简单，我们通过 <code>createXHRPromise</code> 方法得到XHR的promise对象，当想对这个XHR进行<code>abort</code>操作的时候，将这个promise对象传递给  <code>abortPromise(promise)</code> 方法就可以了。</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -5279,7 +5270,7 @@ module.exports.abortPromise = abortPromise;</code></pre>
 
 <span class="keyword">var</span> xhrPromise = cancelableXHR.createXHRPromise(<span class="string"><span class="delimiter">'</span><span class="content">http://httpbin.org/get</span><span class="delimiter">'</span></span>);<i class="conum" data-value="1"></i><b>(1)</b>
 xhrPromise.<span class="keyword">catch</span>(<span class="keyword">function</span> (error) {
-    <span class="comment">// abort されたエラーが呼ばれる</span>
+    <span class="comment">// 调用 abort 抛出的错误</span>
 });
 cancelableXHR.abortPromise(xhrPromise);<i class="conum" data-value="2"></i><b>(2)</b></code></pre>
 </div>
@@ -5288,11 +5279,11 @@ cancelableXHR.abortPromise(xhrPromise);<i class="conum" data-value="2"></i><b>(2
 <table>
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>XHRをラップしたpromiseオブジェクトを作成</td>
+<td>创建包装了XHR的promise对象</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="2"></i><b>2</b></td>
-<td>1で作成したpromiseオブジェクトのリクエストをキャンセル</td>
+<td>取消在1中创建的promise对象的请求操作</td>
 </tr>
 </table>
 </div>
@@ -5300,53 +5291,47 @@ cancelableXHR.abortPromise(xhrPromise);<i class="conum" data-value="2"></i><b>(2
 <div class="sect3">
 <h4 id="__21">4.5.6. 总结</h4>
 <div class="paragraph">
-<p>ここでは以下の事について学びました。</p>
+<p>在这里我们学到了如下内容。</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>一定時間後に解決されるdelayPromise</p>
+<p>经过一定时间后变为解决状态的delayPromise</p>
 </li>
 <li>
-<p>delayPromiseとPromise.raceを使ったタイムアウトの実装</p>
+<p>基于delayPromise和Promise.race的超时实现方式</p>
 </li>
 <li>
-<p>XHRのpromiseのリクエストのキャンセル</p>
+<p>取消XHR promise请求</p>
 </li>
 <li>
-<p>モジュール化によるpromiseオブジェクトと操作の分離</p>
+<p>通过模块化实现promise对象和操作的分离</p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
-<p>Promiseは処理のフローを制御する力に優れているため、
-それを最大限活かすためには一つの関数でやり過ぎないで処理を小さく分けること等、
-今までのJavaScriptで言われているような事をより意識していいのかもしれません。</p>
+<p>Promise能非常灵活的进行处理流程的控制，为了充分发挥它的能力，我们需要注意不要将一个函数写的过于庞大冗长，而是应该将其分割成更小更简单的处理，并对之前JavaScript中提到的机制进行更深入的了解。</p>
 </div>
 </div>
 </div>
 <div class="sect2">
 <h3 id="promise-done">4.6. 什么是 Promise.prototype.done ？</h3>
 <div class="paragraph">
-<p>既存のPromise実装ライブラリを利用したことがある人は、
-<code>then</code> の代わりに使う <code>done</code> というメソッドを見たことがあるかもしれません。</p>
+<p>如果你使用过其它的Promise实现类库的话，可能见过用<code>done</code>代替<code>then</code>的例子。</p>
 </div>
 <div class="paragraph">
-<p>それらのライブラリでは <code>Promise.prototype.done</code> というような実装が存在し、
-使い方は <code>then</code> と同じですが、promiseオブジェクトを返さないようになっています。</p>
+<p>这些类库都提供了 <code>Promise.prototype.done</code> 方法，使用起来也和 <code>then</code> 一样，但是这个方法并不会返回promise对象。</p>
 </div>
 <div class="paragraph">
-<p><code>Promise.prototype.done</code> は、<a href="#es6-promises">ES6 Promises</a>や<a href="#promises-aplus">Promises/A+</a>の仕様には
-存在していない記述ですが、多くのライブラリが実装しています。</p>
+<p>虽然 <a href="#es6-promises">ES6 Promises</a>和<a href="#promises-aplus">Promises/A+</a>等在设计上并没有对<code>Promise.prototype.done</code> 做出任何规定，但是很多实现类库都提供了该方法的实现。</p>
 </div>
 <div class="paragraph">
-<p>このセクションでは、<code>Promise.prototype.done</code> とは何か?
-また何故このようなメソッドが多くのライブラリで実装されているかについて学んでいきましょう。</p>
+<p>在本小节中，我们将会学习什么是 <code>Promise.prototype.done</code> ，以及为什么很多类库都提供了对该方法的支持。</p>
 </div>
 <div class="sect3">
-<h4 id="_done">4.6.1. doneを使ったコード例</h4>
+<h4 id="__done">4.6.1. 使用done的代码示例</h4>
 <div class="paragraph">
-<p>実際にdoneを使ったコードを見てみると <code>done</code> の挙動が分かりやすいと思います。</p>
+<p>看一下实际使用done的代码的例子的话，应该就非常容易理解 <code>done</code> 方法的行为了。</p>
 </div>
 <div id="promise-done-example.js" class="listingblock executable">
 <div class="title">promise-done-example.js</div>
@@ -5364,18 +5349,17 @@ cancelableXHR.abortPromise(xhrPromise);<i class="conum" data-value="2"></i><b>(2
 promise.done(<span class="keyword">function</span> () {
     JSON.parse(<span class="string"><span class="delimiter">'</span><span class="content">this is not json</span><span class="delimiter">'</span></span>);    <span class="comment">// =&gt; SyntaxError: JSON.parse</span>
 });
-<span class="comment">// =&gt; ブラウザの開発ツールのコンソールを開いてみましょう</span></code></pre>
+<span class="comment">// =&gt; 请打开浏览器的开发者工具中的控制台窗口看一下</span></code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>最初に述べたように、<code>Promise.prototype.done</code> は仕様としては存在しないため、
-利用する際は実装されているライブラリを使うか自分で実装する必要があります。</p>
+<p>在前面我们已经说过，promise设计规格并没有对 <code>Promise.prototype.done</code>做出任何规定，因此在使用的时候，你可以使用已有类库提供的实现，也可以自己去实现。</p>
 </div>
 <div class="paragraph">
-<p>実装については後で解説しますが、まずは <code>then</code> を使った場合と <code>done</code> を使ったものを比較してみます。</p>
+<p>我们会在后面讲述如何去自己实现，首先我们这里先对使用 <code>then</code> 和使用 <code>done</code>这两种方式进行一下比较。</p>
 </div>
 <div class="listingblock executable">
-<div class="title">thenを使った場合</div>
+<div class="title">使用then的场景</div>
 <div class="content">
 <pre class="CodeRay"><code class="javascript language-javascript"><span class="keyword">var</span> promise = Promise.resolve();
 promise.then(<span class="keyword">function</span> () {
@@ -5386,26 +5370,26 @@ promise.then(<span class="keyword">function</span> () {
 </div>
 </div>
 <div class="paragraph">
-<p>比べて見ると以下のような違いがあることが分かります。</p>
+<p>从上面我们可以看出，两者之间有以下不同点。</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p><code>done</code> はpromiseオブジェクトを返さない</p>
+<p><code>done</code> 并不返回promise对象</p>
 <div class="ulist">
 <ul>
 <li>
-<p>つまり、doneの後に <code>catch</code> 等のメソッドチェーンはできない</p>
+<p>也就是说，在done之后不能使用 <code>catch</code> 等方法组成方法链</p>
 </li>
 </ul>
 </div>
 </li>
 <li>
-<p><code>done</code> の中で発生したエラーはそのまま外に例外として投げられる</p>
+<p><code>done</code> 中发生的异常会被直接抛给外面</p>
 <div class="ulist">
 <ul>
 <li>
-<p>つまり、Promiseによるエラーハンドリングが行われない</p>
+<p>也就是说，不会进行Promise的错误处理（Error Handling）</p>
 </li>
 </ul>
 </div>
@@ -5413,30 +5397,25 @@ promise.then(<span class="keyword">function</span> () {
 </ul>
 </div>
 <div class="paragraph">
-<p><code>done</code> はpromiseオブジェクトを返していないので、
-Promise chainの最後におくメソッドというのはわかると思います。</p>
+<p>由于<code>done</code> 不会返回promise对象，所以我们不难理解它只能出现在一个方法链的最后。</p>
 </div>
 <div class="paragraph">
-<p>また、Promiseには強力なエラーハンドリング機能があると紹介していましたが、
-<code>done</code> の中ではそのエラーハンドリングをワザと突き抜けて例外を出すようになっています。</p>
+<p>此外，我们已经介绍过了Promise具有强大的错误处理机制，而<code>done</code>则会在函数中跳过错误处理，直接抛出异常。</p>
 </div>
 <div class="paragraph">
-<p>何故このようなPromiseの機能とは相反するメソッドが、多くのライブラリで実装されているかについては
-次のようなPromiseの失敗例を見ていくと分かるかもしれません。</p>
+<p>为什么很多类库都提供了这个和Promise功能相矛盾的函数呢？看一下下面Promise处理失败的例子，也许我们多少就能理解其中原因了吧。</p>
 </div>
 </div>
 <div class="sect3">
 <h4 id="__22">4.6.2. 沈黙したエラー</h4>
 <div class="paragraph">
-<p>Promiseには強力なエラーハンドリング機能がありますが、
-(デバッグツールが上手く働かない場合に)
-この機能がヒューマンエラーをより複雑なものにしてしまう一面があります。</p>
+<p>Promise虽然具备了强大的错误处理机制，但是（调试工具不能顺利运行的时候）这个功能会导致人为错误（human error）更加复杂，这也是它的一个缺点。</p>
 </div>
 <div class="paragraph">
-<p>これは、<a href="#then-or-catch">then or catch?</a>でも同様の内容が出てきたことを覚えているかもしれません。</p>
+<p>也许你还记得，我们在 <a href="#then-or-catch">then or catch?</a> 中也看到了类似的内容。</p>
 </div>
 <div class="paragraph">
-<p>次のような、promiseオブジェクトを返す関数を考えてみましょう。</p>
+<p>像下面那样，我们看一个能返回promise对象的函数。</p>
 </div>
 <div id="json-promise.js" class="listingblock">
 <div class="title">json-promise.js</div>
@@ -5449,11 +5428,10 @@ Promise chainの最後におくメソッドというのはわかると思いま�
 </div>
 </div>
 <div class="paragraph">
-<p>渡された値を <code>JSON.parse</code> してpromiseオブジェクトを返す関数ですね。</p>
+<p>这个函数将接收到的参数传递给 <code>JSON.parse</code> ，并返回一个基于<code>JSON.parse</code>的promise对象。</p>
 </div>
 <div class="paragraph">
-<p>以下のように使うことができ、<code>JSON.parse</code> はパースに失敗すると例外を投げるので、
-それを <code>catch</code> することが出来ます。</p>
+<p>我们可以像下面那样使用这个Promise函数，由于 <code>JSON.parse</code> 会解析失败并抛出一个异常，该异常会被 <code>catch</code> 捕获。</p>
 </div>
 <div class="listingblock executable">
 <div class="content">
@@ -5473,13 +5451,12 @@ JSONPromise(string).then(<span class="keyword">function</span> (object) {
 </div>
 </div>
 <div class="paragraph">
-<p>ちゃんと <code>catch</code> していれば何も問題がないのですが、その処理を忘れてしまうというミスを
-した時にどこでエラーが発生してるのかわからなくなるというヒューマンエラーを助長させる面があります。</p>
+<p>如果这个解析失败的异常被正常捕获的话则没什么问题，但是如果编码时忘记了处理该异常，一旦出现异常，那么查找异常发生的源头将会变得非常棘手，这就是使用promise需要注意的一面。</p>
 </div>
 <div class="listingblock">
-<div class="title">catchによるエラーハンドリングを忘れてしまった場合</div>
+<div class="title">忘记了使用catch进行异常处理的的例子</div>
 <div class="content">
-<pre class="CodeRay"><code class="javascript language-javascript"><span class="keyword">var</span> string = <span class="string"><span class="delimiter">&quot;</span><span class="content">jsonではない文字列</span><span class="delimiter">&quot;</span></span>;
+<pre class="CodeRay"><code class="javascript language-javascript"><span class="keyword">var</span> string = <span class="string"><span class="delimiter">&quot;</span><span class="content">非合法json编码字符串</span><span class="delimiter">&quot;</span></span>;
 JSONPromise(string).then(<span class="keyword">function</span> (object) {
     console.log(object);
 }); <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
@@ -5489,16 +5466,15 @@ JSONPromise(string).then(<span class="keyword">function</span> (object) {
 <table>
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>例外が投げられても何も処理されない</td>
+<td>虽然抛出了异常，但是没有对该异常进行处理</td>
 </tr>
 </table>
 </div>
 <div class="paragraph">
-<p><code>JSON.parse</code> のような分かりやすい例の場合はまだ良いですが、
-メソッドをtypoしたことによるSyntax Errorなどはより深刻な問題となりやすいです。</p>
+<p>如果是<code>JSON.parse</code> 这样比较好找的例子还算好说，如果是拼写错误的话，那么发生了るSyntax Error错误的话将会非常麻烦。</p>
 </div>
 <div class="listingblock">
-<div class="title">typoによるエラー</div>
+<div class="title">typo错误</div>
 <div class="content">
 <pre class="CodeRay"><code class="javascript language-javascript"><span class="keyword">var</span> string = <span class="string"><span class="delimiter">&quot;</span><span class="content">{}</span><span class="delimiter">&quot;</span></span>;
 JSONPromise(string).then(<span class="keyword">function</span> (object) {
@@ -5510,12 +5486,12 @@ JSONPromise(string).then(<span class="keyword">function</span> (object) {
 <table>
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>conosle というtypoがある</td>
+<td>存在conosle这个拼写错误</td>
 </tr>
 </table>
 </div>
 <div class="paragraph">
-<p>この場合は、<code>console</code> を <code>conosle</code> とtypoしているため、以下のようなエラーが発生するはずです。</p>
+<p>这这个例子里，我们错把 <code>console</code> 拼成了 <code>conosle</code> ，因此会发生如下错误。</p>
 </div>
 <div class="quoteblock">
 <blockquote>
@@ -5525,13 +5501,11 @@ JSONPromise(string).then(<span class="keyword">function</span> (object) {
 </blockquote>
 </div>
 <div class="paragraph">
-<p>しかし、Promiseではtry-catchされるため、エラーが握りつぶされてしまうという現象が発生しやすくなります。
-毎回、正しく <code>catch</code> の処理を書くことが出来る場合は何も問題ありませんが、
-Promiseの実装によってはこのようなミスが検知しにくくなるケースがあることを知っておくべきでしょう。</p>
+<p>但是，由于Promise的try-catch机制，这个问题可能会被内部消化掉。
+如果在调用的时候每次都无遗漏的进行 <code>catch</code> 处理的话当然最好了，但是如果在实现的过程中出现了这个例子中的错误的话，那么进行错误排除的工作也会变得困难。</p>
 </div>
 <div class="paragraph">
-<p>このようなエラーの握りつぶしは<em>unhandled rejection</em>と言われることがあります。
-Rejectedされた時の処理がないというそのままの意味ですね。</p>
+<p>这种错误被内部消化的问题也被称为 <em>unhandled rejection</em> ，从字面上看就是在Rejected时没有找到相应处理的意思。</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -5541,8 +5515,8 @@ Rejectedされた時の処理がないというそのままの意味ですね。
 </td>
 <td class="content">
 <div class="paragraph">
-<p>このunhandled rejectionが検知しにくい問題はPromiseの実装に依存します。
-例えば、 <a href="https://github.com/yahoo/ypromise">ypromise</a> はunhandled rejectionがある場合は、その事をコンソールに表示します。</p>
+<p>这种unhandled rejection错误到底有多难检查，也依赖于Promise的实现。
+比如 <a href="https://github.com/yahoo/ypromise">ypromise</a> 在检测到 unhandled rejection 错误的时候，会在控制台上提示相应的信息。</p>
 </div>
 <div class="quoteblock">
 <blockquote>
@@ -5552,8 +5526,7 @@ Rejectedされた時の処理がないというそのままの意味ですね。
 </blockquote>
 </div>
 <div class="paragraph">
-<p>また、 <a href="https://github.com/petkaantonov/bluebird">Bluebird</a> の場合も、
-明らかに人間のミスにみえるReferenceErrorの場合などはそのままコンソールにエラーを表示してくれます。</p>
+<p>另外， <a href="https://github.com/petkaantonov/bluebird">Bluebird</a> 在比较明显的人为错误，即ReferenceError等错误的时候，会直接显示到控制台上。</p>
 </div>
 <div class="quoteblock">
 <blockquote>
@@ -5563,15 +5536,13 @@ Rejectedされた時の処理がないというそのままの意味ですね。
 </blockquote>
 </div>
 <div class="paragraph">
-<p>ネイティブのPromiseの場合も同様にこの問題への対処としてGC-based unhandled rejection trackingというものが
-搭載されつつあります。</p>
+<p>原生（Native）的 Promise实现为了应对同样问题，提供了GC-based unhandled rejection tracking功能。</p>
 </div>
 <div class="paragraph">
-<p>これはpromiseオブジェクトがガーベッジコレクションによって回収されるときに、
-それがunhandled rejectionであるなら、エラー表示をするという仕組みがベースとなっているようです。</p>
+<p>该功能是在promise对象被垃圾回收器回收的时候，如果是unhandled rejection的话，则进行错误显示的一种机制。</p>
 </div>
 <div class="paragraph">
-<p><a href="https://twitter.com/domenic/status/461154989856264192">Firefox</a> や <a href="https://code.google.com/p/v8/issues/detail?id=3093">Chrome</a> のネイティブPromiseでは一部実装されています。</p>
+<p><a href="https://twitter.com/domenic/status/461154989856264192">Firefox</a> 或 <a href="https://code.google.com/p/v8/issues/detail?id=3093">Chrome</a> 的原生Promise都进行了部分实现。</p>
 </div>
 </td>
 </tr>
@@ -5579,14 +5550,13 @@ Rejectedされた時の処理がないというそのままの意味ですね。
 </div>
 </div>
 <div class="sect3">
-<h4 id="_done_2">4.6.3. doneの実装</h4>
+<h4 id="_done">4.6.3. done的实现</h4>
 <div class="paragraph">
 <p>Promiseにおける <code>done</code> は先程のエラーの握りつぶしを避けるにはどうするかという方法論として、
 そもそもエラーハンドリングをしなければいい という豪快な解決方法を提供するメソッドです。</p>
 </div>
 <div class="paragraph">
-<p><code>done</code> はPromiseの上に実装することが出来るので、
-<code>Promise.prototype.done</code> というPromiseのprototype拡張として実装してみましょう。</p>
+<p>由于可以在 Promise上实现 <code>done</code> 方法，因此我们看看如何对 <code>Promise.prototype.done</code> 这个Promise的prototype进行扩展。</p>
 </div>
 <div id="promise-prototype-done.js" class="listingblock">
 <div class="title">promise-prototype-done.js</div>
@@ -5604,11 +5574,10 @@ Rejectedされた時の処理がないというそのままの意味ですね。
 </div>
 </div>
 <div class="paragraph">
-<p>どのようにPromiseの外へ例外を投げているかというと、
-setTimeoutの中でthrowをすることで、外へそのまま例外を投げられることを利用しています。</p>
+<p>那么它是如何将异常抛到Promise的外面的呢？其实这里我们利用的是在setTimeout中使用throw方法，直接将异常抛给了外部。</p>
 </div>
 <div class="listingblock">
-<div class="title">setTimeoutのコールバック内での例外</div>
+<div class="title">setTimeout的回调函数中抛出异常</div>
 <div class="content">
 <pre class="CodeRay"><code class="javascript language-javascript"><span class="keyword">try</span>{
     setTimeout(<span class="keyword">function</span> <span class="function">callback</span>() {
@@ -5623,7 +5592,7 @@ setTimeoutの中でthrowをすることで、外へそのまま例外を投げ�
 <table>
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>この例外はキャッチされない</td>
+<td>这个例外不会被捕获</td>
 </tr>
 </table>
 </div>
@@ -5635,12 +5604,12 @@ setTimeoutの中でthrowをすることで、外へそのまま例外を投げ�
 </td>
 <td class="content">
 <div class="paragraph">
-<p>なぜ非同期の <code>callback</code> 内での例外をキャッチ出来ないのかは以下が参考になります。</p>
+<p>关于为什么异步的<code>callback</code>中抛出的异常不会被捕获的原因，可以参考下面内容。</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p><a href="http://techblog.yahoo.co.jp/programming/javascript_error/">JavaScriptと非同期のエラー処理 - Yahoo! JAPAN Tech Blog</a></p>
+<p><a href="http://techblog.yahoo.co.jp/programming/javascript_error/">JavaScript和异步错误处理 - Yahoo! JAPAN Tech Blog</a></p>
 </li>
 </ul>
 </div>
@@ -5649,13 +5618,13 @@ setTimeoutの中でthrowをすることで、外へそのまま例外を投げ�
 </table>
 </div>
 <div class="paragraph">
-<p><a href="#promise-prototype-done.js"><code>Promise.prototype.done</code></a> をよく見てみると、何も <code>return</code> していないこともわかると思います。
-つまり、<code>done</code> は「ここでPromise chainは終了して、例外が起きた場合はそのままpromiseの外へ投げ直す」という処理になっています。</p>
+<p>仔细看一下 <a href="#promise-prototype-done.js"><code>Promise.prototype.done</code></a>的代码，我们会发现这个函数什么也没 <code>return</code> 。
+也就是说， <code>done</code>按照「Promise chain在这里将会中断，如果出现了异常，直接抛到promise外面即可」的原则进行了处理。</p>
 </div>
 <div class="paragraph">
-<p>実装や環境がしっかり対応していれば、<em>unhandled rejection</em>の検知はできるため、必ずしも <code>done</code> が必要というわけではなく、
-また今回の<a href="#promise-prototype-done.js"><code>Promise.prototype.done</code></a>のように、<code>done</code> は既存のPromiseの上に実装することができるため、
-<a href="#es6-promises">ES6 Promises</a>の仕様そのものには入らなかったと言えるかもしれません。</p>
+<p>如果实现和运行环境实现的比较完美的话，就可以进行 <em>unhandled rejection</em> 检测，<code>done</code>也不一定是必须的了。
+另外像本小节中的 <a href="#promise-prototype-done.js"><code>Promise.prototype.done</code></a>一样，<code>done</code>也可以在既有的Promise之上进行实现，是否也可以说它没有进入到
+<a href="#es6-promises">ES6 Promises</a>的设计规范之中。</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -5664,7 +5633,7 @@ setTimeoutの中でthrowをすることで、外へそのまま例外を投げ�
 <i class="icon-note" title="Note"></i>
 </td>
 <td class="content">
-今回の <code>Promise.prototype.done</code> の実装は <a href="https://www.promisejs.org/">promisejs.org</a> を参考にしています。
+本文中的 <code>Promise.prototype.done</code> 的实现方法参考了 <a href="https://www.promisejs.org/">promisejs.org</a> 。
 </td>
 </tr>
 </table>
@@ -5673,37 +5642,37 @@ setTimeoutの中でthrowをすることで、外へそのまま例外を投げ�
 <div class="sect3">
 <h4 id="__23">4.6.4. 总结</h4>
 <div class="paragraph">
-<p>このセクションでは、 <a href="https://github.com/kriskowal/q/wiki/API-Reference#promisedoneonfulfilled-onrejected-onprogress">Q</a> や <a href="https://github.com/petkaantonov/bluebird">Bluebird</a> や <a href="https://github.com/cscott/prfun#promisedone&#8212;undefined">prfun</a> 等
-多くのPromiseライブラリで実装されている <code>done</code> の基礎的な実装と、<code>then</code> とはどのような違いがあるかについて学びました。</p>
+<p>在本小节中，我们学习了 <a href="https://github.com/kriskowal/q/wiki/API-Reference#promisedoneonfulfilled-onrejected-onprogress">Q</a> 、 <a href="https://github.com/petkaantonov/bluebird">Bluebird</a> 和 <a href="https://github.com/cscott/prfun#promisedone&#8212;undefined">prfun</a> 等Promise类库提供的 <code>done</code> 的基础和实现细节，以及<code>done</code>方法和 <code>then</code> 方法有什么区别等内容。</p>
 </div>
 <div class="paragraph">
-<p><code>done</code> には2つの側面があることがわかりました。</p>
+<p>我们也学到了 <code>done</code> 有以下两个特点。</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p><code>done</code> の中で起きたエラーは外へ例外として投げ直す</p>
+<p><code>done</code> 中出现的错误会被作为异常抛出</p>
 </li>
 <li>
-<p>Promise chain を終了するという宣言</p>
+<p>终结 Promise chain</p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
-<p><a href="#then-or-catch">then or catch?</a> と同様にPromiseにより沈黙してしまったエラーについては、
-デバッグツールやライブラリの改善等で殆どのケースでは問題ではなくなるかもしれません。</p>
+<p>和 <a href="#then-or-catch">then or catch?</a> 中说到的一样，由Promise内部消化掉的错误，随着调试工具或者类库的改进，大多数情况下也许已经不是特别大的问题了。</p>
+</div>
+<div class="paragraph">
+<p>此外，由于 <code>done</code> 不会有返回值，因此不能在它之后进行方法链的创建，为了实现Promise方法风格上的统一，我们也可以使用<code>done</code>方法。</p>
 </div>
 <div class="paragraph">
 <p>また、<code>done</code> は値を返さない事でそれ以上Promise chainを繋げる事ができなくなるため、
 そのような統一感を持たせるという用途で <code>done</code> を使うことも出来ます。</p>
 </div>
 <div class="paragraph">
-<p><a href="#es6-promises">ES6 Promises</a> では根本に用意されてる機能はあまり多くありません。
-そのため、自ら拡張したり、拡張したライブラリ等を利用するケースが多いと思います。</p>
+<p><a href="#es6-promises">ES6 Promises</a> 本身提供的功能并不是特别多。
+因此，我想很多时候可能需要我们自己进行扩展或者使用第三方类库。</p>
 </div>
 <div class="paragraph">
-<p>その時でも何でもやり過ぎると、せっかく非同期処理をPromiseでまとめても複雑化してしまう場合があるため、
-統一感を持たせるというのは抽象的なオブジェクトであるPromiseにおいては大事な部分と言えるかもしれません。</p>
+<p>我们好不容易将异步处理统一采用Promise进行统一处理，但是如果做过头了，也会将系统变得特别复杂，因此，保持风格的统一是Promise作为抽象对象非常重要的部分。</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -6925,7 +6894,7 @@ ES6 Promisesの前身となったコミュニティベースの仕様であり�
 <div id="footer">
 <div id="footer-text">
 Version 1.1.2<br>
-Last updated 2014-08-01 21:26:18 CST
+Last updated 2014-10-22 21:26:45 CST
 </div>
 </div>
 </body>
