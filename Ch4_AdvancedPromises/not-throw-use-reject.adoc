@@ -1,10 +1,10 @@
 [[not-throw-use-reject]]
-== throwしないで、rejectしよう
+== 使用reject而不是throw
 
-Promiseコンストラクタや、`then` で実行される関数は基本的に、
-`try...catch` で囲まれてるような状態なので、その中で `throw` をしてもプログラムは終了しません。
+Promise的构造函数，以及被 `then` 调用执行的函数基本上都可以认为是在 
+`try...catch` 代码块中执行的，所以在这些代码中即使使用 `throw` ，程序本身也不会因为异常而终止。
 
-Promiseの中で `throw` による例外が発生した場合は自動的に `try...catch` され、そのpromiseオブジェクトはRejectedとなります。
+在Promise中使用 `throw` 语句的话，会被 `try...catch` 住，最终promise对象也变为Rejected状态。
 
 [role="executable"]
 [source,javascript]
@@ -17,10 +17,9 @@ promise.catch(function(error){
 });
 ----
 
-このように書いても動作的には問題ありませんが、<<promise-states,promiseオブジェクトの状態>>をRejectedにしたい場合は
-`reject` という与えられた関数を呼び出すのが一般的です。
+代码像这样其实运行时倒也不会有什么问题，但是如果想把 <<promise-states,promise对象状态>> 设置为Rejected状态的话，使用 `reject` 方法则更显得合理。
 
-先ほどのコードは以下のように書くことが出来ます。
+所以上面的代码可以改写为下面这样。
 
 [role="executable"]
 [source,javascript]
@@ -33,22 +32,20 @@ promise.catch(function(error){
 })
 ----
 
-`throw` が `reject` に変わったと考えれば、`reject` にはErrorオブジェクトを渡すべきであるということが分かりやすいかもしれません。
+其实我们也可以这么来考虑，在出错的时候我们并没有调用 `throw` 方法，而是使用了 `reject` ，那么给 `reject` 方法传递一个Error类型的对象也就很好理解了。
 
-=== なぜrejectした方がいいのか
+=== 使用reject有什么优点？
 
-そもそも、promiseオブジェクトの状態をRejectedにしたい場合に、
-何故 `throw` ではなく `reject` した方がいいのでしょうか?
+话说回来，为什么在想将promise对象的状态设置为Rejected的时候应该使用 `reject` 而不是 `throw` 呢？
 
-ひとつは `throw` が意図したものか、それとも本当に**例外**なのか区別が難しくなってしまうことにあります。
+首先是因为我们很难区分 `throw` 是我们主动抛出来的，还是因为真正的其它 **异常** 导致的。
 
-例えば、Chrome等の開発者ツールには例外が発生した時に、
-デバッガーが自動でbreakする機能が用意されています。
+比如在使用Chrome浏览器的时候，Chrome的开发者工具提供了在程序发生异常的时候自动在调试器中break的功能。
 
 .Pause On Caught Exceptions
 image::img/chrome_on_caught_exception.png[Pause On Caught Exceptions]
 
-この機能を有効にしていた場合、以下のように `throw` するとbreakしてしまいます。
+当我们开启这个功能的时候，在执行到下面代码中的 `throw` 时就会触发调试器的break行为。
 
 [source,javascript]
 ----
@@ -57,62 +54,57 @@ var promise = new Promise(function(resolve, reject){
 });
 ----
 
-本来デバッグとは関係ない場所でbreakしてしまうため、
-Promiseの中で `throw` している箇所があると、この機能が殆ど使い物にならなくなってしまうでしょう。
+本来这是和调试没有关系的地方，也因为在Promise中的 `throw` 语句被break了，这也严重的影响了浏览器提供的此功能的正常使用。
 
-=== thenでもrejectする
+=== 在then中进行reject
 
-Promiseコンストラクタの中では `reject` という関数そのものがあるので、
-`throw` を使わないでpromiseオブジェクトをRejectedにするのは簡単でした。
+在Promise构造函数中，有一个用来指定 `reject` 方法的参数，使用这个参数而不是依靠 
+`throw` 将promise对象的状态设置为Rejected状态非常简单。
 
-では、次のような `then` の中でrejectしたい場合はどうすればいいでしょうか?
+那么如果像下面那样想在 `then` 中进行reject的话该怎么办呢？
 
 [source,javascript]
 ----
 var promise = Promise.resolve();
 promise.then(function (value) {
     setTimeout(function () {
-        // 一定時間経って終わらなかったらrejectしたい <2>
+        // 经过一段时间后还没处理完的话就进行reject <2>
     }, 1000);
-    // 時間がかかる処理 <1>
+    // 比较耗时的处理 <1>
     somethingHardWork();
 }).catch(function (error) {
-    // タイムアウトエラー <3>
+    // 超时错误 <3>
 });
 ----
 
-いわゆるタイムアウト処理ですが、`then` の中で `reject` を呼びたいと思った場合に、
-コールバック関数に渡ってくるのは一つ前のpromiseオブジェクトの返した値だけなので困ってしまいます。
+上面的超时处理，需要在 `then` 中进行 `reject` 方法调用，但是传递给当前的回调函数的参数只有前面的一promise对象，这该怎么办呢？
 
 [NOTE]
-Promiseを使ったタイムアウト処理の実装については <<race-delay-timeout,Promise.raceとdelayによるXHRのキャンセル>> にて詳しく解説しています。
+关于使用Promise进行超时处理的具体实现方法可以参考 <<race-delay-timeout,使用Promise.race和delay取消XHR请求>> 中的详细说明。
 
-ここで少し `then` の挙動について思い出してみましょう。
+在这里我们再次回忆下 `then` 的工作原理。
 
-`then` に登録するコールバック関数では値を `return` することができます。
-この時returnした値が、次の `then` や `catch` のコールバックに渡されます。
+在 `then` 中注册的回调函数可以通过 `return` 返回一个值，这个返回值会传给后面的 `then` 或 `catch` 中的回调函数。
 
-また、returnするものはプリミティブな値に限らずオブジェクト、そしてpromiseオブジェクトも返す事が出来ます。
+而且return的返回值类型不光是简单的字面值，还可以是复杂的对象类型，比如promise对象等。
 
-// TODO 仕様的な解説 - PromiseReactionTask
+// TODO 规范上的说明 - PromiseReactionTask
 
-この時、returnしたものがpromiseオブジェクトである場合、そのpromiseオブジェクトの状態によって、
-次の `then` に登録されたonFulfilledとonRejectedのうち、どちらが呼ばれるかを決めることが出来ます。
+这时候，如果返回的是promise对象的话，那么根据这个promise对象的状态，在下一个 `then` 中注册的回调函数中的onFulfilled和onRejected的哪一个会被调用也是能确定的。
 
 [source,javascript]
 ----
 var promise = Promise.resolve();
 promise.then(function () {
     var retPromise = new Promise(function (resolve, reject) {
-        // resolve or reject で onFulfilled or onRejected どちらを呼ぶか決まる
+        // resolve or reject 的状态决定 onFulfilled or onRejected 的哪个方法会被调用
     });
     return retPromise;// <1>
 }).then(onFulfilled, onRejected);
 ----
-<1> 次に呼び出されるthenのコールバックはpromiseオブジェクトの状態によって決定される
+<1> 后面的then调用哪个回调函数是由promise对象的状态来决定的
 
-つまり、この `retPromise` がRejectedになった場合は、`onRejected` が呼び出されるので、
-`throw` を使わなくても `then` の中でrejectすることが出来ます。
+也就是说，这个 `retPromise` 对象状态为Rejected的时候，会调用后面then中的 `onRejected` 方法，这样就实现了即使在 `then` 中不使用 `throw` 也能进行reject处理了。
 
 [role="executable"]
 [source,javascript]
@@ -127,7 +119,7 @@ promise.then(function () {
 }).catch(onRejected);
 ----
 
-これは、<<Promise.reject>> を使うことでもっと簡潔に書くことが出来ます。
+使用 <<Promise.reject>> 的话还能再将代码进行简化。
 
 [role="executable"]
 [source,javascript]
@@ -139,15 +131,14 @@ promise.then(function () {
 }).catch(onRejected);
 ----
 
-=== まとめ
+=== 总结
 
-このセクションでは、以下のことについて学びました。
+在本小节我们主要学习了
 
-* `throw` ではなくて `reject` した方が安全
-* `then` の中でもrejectする方法
+* 使用 `reject` 会比使用 `throw` 安全
+* 在 `then` 中使用reject的方法
 
-中々使いどころが多くはないかもしれませんが、安易に `throw` してしまうよりはいい事が多いので、
-覚えておくといいでしょう。
+也许实际中我们可能不常使用 `reject` ，但是比起来不假思索的使用 `throw` 来说，使用 `reject` 的好处还是很多的。
 
-これを利用した具体的な例としては、
-<<race-delay-timeout,Promise.raceとdelayによるXHRのキャンセル>> で解説しています。
+关于上面讲的内容的比较详细的例子，大家可以参考在 
+<<race-delay-timeout,使用Promise.race和delay取消XHR请求>> 小节的介绍。

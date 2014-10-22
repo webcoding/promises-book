@@ -2,13 +2,13 @@
 = Chapter.4 - Advanced
 :imagesdir: Ch4_AdvancedPromises
 
-この章では、これまでに学んだことの応用や発展した内容について学んでいきます。
+在这一章里，我们会基于前面学到的内容，再深入了解一下Promise里更高级的内容，加深对Promise的理解。
 
-// promiseとレビュー
+// promise和类库
 include::promise-library.adoc[]
 
 
-// Promise.resolveとthenable
+// Promise.resolve和thenable
 include::resolve-thenable.adoc[]
 
 // not-throw-use-reject.adoc

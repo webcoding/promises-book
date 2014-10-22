@@ -1,5 +1,5 @@
 [[promise-and-method-chain]]
-== Promiseとメソッドチェーン
+== Promise和方法链（method chain）
 
 Promiseは `then` や `catch` 等のメソッドを繋げて書いていきます。
 これはDOMやjQuery等でよくみられるメソッドチェーンとよく似ています。
@@ -17,7 +17,7 @@ Promiseは `then` や `catch` 等のメソッドを繋げて書いていきま�
 このセクションでは、一般的なメソッドチェーンで書かれたものを
 インターフェースはそのままで内部的にはPromiseで処理されるようにする方法について学んでいきたいと思います。
 
-=== fsのメソッドチェーン
+=== fs中的方法链
 
 以下のような http://nodejs.org/api/fs.html[Node.jsのfs]モジュールを例にしてみたいと思います。
 
@@ -108,9 +108,9 @@ promise.then(function read(){
 既存のpromiseオブジェクトに対して新たな処理を**追加**したpromiseオブジェクトを作って返すため、
 自分で逐次的に処理する機構を実装しなくても問題ないわけです。
 
-=== 両者の違い
+=== 两者的区别
 
-==== 同期と非同期
+==== 同步和异步
 
 <<fs-method-chain.js>>と<<fs-promise-chain.js,Promise版>>の違いを見ていくと、
 そもそも両者には同期的、非同期的という大きな違いがあります。
@@ -121,7 +121,7 @@ promise.then(function read(){
 Promise版は<<promise-is-always-async,コラム: Promiseは常に非同期?>>で紹介したように
 常に非同期処理となるため、promiseを使ったメソッドチェーンも非同期となっています。
 
-==== エラーハンドリング
+==== 错误处理
 
 <<fs-method-chain.js>>にはエラーハンドリングの処理は入っていないですが、
 同期処理であるため全体を `try-catch` で囲む事で行えます。
@@ -147,7 +147,7 @@ File.read(inputFilePath)
 エラーハンドリングが大きな問題となるため、非同期処理にしたい時は
 Promiseを使うと比較的簡単に実装できると言えるかもしれません。
 
-=== Promise以外での非同期処理
+=== Promise之外的异步处理
 
 このメソッドチェーンと非同期処理を見てNode.jsに慣れている方は http://nodejs.org/api/stream.html[Stream] が思い浮かぶと思います。
 
@@ -172,7 +172,7 @@ Node.jsのStreamについて詳しくは以下を参照して下さい。
 * http://www.slideshare.net/shigeki_ohtsu/stream2-kihon[Stream2の基本]
 * http://www.slideshare.net/shigeki_ohtsu/node-v012tng12[Node-v0.12の新機能について]
 
-=== Promiseラッパー
+=== Promise wrapper
 
 話を戻して<<fs-method-chain.js>>と<<fs-promise-chain.js,Promise版>>の両者を比べると、
 内部的にもかなり似ていて、同期版のものがそのまま非同期版でも使えるような気がします。
@@ -198,7 +198,7 @@ fs.readFileAsync("myfile.js", "utf8").then(function(contents){
 });
 ----
 
-==== ArrayのPromiseラッパー
+==== Array的Promise wrapper
 
 先ほどの https://github.com/petkaantonov/bluebird/blob/master/API.md#promisification[Promisification] が何をやっているのか少しイメージしにくいので、
 次のようなネイティブ `Array` のPromise版となるメソッドを動的に定義する例を考えてみましょう。
@@ -239,14 +239,14 @@ Node.jsのCoreモジュールの非同期処理には `function(error,result){}`
 自動的にPromiseでラップしたメソッドを生成しています
 ====
 
-=== まとめ
+=== 总结
 
-このセクションでは以下のことについて学びました。
+在本小节我们主要学习了下面的这些内容。
 
-* Promise版のメソッドチェーンの実装
-* Promiseが常に非同期の最善の手段ではない
+* Promise版的方法链实现
+* Promise并不是总是异步编程的最佳选择
 * Promisification
-* 統一的なインターフェースの再利用
+* 统一接口的重用
 
 <<es6-promises,ES6 Promises>>はCoreとなる機能しか用意されていません。
 そのため、自分でPromiseを使った既存の機能のラッパー的な実装をする事があるかもしれません。
