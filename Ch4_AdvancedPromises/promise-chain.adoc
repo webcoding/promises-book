@@ -155,18 +155,14 @@ NOTE: Node.js的Stream是一种基于Event的技术
 
 === Promise wrapper
 
-話を戻して<<fs-method-chain.js>>と<<fs-promise-chain.js,Promise版>>の両者を比べると、
-内部的にもかなり似ていて、同期版のものがそのまま非同期版でも使えるような気がします。
+再回到 <<fs-method-chain.js>> 和 <<fs-promise-chain.js,Promise版>>，这两种方法相比较内部实现也非常相近，让人觉得是不是同步版本的代码可以直接就当做异步方式来使用呢？
 
-JavaScriptでは動的にメソッドを定義することもできるため、
-自動的にPromise版を生成できないかということを考えると思います。
-(もちろん静的に定義する方が扱いやすいですが)
+由于JavaScript可以向对象动态添加方法，所以从理论上来说应该可以从非Promise版自动生成Promise版的代码。（当然静态定义的实现方式容易处理）
 
-そのような仕組みは<<es6-promises,ES6 Promises>>にはありませんが、
-著名なサードパーティのPromise実装である https://github.com/petkaantonov/bluebird/[bluebird] などには
-https://github.com/petkaantonov/bluebird/blob/master/API.md#promisification[Promisification] という機能が用意されています。
+尽管 <<es6-promises,ES6 Promises>> 并没有提供此功能，但是著名的第三方Promise实现类库 https://github.com/petkaantonov/bluebird/[bluebird] 等提供了被称为
+https://github.com/petkaantonov/bluebird/blob/master/API.md#promisification[Promisification] 的功能。
 
-これを利用すると以下のように、その場でpromise版のメソッドを追加して利用できるようになります。
+如果使用类似这样的类库，那么就可以动态给对象增加promise版的方法。
 
 [source,javascript]
 ----
@@ -181,11 +177,10 @@ fs.readFileAsync("myfile.js", "utf8").then(function(contents){
 
 ==== Array的Promise wrapper
 
-先ほどの https://github.com/petkaantonov/bluebird/blob/master/API.md#promisification[Promisification] が何をやっているのか少しイメージしにくいので、
-次のようなネイティブ `Array` のPromise版となるメソッドを動的に定義する例を考えてみましょう。
+前面的 https://github.com/petkaantonov/bluebird/blob/master/API.md#promisification[Promisification] 具体都干了些什么光凭想象恐怕不太容易理解，我们可以通过给原生的 `Array` 增加Promise版的方法为例来进行说明。
 
-JavaScriptにはネイティブにもDOMやString等メソッドチェーンが行える機能が多くあります。
-`Array` もその一つで、`map` や `filter` 等のメソッドは配列を返すため、メソッドチェーンが利用しやすい機能です
+在JavaScript中原生DOM或String等也提供了很多创建方法链的功能。
+`Array` 中就有诸如 `map` 和 `filter` 等方法，这些方法会返回一个数组类型，可以用这些方法方便的组建方法链。
 
 [source,javascript]
 [[array-promise-chain.js]]
@@ -194,8 +189,7 @@ JavaScriptにはネイティブにもDOMやString等メソッドチェーンが�
 include::src/promise-chain/array-promise-chain.js[]
 ----
 
-ネイティブのArrayと `ArrayAsPromise` を使った場合の違いは
-<<array-promise-chain.js,上記のコード>>のテストを見てみるのが分かりやすいでしょう。
+原生的 Array 和 `ArrayAsPromise` 在使用时有什么差异呢？我们可以通过对 <<array-promise-chain.js,上面的代码>> 进行测试来了解它们之间的不同点。
 
 [source,javascript]
 [[array-promise-chain-test.js]]
@@ -204,20 +198,17 @@ include::src/promise-chain/array-promise-chain.js[]
 include::test/array-promise-chain-test.js[]
 ----
 
-`ArrayAsPromise` でもArrayのメソッドを利用できているのが分かります。
-先ほどと同じように、ネイティブのArrayは同期処理で、`ArrayAsPromise` は非同期処理という違いがあります。
+我们看到，在 `ArrayAsPromise` 中也能使用 Array的方法。而且也和前面的例子类似，原生的Array时同步处理，而 `ArrayAsPromise` 则是异步处理，这也是它们的不同之处。
 
-`ArrayAsPromise` の実装を見て気づくと思いますが、`Array.prototype` のメソッドを全て実装しています。
-しかし、`array.indexOf` など `Array.prototype` には配列を返さないものもあるため、全てをメソッドチェーンにするのは不自然なケースがあると思います。
+仔细看一下 `ArrayAsPromise` 的实现，也许你已经注意到了， `Array.prototype` 的所有方法都被实现了。
+但是，`Array.prototype` 中也存在着类似`array.indexOf` 等并不会返回数组类型数据的方法，这些方法如果也要支持方法链的话就有些不自然了。
 
-ここで大事なのが、同じ値を受けるインターフェースを持っているAPIはこのような手段でPromise版のAPIを自動的に作成できるという点です。
-このようなAPIの規則性を意識してみるとまた違った使い方が見つかるかもしれません。
+在这里非常重要的一点是，我们可以通过这种方式，为具有接收相同类型数据接口的API动态的创建Promise版的API。
+如果我们能意识到这种API的规则性的话，那么就可能发现一些新的使用方法。
 
 [NOTE]
 ====
-先ほどの https://github.com/petkaantonov/bluebird/blob/master/API.md#promisification[Promisification] は
-Node.jsのCoreモジュールの非同期処理には `function(error,result){}` というように第一引数に `error` が来るというルールを利用して、
-自動的にPromiseでラップしたメソッドを生成しています
+前面我们看到的 https://github.com/petkaantonov/bluebird/blob/master/API.md#promisification[Promisification] 方法，借鉴了了 Node.js的Core模块中在进行异步处理时将 `function(error,result){}` 方法的第一个参数设为 `error` 这一规则，自动的创建由Promise包装好的方法。
 ====
 
 === 总结
@@ -229,11 +220,10 @@ Node.jsのCoreモジュールの非同期処理には `function(error,result){}`
 * Promisification
 * 统一接口的重用
 
-<<es6-promises,ES6 Promises>>はCoreとなる機能しか用意されていません。
-そのため、自分でPromiseを使った既存の機能のラッパー的な実装をする事があるかもしれません。
+<<es6-promises,ES6 Promises>>只提供了一些Core级别的功能。
+因此，我们也许需要对现有的方法用Promise方式重新包装一下。
 
-しかし、何度もコールバックを呼ぶEventのような処理がPromiseには不向きなように、
-Promiseが常に最適な非同期処理という訳ではありません。
+但是，类似Event等调用次数没有限制的回调函数等在并不适合使用Promise，Promise也不能说什么时候都是最好的选择。
 
-その機能にPromiseを使うのが最適なのかを考える事はこの書籍の目的でもあるため、
-何でもPromiseにするというわけではなく、その目的にPromiseが合うのかどうかを考えてみるのもいいと思います。
+至于什么情况下应该使用Promise，什么时候不该使用Promise，并不是本书要讨论的目的，
+我们需要牢记的是不要什么都用Promise去实现，我想最好根据自己的具体目的和情况，来考虑是应该使用Promise还是其它方法。
