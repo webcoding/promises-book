@@ -5706,11 +5706,10 @@ JSONPromise(string).then(<span class="keyword">function</span> (object) {
 <div class="sect2">
 <h3 id="promise-and-method-chain">4.7. Promise和方法链（method chain）</h3>
 <div class="paragraph">
-<p>Promiseは <code>then</code> や <code>catch</code> 等のメソッドを繋げて書いていきます。
-これはDOMやjQuery等でよくみられるメソッドチェーンとよく似ています。</p>
+<p>在Promise中你可以将 <code>then</code> 和 <code>catch</code> 等方法连在一起写。这非常像DOM或者jQuery中的方法链。</p>
 </div>
 <div class="paragraph">
-<p>一般的なメソッドチェーンは <code>this</code> を返すことで、メソッドを繋げて書けるようになっています。</p>
+<p>一般的方法链都通过返回 <code>this</code> 将多个方法串联起来。</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -5720,28 +5719,25 @@ JSONPromise(string).then(<span class="keyword">function</span> (object) {
 </td>
 <td class="content">
 <div class="paragraph">
-<p>メソッドチェーンの作り方については <a href="http://taiju.hatenablog.com/entry/20100307/1267962826">メソッドチェーンの作り方 - あと味</a> などを参照するといいでしょう。</p>
+<p>关于如何创建方法链，可以从参考 <a href="http://taiju.hatenablog.com/entry/20100307/1267962826">方法链的创建方法 - 余味</a> 等资料。</p>
 </div>
 </td>
 </tr>
 </table>
 </div>
 <div class="paragraph">
-<p>一方、Promiseは<a href="#then-return-new-promise">毎回新しいpromiseオブジェクトを返す</a>ようになっていますが、
-一般的なメソッドチェーンと見た目は全く同じです。</p>
+<p>另一方面，由于Promise <a href="#then-return-new-promise">每次都会返回一个新的promise对象</a> ，所以从表面上看和一般的方法链几乎一模一样。</p>
 </div>
 <div class="paragraph">
-<p>このセクションでは、一般的なメソッドチェーンで書かれたものを
-インターフェースはそのままで内部的にはPromiseで処理されるようにする方法について学んでいきたいと思います。</p>
+<p>在本小节里，我们会在不改变已有采用方法链编写的代码的外部接口的前提下，学习如何在内部使用Promise进行重写。</p>
 </div>
 <div class="sect3">
 <h4 id="_fs">4.7.1. fs中的方法链</h4>
 <div class="paragraph">
-<p>以下のような <a href="http://nodejs.org/api/fs.html">Node.jsのfs</a>モジュールを例にしてみたいと思います。</p>
+<p>我们下面将会以 <a href="http://nodejs.org/api/fs.html">Node.js中的fs</a> 为例进行说明。</p>
 </div>
 <div class="paragraph">
-<p>また、今回の例は見た目のわかりやすさを重視しているため、
-現実的にはあまり有用なケースとは言えないかもしれません。</p>
+<p>此外，这里的例子我们更重视代码的易理解性，因此从实际上来说这个例子可能并不算太实用。</p>
 </div>
 <div id="fs-method-chain.js" class="listingblock">
 <div class="title">fs-method-chain.js</div>
@@ -5772,8 +5768,7 @@ module.exports = File;</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>このモジュールは以下のようにread &#8594; transform &#8594; writeという流れを
-メソッドチェーンで表現することができます。</p>
+<p>这个模块可以将类似下面的 read &#8594; transform &#8594; write 这一系列处理，通过组成一个方法链来实现。</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -5788,15 +5783,13 @@ File.read(inputFilePath)
 </div>
 </div>
 <div class="paragraph">
-<p><code>transform</code> は引数で受け取った値を変更する関数を渡して処理するメソッドです。
-この場合は、readで読み込んだ内容の先頭に <code>&gt;&gt;</code> という文字列を追加しているだけです。</p>
+<p><code>transform</code> 接收一个方法作为参数，该方法对其输入参数进行处理。在这个例子里，我们对通过read读取的数据在前面加上了 <code>&gt;&gt;</code> 字符串。</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_promise_fs">4.7.2. Promiseによるfsのメソッドチェーン</h4>
+<h4 id="__promise_fs">4.7.2. 基于Promise的fs方法链</h4>
 <div class="paragraph">
-<p>次に先ほどの<a href="#fs-method-chain.js">メソッドチェーン</a>をインターフェースはそのまま維持して
-内部的にPromiseを使った処理にしてみたいと思います。</p>
+<p>下面我们就在不改变刚才的<a href="#fs-method-chain.js">方法链</a>对外接口的前提下，采用Promise对内部实现进行重写。</p>
 </div>
 <div id="fs-promise-chain.js" class="listingblock">
 <div class="title">fs-promise-chain.js</div>
@@ -5837,11 +5830,10 @@ module.exports = File;</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>内部に持ってるpromiseオブジェクトに対するエイリアスとして
-<code>then</code> と <code>catch</code> を持たせていますが、それ以外のインターフェースは全く同じ使い方となっています。</p>
+<p>新增加的<code>then</code> 和<code>catch</code>都可以看做是指向内部保存的promise对象的别名，而其它部分从对外接口的角度来说都没有改变，使用方法也和原来一样。</p>
 </div>
 <div class="paragraph">
-<p>そのため、先ほどのコードで <code>require</code> するモジュールを変更しただけで動作します。</p>
+<p>因此，在使用这个模块的时候我们只需要修改 <code>require</code> 的模块名即可。</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -5856,11 +5848,11 @@ File.read(inputFilePath)
 </div>
 </div>
 <div class="paragraph">
-<p><code>File.prototype.then</code> というメソッドは、
-<code>this.promise.then</code> が返す新しいpromiseオブジェクトを <code>this.promise</code> に対して代入しています。</p>
+<p><code>File.prototype.then</code> 方法会调用
+<code>this.promise.then</code> 方法，并将返回的promise对象赋值给了 <code>this.promise</code> 变量这个内部promise对象。</p>
 </div>
 <div class="paragraph">
-<p>これはどういうことなのかというと、以下のように擬似的に展開してみると分かりやすいでしょう。</p>
+<p>这究竟有什么奥妙么？通过以下的伪代码，我们可以更容易理解这背后发生的事情。</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -5870,7 +5862,7 @@ File.read(inputFilePath)
         <span class="keyword">return</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">&gt;&gt;</span><span class="delimiter">&quot;</span></span> + content;
     })
     .write(outputFilePath);
-<span class="comment">// =&gt; 擬似的に以下のような流れに展開できる</span>
+<span class="comment">// =&gt; 处理流程类似以下的伪代码</span>
 promise.then(<span class="keyword">function</span> <span class="function">read</span>(){
         <span class="keyword">return</span> fs.readFileSync(filePath, <span class="string"><span class="delimiter">&quot;</span><span class="content">utf-8</span><span class="delimiter">&quot;</span></span>);
     }).then(<span class="keyword">function</span> <span class="function">transform</span>(content) {
@@ -5881,13 +5873,10 @@ promise.then(<span class="keyword">function</span> <span class="function">read</
 </div>
 </div>
 <div class="paragraph">
-<p><code>promise = promise.then(...)</code> という書き方は一見すると、上書きしているようにみえるため、
-それまでのpromiseのchainが途切れてしまうと思うかもしれません。</p>
+<p>看到 <code>promise = promise.then(...)</code> 这种写法，会让人以为<code>promise</code>的值会被覆盖，也许你会想是不是promise的chain被截断了。</p>
 </div>
 <div class="paragraph">
-<p>イメージとしては <code>promise = addPromiseChain(promise, fn);</code> のような感じになっていて、
-既存のpromiseオブジェクトに対して新たな処理を<strong>追加</strong>したpromiseオブジェクトを作って返すため、
-自分で逐次的に処理する機構を実装しなくても問題ないわけです。</p>
+<p>你可以想象为类似 <code>promise = addPromiseChain(promise, fn);</code> 这样的感觉，我们队promise对象<strong>增加</strong>了新的处理，并返回了这个对象，因此即使自己不实现顺序处理的话也不会带来什么问题。</p>
 </div>
 </div>
 <div class="sect3">
@@ -5895,30 +5884,26 @@ promise.then(<span class="keyword">function</span> <span class="function">read</
 <div class="sect4">
 <h5 id="__25">同步和异步</h5>
 <div class="paragraph">
-<p><a href="#fs-method-chain.js">fs-method-chain.js</a>と<a href="#fs-promise-chain.js">Promise版</a>の違いを見ていくと、
-そもそも両者には同期的、非同期的という大きな違いがあります。</p>
+<p>要说<a href="#fs-method-chain.js">fs-method-chain.js</a>和<a href="#fs-promise-chain.js">Promise版</a>两者之间的差别，最大的不同那就要算是同步和异步了。</p>
 </div>
 <div class="paragraph">
-<p><a href="#fs-method-chain.js">fs-method-chain.js</a> のようなメソッドチェーンでもキュー等の処理を実装すれば、
-非同期的なほぼ同様のメソッドチェーンを実装出来ますが、複雑になるため今回は単純な同期的なメソッドチェーンにしました。</p>
+<p>如果在类似 <a href="#fs-method-chain.js">fs-method-chain.js</a> 的方法链中加入队列等处理的话，就可以实现几乎和异步方法链同样的功能，但是实现将会变得非常复杂，所以我们选择了简单的同步方法链。</p>
 </div>
 <div class="paragraph">
-<p>Promise版は<a href="#promise-is-always-async">コラム: Promiseは常に非同期?</a>で紹介したように
-常に非同期処理となるため、promiseを使ったメソッドチェーンも非同期となっています。</p>
+<p>Promise版的话如同在 <a href="#promise-is-always-async">专栏: Promise只能进行异步处理？</a>里介绍过的一样，只会进行异步操作，因此使用了promise的方法链也是异步的。</p>
 </div>
 </div>
 <div class="sect4">
 <h5 id="__26">错误处理</h5>
 <div class="paragraph">
-<p><a href="#fs-method-chain.js">fs-method-chain.js</a>にはエラーハンドリングの処理は入っていないですが、
-同期処理であるため全体を <code>try-catch</code> で囲む事で行えます。</p>
+<p>虽然<a href="#fs-method-chain.js">fs-method-chain.js</a>里面并不包含错误处理的逻辑，
+但是由于是同步操作，因此可以将整段代码用 <code>try-catch</code> 包起来。</p>
 </div>
 <div class="paragraph">
-<p><a href="#fs-promise-chain.js">Promise版</a> では内部で利用するpromiseオブジェクトの
-<code>then</code> と <code>catch</code> へのエイリアスを用意してあるため、通常のpromiseと同じように <code>catch</code> によってエラーハンドリングが行えます。</p>
+<p>在 <a href="#fs-promise-chain.js">Promise版</a> 提供了指向内部promise对象的<code>then</code> 和 <code>catch</code> 别名，所以我们可以像其它promise对象一样使用<code>catch</code>来进行错误处理。</p>
 </div>
 <div class="listingblock">
-<div class="title">fs-promise-chainでのエラーハンドリング</div>
+<div class="title">fs-promise-chain中的错误处理</div>
 <div class="content">
 <pre class="CodeRay"><code class="javascript language-javascript"><span class="keyword">var</span> File = require(<span class="string"><span class="delimiter">&quot;</span><span class="content">./fs-promise-chain</span><span class="delimiter">&quot;</span></span>);
 File.read(inputFilePath)
@@ -5932,31 +5917,27 @@ File.read(inputFilePath)
 </div>
 </div>
 <div class="paragraph">
-<p><a href="#fs-method-chain.js">fs-method-chain.js</a>に非同期処理を加えたものを自力で実装する場合、
-エラーハンドリングが大きな問題となるため、非同期処理にしたい時は
-Promiseを使うと比較的簡単に実装できると言えるかもしれません。</p>
+<p>如果你想在<a href="#fs-method-chain.js">fs-method-chain.js</a>中自己实现异步处理的话，错误处理可能会成为比较大的问题；可以说在进行异步处理的时候，还是使用Promise实现起来比较简单。</p>
 </div>
 </div>
 </div>
 <div class="sect3">
 <h4 id="_promise_5">4.7.4. Promise之外的异步处理</h4>
 <div class="paragraph">
-<p>このメソッドチェーンと非同期処理を見てNode.jsに慣れている方は <a href="http://nodejs.org/api/stream.html">Stream</a> が思い浮かぶと思います。</p>
+<p>如果你很熟悉Node.js的話，那么看到方法链的话，你是不是会想起来 <a href="http://nodejs.org/api/stream.html">Stream</a> 呢。</p>
 </div>
 <div class="paragraph">
-<p><a href="http://nodejs.org/api/stream.html">Stream</a> を使うと、
-<code>this.lastValue</code> のような値を保持する必要がなくなる事や大きなファイルの扱いが改善されます。
-また、Promiseを使った例に比べるとより高速に処理できる可能性が高いと思います。</p>
+<p>如果使用 <a href="http://nodejs.org/api/stream.html">Stream</a> 的话，就可以免去了保存 <code>this.lastValue</code> 的麻烦，还能改善处理大文件时候的性能。
+另外，使用Stream的话可能会比使用Promise在处理速度上会快些。</p>
 </div>
 <div class="listingblock">
-<div class="title">streamによるread&#8594;transform&#8594;write</div>
+<div class="title">使用Stream进行read&#8594;transform&#8594;write</div>
 <div class="content">
 <pre class="CodeRay"><code class="javascript language-javascript">readableStream.pipe(transformStream).pipe(writableStream);</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>そのため、非同期処理には常にPromiseが最適という訳ではなく、
-目的と状況にあった実装をしていくことを考えていくべきでしょう。</p>
+<p>因此，在异步处理的时候并不是说Promise永远都是最好的选择，要根据自己的目的和实际情况选择合适的实现方式。</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -5965,24 +5946,24 @@ Promiseを使うと比較的簡単に実装できると言えるかもしれま�
 <i class="icon-note" title="Note"></i>
 </td>
 <td class="content">
-Node.jsのStreamはEventをベースにしている技術
+Node.js的Stream是一种基于Event的技术
 </td>
 </tr>
 </table>
 </div>
 <div class="paragraph">
-<p>Node.jsのStreamについて詳しくは以下を参照して下さい。</p>
+<p>关于Node.js中Stream的详细信息可以参考以下网页。</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p><a href="http://jxck.hatenablog.com/entry/20111204/1322966453">Node.js の Stream API で「データの流れ」を扱う方法 - Block Rockin’ Codes</a></p>
+<p><a href="http://jxck.hatenablog.com/entry/20111204/1322966453">利用Node.js Stream API对数据进行流式处理 - Block Rockin’ Codes</a></p>
 </li>
 <li>
-<p><a href="http://www.slideshare.net/shigeki_ohtsu/stream2-kihon">Stream2の基本</a></p>
+<p><a href="http://www.slideshare.net/shigeki_ohtsu/stream2-kihon">Stream2基础</a></p>
 </li>
 <li>
-<p><a href="http://www.slideshare.net/shigeki_ohtsu/node-v012tng12">Node-v0.12の新機能について</a></p>
+<p><a href="http://www.slideshare.net/shigeki_ohtsu/node-v012tng12">关于Node-v0.12新功能</a></p>
 </li>
 </ul>
 </div>
@@ -5990,21 +5971,17 @@ Node.jsのStreamはEventをベースにしている技術
 <div class="sect3">
 <h4 id="_promise_wrapper">4.7.5. Promise wrapper</h4>
 <div class="paragraph">
-<p>話を戻して<a href="#fs-method-chain.js">fs-method-chain.js</a>と<a href="#fs-promise-chain.js">Promise版</a>の両者を比べると、
-内部的にもかなり似ていて、同期版のものがそのまま非同期版でも使えるような気がします。</p>
+<p>再回到 <a href="#fs-method-chain.js">fs-method-chain.js</a> 和 <a href="#fs-promise-chain.js">Promise版</a>，这两种方法相比较内部实现也非常相近，让人觉得是不是同步版本的代码可以直接就当做异步方式来使用呢？</p>
 </div>
 <div class="paragraph">
-<p>JavaScriptでは動的にメソッドを定義することもできるため、
-自動的にPromise版を生成できないかということを考えると思います。
-(もちろん静的に定義する方が扱いやすいですが)</p>
+<p>由于JavaScript可以向对象动态添加方法，所以从理论上来说应该可以从非Promise版自动生成Promise版的代码。（当然静态定义的实现方式容易处理）</p>
 </div>
 <div class="paragraph">
-<p>そのような仕組みは<a href="#es6-promises">ES6 Promises</a>にはありませんが、
-著名なサードパーティのPromise実装である <a href="https://github.com/petkaantonov/bluebird/">bluebird</a> などには
-<a href="https://github.com/petkaantonov/bluebird/blob/master/API.md#promisification">Promisification</a> という機能が用意されています。</p>
+<p>尽管 <a href="#es6-promises">ES6 Promises</a> 并没有提供此功能，但是著名的第三方Promise实现类库 <a href="https://github.com/petkaantonov/bluebird/">bluebird</a> 等提供了被称为
+<a href="https://github.com/petkaantonov/bluebird/blob/master/API.md#promisification">Promisification</a> 的功能。</p>
 </div>
 <div class="paragraph">
-<p>これを利用すると以下のように、その場でpromise版のメソッドを追加して利用できるようになります。</p>
+<p>如果使用类似这样的类库，那么就可以动态给对象增加promise版的方法。</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -6020,12 +5997,11 @@ fs.readFileAsync(<span class="string"><span class="delimiter">&quot;</span><span
 <div class="sect4">
 <h5 id="_array_promise_wrapper">Array的Promise wrapper</h5>
 <div class="paragraph">
-<p>先ほどの <a href="https://github.com/petkaantonov/bluebird/blob/master/API.md#promisification">Promisification</a> が何をやっているのか少しイメージしにくいので、
-次のようなネイティブ <code>Array</code> のPromise版となるメソッドを動的に定義する例を考えてみましょう。</p>
+<p>前面的 <a href="https://github.com/petkaantonov/bluebird/blob/master/API.md#promisification">Promisification</a> 具体都干了些什么光凭想象恐怕不太容易理解，我们可以通过给原生的 <code>Array</code> 增加Promise版的方法为例来进行说明。</p>
 </div>
 <div class="paragraph">
-<p>JavaScriptにはネイティブにもDOMやString等メソッドチェーンが行える機能が多くあります。
-<code>Array</code> もその一つで、<code>map</code> や <code>filter</code> 等のメソッドは配列を返すため、メソッドチェーンが利用しやすい機能です</p>
+<p>在JavaScript中原生DOM或String等也提供了很多创建方法链的功能。
+<code>Array</code> 中就有诸如 <code>map</code> 和 <code>filter</code> 等方法，这些方法会返回一个数组类型，可以用这些方法方便的组建方法链。</p>
 </div>
 <div id="array-promise-chain.js" class="listingblock">
 <div class="title">array-promise-chain.js</div>
@@ -6070,8 +6046,7 @@ module.exports.<span class="function">array</span> = <span class="keyword">funct
 </div>
 </div>
 <div class="paragraph">
-<p>ネイティブのArrayと <code>ArrayAsPromise</code> を使った場合の違いは
-<a href="#array-promise-chain.js">上記のコード</a>のテストを見てみるのが分かりやすいでしょう。</p>
+<p>原生的 Array 和 <code>ArrayAsPromise</code> 在使用时有什么差异呢？我们可以通过对 <a href="#array-promise-chain.js">上面的代码</a> 进行测试来了解它们之间的不同点。</p>
 </div>
 <div id="array-promise-chain-test.js" class="listingblock">
 <div class="title">array-promise-chain-test.js</div>
@@ -6109,16 +6084,15 @@ describe(<span class="string"><span class="delimiter">&quot;</span><span class="
 </div>
 </div>
 <div class="paragraph">
-<p><code>ArrayAsPromise</code> でもArrayのメソッドを利用できているのが分かります。
-先ほどと同じように、ネイティブのArrayは同期処理で、<code>ArrayAsPromise</code> は非同期処理という違いがあります。</p>
+<p>我们看到，在 <code>ArrayAsPromise</code> 中也能使用 Array的方法。而且也和前面的例子类似，原生的Array时同步处理，而 <code>ArrayAsPromise</code> 则是异步处理，这也是它们的不同之处。</p>
 </div>
 <div class="paragraph">
-<p><code>ArrayAsPromise</code> の実装を見て気づくと思いますが、<code>Array.prototype</code> のメソッドを全て実装しています。
-しかし、<code>array.indexOf</code> など <code>Array.prototype</code> には配列を返さないものもあるため、全てをメソッドチェーンにするのは不自然なケースがあると思います。</p>
+<p>仔细看一下 <code>ArrayAsPromise</code> 的实现，也许你已经注意到了， <code>Array.prototype</code> 的所有方法都被实现了。
+但是，<code>Array.prototype</code> 中也存在着类似<code>array.indexOf</code> 等并不会返回数组类型数据的方法，这些方法如果也要支持方法链的话就有些不自然了。</p>
 </div>
 <div class="paragraph">
-<p>ここで大事なのが、同じ値を受けるインターフェースを持っているAPIはこのような手段でPromise版のAPIを自動的に作成できるという点です。
-このようなAPIの規則性を意識してみるとまた違った使い方が見つかるかもしれません。</p>
+<p>在这里非常重要的一点是，我们可以通过这种方式，为具有接收相同类型数据接口的API动态的创建Promise版的API。
+如果我们能意识到这种API的规则性的话，那么就可能发现一些新的使用方法。</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -6128,9 +6102,7 @@ describe(<span class="string"><span class="delimiter">&quot;</span><span class="
 </td>
 <td class="content">
 <div class="paragraph">
-<p>先ほどの <a href="https://github.com/petkaantonov/bluebird/blob/master/API.md#promisification">Promisification</a> は
-Node.jsのCoreモジュールの非同期処理には <code>function(error,result){}</code> というように第一引数に <code>error</code> が来るというルールを利用して、
-自動的にPromiseでラップしたメソッドを生成しています</p>
+<p>前面我们看到的 <a href="https://github.com/petkaantonov/bluebird/blob/master/API.md#promisification">Promisification</a> 方法，借鉴了了 Node.js的Core模块中在进行异步处理时将 <code>function(error,result){}</code> 方法的第一个参数设为 <code>error</code> 这一规则，自动的创建由Promise包装好的方法。</p>
 </div>
 </td>
 </tr>
@@ -6160,16 +6132,15 @@ Node.jsのCoreモジュールの非同期処理には <code>function(error,resul
 </ul>
 </div>
 <div class="paragraph">
-<p><a href="#es6-promises">ES6 Promises</a>はCoreとなる機能しか用意されていません。
-そのため、自分でPromiseを使った既存の機能のラッパー的な実装をする事があるかもしれません。</p>
+<p><a href="#es6-promises">ES6 Promises</a>只提供了一些Core级别的功能。
+因此，我们也许需要对现有的方法用Promise方式重新包装一下。</p>
 </div>
 <div class="paragraph">
-<p>しかし、何度もコールバックを呼ぶEventのような処理がPromiseには不向きなように、
-Promiseが常に最適な非同期処理という訳ではありません。</p>
+<p>但是，类似Event等调用次数没有限制的回调函数等在并不适合使用Promise，Promise也不能说什么时候都是最好的选择。</p>
 </div>
 <div class="paragraph">
-<p>その機能にPromiseを使うのが最適なのかを考える事はこの書籍の目的でもあるため、
-何でもPromiseにするというわけではなく、その目的にPromiseが合うのかどうかを考えてみるのもいいと思います。</p>
+<p>至于什么情况下应该使用Promise，什么时候不该使用Promise，并不是本书要讨论的目的，
+我们需要牢记的是不要什么都用Promise去实现，我想最好根据自己的具体目的和情况，来考虑是应该使用Promise还是其它方法。</p>
 </div>
 </div>
 </div>
