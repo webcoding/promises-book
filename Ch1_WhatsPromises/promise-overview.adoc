@@ -1,9 +1,9 @@
 [[promises-overview]]
 == Promise Overview
 
-以<<es6-promises,ES6 Promises>>的式样来定义的API还没有那么多 。
+以<<es6-promises,ES6 Promises>>标准来定义的API还没有那么多 。
 
-大致可以分为下面三种类型。
+目前大致有下面三种类型。
 
 *Constructor*
 
@@ -131,13 +131,13 @@ promise对象的状态，从__Pending__到__Fulfilled__或__Rejected__之后，
 Settled::
     resolve(成功) 或 reject(失败)。
 
-从__Pedding__と__Settled__的对称关系来看的花，Promise的状态的种类/迁移时非常简单易懂的。
+从__Pedding__和__Settled__的对称关系来看，Promise状态的种类/迁移是非常简单易懂的。
 
-这个promise的对象状态发生变化时，用`.then` 来定义只会被调用一次的函数。
+当promise的对象状态发生变化时，用`.then` 来定义只会被调用一次的函数。
 
 [NOTE]
 ====
 https://speakerdeck.com/kerrick/javascript-promises-thinking-sync-in-an-async-world[JavaScript Promises - Thinking Sync in an Async World // Speaker Deck]
-这个ppt中有关Promise的状态迁移有简单明了的说明。
+这个ppt中有关于Promise状态迁移的简单说明。
 ====
 
