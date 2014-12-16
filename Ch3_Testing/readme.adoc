@@ -1,14 +1,14 @@
 [[chapter3-promise-testing]]
-= Chapter.3 - Promiseのテスト
+= Chapter.3 - Promise测试
 :imagesdir: Ch3_Testing
 
-この章ではPromiseのテストの書き方について学んで行きます。
+这章我们学习Promise 测试写法
 
-// Promiseの基本的なテスト
+// Promise基础测试
 include::basic-tests.adoc[]
 
-// MochaとPromise
+// Mocha与Promise
 include::mocha-promise.adoc[]
 
-// 意図したテストを書くには
+// 编写指定测试要
 include::controllable-tests.adoc[]
