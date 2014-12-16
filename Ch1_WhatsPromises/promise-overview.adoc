@@ -15,7 +15,7 @@ Promise类似于 `XMLHttpRequest`、从构造函数`Promise` 来新建实例。
 [source,javascript]
 ----
 var promise = new Promise(function(resolve, reject) {
-    // 非同期处理
+    // 异步处理
     // 处理结束后、调用resolve 或 reject
 });
 ----
