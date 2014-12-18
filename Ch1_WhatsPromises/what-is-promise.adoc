@@ -3,18 +3,18 @@
 
 首先让我们来了解一下到底什么是Promise呢？
 
-Promise是抽象非同期处理的对象以及对其进行各种操作的组件。
+Promise是抽象异步处理对象以及对其进行各种操作的组件。
 其详细内容在接下来我们还会学到，Promise并不是从JavaScript中发现的概念。
 
-最初被发现是在 http://erights.org/elib/distrib/pipeline.html[E言語]中，
+Promise最初被发现是在 http://erights.org/elib/distrib/pipeline.html[E言語]中，
 它是基于并列/并行处理设计的一种编程语言。
 
-JavaScript也拥有了这种特性，这就是本书所介绍的JavaScript Promise。
+现在JavaScript也拥有了这种特性，它就是本书所介绍的JavaScript Promise。
 
-另外，如果说到基于JavaScript的非同期处理，我想大多数都会利用回调函数。
+另外，如果说到基于JavaScript的异步处理，我想大多数都会利用回调函数。
 
 [source,javascript]
-使用了回调函数的非同期处理
+使用了回调函数的异步处理
 ----
 getAsync("fileA.txt", function(error, result){// <1>
     if(error){// 取得失败时的处理
@@ -27,14 +27,14 @@ getAsync("fileA.txt", function(error, result){// <1>
 
 Node.js等在JavaScript的回调函数的第一个参数里传入 `Error` 对象并以此视为规则的例子也有。
 
-像回调函数的非同期处理一样如果规则统一的话，写法就会很明确。
+像回调函数的异步处理一样如果规则统一的话，写法就会很明确。
 但是，这也仅是编码规约，即使用不同的写法也不会出错。
 
-Promise，把非同期对象和规则的式样明确，
+Promise，把异步处理对象和规则的式样明确，
 并规定用统一的接口来写，不可以用除此以外的写法。
 
 [source,javascript]
-下面是使用了Promise非同期的一个例子
+下面是使用了Promise异步处理的一个例子
 ----
 var promise = getAsyncPromise("fileA.txt"); // <1>
 promise.then(function(result){
@@ -45,19 +45,19 @@ promise.then(function(result){
 ----
 <1> 返回promise对象
 
-预设了抽象化非同期处理的promise对象，
+预设了抽象化异步处理的promise对象，
 可以在这个promise对象处理成功时和失败时执行相应的函数。
 
 我们来简单看一下它和回调函数相比有哪些不同之处，
-非同期处理的写法只限定于使用promise对象的接口来写。
+异步处理的写法只限定于使用promise对象的接口来写。
 
 也就是说，除promise对象已有的方法(这里的 `then` 或 `catch`)以外都不可以使用，
-并不是像回调函数那样在参数可以自由决定，它的做法是固定且统一的。
+并不是像回调函数那样参数可以自由决定，它的做法是固定且统一的。
 
 这样，因Promise统一接口的做法，
-就可以形成基于接口的各种各样的非同期处理模式。
+就可以形成基于接口的各种各样的异步处理模式。
 
-所以，promise的功能是可以将复杂的非同期处理轻松的模式化，
+所以，promise的功能是可以将复杂的异步处理轻松的模式化，
 这也可以说的上是使用promise的理由之一。
 
 接下来，让我们在实践中来学习JavaScript的Promise吧。

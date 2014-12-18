@@ -1,46 +1,46 @@
 [[basic-tests]]
-== 基本的なテスト
+== 基础测试
 
-<<es6-promises,ES6 Promises>>のメソッド等についてひと通り学ぶことができたため、
-実際にPromiseを使った処理を書いていくことは出来ると思います。
+<<es6-promises,ES6 Promises>>的语法等已经学了一遍，
+大家应该能够在实际项目中编写出运用Promise 的Demo。
 
-そうした時に、次にどうすればいいのか悩むのがPromiseのテストの書き方です。
+这时，接下来要苦恼该如何进行的就是Promise 测试的写法。
 
-ここではまず、 http://visionmedia.github.io/mocha/[Mocha]を使った基本的なPromiseのテストの書き方について学んでいきましょう。
+那么让我们先来学习下使用http://visionmedia.github.io/mocha/[Mocha]的Promise 的基础测试写法吧。
 
-また、この章でのテストコードはNode.js環境で実行することを前提としています。
+先声明一下，这章中涉及的测试代码都是运行在Node.js环境的。
 
 [NOTE]
-この書籍中に出てくるサンプルコードはそれぞれテストも書かれています。
-テストコードは https://github.com/azu/promises-book[azu/promises-book] から参照できます。
+本书中出现的实例代码都样编写了各种测试。
+测试代码可以参照 https://github.com/azu/promises-book[azu/promises-book] 。
 
-=== Mochaとは
+=== Mocha
 
-ここでは、 http://visionmedia.github.io/mocha/[Mocha]自体については詳しく解説しませんが、
-MochaはNode.js製のテストフレームワークツールです。
+在这里，我们不展开详细讲解http://visionmedia.github.io/mocha/[Mocha]了，Mocha是Node.js下的测试框架工具。对
+http://visionmedia.github.io/mocha/[Mocha]感兴趣的可以自行学习。
 
-MochaはBDD,TDD,exportsのどれかのスタイルを選択でき、テストに使うアサーションメソッドも任意のライブラリと組み合わせて利用します。
-つまり、Mocha自体はテスト実行時の枠だけを提供しており、他は利用者が選択するというものになっています。
+Mocha能够选择BDD、TDD、exports中的任意风格，测试中用到的Assert 方法同样可以跟任意库组合来使用。
+也就是说，Mocha本身只提供执行测试时的框架，其他的需要使用者来选择。
 
-Mochaを選んだ理由としては、以下の点で選択しました。
+这里选择Mocha理由，有下面3点。
 
-* 著名なテストフレームワークであること
-* Node.jsとブラウザ どちらのテストもサポートしている
-* "Promiseのテスト"をサポートしている
+* 它是非常有名的测试框架
+* 支持Node.jp 和浏览器测试
+* 支持"Promise测试"
 
-最後の_"Promiseのテスト"をサポートしている_とはどういうことなのかについては後ほど解説します。
+最后至于为什么说_支持"Promise测试"_，这个我们在后面讲。
 
-また、アサーションライブラリには、 https://github.com/twada/power-assert[power-assert]を利用しますが、
-アサーション自体はNode.jsの `assert` モジュールと全く同じであるため、今回はあまり気にしなくても問題ありません。
+另外，Assert库我们使用的是 https://github.com/twada/power-assert[power-assert]，
+Assert本身跟Node.js的 `assert` 模块完全相同，本书中不用太在意。
 
-まずは、コールバック関数のテストと同じような形でテストを書いてみましょう。
+首先，让我们试着编写一个与回调函数测试形式相同的测试。
 
-=== コールバックスタイルのテスト
+=== 回调函数风格的测试
 
-<<promise-is-always-async,コラム: Promiseは常に非同期?>>で確認したように、
-Promiseでは `then` で登録した関数が呼ばれるタイミングは常に非同期となります。
+<<promise-is-always-async,column: Promise总是异步?>>中确认过的，
+Promise中调用由`then` 绑定的函数的时机总是非同步的。
 
-まずはコールバックスタイルと同じようにPromiseのテストを書いてみましょう。
+首先让我们试着像回调风格那样编写一个Promise测试。
 
 [source,javascript]
 .basic-test.js
@@ -48,58 +48,58 @@ Promiseでは `then` で登録した関数が呼ばれるタイミングは常�
 include::test/basic-test.js[]
 ----
 
-Mochaは `it` の仮引数に `done` という感じで指定してあげると、
-`done()` が呼ばれるまでテストケースが終了しなくなることで非同期のテストをサポートしています。
+Mocha中形参 `it` 的位置指定类似 `done` 的实参的话，可以支持异步的测试。
+它在没有调用到`done()` 之前该测试是不会结束的。
 
-Mochaでの非同期テストは以下のような流れになっています。
+Mocha中的异步测试的实现，如下面举的例子那样。
 
 [source,javascript]
 [[callback-style-test]]
 ----
 it("should use `done` for test", function (done) {
-    // <1>
+    // “<1>”
     setTimeout(function () {
         assert(true);
-        done();// <2>
+        done();// “<2>”
     }, 0);
 });
 ----
-<1> 非同期処理のコールバックを指定
-<2> `done` を呼ぶことでテストの終了を宣言
+<1> 指定异步处理的callback
+<2> 调用`done` 标明测试结束
 
-よく見かける形の書き方ですね。
+非常常见的一种编写方式。
 
 [[done-promise-test]]
-=== `done` を使ったPromiseのテスト
+=== 使用`done` 的Promise测试
 
-次に、Promiseのテストの方を見てみましょう。
+接下来，让我们看看Promise测试。
 
 [source,javascript]
 ----
 it("should use `done` for test?", function (done) {
-    var promise = Promise.resolve(1);// <1>
+    var promise = Promise.resolve(1);// “<1>”
     promise.then(function (value) {
         assert(value === 1);
-        done();// <2>
+        done();// “<2>”
     });
 });
 ----
-<1> `Fulfilled` となるpromiseオブジェクトを作成
-<2> `done` を呼ぶことでテストの終了を宣言
+<1> 创建名为`Fulfilled` 的promise object
+<2> 调用`done` 标明测试结束
 
 
-<<Promise.resolve, `Promise.resolve`>> はpromiseオブジェクトを返しますが、
-そのpromiseオブジェクトはFulFilledの状態になります。
-その結果として `.then` で登録したコールバック関数が呼び出されます。
+<<Promise.resolve, `Promise.resolve`>> 用来返回promise object，
+返回的promise object状态为FulFilled。
+结果，调用绑定到`.then` 的回调函数。
 
-<<promise-is-always-async,コラム: Promiseは常に非同期?>> でも出てきたように、
-promiseオブジェクトは常に非同期で処理されるため、テストも非同期に対応した書き方が必要となります。
+<<promise-is-always-async,column: Promise总是异步?>> 中也提到的那样，
+promise object总是异步处理的，所有测试同样需要用异步对应的方式编写。
 
-しかし、先ほどのテストコードでは `assert` が失敗した場合に問題が発生します。
+但是，之前的测试代码中`assert` 失败的情况会出现问题。
 
 [source,javascript]
 [[promise-assert-fail]]
-.間違ったテストの書き方
+.错误的测试编写方式
 ----
 it("should use `done` for test?", function (done) {
     var promise = Promise.resolve();
@@ -110,24 +110,24 @@ it("should use `done` for test?", function (done) {
 });
 ----
 
-このテストは `assert` が失敗しているため、「テストは失敗する」と思うかもしれませんが、
-実際にはテストが終わることがなくタイムアウトします。
+这可测试中 `assert` 失败了，你可能认为会抛出“测试失败”，
+实际情况却是测试不能正常终了而超时。
 
-.テストが終わることがないためタイムアウトするまでそこで止まる
+.测试没有完了产生超时，停在该处。
 image::img/promise-test-timeout.png[promise test timeout]
 
-`assert` が失敗した場合は通常はエラーをthrowし、
-テストフレームワークがそれをキャッチすることで、テストが失敗したと判断します。
+`assert` 失败的情况通常throw一个error，
+测试框架捕获该error，来判断测试失败。
 
-しかし、Promiseの場合は `.then` の中で行われた処理でエラーが発生しても、
-Promiseがそれをキャッチしてしまい、テストフレームワークまでエラーがthrowされません。
+但是，Promise的情况下 `.then` 绑定的执行函数发生的error，
+会被Promise捕获，从而测试框架不会抛出error。
 
-<<promise-assert-fail,`assert` が失敗してる例>>を改善して、
-`assert` が失敗した場合にちゃんとテストが失敗となるようにしてみましょう。
+我们来改善一下<<promise-assert-fail,`assert` 失败事例>>，
+让`assert` 失败时显示测试失败。
 
 [source,javascript]
 [[promise-assert-fail-fixed]]
-.ちゃんとテストが失敗する例
+.测试正常失败的事例
 ----
 it("should use `done` for test?", function (done) {
     var promise = Promise.resolve();
@@ -137,14 +137,15 @@ it("should use `done` for test?", function (done) {
 });
 ----
 
-ちゃんとテストが失敗する例では、必ず `done` が呼ばれるようにするため、
-最後に `.then(done, done);` を追加しています。
+测试正常失败的事例中，为了一定调用`done` ，
+在最后添加了 `.then(done, done);` 语句。
 
-`assert` がパスした場合は単純に `done()` が呼ばれ、`assert` が失敗した場合は `done(error)` が呼ばれます。
+`assert` 通过时单纯调用 `done()` ，`assert` 失败时调用 `done(error)` 。
 
-これでようやく<<callback-style-test,コールバックスタイルのテスト>>と同等のPromiseのテストを書くことができました。
+这样，终于编写出了跟<<callback-style-test,回调风格的测试>>相同的Promise测试。
 
-しかし、`assert` が失敗した時のために `.then(done, done);` というものを付ける必要があります。
-Promiseのテストを書くときにつけ忘れてしまうと終わらないテストが出来上がってしまう場合があることに気をつけましょう。
+但是，我们需要为`assert` 失败时，额外添加 `.then(done, done);` 语句。
+要小心编写Promise测试时，如果忘了加上上面的语句会造成测试不能正常终了的情况。
 
-次に、最初にmochaを使う理由に上げた"Promisesのテスト"をサポートしているという事がどういう機能なのかを学んでいきましょう。
+
+接下来，让我们接着学习一下最初提到的使用mocha理由中的支持"Promises测试"究竟是一种什么机制。
