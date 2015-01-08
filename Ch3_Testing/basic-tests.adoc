@@ -77,23 +77,23 @@ it("should use `done` for test", function (done) {
 [source,javascript]
 ----
 it("should use `done` for test?", function (done) {
-    var promise = Promise.resolve(1);// “<1>”
+    var promise = Promise.resolve(1);// <1>
     promise.then(function (value) {
         assert(value === 1);
-        done();// “<2>”
+        done();// <2>
     });
 });
 ----
-<1> 创建名为`Fulfilled` 的promise object
-<2> 调用`done` 标明测试结束
+<1> 创建名为`Fulfilled` 的promise对象
+<2> 调用`done` 表明测试结束
 
 
-<<Promise.resolve, `Promise.resolve`>> 用来返回promise object，
-返回的promise object状态为FulFilled。
+<<Promise.resolve, `Promise.resolve`>> 用来返回promise对象，
+返回的promise对象状态为FulFilled。
 结果，调用绑定到`.then` 的回调函数。
 
 <<promise-is-always-async,column: Promise总是异步?>> 中也提到的那样，
-promise object总是异步处理的，所有测试同样需要用异步对应的方式编写。
+promise对象总是异步处理的，所有测试同样需要用异步对应的方式编写。
 
 但是，之前的测试代码中`assert` 失败的情况会出现问题。
 
