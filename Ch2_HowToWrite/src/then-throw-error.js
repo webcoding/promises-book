@@ -1,12 +1,12 @@
 "use strict";
-function throwError(value) { // 例外を投げる
+function throwError(value) { // 抛出异常
     throw new Error(value);
 }
-// <1> onRejectedが呼ばれることはない
+// <1> onRejected不会被调用
 function badMain(onRejected) {
     return Promise.resolve(42).then(throwError, onRejected);
 }
-// <2> onRejectedが例外発生時に呼ばれる
+// <2> 有异常发生时onRejected会被调用
 function goodMain(onRejected) {
     return Promise.resolve(42).then(throwError).catch(onRejected);
 }

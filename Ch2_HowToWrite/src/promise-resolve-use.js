@@ -1,6 +1,6 @@
 "use strict";
 function addDelay(value, ms) {
-    // promiseオブジェクトを受け取ることを前提とした関数
+    // 此函数接收一个promise对象作为参数
     function addDelayToPromise(promise, ms) {
         return new Promise(function (resolve) {
             setTimeout(function () {
@@ -10,7 +10,7 @@ function addDelay(value, ms) {
     }
 
     return Promise.resolve(value).then(function (promise) {
-        // `value` は必ずpromiseオブジェクトとなる
+        // `value` 必须为promise对象
         return addDelayToPromise(promise, ms);
     });
 }

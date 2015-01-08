@@ -1,6 +1,6 @@
 "use strict";
 var timerPromisefy = require("../lib/timer-promisefy").timerPromisefy;
-// 一つでもresolve または reject した時点で終了
+// 任何一个promise变为resolve或reject 的话程序就停止运行
 Promise.race([
     timerPromisefy(1),
     timerPromisefy(32),

@@ -1,4 +1,4 @@
-// `delay`ミリ秒後にresolveする
+// `delay`毫秒后执行resolve
 function timerPromisefy(delay) {
     return new Promise(function (resolve) {
         setTimeout(function () {
@@ -6,7 +6,7 @@ function timerPromisefy(delay) {
         }, delay);
     });
 }
-// 一つでもresolve または reject した時点で終了
+// 当任何一个promise触发resolve或reject后停止执行
 Promise.race([
     timerPromisefy(1),
     timerPromisefy(32),

@@ -18,7 +18,7 @@ function notifyMessage(message, options, callback) {
         callback(new Error('doesn\'t support Notification API'));
     }
 }
-// `thenable` を返す
+// 返回 `thenable`
 function notifyMessageAsThenable(message, options) {
     return {
         'then': function (resolve, reject) {

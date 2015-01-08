@@ -13,7 +13,7 @@ function getURLCallback(URL, callback) {
     };
     req.send();
 }
-// <1> JSONパースを安全に行う
+// <1> 对JSON数据进行安全的解析
 function jsonParse(callback, error, value) {
     if (error) {
         callback(error, value);
@@ -26,7 +26,7 @@ function jsonParse(callback, error, value) {
         }
     }
 }
-// <2> XHRを叩いてリクエスト
+// <2> 发送XHR请求
 var request = {
         comment: function getComment(callback) {
             return getURLCallback('http://azu.github.io/promises-book/json/comment.json', jsonParse.bind(null, callback));
@@ -35,7 +35,7 @@ var request = {
             return getURLCallback('http://azu.github.io/promises-book/json/people.json', jsonParse.bind(null, callback));
         }
     };
-// <3> 複数のXHRリクエストを行い、全部終わったらcallbackを呼ぶ
+// <3> 启动多个XHR请求，当所有请求返回时调用callback
 function allRequest(requests, callback, results) {
     if (requests.length === 0) {
         return callback(null, results);

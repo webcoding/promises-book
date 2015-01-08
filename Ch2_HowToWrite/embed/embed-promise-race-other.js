@@ -10,7 +10,7 @@ var loserPromise = new Promise(function (resolve) {
             resolve('this is loser');
         }, 1000);
     });
-// 一番最初のものがresolveされた時点で終了
+// 第一个promise变为resolve后程序停止
 Promise.race([winnerPromise, loserPromise]).then(function (value) {
     console.log(value);    // => 'this is winner'
 });
