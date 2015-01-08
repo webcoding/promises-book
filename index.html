@@ -1198,7 +1198,7 @@ asyncFunction().then(<span class="keyword">function</span> (value) {
         req.send();
     });
 }
-<span class="comment">// 実行例</span>
+<span class="comment">// 运行示例</span>
 <span class="keyword">var</span> URL = <span class="string"><span class="delimiter">&quot;</span><span class="content">http://httpbin.org/get</span><span class="delimiter">&quot;</span></span>;
 getURL(URL).then(<span class="keyword">function</span> <span class="function">onFulfilled</span>(value){
     console.log(value);
@@ -1207,12 +1207,8 @@ getURL(URL).then(<span class="keyword">function</span> <span class="function">on
 });</code></pre>
 </div>
 </div>
-<div class="literalblock">
-<div class="content">
-<pre> `getURL` 只有在
-通过XHR取得结果状态为200时 `resolve` - 也就是取得成功，
-除此以外就是取得失败 `reject` 。</pre>
-</div>
+<div class="paragraph">
+<p><code>getURL</code> 只有在通过XHR取得结果状态为200时 <code>resolve</code> - 也就是取得成功，除此以外就是取得失败 <code>reject</code> 。</p>
 </div>
 <div class="paragraph">
 <p><code>resolve(req.response)</code> 在response的内容中加入了参数。
