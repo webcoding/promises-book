@@ -1906,7 +1906,7 @@ promise
     <span class="keyword">throw</span> <span class="keyword">new</span> Error(<span class="string"><span class="delimiter">&quot;</span><span class="content">throw Error @ Task A</span><span class="delimiter">&quot;</span></span>)
 }
 <span class="keyword">function</span> <span class="function">taskB</span>() {
-    console.log(<span class="string"><span class="delimiter">&quot;</span><span class="content">Task B</span><span class="delimiter">&quot;</span></span>);<span class="comment">// 呼ばれない</span>
+    console.log(<span class="string"><span class="delimiter">&quot;</span><span class="content">Task B</span><span class="delimiter">&quot;</span></span>);<span class="comment">// 不会被调用</span>
 }
 <span class="keyword">function</span> <span class="function">onRejected</span>(error) {
     console.log(error);<span class="comment">// =&gt; &quot;throw Error @ Task A&quot;</span>
@@ -2302,7 +2302,7 @@ bPromise.then(<span class="keyword">function</span> (value) {
     };
     req.send();
 }
-<span class="comment">// &lt;1&gt; JSONパースを安全に行う</span>
+<span class="comment">// &lt;1&gt; 对JSON数据进行安全的解析</span>
 <span class="keyword">function</span> <span class="function">jsonParse</span>(callback, error, value) {
     <span class="keyword">if</span> (error) {
         callback(error, value);
@@ -2315,7 +2315,7 @@ bPromise.then(<span class="keyword">function</span> (value) {
         }
     }
 }
-<span class="comment">// &lt;2&gt; XHRを叩いてリクエスト</span>
+<span class="comment">// &lt;2&gt; 发送XHR请求</span>
 <span class="keyword">var</span> request = {
         <span class="function">comment</span>: <span class="keyword">function</span> <span class="function">getComment</span>(callback) {
             <span class="keyword">return</span> getURLCallback(<span class="string"><span class="delimiter">'</span><span class="content">http://azu.github.io/promises-book/json/comment.json</span><span class="delimiter">'</span></span>, jsonParse.bind(<span class="predefined-constant">null</span>, callback));
@@ -2324,7 +2324,7 @@ bPromise.then(<span class="keyword">function</span> (value) {
             <span class="keyword">return</span> getURLCallback(<span class="string"><span class="delimiter">'</span><span class="content">http://azu.github.io/promises-book/json/people.json</span><span class="delimiter">'</span></span>, jsonParse.bind(<span class="predefined-constant">null</span>, callback));
         }
     };
-<span class="comment">// &lt;3&gt; 複数のXHRリクエストを行い、全部終わったらcallbackを呼ぶ</span>
+<span class="comment">// &lt;3&gt; 启动多个XHR请求，当所有请求返回时调用callback</span>
 <span class="keyword">function</span> <span class="function">allRequest</span>(requests, callback, results) {
     <span class="keyword">if</span> (requests.length === <span class="integer">0</span>) {
         <span class="keyword">return</span> callback(<span class="predefined-constant">null</span>, results);
@@ -2440,7 +2440,7 @@ main(<span class="keyword">function</span>(error, results){
         results.push(value);
         <span class="keyword">return</span> results;
     }
-    <span class="comment">// [] は記録する初期値を部分適用している</span>
+    <span class="comment">// [] 用来保存初始化的值</span>
     <span class="keyword">var</span> pushValue = recordValue.bind(<span class="predefined-constant">null</span>, []);
     <span class="keyword">return</span> request.comment().then(pushValue).then(request.people).then(pushValue);
 }
@@ -2568,7 +2568,7 @@ main().then(<span class="keyword">function</span> (value) {
 <div id="promise-all-timer.js" class="listingblock executable">
 <div class="title">promise-all-timer.js</div>
 <div class="content">
-<pre class="CodeRay"><code class="javascript language-javascript"><span class="comment">// `delay`ミリ秒後にresolveする</span>
+<pre class="CodeRay"><code class="javascript language-javascript"><span class="comment">// `delay`毫秒后执行resolve</span>
 <span class="keyword">function</span> <span class="function">timerPromisefy</span>(delay) {
     <span class="keyword">return</span> <span class="keyword">new</span> Promise(<span class="keyword">function</span> (resolve) {
         setTimeout(<span class="keyword">function</span> () {
@@ -2577,7 +2577,7 @@ main().then(<span class="keyword">function</span> (value) {
     });
 }
 <span class="keyword">var</span> startDate = Date.now();
-<span class="comment">// 全てがresolveされたら終了</span>
+<span class="comment">// 所有promise变为resolve后程序退出</span>
 Promise.all([
     timerPromisefy(<span class="integer">1</span>),
     timerPromisefy(<span class="integer">32</span>),
@@ -2652,7 +2652,7 @@ Promise.all([
 <div id="promise-race-timer.js" class="listingblock executable">
 <div class="title">promise-race-timer.js</div>
 <div class="content">
-<pre class="CodeRay"><code class="javascript language-javascript"><span class="comment">// `delay`ミリ秒後にresolveする</span>
+<pre class="CodeRay"><code class="javascript language-javascript"><span class="comment">// `delay`毫秒后执行resolve</span>
 <span class="keyword">function</span> <span class="function">timerPromisefy</span>(delay) {
     <span class="keyword">return</span> <span class="keyword">new</span> Promise(<span class="keyword">function</span> (resolve) {
         setTimeout(<span class="keyword">function</span> () {
@@ -2660,7 +2660,7 @@ Promise.all([
         }, delay);
     });
 }
-<span class="comment">// 一つでもresolve または reject した時点で終了</span>
+<span class="comment">// 任何一个promise变为resolve或reject 的话程序就停止运行</span>
 Promise.race([
     timerPromisefy(<span class="integer">1</span>),
     timerPromisefy(<span class="integer">32</span>),
@@ -2692,7 +2692,7 @@ Promise.race([
             resolve(<span class="string"><span class="delimiter">'</span><span class="content">this is loser</span><span class="delimiter">'</span></span>);
         }, <span class="integer">1000</span>);
     });
-<span class="comment">// 一番最初のものがresolveされた時点で終了</span>
+<span class="comment">// 第一个promise变为resolve后程序停止</span>
 Promise.race([winnerPromise, loserPromise]).then(<span class="keyword">function</span> (value) {
     console.log(value);    <span class="comment">// =&gt; 'this is winner'</span>
 });</code></pre>
@@ -2740,14 +2740,14 @@ Promise.race([winnerPromise, loserPromise]).then(<span class="keyword">function<
 <div class="title">then-throw-error.js</div>
 <div class="content">
 <pre class="CodeRay"><code class="javascript language-javascript"><span class="keyword">function</span> <span class="function">throwError</span>(value) {
-    <span class="comment">// 例外を投げる</span>
+    <span class="comment">// 抛出异常</span>
     <span class="keyword">throw</span> <span class="keyword">new</span> Error(value);
 }
-<span class="comment">// &lt;1&gt; onRejectedが呼ばれることはない</span>
+<span class="comment">// &lt;1&gt; onRejected不会被调用</span>
 <span class="keyword">function</span> <span class="function">badMain</span>(onRejected) {
     <span class="keyword">return</span> Promise.resolve(<span class="integer">42</span>).then(throwError, onRejected);
 }
-<span class="comment">// &lt;2&gt; onRejectedが例外発生時に呼ばれる</span>
+<span class="comment">// &lt;2&gt; 有异常发生时onRejected会被调用</span>
 <span class="keyword">function</span> <span class="function">goodMain</span>(onRejected) {
     <span class="keyword">return</span> Promise.resolve(<span class="integer">42</span>).then(throwError).<span class="keyword">catch</span>(onRejected);
 }
@@ -3008,10 +3008,10 @@ describe(<span class="string"><span class="delimiter">&quot;</span><span class="
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay"><code class="javascript language-javascript">it(<span class="string"><span class="delimiter">&quot;</span><span class="content">should use `done` for test?</span><span class="delimiter">&quot;</span></span>, <span class="keyword">function</span> (done) {
-    <span class="keyword">var</span> promise = Promise.resolve(<span class="integer">1</span>);<span class="comment">// “&lt;1&gt;”</span>
+    <span class="keyword">var</span> promise = Promise.resolve(<span class="integer">1</span>);<i class="conum" data-value="1"></i><b>(1)</b>
     promise.then(<span class="keyword">function</span> (value) {
         assert(value === <span class="integer">1</span>);
-        done();<span class="comment">// “&lt;2&gt;”</span>
+        done();<i class="conum" data-value="2"></i><b>(2)</b>
     });
 });</code></pre>
 </div>
@@ -3020,22 +3020,22 @@ describe(<span class="string"><span class="delimiter">&quot;</span><span class="
 <table>
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>创建名为<code>Fulfilled</code> 的promise object</td>
+<td>创建名为<code>Fulfilled</code> 的promise对象</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="2"></i><b>2</b></td>
-<td>调用<code>done</code> 标明测试结束</td>
+<td>调用<code>done</code> 表明测试结束</td>
 </tr>
 </table>
 </div>
 <div class="paragraph">
-<p><a href="#Promise.resolve"><code>Promise.resolve</code></a> 用来返回promise object，
-返回的promise object状态为FulFilled。
+<p><a href="#Promise.resolve"><code>Promise.resolve</code></a> 用来返回promise对象，
+返回的promise对象状态为FulFilled。
 结果，调用绑定到<code>.then</code> 的回调函数。</p>
 </div>
 <div class="paragraph">
 <p><a href="#promise-is-always-async">column: Promise总是异步?</a> 中也提到的那样，
-promise object总是异步处理的，所有测试同样需要用异步对应的方式编写。</p>
+promise对象总是异步处理的，所有测试同样需要用异步对应的方式编写。</p>
 </div>
 <div class="paragraph">
 <p>但是，之前的测试代码中<code>assert</code> 失败的情况会出现问题。</p>
@@ -4171,7 +4171,7 @@ notifyMessageAsPromise(<span class="string"><span class="delimiter">&quot;</span
         callback(<span class="keyword">new</span> Error(<span class="string"><span class="delimiter">'</span><span class="content">doesn</span><span class="char">\'</span><span class="content">t support Notification API</span><span class="delimiter">'</span></span>));
     }
 }
-<span class="comment">// `thenable` を返す</span>
+<span class="comment">// 返回 `thenable`</span>
 <span class="keyword">function</span> <span class="function">notifyMessageAsThenable</span>(message, options) {
     <span class="keyword">return</span> {
         <span class="key"><span class="delimiter">'</span><span class="content">then</span><span class="delimiter">'</span></span>: <span class="keyword">function</span> (resolve, reject) {
@@ -4849,7 +4849,7 @@ delayPromise(<span class="integer">100</span>).then(<span class="keyword">functi
             resolve(<span class="string"><span class="delimiter">'</span><span class="content">this is loser</span><span class="delimiter">'</span></span>);
         }, <span class="integer">1000</span>);
     });
-<span class="comment">// 一番最初のものがresolveされた時点で終了</span>
+<span class="comment">// 第一个promise变为resolve后程序停止</span>
 Promise.race([winnerPromise, loserPromise]).then(<span class="keyword">function</span> (value) {
     console.log(value);    <span class="comment">// =&gt; 'this is winner'</span>
 });</code></pre>
@@ -5035,7 +5035,7 @@ promise.<span class="keyword">catch</span>(<span class="keyword">function</span>
             req.send();
         });
     <span class="keyword">var</span> <span class="function">abort</span> = <span class="keyword">function</span> () {
-        <span class="comment">// 既にrequestが止まってなければabortする</span>
+        <span class="comment">// 如果request还没有结束的话就执行abort</span>
         <span class="comment">// https://developer.mozilla.org/en/docs/Web/API/XMLHttpRequest/Using_XMLHttpRequest</span>
         <span class="keyword">if</span> (req.readyState !== XMLHttpRequest.UNSENT) {
             req.abort();
@@ -5137,7 +5137,7 @@ TimeoutError.prototype.constructor = TimeoutError;
             req.send();
         });
     <span class="keyword">var</span> <span class="function">abort</span> = <span class="keyword">function</span> () {
-        <span class="comment">// 既にrequestが止まってなければabortする</span>
+        <span class="comment">// 如果request还没有结束的话就执行abort</span>
         <span class="comment">// https://developer.mozilla.org/en/docs/Web/API/XMLHttpRequest/Using_XMLHttpRequest</span>
         <span class="keyword">if</span> (req.readyState !== XMLHttpRequest.UNSENT) {
             req.abort();
@@ -6196,7 +6196,7 @@ describe(<span class="string"><span class="delimiter">&quot;</span><span class="
         results.push(value);
         <span class="keyword">return</span> results;
     }
-    <span class="comment">// [] は記録する初期値を部分適用している</span>
+    <span class="comment">// [] 用来保存初始化的值</span>
     <span class="keyword">var</span> pushValue = recordValue.bind(<span class="predefined-constant">null</span>, []);
     <span class="keyword">return</span> request.comment().then(pushValue).then(request.people).then(pushValue);
 }
@@ -6247,12 +6247,12 @@ main().then(<span class="keyword">function</span> (value) {
         results.push(value);
         <span class="keyword">return</span> results;
     }
-    <span class="comment">// [] は記録する初期値を部分適用してる</span>
+    <span class="comment">// [] 用来保存初始化值</span>
     <span class="keyword">var</span> pushValue = recordValue.bind(<span class="predefined-constant">null</span>, []);
-    <span class="comment">// promiseオブジェクトを返す関数の配列</span>
+    <span class="comment">// 返回promise对象的函数的数组</span>
     <span class="keyword">var</span> tasks = [request.comment, request.people];
     <span class="keyword">var</span> promise = Promise.resolve();
-    <span class="comment">// スタート地点</span>
+    <span class="comment">// 开始的地方</span>
     <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="integer">0</span>; i &lt; tasks.length; i++) {
         <span class="keyword">var</span> task = tasks[i];
         promise = promise.then(task).then(pushValue);

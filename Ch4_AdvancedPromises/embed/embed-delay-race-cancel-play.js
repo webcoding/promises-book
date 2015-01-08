@@ -41,7 +41,7 @@ function cancelableXHR(URL) {
             req.send();
         });
     var abort = function () {
-        // 既にrequestが止まってなければabortする
+        // 如果request还没有结束的话就执行abort
         // https://developer.mozilla.org/en/docs/Web/API/XMLHttpRequest/Using_XMLHttpRequest
         if (req.readyState !== XMLHttpRequest.UNSENT) {
             req.abort();
