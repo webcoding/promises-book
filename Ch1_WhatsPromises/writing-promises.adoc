@@ -27,7 +27,7 @@
 [source,javascript]
 ----
 include::embed/embed-xhr-promise.js[]
-// 実行例
+// 运行示例
 var URL = "http://httpbin.org/get";
 getURL(URL).then(function onFulfilled(value){
     console.log(value);
@@ -36,9 +36,7 @@ getURL(URL).then(function onFulfilled(value){
 });
 ----
 
- `getURL` 只有在
-通过XHR取得结果状态为200时 `resolve` - 也就是取得成功，
-除此以外就是取得失败 `reject` 。
+`getURL` 只有在通过XHR取得结果状态为200时 `resolve` - 也就是取得成功，除此以外就是取得失败 `reject` 。
 
 
 `resolve(req.response)` 在response的内容中加入了参数。
