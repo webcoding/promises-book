@@ -72,7 +72,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   
 
 
-  return "<div class=\"mirror-console-command\">\n    <button class=\"mirror-console-button mirror-console-run\" id=\"mirror-console-run-button\">実行</button>\n    <button class=\"mirror-console-button mirror-console-clear\" id=\"mirror-console-clear-button\">ログをクリア</button>\n    <button class=\"mirror-console-button mirror-console-exit\" id=\"mirror-console-exit-button\">終了</button>\n</div>\n<div class=\"mirror-console-log\">\n</div>";
+  return "<div class=\"mirror-console-command\">\n    <button class=\"mirror-console-button mirror-console-run\" id=\"mirror-console-run-button\">运行</button>\n    <button class=\"mirror-console-button mirror-console-clear\" id=\"mirror-console-clear-button\">清除log</button>\n    <button class=\"mirror-console-button mirror-console-exit\" id=\"mirror-console-exit-button\">退出</button>\n</div>\n<div class=\"mirror-console-log\">\n</div>";
   });
 
 },{"hbsfy/runtime":59}],3:[function(require,module,exports){
@@ -174,7 +174,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   
 
 
-  return "<button class=\"mirror-console-button mirror-console-run\" id=\"mirror-console-run-button\">実行</button>";
+  return "<button class=\"mirror-console-button mirror-console-run\" id=\"mirror-console-run-button\">运行</button>";
   });
 
 },{"hbsfy/runtime":59}],5:[function(require,module,exports){
