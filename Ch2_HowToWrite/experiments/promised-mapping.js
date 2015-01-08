@@ -1,10 +1,10 @@
 "use strict";
-// 配列の中身をそれぞれpromiseオブジェクトにした配列を返す
+// 该函数将数组的每个元素转换为一个promise对象，并组成新的数组返回
 function promisedMapping(ary) {
     function timerPromisefy(value) {
         return new Promise(function (resolve) {
             setTimeout(function () {
-                resolve(value);// => returnする値
+                resolve(value);// => return值
             }, value);
         });
     }

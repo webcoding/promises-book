@@ -1,7 +1,7 @@
 "use strict";
 var timerPromisefy = require("../lib/timer-promisefy").timerPromisefy;
 var startDate = Date.now();
-// 全てがresolveされたら終了
+// 所有promise变为resolve后程序退出
 Promise.all([
     timerPromisefy(1),
     timerPromisefy(32),

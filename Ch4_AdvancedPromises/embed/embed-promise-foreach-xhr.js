@@ -28,12 +28,12 @@ function main() {
         results.push(value);
         return results;
     }
-    // [] は記録する初期値を部分適用してる
+    // [] 用来保存初始化值
     var pushValue = recordValue.bind(null, []);
-    // promiseオブジェクトを返す関数の配列
+    // 返回promise对象的函数的数组
     var tasks = [request.comment, request.people];
     var promise = Promise.resolve();
-    // スタート地点
+    // 开始的地方
     for (var i = 0; i < tasks.length; i++) {
         var task = tasks[i];
         promise = promise.then(task).then(pushValue);

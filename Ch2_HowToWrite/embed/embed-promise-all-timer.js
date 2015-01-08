@@ -1,4 +1,4 @@
-// `delay`ミリ秒後にresolveする
+// `delay`毫秒后执行resolve
 function timerPromisefy(delay) {
     return new Promise(function (resolve) {
         setTimeout(function () {
@@ -7,7 +7,7 @@ function timerPromisefy(delay) {
     });
 }
 var startDate = Date.now();
-// 全てがresolveされたら終了
+// 所有promise都resolve后程序退出
 Promise.all([
     timerPromisefy(1),
     timerPromisefy(32),

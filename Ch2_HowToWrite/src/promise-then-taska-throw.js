@@ -3,7 +3,7 @@ function taskA() {
     throw new Error("throw Error @ Task A")
 }
 function taskB() {
-    console.log("Task B");// 呼ばれない
+    console.log("Task B");// 不会被调用
 }
 function onRejected(error) {
     console.log(error);// => "throw Error @ Task A"

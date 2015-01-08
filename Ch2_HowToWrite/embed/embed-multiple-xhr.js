@@ -28,7 +28,7 @@ function main() {
         results.push(value);
         return results;
     }
-    // [] は記録する初期値を部分適用している
+    // [] 用来保存初始值
     var pushValue = recordValue.bind(null, []);
     return request.comment().then(pushValue).then(request.people).then(pushValue);
 }
