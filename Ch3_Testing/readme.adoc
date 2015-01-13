@@ -10,5 +10,5 @@ include::basic-tests.adoc[]
 // Mocha与Promise
 include::mocha-promise.adoc[]
 
-// 编写指定测试要
+// 编写可控测试（Controllable Tests）
 include::controllable-tests.adoc[]
