@@ -122,12 +122,12 @@ image::img/promise-test-timeout.png[promise test timeout]
 但是，Promise的情况下 `.then` 绑定的执行函数发生的error，
 会被Promise捕获，从而测试框架不会抛出error。
 
-我们来改善一下<<promise-assert-fail,`assert` 失败事例>>，
+我们来改善一下<<promise-assert-fail,`assert` 失败示例>>，
 让`assert` 失败时显示测试失败。
 
 [source,javascript]
 [[promise-assert-fail-fixed]]
-.测试正常失败的事例
+.测试正常失败的示例
 ----
 it("should use `done` for test?", function (done) {
     var promise = Promise.resolve();
@@ -137,7 +137,7 @@ it("should use `done` for test?", function (done) {
 });
 ----
 
-测试正常失败的事例中，为了一定调用`done` ，
+测试正常失败的示例中，为了一定调用`done` ，
 在最后添加了 `.then(done, done);` 语句。
 
 `assert` 通过时单纯调用 `done()` ，`assert` 失败时调用 `done(error)` 。

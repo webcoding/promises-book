@@ -1,9 +1,9 @@
 [[mocha-promise]]
-== MochaのPromiseサポート
+== Mocha对Promise的支持
 
-Mochaがサポートしてる"Promiseのテスト"とは何かについて学んでいきましょう。
+在这里，我们将会学习什么是Mocha支持的“对Promise测试”。
 
-公式サイトの http://visionmedia.github.io/mocha/#asynchronous-code[Asynchronous code]にもその概要が書かれています。
+官方网站 http://mochajs.org/#asynchronous-code[Asynchronous code] 也记载了关于Promise测试的概要。
 
 > Alternately, instead of using the done() callback, you can return a promise. This is useful if the APIs you are testing return promises instead of taking callbacks:
 
