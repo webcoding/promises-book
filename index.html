@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="关于JavaScript Promise基本使用方法以及测试的编写方法、应用及反模式等内容的文档。">
 <meta name="keywords" content="JavaScript, ECMAScript, Promise, 日语, 中文, 使用方法, 教程, 参考手册">
-<title>JavaScript Promise小书</title>
+<title>JavaScript Promise迷你书</title>
 <style>
 /* Asciidoctor default stylesheet | MIT License | http://asciidoctor.org */
 article, aside, details, figcaption, figure, footer, header, hgroup, main, nav, section, summary { display: block; }
@@ -464,7 +464,7 @@ span.line-numbers { border-right: 1px solid #E5E5E5; color: #999; display: inlin
 </head>
 <body class="article toc2 toc-left">
 <div id="header">
-<h1>JavaScript Promise小书</h1>
+<h1>JavaScript Promise迷你书</h1>
 <span id="author" class="author">azu</span><br>
 <span id="revnumber">version 1.1.2</span>
 <div id="toc" class="toc2">
@@ -810,7 +810,7 @@ promise.then(<span class="keyword">function</span>(value){
 </ul>
 </div>
 <div class="paragraph">
-<p>各位读者除了能免费阅读本书，也有编辑本书的权利，可以在GitHub上通过GitHubで <a href="https://github.com/azu/promises-book/pulls">Pull Requests</a> 贡献自己的工作。</p>
+<p>各位读者除了能免费阅读本书，也有编辑本书的权利，可以在GitHub上通过GitHub <a href="https://github.com/azu/promises-book/pulls">Pull Requests</a> 贡献自己的工作。</p>
 </div>
 </div>
 </div>
@@ -3116,10 +3116,10 @@ promise对象总是异步处理的，所有测试同样需要用异步对应的�
 </blockquote>
 </div>
 <div class="paragraph">
-<p>Promiseのテストの場合はコールバックとして <code>done()</code> を呼ぶ代わりに、promiseオブジェクトをreturnすることが出来ると書いてあります。</p>
+<p>这段话的意思是，在对Promise进行测试的时候，不使用 <code>done()</code> 这样的回调风格的代码编写方式，而是返回一个promise对象。</p>
 </div>
 <div class="paragraph">
-<p>では、実際にどのように書くかの例を見て行きたいと思います。</p>
+<p>那么实际上代码是什么样的呢？这里我们来看个例子应该就好理解了。</p>
 </div>
 <div id="mocha-promise-test.js" class="listingblock">
 <div class="title">mocha-promise-test.js</div>
@@ -3137,35 +3137,35 @@ describe(<span class="string"><span class="delimiter">&quot;</span><span class="
 </div>
 </div>
 <div class="paragraph">
-<p><a href="#promise-assert-fail-fixed">先ほどの <code>done</code> を使った例</a>をMochaのPromiseテストの形式に変更しました。</p>
+<p>这段代码将前面 <a href="#promise-assert-fail-fixed">前面使用 <code>done</code> 的例子</a> 按照Mocha的Promise测试方式进行了重写。</p>
 </div>
 <div class="paragraph">
-<p>変更点としては以下の2つとなっています。</p>
+<p>修改的地方主要在下面两点：</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p><code>done</code> そのものを取り除いた</p>
+<p>删除了 <code>done</code></p>
 </li>
 <li>
-<p>promiseオブジェクトを返すようにした</p>
+<p>返回结果为promise对象</p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
-<p>この書き方をした場合、<code>assert</code> が失敗した場合はもちろんテストが失敗します。</p>
+<p>这种写法的话，当 <code>assert</code> 失败的时候，测试本身自然也会失败。</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay"><code class="javascript language-javascript">it(<span class="string"><span class="delimiter">&quot;</span><span class="content">should be fail</span><span class="delimiter">&quot;</span></span>, <span class="keyword">function</span> () {
     <span class="keyword">return</span> Promise.resolve().then(<span class="keyword">function</span> () {
-        assert(<span class="predefined-constant">false</span>);<span class="comment">// =&gt; テストが失敗する</span>
+        assert(<span class="predefined-constant">false</span>);<span class="comment">// =&gt; 测试失败</span>
     });
 });</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>これにより <code>.then(done, done);</code> というような本質的にはテストとは関係ない記述を省くことが出来るようになりました。</p>
+<p>采用这种方法，就能从根本上省略诸如 <code>.then(done, done);</code> 这样本质上跟测试并无直接关系的代码。</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -3175,24 +3175,23 @@ describe(<span class="string"><span class="delimiter">&quot;</span><span class="
 </td>
 <td class="content">
 <div class="paragraph">
-<p><a href="http://efcl.info/2014/0314/res3708/">MochaがPromisesのテストをサポートしました | Web scratch</a> という記事でも
-MochaのPromiseサポートについて書かれています。</p>
+<p><a href="http://efcl.info/2014/0314/res3708/">Mocha已经支持对Promises的测试 | Web scratch</a> 这篇文章（日语）里也提到了关于Mocha对Promise进行测试的支持。</p>
 </div>
 </td>
 </tr>
 </table>
 </div>
 <div class="sect3">
-<h4 id="__12">3.2.1. 意図しないテスト結果</h4>
+<h4 id="__12">3.2.1. 意料之外的测试结果</h4>
 <div class="paragraph">
-<p>MochaがPromiseのテストをサポートしているため、この書き方で良いと思われるかもしれません。
-しかし、この書き方にも意図しない結果になる例外が存在します。</p>
+<p>因为Mocha提供了对Promise的测试，所以我们会认为这种写法会比较好。
+但是这种代码可能会带来意想不到的意外情况的发生。</p>
 </div>
 <div class="paragraph">
-<p>例えば、以下はある条件だとRejectedなpromiseオブジェクトを返す <code>mayBeRejected()</code> のテストコードです。</p>
+<p>比如对下面的<code>mayBeRejected()</code> 行数的测试代码，该函数返回一个当满足某一条件就变为Rejected的promise对象。</p>
 </div>
 <div id="mocha-rejected-promise-test" class="listingblock">
-<div class="title">エラーオブジェクトをテストしたい</div>
+<div class="title">想对Error Object进行测试</div>
 <div class="content">
 <pre class="CodeRay"><code class="javascript language-javascript"><span class="keyword">function</span> <span class="function">mayBeRejected</span>(){ <i class="conum" data-value="1"></i><b>(1)</b>
     <span class="keyword">return</span> Promise.reject(<span class="keyword">new</span> Error(<span class="string"><span class="delimiter">&quot;</span><span class="content">woo</span><span class="delimiter">&quot;</span></span>));
@@ -3208,31 +3207,31 @@ it(<span class="string"><span class="delimiter">&quot;</span><span class="conten
 <table>
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>この関数が返すpromiseオブジェクトをテストしたい</td>
+<td>这个函数用来对返回的promise对象进行测试</td>
 </tr>
 </table>
 </div>
 <div class="paragraph">
-<p>このテストの目的とは以下のようになっています。</p>
+<p>这个测试的目的包括以下两点：</p>
 </div>
 <div class="dlist">
 <dl>
-<dt class="hdlist1"><code>mayBeRejected()</code> が返すpromiseオブジェクトがFulFilledとなった場合</dt>
+<dt class="hdlist1"><code>mayBeRejected()</code> 返回的promise对象如果变为FulFilled状态的话</dt>
 <dd>
-<p>テストを失敗させる</p>
+<p>测试将会失败</p>
 </dd>
-<dt class="hdlist1"><code>mayBeRejected()</code> が返すpromiseオブジェクトがRejectedとなった場合</dt>
+<dt class="hdlist1"><code>mayBeRejected()</code> 返回的promise对象如果变为Rejected状态的话</dt>
 <dd>
-<p><code>assert</code> でErrorオブジェクトをチェックする</p>
+<p>在 <code>assert</code> 中对Error对象进行检查</p>
 </dd>
 </dl>
 </div>
 <div class="paragraph">
-<p>上記のテストコードでは、Rejectedとなって <code>onRejected</code> に登録された関数が呼ばれるためテストはパスしますね。</p>
+<p>上面的测试代码，当promise对象变为Rejected的时候，会调用在 <code>onRejected</code> 中注册的函数，会通过测试。</p>
 </div>
 <div class="paragraph">
-<p>このテストで問題になるのは <code>mayBeRejected()</code> で返されたpromiseオブジェクトが
-<strong>FulFilledとなった場合</strong>に、必ずテストがパスしてしまうという問題が発生します。</p>
+<p>这段测试代码的问题在于当<code>mayBeRejected()</code> 返回的是一个
+<strong>为FulFilled状态的promise对象时</strong>，测试会一直成功。</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -3250,17 +3249,17 @@ it(<span class="string"><span class="delimiter">&quot;</span><span class="conten
 <table>
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>返されるpromiseオブジェクトはFulFilledとなる</td>
+<td>返回的promise对象会变为FulFilled</td>
 </tr>
 </table>
 </div>
 <div class="paragraph">
-<p>この場合、<code>catch</code> で登録した <code>onRejected</code> の関数はそもそも呼ばれないため、
-<code>assert</code> がひとつも呼ばれることなくテストが必ずパスしてしまいます。</p>
+<p>在这种情况下，由于在 <code>catch</code> 中注册的 <code>onRejected</code> 函数并不会被调用，因此
+<code>assert</code> 也不会被执行，测试会一直通过。</p>
 </div>
 <div class="paragraph">
-<p>これを解消しようとして、<code>.catch</code> の前に <code>.then</code> を入れて、
-<code>.then</code> が呼ばれたらテストを失敗にしたいと考えるかもしれません。</p>
+<p>为了解决这个问题，我们可以在 <code>.catch</code> 的前面加入一个 <code>.then</code> 调用，可以理解为如果调用了
+<code>.then</code> 的话，那么测试就需要失败。</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -3281,13 +3280,13 @@ it(<span class="string"><span class="delimiter">&quot;</span><span class="conten
 <table>
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>throwすることでテストを失敗にしたい</td>
+<td>通过throw来使测试失败</td>
 </tr>
 </table>
 </div>
 <div class="paragraph">
-<p>しかし、この書き方だと<a href="#then-or-catch">then or catch?</a>で紹介したように、
-<code>failTest</code> で投げられたエラーが <code>catch</code> されてしまいます。</p>
+<p>但是，这种写法会像在前面 <a href="#then-or-catch">then or catch?</a> 中已经介绍的一样，
+<code>failTest</code> 抛出的一次会被 <code>catch</code> 捕获。</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -3296,37 +3295,37 @@ it(<span class="string"><span class="delimiter">&quot;</span><span class="conten
 <div class="title">Figure 8. Then Catch flow</div>
 </div>
 <div class="paragraph">
-<p><code>then</code> &#8594; <code>catch</code> となり、<code>catch</code> に渡ってくるErrorオブジェクトは <code>AssertionError</code> となり、
-意図したものとは違うものが渡ってきてしまいます。</p>
+<p>执行流程为 <code>then</code> &#8594; <code>catch</code>，传递给 <code>catch</code> 的Error对象为<code>AssertionError</code>类型 ，
+这并不是我们想要的东西。</p>
 </div>
 <div class="paragraph">
-<p>つまり、onRejectedになること<strong>だけ</strong>を期待して書かれたテストは、onFulfilledの状態になってしまうと
-常にテストがパスしてしまうという問題を持っていることが分かります。</p>
+<p>也就是说，我们希望测试<strong>只能</strong>通过状态会变为onRejected的promise对象，
+如果promise对象状态为onFulfilled状态的话，那么该测试就会一直通过。</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="__13">3.2.2. 両状態を明示して意図しないテストを改善</h4>
+<h4 id="__13">3.2.2. 明确两种状态，改善测试中的意外状况</h4>
 <div class="paragraph">
-<p><a href="#mocha-rejected-promise-test">上記のエラーオブジェクトのテスト</a>を書く場合、
-どのようにすれば意図せず通ってしまうテストを無くす事が出来るでしょうか?</p>
+<p>在编写 <a href="#mocha-rejected-promise-test">上面的对Error对象进行测试的例子</a> 时，
+怎么才能剔除那些会意外通过测试的情况呢？</p>
 </div>
 <div class="paragraph">
-<p>一番単純な方法としては、以下のようにそれぞれの状態の場合にどうなるのかをテストコードに書く方法です。</p>
+<p>最简单的方式就是像下面这样，在测试代码中判断在各种promise对象的状态下，进行如何的操作。</p>
 </div>
 <div class="dlist">
 <dl>
-<dt class="hdlist1">FulFilledとなった場合</dt>
+<dt class="hdlist1">变为FulFilled状态的时候</dt>
 <dd>
-<p>意図した通りテストが失敗する</p>
+<p>测试会预期失败</p>
 </dd>
-<dt class="hdlist1">Rejectedとなった場合</dt>
+<dt class="hdlist1">变为Rejected状态的时候</dt>
 <dd>
-<p><code>assert</code> でテストを行える</p>
+<p>使用 <code>assert</code> 进行测试</p>
 </dd>
 </dl>
 </div>
 <div class="paragraph">
-<p>つまり、Fulfilled、Rejected 両方の状態について、テストがどうなってほしいかを明示する必要があるわけです。</p>
+<p>也就是说，我们需要在测试代码中明确指定在Fulfilled和Rejected这两种状态下，都需进行什么样的处理。</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -3334,7 +3333,7 @@ it(<span class="string"><span class="delimiter">&quot;</span><span class="conten
     <span class="keyword">return</span> Promise.resolve();
 }
 it(<span class="string"><span class="delimiter">&quot;</span><span class="content">catch -&gt; then</span><span class="delimiter">&quot;</span></span>, <span class="keyword">function</span> () {
-    <span class="comment">// FulFilledとなった場合はテストは失敗する</span>
+    <span class="comment">// 变为FulFilled的时候测试失败</span>
     <span class="keyword">return</span> mayBeRejected().then(failTest, <span class="keyword">function</span> (error) {
         assert(error.message === <span class="string"><span class="delimiter">&quot;</span><span class="content">woo</span><span class="delimiter">&quot;</span></span>);
     });
@@ -3342,7 +3341,7 @@ it(<span class="string"><span class="delimiter">&quot;</span><span class="conten
 </div>
 </div>
 <div class="paragraph">
-<p>このように書くことで、FulFilledとなった場合は失敗するテストコードを書くことができます。</p>
+<p>像这样的话，就能在promise变为FulFilled的时候编写失败用的测试代码了。</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -3351,37 +3350,38 @@ it(<span class="string"><span class="delimiter">&quot;</span><span class="conten
 <div class="title">Figure 9. Promise onRejected test</div>
 </div>
 <div class="paragraph">
-<p><a href="#then-or-catch">then or catch?</a>の時は、エラーの見逃しを避けるため、
-<code>.then(onFulfilled, onRejected)</code> の第二引数ではなく、<code>then</code> &#8594; <code>catch</code> と分けることを推奨していました。</p>
+<p>在 <a href="#then-or-catch">then or catch?</a> 中我们已经讲过，为了避免遗漏对错误的处理，
+与使用 <code>.then(onFulfilled, onRejected)</code> 的第二个参数相比，
+我们更推荐使用 <code>then</code> &#8594; <code>catch</code> 这样的处理方式。</p>
 </div>
 <div class="paragraph">
-<p>しかし、テストの場合はPromiseの強力なエラーハンドリングが逆にテストの邪魔をしてしまいます。
-そのため <code>.then(failTest, onRejected)</code> と書くことで、どちらの状態になるのかを明示してテストを書くことができました。</p>
+<p>但是在编写测试代码的时候，Promise强大的错误处理机制反而成了限制我们的障碍。
+因此我们不得已采取了 <code>.then(failTest, onRejected)</code> 这种写法，明确指定promise在各种状态下进行何种的处理。</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="__14">3.2.3. まとめ</h4>
+<h4 id="__14">3.2.3. 总结</h4>
 <div class="paragraph">
-<p>MochaのPromiseサポートについてと意図しない挙動となる場合について紹介しました。</p>
+<p>在本小节中我们对在使用Mocha进行Promise测试时可能出现的一些意外情况进行了介绍。</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>通常のコードは <code>then</code> &#8594; <code>catch</code> と分けた方がよい</p>
+<p>普通的代码采用 <code>then</code> &#8594; <code>catch</code> 的流程的话比较容易理解</p>
 <div class="ulist">
 <ul>
 <li>
-<p>エラーハンドリングのため。<a href="#then-or-catch">then or catch?</a>を参照</p>
+<p>这是为了错误处理的方便。请参考 <a href="#then-or-catch">then or catch?</a></p>
 </li>
 </ul>
 </div>
 </li>
 <li>
-<p>テストコードは <code>then</code> にまとめた方がよい</p>
+<p>将测试代码集中到 <code>then</code> 中处理</p>
 <div class="ulist">
 <ul>
 <li>
-<p>アサーションエラーがテストフレームワークに届くようにするため。</p>
+<p>为了能将AssertionError传递到测试框架中。</p>
 </li>
 </ul>
 </div>
@@ -3389,22 +3389,23 @@ it(<span class="string"><span class="delimiter">&quot;</span><span class="conten
 </ul>
 </div>
 <div class="paragraph">
-<p><code>.then(onFulfilled, onRejected)</code> を使うことで、
-promiseオブジェクトがFulfilled、Rejectedどちらの状態になるかを明示してテストする必要があります。</p>
+<p>通过使用 <code>.then(onFulfilled, onRejected)</code> 这种形式的写法，
+可以明确指定promise对象在变为 Fulfilled或Rejected时如何进行处理。</p>
 </div>
 <div class="paragraph">
-<p>しかし、Rejectedのテストであることを明示するために、以下のように書くのはあまり直感的ではないと思います。</p>
+<p>但是，由于需要显示的指定 Rejected时的测试处理，
+像下面这样的代码看起来总是有一些让人感到不太直观的感觉。</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay"><code class="javascript language-javascript">promise.then(failTest, <span class="keyword">function</span>(error){
-    <span class="comment">// assertでerrorをテストする</span>
+    <span class="comment">// 使用assert对error进行测试</span>
 });</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>次は、Promiseのテストを手助けするヘルパー関数を定義して、
-もう少し分かりやすいテストを書くにはどうするべきかについて見て行きましょう。</p>
+<p>在下一小节，我们会介绍如何编写方便对Promise进行测试的helper函数，
+以及怎样去编写更容易理解的测试代码。</p>
 </div>
 </div>
 </div>
@@ -6856,7 +6857,7 @@ ES6 Promisesの前身となったコミュニティベースの仕様であり�
 <div id="footer">
 <div id="footer-text">
 Version 1.1.2<br>
-Last updated 2014-10-22 21:26:45 CST
+Last updated 2015-01-14 23:31:14 CST
 </div>
 </div>
 </body>
