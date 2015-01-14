@@ -1,4 +1,4 @@
-= JavaScript Promise小书
+= JavaScript Promise迷你书
 azu
 :author:      azu
 :authorinitials: azu

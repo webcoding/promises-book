@@ -121,4 +121,4 @@ ifeval::["{backend}" == "html5"]
 * image:https://badges.gitter.im/azu/promises-book.png["Gitter", link="https://gitter.im/azu/promises-book"]
 endif::[]
 
-各位读者除了能免费阅读本书，也有编辑本书的权利，可以在GitHub上通过GitHubで https://github.com/azu/promises-book/pulls[Pull Requests] 贡献自己的工作。
+各位读者除了能免费阅读本书，也有编辑本书的权利，可以在GitHub上通过GitHub https://github.com/azu/promises-book/pulls[Pull Requests] 贡献自己的工作。
