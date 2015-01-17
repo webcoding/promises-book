@@ -2,9 +2,9 @@
 = 用語集
 
 Promises::
-    プロミスという仕様そのもの
-promiseオブジェクト::
-    プロミスオブジェクト、`Promise` のインスタンスオブジェクトの事
+    Promise规范自身
+promise对象::
+    promise对象指的是 `Promise` 实例对象
 [[es6-promises]]
 ES6 Promises::
     http://people.mozilla.org/%7Ejorendorff/es6-draft.html#sec-operations-on-promise-objects[ECMAScript 6th Edition] を明示的に示す場合にprefixとして _ES6_ をつける
