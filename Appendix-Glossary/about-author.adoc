@@ -1,29 +1,40 @@
 [[about-author]]
-= 著者について
+= 关于作者
 
 image:img/simple320_320.png[azu,32,32]
 **https://github.com/azu/[azu]** (Twitter : @link:https://twitter.com/azu_re[azu_re] )
 
-ブラウザ、JavaScriptの最新技術を常に追いかけている。
+关注浏览器、JavaScript先关的最新技术。
 
-目的を手段にしてしまうことを得意としている(この書籍もその結果できた)。
+擅长将将目的作为手段，本书也是因此而成。
 
-http://efcl.info/[Web Scratch] や http://jser.info/[JSer.info] といったサイトを運営している。
+管理着个人主页 http://efcl.info/[Web Scratch] 和 http://jser.info/[JSer.info] 。
+
+[[about-translators]]
+= 关于译者（按翻译内容从多到少）
+
+* liubin https://github.com/liubin
+  ** 除去kakau和honnkyou的其余部分**
+
+* kaku https://github.com/kaku87
+  ** 1.1. Promise是什么 **，** 1.2. Promise 简介 **，** 1.3. 编写Promise代码**
+
+* honnkyou https://github.com/honnkyou
+  ** 3.1. 基本测试 **
 
 [[omake-message]]
-== 著者へのメッセージ/おまけ
+== 给原著者留言、后记
 
-以下の https://gumroad.com/l/javascript-promise[おまけ.pdf] では、
-この書籍を書き始めた理由や、どのように書いていったか、テストなどについて書かれています。
+https://gumroad.com/l/javascript-promise[后记.pdf] 里面记录了笔者为什么要写这么一本书，编写的过程，以及如何进行测试。
 
-- image:../public/img/gumroad-green.svg[おまけをダウンロード, link="https://gumroad.com/l/javascript-promise"] https://gumroad.com/l/javascript-promise[JavaScript Promiseの本のおまけ]
+- image:../public/img/gumroad-green.svg[下载后记（日文版）, link="https://gumroad.com/l/javascript-promise"] https://gumroad.com/l/javascript-promise[JavaScript Promise迷你书后记（日文版）]
 
-Gumroadから無料 または 好きな値段でダウンロードすることが出来ます。
+你可以在Gumroad以免费的价格或者自己设定一个任意的价格来下载本书的后记。
 
-ダウンロードする際に作者へのメッセージも書けるので、
-メッセージを残すついでにダウンロードして行ってください。
+在下载的时候，会有一个给作者留言的地方，
+希望各位读者能写下一点什么之后下载。
 
-問題の指摘などがありましたら、GitHubやGitterに書いてくださると解決出来ます。
+如果本书有任何问题的话，也可以通过 GitHub或者Gitter 来提交。
 
 * https://github.com/azu/promises-book/issues?state=open[Issues · azu/promises-book]
 * https://gitter.im/azu/promises-book[azu/promises-book - Gitter]
