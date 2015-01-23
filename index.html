@@ -538,11 +538,12 @@ span.line-numbers { border-right: 1px solid #E5E5E5; color: #999; display: inlin
 </ul>
 </li>
 <li><a href="#promise-glossary">6. 用語集</a></li>
-<li><a href="#resouce-link">7. 参考サイト</a></li>
-<li><a href="#about-author">8. 著者について</a></li>
+<li><a href="#resouce-link">7. 参考网站</a></li>
+<li><a href="#about-author">8. 关于作者</a></li>
+<li><a href="#about-translators">9. 关于译者（按翻译内容从多到少）</a></li>
 <li>
 <ul class="sectlevel2">
-<li><a href="#omake-message">8.1. 著者へのメッセージ/おまけ</a></li>
+<li><a href="#omake-message">9.1. 给原著者留言、后记</a></li>
 </ul>
 </li>
 </ul>
@@ -6527,10 +6528,10 @@ main().then(<span class="keyword">function</span> (value) {
 </div>
 </div>
 <div class="listingblock executable">
-<div class="title">thenコード例</div>
+<div class="title">then代码示例</div>
 <div class="content">
 <pre class="CodeRay"><code class="javascript language-javascript"><span class="keyword">var</span> promise = <span class="keyword">new</span> Promise(<span class="keyword">function</span>(resolve, reject){
-    resolve(<span class="string"><span class="delimiter">&quot;</span><span class="content">thenに渡す値</span><span class="delimiter">&quot;</span></span>);
+    resolve(<span class="string"><span class="delimiter">&quot;</span><span class="content">传递给then的值</span><span class="delimiter">&quot;</span></span>);
 });
 promise.then(<span class="keyword">function</span> (value) {
     console.log(value);
@@ -6540,19 +6541,18 @@ promise.then(<span class="keyword">function</span> (value) {
 </div>
 </div>
 <div class="paragraph">
-<p>promiseオブジェクトに対してonFulfilledとonRejectedのハンドラを定義し、
-新たなpromiseオブジェクトを作成して返す。</p>
+<p>这段代码创建一个promise对象，定义了处理onFulfilled和onRejected的函数（handler），然后返回这个promise对象。</p>
 </div>
 <div class="paragraph">
-<p>このハンドラはpromiseがresolve または rejectされた時にそれぞれ呼ばれる。</p>
+<p>这个promise对象会在变为resolve或者reject的时候分别调用相应注册的回调函数。</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>定義されたハンドラ内で返した値は、新たなpromiseオブジェクトのonFulfilledに対して渡される。</p>
+<p>当handler返回一个正常值的时候，这个值会传递给promise对象的onFulfilled方法。</p>
 </li>
 <li>
-<p>定義されたハンドラ内で例外が発生した場合は、新たなpromiseオブジェクトのonRejectedに対して渡される。</p>
+<p>定义的handler中产生异常的时候，这个值则会传递给promise对象的onRejected方法。</p>
 </li>
 </ul>
 </div>
@@ -6565,10 +6565,10 @@ promise.then(<span class="keyword">function</span> (value) {
 </div>
 </div>
 <div class="listingblock executable">
-<div class="title">catchのコード例</div>
+<div class="title">catch代码示例</div>
 <div class="content">
 <pre class="CodeRay"><code class="javascript language-javascript"><span class="keyword">var</span> promise = <span class="keyword">new</span> Promise(<span class="keyword">function</span>(resolve, reject){
-    resolve(<span class="string"><span class="delimiter">&quot;</span><span class="content">thenに渡す値</span><span class="delimiter">&quot;</span></span>);
+    resolve(<span class="string"><span class="delimiter">&quot;</span><span class="content">传递给then的值</span><span class="delimiter">&quot;</span></span>);
 });
 promise.then(<span class="keyword">function</span> (value) {
     console.log(value);
@@ -6578,7 +6578,7 @@ promise.then(<span class="keyword">function</span> (value) {
 </div>
 </div>
 <div class="paragraph">
-<p><code>promise.then(undefined, onRejected)</code> と同等の意味を持つシンタックスシュガー。</p>
+<p>这是一个等价于<code>promise.then(undefined, onRejected)</code> 的语法糖。</p>
 </div>
 </div>
 <div class="sect2">
@@ -6591,7 +6591,7 @@ Promise.resolve(object);</code></pre>
 </div>
 </div>
 <div class="listingblock executable">
-<div class="title">Promise.resolveのコード例</div>
+<div class="title">Promise.resolve代码示例</div>
 <div class="content">
 <pre class="CodeRay"><code class="javascript language-javascript"><span class="keyword">var</span> taskName = <span class="string"><span class="delimiter">&quot;</span><span class="content">task 1</span><span class="delimiter">&quot;</span></span>
 asyncTask(taskName).then(<span class="keyword">function</span> (value) {
@@ -6607,24 +6607,24 @@ asyncTask(taskName).then(<span class="keyword">function</span> (value) {
 </div>
 </div>
 <div class="paragraph">
-<p>受け取った値に応じたpromiseオブジェクトを返す。</p>
+<p>根据接收到的参数不同，返回不同的promise对象。</p>
 </div>
 <div class="paragraph">
-<p>どの場合でもpromiseオブジェクトを返すが、大きく分けて以下の3種類となる。</p>
+<p>虽然每种情况都会返回promise对象，但是大体来说主要分为下面3类。</p>
 </div>
 <div class="dlist">
 <dl>
-<dt class="hdlist1">promiseオブジェクトを受け取った場合</dt>
+<dt class="hdlist1">接收到promise对象参数的时候</dt>
 <dd>
-<p>受け取ったpromiseオブジェクトをそのまま返す</p>
+<p>返回的还是接收到的promise对象</p>
 </dd>
-<dt class="hdlist1">thenableなオブジェクトを受け取った場合</dt>
+<dt class="hdlist1">接收到thenable类型的对象的时候</dt>
 <dd>
-<p><code>then</code> を持つオブジェクトを新たなpromiseオブジェクトにして返す</p>
+<p>返回一个新的promise对象，这个对象具有一个 <code>then</code> 方法</p>
 </dd>
-<dt class="hdlist1">その他の値(オブジェクトやnull等も含む)を受け取った場合</dt>
+<dt class="hdlist1">接收的参数为其他类型的时候（包括JavaScript对或null等）</dt>
 <dd>
-<p>その値でresolveされる新たなpromiseオブジェクトを作り返す</p>
+<p>返回一个将该对象作为值的新promise对象</p>
 </dd>
 </dl>
 </div>
@@ -6637,19 +6637,19 @@ asyncTask(taskName).then(<span class="keyword">function</span> (value) {
 </div>
 </div>
 <div class="listingblock">
-<div class="title">Promise.rejectのコード例</div>
+<div class="title">Promise.reject代码示例</div>
 <div class="content">
 <pre class="CodeRay"><code class="javascript language-javascript"><span class="keyword">var</span> failureStub = sinon.stub(xhr, <span class="string"><span class="delimiter">&quot;</span><span class="content">request</span><span class="delimiter">&quot;</span></span>).returns(Promise.reject(<span class="keyword">new</span> Error(<span class="string"><span class="delimiter">&quot;</span><span class="content">bad!</span><span class="delimiter">&quot;</span></span>)));</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>受け取った値でrejectされた新たなpromiseオブジェクトを返す。</p>
+<p>返回一个使用接收到的值进行了reject的新的promise对象。</p>
 </div>
 <div class="paragraph">
-<p>Promise.rejectに渡す値は <code>Error</code> オブジェクトとすべきである。</p>
+<p>而传给Promise.reject的值也应该是一个 <code>Error</code> 类型的对象。</p>
 </div>
 <div class="paragraph">
-<p>また、Promise.resolveとは異なり、promiseオブジェクトを渡した場合も常に新たなpromiseオブジェクトを作成する。</p>
+<p>另外，和 Promise.resolve不同的是，即使Promise.reject接收到的参数是一个promise对象，该函数也还是会返回一个全新的promise对象。</p>
 </div>
 <div class="listingblock executable">
 <div class="content">
@@ -6666,7 +6666,7 @@ console.log(r === Promise.reject(r));<span class="comment">// false</span></code
 </div>
 </div>
 <div class="listingblock executable">
-<div class="title">Promise.allのコード例</div>
+<div class="title">Promise.all代码示例</div>
 <div class="content">
 <pre class="CodeRay"><code class="javascript language-javascript"><span class="keyword">var</span> p1 = Promise.resolve(<span class="integer">1</span>),
     p2 = Promise.resolve(<span class="integer">2</span>),
@@ -6677,18 +6677,17 @@ Promise.all([p1, p2, p3]).then(<span class="keyword">function</span> (results) {
 </div>
 </div>
 <div class="paragraph">
-<p>新たなpromiseオブジェクトを作成して返す。</p>
+<p>生成并返回一个新的promise对象。</p>
 </div>
 <div class="paragraph">
-<p>渡されたpromiseオブジェクトの配列が全てresolveされた時に、
-新たなpromiseオブジェクトはその値でresolveされる。</p>
+<p>参数传递promise数组中所有的promise对象都变为resolve的时候，该方法才会返回，
+新创建的promise则会使用这些promise的值。</p>
 </div>
 <div class="paragraph">
-<p>どれかの値がrejectされた場合は、その時点で新たなpromiseオブジェクトはrejectされる。</p>
+<p>如果参数中的任何一个promise为reject的话，则整个Promise.all调用会立即终止，并返回一个reject的新的promise对象。</p>
 </div>
 <div class="paragraph">
-<p>渡された配列の値はそれぞれ <code>Promise.resolve</code> にラップされるため、
-promiseオブジェクト以外が混在している場合も扱える。</p>
+<p>由于参数数组中的每个元素都是由 <code>Promise.resolve</code> 包装（wrap）的，所以Paomise.all可以处理不同类型的promose对象。</p>
 </div>
 </div>
 <div class="sect2">
@@ -6699,7 +6698,7 @@ promiseオブジェクト以外が混在している場合も扱える。</p>
 </div>
 </div>
 <div class="listingblock executable">
-<div class="title">Promise.raceのコード例</div>
+<div class="title">Promise.race代码示例</div>
 <div class="content">
 <pre class="CodeRay"><code class="javascript language-javascript"><span class="keyword">var</span> p1 = Promise.resolve(<span class="integer">1</span>),
     p2 = Promise.resolve(<span class="integer">2</span>),
@@ -6710,12 +6709,11 @@ Promise.race([p1, p2, p3]).then(<span class="keyword">function</span> (value) {
 </div>
 </div>
 <div class="paragraph">
-<p>新たなpromiseオブジェクトを作成して返す。</p>
+<p>生成并返回一个新的promise对象。</p>
 </div>
 <div class="paragraph">
-<p>渡されたpromiseオブジェクトの配列のうち、
-一番最初にresolve または rejectされたpromiseにより、
-新たなpromiseオブジェクトはその値でresolve または rejectされる。</p>
+<p>参数 promise 数组中的任何一个promise对象如果变为resolve或者reject的话，
+该函数就会返回，并使用这个promise对象的值进行resolve或者reject。</p>
 </div>
 </div>
 </div>
@@ -6727,11 +6725,11 @@ Promise.race([p1, p2, p3]).then(<span class="keyword">function</span> (value) {
 <dl>
 <dt class="hdlist1">Promises</dt>
 <dd>
-<p>プロミスという仕様そのもの</p>
+<p>Promise规范自身</p>
 </dd>
-<dt class="hdlist1">promiseオブジェクト</dt>
+<dt class="hdlist1">promise对象</dt>
 <dd>
-<p>プロミスオブジェクト、<code>Promise</code> のインスタンスオブジェクトの事</p>
+<p>promise对象指的是 <code>Promise</code> 实例对象</p>
 </dd>
 </dl>
 </div>
@@ -6739,7 +6737,7 @@ Promise.race([p1, p2, p3]).then(<span class="keyword">function</span> (value) {
 <dl>
 <dt class="hdlist1">ES6 Promises</dt>
 <dd>
-<p><a href="http://people.mozilla.org/%7Ejorendorff/es6-draft.html#sec-operations-on-promise-objects">ECMAScript 6th Edition</a> を明示的に示す場合にprefixとして <em>ES6</em> をつける</p>
+<p>如果想明确表示使用 <a href="http://people.mozilla.org/%7Ejorendorff/es6-draft.html#sec-operations-on-promise-objects">ECMAScript 6th Edition</a> 的话，可以使用<em>ES6</em>作为前缀（prefix）</p>
 </dd>
 </dl>
 </div>
@@ -6747,8 +6745,8 @@ Promise.race([p1, p2, p3]).then(<span class="keyword">function</span> (value) {
 <dl>
 <dt class="hdlist1">Promises/A+</dt>
 <dd>
-<p><a href="http://promises-aplus.github.io/promises-spec/">Promises/A+</a>の事。
-ES6 Promisesの前身となったコミュニティベースの仕様であり、ES6 Promisesとは多くの部分が共通している。</p>
+<p><a href="http://promises-aplus.github.io/promises-spec/">Promises/A+</a>。
+这是ES6 Promises的前身，是一个社区规范，它和 ES6 Promises 有很多共通的内容。</p>
 </dd>
 </dl>
 </div>
@@ -6756,8 +6754,8 @@ ES6 Promisesの前身となったコミュニティベースの仕様であり�
 <dl>
 <dt class="hdlist1">Thenable</dt>
 <dd>
-<p>Promiseライクなオブジェクトの事。
-<code>.then</code> というメソッドを持つオブジェクト。</p>
+<p>类Promise对象。
+拥有名为<code>.then</code>方法的对象。</p>
 </dd>
 </dl>
 </div>
@@ -6765,80 +6763,118 @@ ES6 Promisesの前身となったコミュニティベースの仕様であり�
 <dl>
 <dt class="hdlist1">promise chain</dt>
 <dd>
-<p>promiseオブジェクトを <code>then</code> や <code>catch</code> のメソッドチェーンでつなげたもの。
-この用語は書籍中のものであり、<a href="#es6-promises">ES6 Promises</a>で定められた用語ではありません。</p>
+<p>指使用 <code>then</code> 或者 <code>catch</code> 方法将promise对象连接起来的行为。
+此用语只是在本书中的说法，而不是在 <a href="#es6-promises">ES6 Promises</a> 中定义的官方用语。</p>
 </dd>
 </dl>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="resouce-link">7. 参考サイト</h2>
+<h2 id="resouce-link">7. 参考网站</h2>
 <div class="sectionbody">
 <div class="dlist">
 <dl>
 <dt class="hdlist1"><a href="https://github.com/w3ctag/promises-guide">w3ctag/promises-guide</a></dt>
 <dd>
-<p>Promisesのガイド - 概念的な説明はここから得たものが多い</p>
+<p>Promises指南 - 这里有很多关于概念方面的说明</p>
 </dd>
 <dt class="hdlist1"><a href="https://github.com/domenic/promises-unwrapping">domenic/promises-unwrapping</a></dt>
 <dd>
-<p>ES6 Promisesの仕様リポジトリ - issueを検索して得た経緯や情報も多い</p>
+<p>ES6 Promises规范的repo - 可以通过查看issue来了解各种关于规范的来龙去脉和信息</p>
 </dd>
 <dt class="hdlist1"><a href="http://people.mozilla.org/~jorendorff/es6-draft.html#sec-promise-objects">ECMAScript Language Specification ECMA-262 6th Edition – DRAFT</a></dt>
 <dd>
-<p>ES6 Promisesの仕様書 - 仕様書として参照する場合はこちらを優先した</p>
+<p>ES6 Promises的规范 - 如果想参考关于ES6 Promises的规范，则应该先看这里</p>
 </dd>
 <dt class="hdlist1"><a href="http://www.html5rocks.com/en/tutorials/es6/promises/?redirect_from_locale=ja">JavaScript Promises: There and back again - HTML5 Rocks</a></dt>
 <dd>
-<p>Promisesについての記事 - 完成度がとても高くサンプルコードやリファレンス等を参考にした</p>
+<p>关于Promises的文章 - 这里的示例代码和参考（reference）的完成度都很高</p>
 </dd>
-<dt class="hdlist1"><a href="http://d.hatena.ne.jp/jovi0608/20140319/1395199285">Node.jsにPromiseが再びやって来た！ - ぼちぼち日記</a></dt>
+<dt class="hdlist1"><a href="http://d.hatena.ne.jp/jovi0608/20140319/1395199285">Node.js Promise再次降临！ - ぼちぼち日記</a></dt>
 <dd>
-<p>Node.jsとPromiseの記事 - <em>thenable</em>について参考にした</p>
+<p>关于Node.js和Promise的文章 - <em>thenable</em>部分参考了本文</p>
 </dd>
 </dl>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="about-author">8. 著者について</h2>
+<h2 id="about-author">8. 关于作者</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p><span class="image"><img src="Appendix-Glossary/img/simple320_320.png" alt="azu" width="32" height="32"></span>
 <strong><a href="https://github.com/azu/">azu</a></strong> (Twitter : @<a href="https://twitter.com/azu_re">azu_re</a> )</p>
 </div>
 <div class="paragraph">
-<p>ブラウザ、JavaScriptの最新技術を常に追いかけている。</p>
+<p>关注浏览器、JavaScript先关的最新技术。</p>
 </div>
 <div class="paragraph">
-<p>目的を手段にしてしまうことを得意としている(この書籍もその結果できた)。</p>
+<p>擅长将将目的作为手段，本书也是因此而成。</p>
 </div>
 <div class="paragraph">
-<p><a href="http://efcl.info/">Web Scratch</a> や <a href="http://jser.info/">JSer.info</a> といったサイトを運営している。</p>
+<p>管理着个人主页 <a href="http://efcl.info/">Web Scratch</a> 和 <a href="http://jser.info/">JSer.info</a> 。</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="about-translators">9. 关于译者（按翻译内容从多到少）</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>liubin <a href="https://github.com/liubin">https://github.com/liubin</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p>除去kakau和honnkyou的其余部分**</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>kaku <a href="https://github.com/kaku87">https://github.com/kaku87</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p>1.1. Promise是什么 <strong>，</strong> 1.2. Promise 简介 <strong>，</strong> 1.3. 编写Promise代码**</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>honnkyou <a href="https://github.com/honnkyou">https://github.com/honnkyou</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p>3.1. 基本测试 **</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
 </div>
 <div class="sect2">
-<h3 id="omake-message">8.1. 著者へのメッセージ/おまけ</h3>
+<h3 id="omake-message">9.1. 给原著者留言、后记</h3>
 <div class="paragraph">
-<p>以下の <a href="https://gumroad.com/l/javascript-promise">おまけ.pdf</a> では、
-この書籍を書き始めた理由や、どのように書いていったか、テストなどについて書かれています。</p>
+<p><a href="https://gumroad.com/l/javascript-promise">后记.pdf</a> 里面记录了笔者为什么要写这么一本书，编写的过程，以及如何进行测试。</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p><span class="image"><a class="image" href="https://gumroad.com/l/javascript-promise"><img src="public/img/gumroad-green.svg" alt="おまけをダウンロード"></a></span> <a href="https://gumroad.com/l/javascript-promise">JavaScript Promiseの本のおまけ</a></p>
+<p><span class="image"><a class="image" href="https://gumroad.com/l/javascript-promise"><img src="public/img/gumroad-green.svg" alt="下载后记（日文版）"></a></span> <a href="https://gumroad.com/l/javascript-promise">JavaScript Promise迷你书后记（日文版）</a></p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
-<p>Gumroadから無料 または 好きな値段でダウンロードすることが出来ます。</p>
+<p>你可以在Gumroad以免费的价格或者自己设定一个任意的价格来下载本书的后记。</p>
 </div>
 <div class="paragraph">
-<p>ダウンロードする際に作者へのメッセージも書けるので、
-メッセージを残すついでにダウンロードして行ってください。</p>
+<p>在下载的时候，会有一个给作者留言的地方，
+希望各位读者能写下一点什么之后下载。</p>
 </div>
 <div class="paragraph">
-<p>問題の指摘などがありましたら、GitHubやGitterに書いてくださると解決出来ます。</p>
+<p>如果本书有任何问题的话，也可以通过 GitHub或者Gitter 来提交。</p>
 </div>
 <div class="ulist">
 <ul>
