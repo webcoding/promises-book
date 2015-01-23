@@ -7,7 +7,7 @@ function timerPromisefy(delay) {
     });
 }
 var startDate = Date.now();
-// 所有promise都resolve后程序退出
+// 所有promise变为resolve后程序退出
 Promise.all([
     timerPromisefy(1),
     timerPromisefy(32),
