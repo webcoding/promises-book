@@ -3,21 +3,21 @@
 <?asciidoc-toc?>
 <article xmlns="http://docbook.org/ns/docbook" lang="en">
 <articleinfo>
-<title>JavaScript Promise迷你书</title>
-<date>2015-01-14</date>
+<title>JavaScript Promise迷你书（中文版）</title>
+<date>2015-01-24</date>
 <author>
-<firstname>azu</firstname>
-
-
+<firstname>原著：azu</firstname>
+<othername>/</othername>
+<surname>翻译：liubin、kaku、honnkyou</surname>
 
 </author>
 
-<authorinitials>azu</authorinitials>
+<authorinitials>原/翻</authorinitials>
 <revhistory>
 <revision>
 <revnumber>1.1.2</revnumber>
 
-<authorinitials>azu</authorinitials>
+<authorinitials>原/翻</authorinitials>
 
 </revision>
 </revhistory>
