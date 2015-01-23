@@ -1,12 +1,10 @@
-#注意：此文档中文版正在翻译中。认领翻译请到[wiki页面](https://github.com/liubin0329/promises-book/wiki)查看现在翻译状况并修改。
-
 # Promises Book [![Build Status](https://travis-ci.org/azu/promises-book.svg)](https://travis-ci.org/azu/promises-book) [![Gitter chat](https://badges.gitter.im/azu/promises-book.png)](https://gitter.im/azu/promises-book)
 
-Promises小书电子版
+Promises迷你书电子版（中文版）
 
-在这里[http://azu.github.io/promises-book/](http://azu.github.io/promises-book/ "Promises book") 可以在线阅读。
+在这里[http://liubin.github.io/promises-book/](http://liubin.github.io/promises-book/ "Promises book") 可以在线阅读。
 
-也可以从这里[http://azu.github.io/promises-book/javascript-promise-book.pdf](http://azu.github.io/promises-book/javascript-promise-book.pdf) 下载PDF版。
+也可以从这里[http://liubin.github.io/promises-book/javascript-promise-book.pdf](http://liubin.github.io/promises-book/javascript-promise-book.pdf) 下载PDF版。
 
 你还可以从这里[https://gumroad.com/l/javascript-promise](https://gumroad.com/l/javascript-promise "JavaScript Promise小书 附录") 免费下载本书的附录，也可以自己设定价格购买，本附录记录了本书诞生的经纬。
 
@@ -29,8 +27,23 @@ rbenv rehash # 如果你是使用rbenv的话。
 make html
 open index.html
 ```
+### 编译为PDF（中文版）
 
-### 编译为PDF
+执行命令（OS X下）：
+
+```sh
+make cn-pdf
+```
+
+如果你想修改字体，可以直接替换`_tools/build_cn_pdf.sh`里的`STKaiti`为你想要的字体。
+
+**注意：**，如果出现`java.lang.OutOfMemoryError`错误的话，设置一下JVM参数再进行make即可：
+
+```sh
+export JAVA_OPTS="-Xms512m -Xmx512m"
+```
+
+### 编译为PDF（日语版）
 
 本书字体使用了[VL Gothic Font Family](http://vlgothic.dicey.org/ "VL Gothic Font Family")。
 该字体可以从[VL Gothic Font Family](http://vlgothic.dicey.org/download.html "VL Gothic Font Family")下载，并需要进行安装。
@@ -50,7 +63,7 @@ open javascript-promise-book.pdf
 ### 编译为Epub
 
 由于本书还不是特别完善，因此质量会很一般。
-[HTML版](http://azu.github.io/promises-book/)在智能机等小画面尺寸的设备上也能很好的展现，所以推荐大家使用HTML方式阅读。
+[HTML版](http://liubin.github.io/promises-book/)在智能机等小画面尺寸的设备上也能很好的展现，所以推荐大家使用HTML方式阅读。
 
 
 ``` sh
@@ -63,7 +76,7 @@ asciidoctor-epub3 -D output index.adoc
 
 欢迎各种Pull Request和Issue。
 
-也可以到这里[![Gitter chat](https://badges.gitter.im/azu/promises-book.png)](https://gitter.im/azu/promises-book) 留言。
+也可以到这里[![Gitter chat](https://badges.gitter.im/liubin/promises-book.png)](https://gitter.im/liubin/promises-book) 留言。
 
 在Pull Request的时候请先参考 [CONTRIBUTING.md](CONTRIBUTING.md "CONTRIBUTING.md") 。
 

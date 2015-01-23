@@ -27,6 +27,16 @@ pdf:
 	@./_tools/build_pdf.sh javascript-promise-book.xml
 	@echo "Done!"
 
+cn-pdf:
+	@echo "Generate PDF..."
+	@gulp embed
+	@echo "Building asciidoc"
+	@asciidoctor -a lang=en -a bookversion=`node ./_tools/cli-book-version.js` \
+	-a icons=font -a source-highlighter=coderay --backend docbook \
+	-o javascript-promise-book.xml ${SRC_FILE}
+	@./_tools/build_cn_pdf.sh javascript-promise-book.xml
+	@echo "Done!"
+
 note-pdf:
 	@echo "Generate PDF..."
 	@gulp embed
