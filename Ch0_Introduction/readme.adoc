@@ -3,36 +3,36 @@
 
 == 写作初衷
 
-本书的目的是以目前还在制定中的<<es6-promises,ECMAScript 6 Promises>>规范为中心，着重向各位读者介绍JavaScript中的Promise相关支持。
+本书的目的是以目前还在制定中的<<es6-promises,ECMAScript 6 Promises>>规范为中心，着重向各位读者介绍JavaScript中对Promise相关技术的支持情况。
 
 通过阅读本书，我们希望各位读者能在下面三个目标上有所收获。
 
-- 学习Promise相关内容，能熟练使用Promise模式及进行测试
-- 学习Promise适合什么不适合什么，知道Promise不是万能的，不能什么都想用Promise来解决
-- 以ES6 Promises为基础 を元に基本をよく学び、より発展した形を自分で形成できるようになる事
+- 学习Promise相关内容，能熟练使用Promise模式并进行测试
+- 学习Promise适合什么、不适合什么，知道Promise不是万能的，不能什么都想用Promise来解决
+- 以ES6 Promises为基础进行学习，逐渐发展形成自己的风格
 
-像上面所提到的那样，本书主要是以<<es6-promises,ES6 Promises>>，即JavaScript的标准规范为基础的Promise相关只是为主要内容。
+像上面所提到的那样，本书主要是以<<es6-promises,ES6 Promises>>，即JavaScript的标准规范为基础的、Promise的相关知识为主要讲解内容。
 
-Firefox和Chrome这样技术上比较超前的浏览器不需要安装额外的插件就能使用Promise功能，此外ES6 Promises的规范来源于<<promises-aplus,Promises/A+>>社区，它有很多版本的实现。
+在Firefox和Chrome这样技术比较超前的浏览器上，不需要安装额外的插件就能使用Promise功能，此外ES6 Promises的规范来源于<<promises-aplus,Promises/A+>>社区，它有很多版本的实现。
 
 我们将会从基础API开始介绍可以在浏览器的原生支持或者通过插件支持的Proise功能。
 也希望各位读者能了解这其中Promise适合干什么，不适合干什么，能根据实际需求选择合适的技术实现方案。
 
 == 开始阅读之前
 
-本书阅读对象需要对JavaScript有基本的了解和知识。
+本书的阅读对象需要对JavaScript有基本的了解和知识。
 
-- http://www.oreilly.co.jp/books/9784873113913/[JavaScript: The Good Parts]
-- http://www.oreilly.co.jp/books/9784873114880/[JavaScript模式]
-- http://www.oreilly.co.jp/books/9784873115733/[JavaScript 第6版]
-- http://gihyo.jp/book/2011/978-4-7741-4813-7?ard=1400715177[Perfect JavaScript]
-- http://books.shoeisha.co.jp/book/b107881.html[Effective JavaScript]
+- http://shop.oreilly.com/product/9780596517748.do[JavaScript: The Good Parts]
+- http://shop.oreilly.com/product/9780596806767.do[JavaScript Patterns]
+- http://shop.oreilly.com/product/9780596805531.do[JavaScript: The Definitive Guide, 6th Edition]
+- http://gihyo.jp/book/2011/978-4-7741-4813-7?ard=1400715177[Perfect JavaScript（日文版）]
+- http://books.shoeisha.co.jp/book/b107881.html[Effective JavaScript（日文版）]
 
-如果你读过上面的一本书的话，则应该就能非常容易理解本书的内容了。
+如果你读过上面的其中一本的话，就应该非常容易理解本书的内容了。
 
-另外如果你有使用JavaScript编写过Web应用程序，或者使用Node.js编写过命令行或服务器程序的话，那么你可能会对本文中的一些内容感到非常熟悉。
+另外如果你有使用JavaScript编写Web应用程序的经验，或者使用Node.js编写过命令行、服务器端程序的话，那么你可能会对本文中的一些内容感到非常熟悉。
 
-本书的一本分章节将会以Node.js环境为背景进行说明，如果你有Node.js基础的话，那么一定会非常容易这部分内容了。
+本书的一本分章节将会以Node.js环境为背景进行说明，如果你有Node.js基础的话，那么一定会非常容易理解这部分内容了。
 
 == 格式约定
 
@@ -46,7 +46,7 @@ Firefox和Chrome这样技术上比较超前的浏览器不需要安装额外的�
 ** 这沿用了JavaScript中的使用方式，`Promise.all` 表示的是一个静态方法。
 
 [NOTE]
-この部分には文章についての補足が書かれています。
+这部分内容主要讲述的是对正文部分的补充说明。
 
 ifeval::["{backend}" == "html5"]
 == 推荐浏览器
@@ -86,14 +86,14 @@ promise.then(function(value){
 
 ++++
 <div class="tutorial-area">
-按下 <button class="mirror-console-button mirror-console-run">运行</button> 按钮之后，代码区会变成编辑区，并开始执行。<br />
+按下 <button class="mirror-console-button mirror-console-run">运行</button> 按钮之后，代码区会变成编辑区，代码也会被执行。当然你也可以通过这个按钮再次运行代码。<br />
 <button class="mirror-console-button mirror-console-clear">清除log</button> 按钮用于清除由 `console.log` 打印出来的log。
 <br />
 <button class="mirror-console-button mirror-console-exit">退出</button>按钮用来退出编辑模式。
 </div>
 ++++
 
-如果你对哪里有疑问的话，都可以现场修改并执行，以加深对该代码的理解。
+如果你对哪里有疑问的话，都可以现场修改代码并执行，以加深对该部分代码的理解。
 
 endif::[]
 
@@ -101,7 +101,7 @@ endif::[]
 
 本书中示例代码都可以在GitHub上找到。
 
-本书以 http://asciidoctor.org/[AsciiDoc] 形式编写。
+本书采用 http://asciidoctor.org/[AsciiDoc] 格式编写。
 
 - https://github.com/azu/promises-book[azu/promises-book] image:https://travis-ci.org/azu/promises-book.svg?branch=master["Build Status", link="https://travis-ci.org/azu/promises-book"]
 
@@ -113,7 +113,9 @@ endif::[]
 
 如果有意见或者问题的话，可以直接在GitHub上提Issue即可。
 
-* https://github.com/azu/promises-book/issues?state=open[Issues · azu/promises-book]
+* https://github.com/azu/promises-book/issues?state=open[Issues · azu/promises-book 日文版]
+
+* https://github.com/liubin/promises-book/issues?state=open[Issues · liubin/promises-book 中文版]
 
 此外，你也可以在 https://gitter.im/azu/promises-book[在线聊天] 上留言。
 
@@ -121,4 +123,4 @@ ifeval::["{backend}" == "html5"]
 * image:https://badges.gitter.im/azu/promises-book.png["Gitter", link="https://gitter.im/azu/promises-book"]
 endif::[]
 
-各位读者除了能免费阅读本书，也有编辑本书的权利，可以在GitHub上通过GitHub https://github.com/azu/promises-book/pulls[Pull Requests] 贡献自己的工作。
+各位读者除了能免费阅读本书，也有编辑本书的权利。你可以在GitHub上通过 https://github.com/azu/promises-book/pulls[Pull Requests] 来贡献自己的工作。

@@ -1,25 +1,25 @@
 [[how-to-write-promise]]
-== Promise的写法
+== 编写Promise代码
 
-我们来介绍一下Promise的基本写法。
+这里我们来介绍一下如何编写Promise代码。
 
 === 创建promise对象
 
 创建promise对象的流程如下所示。
 
 . `new Promise(fn)` 返回一个promise对象
-. 在`fn` 中写非同期等处理
-    * 处理结果正常的话，调用`resolve(结果的值)` 
+. 在`fn` 中指定异步等处理
+    * 处理结果正常的话，调用`resolve(处理结果值)` 
     * 处理结果错误的话，调用`reject(Error对象)` 
 
 
-按这个流程我们来实际写下代码吧。
+按这个流程我们来实际编写下promise代码吧。
 
-用Promise来获取非同期处理XMLHttpRequest(XHR)的数据。
+我们的任务是用Promise来通过异步处理方式来获取XMLHttpRequest(XHR)的数据。
 
 ==== 创建XHR的promise对象
 
-首先，创建一个用Promise把XHR处理包含其中的 `getURL` 函数。
+首先，创建一个用Promise把XHR处理包装起来的名为 `getURL` 的函数。
 
 [role="executable"]
 [[xhr-promise.js]]
@@ -36,7 +36,7 @@ getURL(URL).then(function onFulfilled(value){
 });
 ----
 
-`getURL` 只有在通过XHR取得结果状态为200时 `resolve` - 也就是取得成功，除此以外就是取得失败 `reject` 。
+`getURL` 只有在通过XHR取得结果状态为200时才会调用 `resolve` - 也就是只有数据取得成功时，而其他情况（取得失败）则会调用 `reject` 方法。
 
 
 `resolve(req.response)` 在response的内容中加入了参数。
@@ -136,13 +136,13 @@ getURL(URL).then(onFulfilled, onRejected);// <1>
 
 ==== 总结
 
-这章简单介绍了以下的内容。
+在本章我们简单介绍了以下内容：
 
 * 用 `new Promise` 创建promise对象
 * 用<<promise.then,`.then`>> 或 <<promise.catch,`.catch`>> 处理promise对象
 
-到此为止我们学习了Promise的基本写法。
-其他多数处理都是由此延伸，并使用预设的静态方法来实现。
+到此为止我们已经学习了Promise的基本写法。
+其他很多处理都是由此延伸的，并使用了Promise提供的静态方法来实现。
 
 这里我们并没有接触到有关不用能做到同样事情的回调函数而用Promise代替的优点。
 在接下来的章节中，我们就来看一下作为Promise优点的错误处理组成结构再和回调函数比较一下孰优孰劣。
