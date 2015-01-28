@@ -862,18 +862,6 @@ getAsync(<span class="string"><span class="delimiter">&quot;</span><span class="
 <p>Node.js等则规定在JavaScript的回调函数的第一个参数为 <code>Error</code> 对象，这也是它的一个惯例。</p>
 </div>
 <div class="paragraph">
-<<<<<<< HEAD
-<p>像回调函数的异步处理一样如果规则统一的话，写法就会很明确。
-但是，这也仅是编码规约，即使用不同的写法也不会出错。</p>
-</div>
-<div class="paragraph">
-<p>Promise，把异步处理对象和规则的式样明确，
-并规定用统一的接口来写，不可以用除此以外的写法。</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay"><code class="javascript language-javascript"><span class="error">下</span><span class="error">面</span><span class="error">是</span><span class="error">使</span><span class="error">用</span><span class="error">了</span>Promise<span class="error">异</span><span class="error">步</span><span class="error">处</span><span class="error">理</span><span class="error">的</span><span class="error">一</span><span class="error">个</span><span class="error">例</span><span class="error">子</span>
-=======
 <p>像上面这样基于回调函数的异步处理如果统一参数使用规则的话，写法也会很明了。
 但是，这也仅是编码规约而已，即使采用不同的写法也不会出错。</p>
 </div>
@@ -884,7 +872,6 @@ getAsync(<span class="string"><span class="delimiter">&quot;</span><span class="
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay"><code class="javascript language-javascript"><span class="error">下</span><span class="error">面</span><span class="error">是</span><span class="error">使</span><span class="error">用</span><span class="error">了</span>Promise<span class="error">进</span><span class="error">行</span><span class="error">异</span><span class="error">步</span><span class="error">处</span><span class="error">理</span><span class="error">的</span><span class="error">一</span><span class="error">个</span><span class="error">例</span><span class="error">子</span>
->>>>>>> master
 ----
 <span class="keyword">var</span> promise = getAsyncPromise(<span class="string"><span class="delimiter">&quot;</span><span class="content">fileA.txt</span><span class="delimiter">&quot;</span></span>); <i class="conum" data-value="1"></i><b>(1)</b>
 promise.then(<span class="keyword">function</span>(result){
@@ -897,26 +884,6 @@ promise.then(<span class="keyword">function</span>(result){
 </div>
 </div>
 <div class="paragraph">
-<<<<<<< HEAD
-<p>预设了抽象化异步处理的promise对象，
-可以在这个promise对象处理成功时和失败时执行相应的函数。</p>
-</div>
-<div class="paragraph">
-<p>我们来简单看一下它和回调函数相比有哪些不同之处，
-异步处理的写法只限定于使用promise对象的接口来写。</p>
-</div>
-<div class="paragraph">
-<p>也就是说，除promise对象已有的方法(这里的 <code>then</code> 或 <code>catch</code>)以外都不可以使用，
-并不是像回调函数那样参数可以自由决定，它的做法是固定且统一的。</p>
-</div>
-<div class="paragraph">
-<p>这样，因Promise统一接口的做法，
-就可以形成基于接口的各种各样的异步处理模式。</p>
-</div>
-<div class="paragraph">
-<p>所以，promise的功能是可以将复杂的异步处理轻松的模式化，
-这也可以说的上是使用promise的理由之一。</p>
-=======
 <p>我们可以向这个预设了抽象化异步处理的promise对象，
 注册这个promise对象执行成功时和失败时相应的回调函数。</p>
 </div>
@@ -935,7 +902,6 @@ promise.then(<span class="keyword">function</span>(result){
 <div class="paragraph">
 <p>所以，promise的功能是可以将复杂的异步处理轻松地进行模式化，
 这也可以说得上是使用promise的理由之一。</p>
->>>>>>> master
 </div>
 <div class="paragraph">
 <p>接下来，让我们在实践中来学习JavaScript的Promise吧。</p>
@@ -944,11 +910,7 @@ promise.then(<span class="keyword">function</span>(result){
 <div class="sect2">
 <h3 id="promises-overview">1.2. Promise简介</h3>
 <div class="paragraph">
-<<<<<<< HEAD
-<p>以<a href="#es6-promises">ES6 Promises</a>标准来定义的API还没有那么多 。</p>
-=======
 <p>在 <a href="#es6-promises">ES6 Promises</a> 标准中定义的API还不是很多。</p>
->>>>>>> master
 </div>
 <div class="paragraph">
 <p>目前大致有下面三种类型。</p>
@@ -1169,11 +1131,7 @@ asyncFunction().then(<span class="keyword">function</span> (value) {
 <td class="content">
 <div class="paragraph">
 <p><a href="https://speakerdeck.com/kerrick/javascript-promises-thinking-sync-in-an-async-world">JavaScript Promises - Thinking Sync in an Async World // Speaker Deck</a>
-<<<<<<< HEAD
-这个ppt中有关于Promise状态迁移的简单说明。</p>
-=======
 这个ppt中有关于Promise状态迁移的非常容易理解的说明。</p>
->>>>>>> master
 </div>
 </td>
 </tr>
@@ -1220,11 +1178,7 @@ asyncFunction().then(<span class="keyword">function</span> (value) {
 <div class="sect4">
 <h5 id="__xhr_promise">创建XHR的promise对象</h5>
 <div class="paragraph">
-<<<<<<< HEAD
-<p>首先，创建一个用Promise把XHR处理包含其中的 <code>getURL</code> 函数。</p>
-=======
 <p>首先，创建一个用Promise把XHR处理包装起来的名为 <code>getURL</code> 的函数。</p>
->>>>>>> master
 </div>
 <div id="xhr-promise.js" class="listingblock executable">
 <div class="title">xhr-promise.js</div>
@@ -1256,34 +1210,6 @@ getURL(URL).then(<span class="keyword">function</span> <span class="function">on
 </div>
 </div>
 <div class="paragraph">
-<<<<<<< HEAD
-<p><code>getURL</code> 只有在通过XHR取得结果状态为200时 <code>resolve</code> - 也就是取得成功，除此以外就是取得失败 <code>reject</code> 。</p>
-</div>
-<div class="paragraph">
-<p><code>resolve(req.response)</code> 在response的内容中加入了参数。
-resolve的参数值并没有特定，和回调函数一样可以通过它传递下个处理的参数值。
-( <code>then</code> 方法可以接收到这个参数值)</p>
-</div>
-<div class="paragraph">
-<p>熟悉Node.js的人，经常会在写回调函数时将 <code>callback(error, response)</code> 的第一个参数传入error对象，而在Promise中resolve/reject担当了这个职责，所以
-在resolve中只加入response的值是没有问题的。</p>
-</div>
-<div class="paragraph">
-<p>接下来我们来看一下<code>reject</code>。</p>
-</div>
-<div class="paragraph">
-<p>XHR中 <code>onerror</code> 事件被触发的时候就是发生错误时所以理所当然被称为<code>reject</code>。
-这里我们重点来看一下传入<code>reject</code>的值。</p>
-</div>
-<div class="paragraph">
-<p>发生错误时要像这样 <code>reject(new Error(req.statusText));</code> ，创建一个Error对象后再传入。
-传入<code>reject</code> 的值并没有特殊的限制，一般只要是Error对象（或者继承自Error对象）就可以将其传入。</p>
-</div>
-<div class="paragraph">
-<p>传入<code>reject</code> 的值，其中一般是包含了reject原因的Error对象。
-本次因为状态值不等于200而reject，所以<code>reject</code> 中放入的是statusText。
-（这个值<code>reject</code> 方法的第二个参数或者 <code>catch</code> 方法中可以取到）</p>
-=======
 <p><code>getURL</code> 只有在通过XHR取得结果状态为200时才会调用 <code>resolve</code> - 也就是只有数据取得成功时，而其他情况（取得失败）时则会调用 <code>reject</code> 方法。</p>
 </div>
 <div class="paragraph">
@@ -1310,16 +1236,11 @@ resolve方法的参数并没有特别的规则，基本上把要传给回调函�
 <p>传给<code>reject</code> 的参数，其中一般是包含了reject原因的Error对象。
 本次因为状态值不等于200而被reject，所以<code>reject</code> 中放入的是statusText。
 （这个参数的值可以被 <code>then</code> 方法的第二个参数或者 <code>catch</code> 方法中使用）</p>
->>>>>>> master
 </div>
 </div>
 </div>
 <div class="sect3">
-<<<<<<< HEAD
-<h4 id="__promise_2">1.3.2. 向promise对象中写处理</h4>
-=======
 <h4 id="__promise_2">1.3.2. 编写promise对象处理方法</h4>
->>>>>>> master
 <div class="paragraph">
 <p>让我们在实际中使用一下刚才创建的返回promise对象的函数</p>
 </div>
@@ -1329,19 +1250,11 @@ resolve方法的参数并没有特别的规则，基本上把要传给回调函�
 </div>
 </div>
 <div class="paragraph">
-<<<<<<< HEAD
-<p>如<a href="#promises-overview">Promises Overview</a> 中做的简单介绍一样promise对象拥有几个实例方法，
-使用它们来创建对应promise对象状态并且只调用一次的回调函数。</p>
-</div>
-<div class="paragraph">
-<p>创建promise对象的处理只要有以下两种</p>
-=======
 <p>如<a href="#promises-overview">Promises Overview</a> 中做的简单介绍一样，promise对象拥有几个实例方法，
 我们使用这些实例方法来为promise对象创建依赖于promise的具体状态、并且只会被执行一次的回调函数。</p>
 </div>
 <div class="paragraph">
 <p>为promise对象添加处理方法主要有以下两种</p>
->>>>>>> master
 </div>
 <div class="ulist">
 <ul>
@@ -1360,19 +1273,11 @@ resolve方法的参数并没有特别的规则，基本上把要传给回调函�
 <div class="title">Figure 2. promise value flow</div>
 </div>
 <div class="paragraph">
-<<<<<<< HEAD
-<p>首先，我们来尝试写一下<code>getURL</code> 通信成功并取到值时的处理。</p>
-</div>
-<div class="paragraph">
-<p>此时所谓的 <em>通信成功</em> ，
-指的就是被resolve后<em>promise对象变为FulFilled状态</em> 。</p>
-=======
 <p>首先，我们来尝试一下为 <code>getURL</code> 通信成功并取到值时添加的处理函数。</p>
 </div>
 <div class="paragraph">
 <p>此时所谓的 <em>通信成功</em> ，
 指的就是在被resolve后，<em>promise对象变为FulFilled状态</em> 。</p>
->>>>>>> master
 </div>
 <div class="paragraph">
 <p>被<strong>resolve</strong>后的处理，可以在<a href="#promise.then"><code>.then</code></a> 方法中传入想要调用的函数。</p>
@@ -1389,47 +1294,27 @@ getURL(URL).then(<span class="keyword">function</span> <span class="function">on
 <table>
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
-<<<<<<< HEAD
-<td>为了方便理解把函数起名为 <code>onFulfilled</code></td>
-=======
 <td>为了方便理解我们把函数命名为 <code>onFulfilled</code></td>
->>>>>>> master
 </tr>
 </table>
 </div>
 <div class="paragraph">
-<<<<<<< HEAD
-<p><a href="#xhr-promise.js">getURL函数</a> 中从 <code>resolve(req.response);</code> 中解析promise对象的话，
-与值一同被称为 <code>onFulfilled</code> 函数。</p>
-</div>
-<div class="paragraph">
-<p>就这样发生错误的话，目前还没有做任何处理，
-接下来，我们来写一下在<code>getURL</code> 中发生错误后的处理。</p>
-=======
 <p><a href="#xhr-promise.js">getURL函数</a> 中的 <code>resolve(req.response);</code> 会将promise对象变为resolve（Fulfilled）状态，
 同时使用其值调用 <code>onFulfilled</code> 函数。</p>
 </div>
 <div class="paragraph">
 <p>不过目前我们还没有对其中可能发生的错误做任何处理，
 接下来，我们就来为 <code>getURL</code> 函数添加发生错误时的异常处理。</p>
->>>>>>> master
 </div>
 <div class="paragraph">
 <p>此时 <em>发生错误</em> ，
 指的也就是reject后<em>promise对象变为Rejected状态</em>。</p>
 </div>
 <div class="paragraph">
-<<<<<<< HEAD
-<p>被<strong>reject</strong>后的处理，可以在<a href="#promise.then"><code>.then</code> 的第二个参数</a> 或者是在 <a href="#promise.catch"><code>.catch</code></a> 方法中传入想要调用的函数。</p>
-</div>
-<div class="paragraph">
-<p>把下面reject时的处理加入到刚才的代码中。</p>
-=======
 <p>被<strong>reject</strong>后的处理，可以在<a href="#promise.then"><code>.then</code> 的第二个参数</a> 或者是在 <a href="#promise.catch"><code>.catch</code></a> 方法中设置想要调用的函数。</p>
 </div>
 <div class="paragraph">
 <p>把下面reject时的处理加入到刚才的代码，如下所示。</p>
->>>>>>> master
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1445,11 +1330,7 @@ getURL(URL).then(<span class="keyword">function</span> <span class="function">on
 <table>
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
-<<<<<<< HEAD
-<td>服务端返回的状态值为500</td>
-=======
 <td>服务端返回的状态码为500</td>
->>>>>>> master
 </tr>
 <tr>
 <td><i class="conum" data-value="2"></i><b>2</b></td>
@@ -1458,21 +1339,12 @@ getURL(URL).then(<span class="keyword">function</span> <span class="function">on
 </table>
 </div>
 <div class="paragraph">
-<<<<<<< HEAD
-<p>在<code>getURL</code> 的处理发生任何异常，或者被明确reject的情况下，
-和发生异常原因（Error对象）一起 <a href="#promise.catch"><code>.catch</code></a> 处理会被调用。</p>
-</div>
-<div class="paragraph">
-<p><a href="#promise.catch"><code>.catch</code></a>只是 <code>promise.then(undefined, onRejected)</code> 的别名，
-如下代码可以写同样的处理。</p>
-=======
 <p>在<code>getURL</code> 的处理中发生任何异常，或者被明确reject的情况下，
 该异常原因（Error对象）会作为 <a href="#promise.catch"><code>.catch</code></a> 方法的参数被调用。</p>
 </div>
 <div class="paragraph">
 <p>其实 <a href="#promise.catch"><code>.catch</code></a>只是 <code>promise.then(undefined, onRejected)</code> 的别名而已，
 如下代码也可以完成同样的功能。</p>
->>>>>>> master
 </div>
 <div id="catch-as-alias" class="listingblock">
 <div class="content">
@@ -1483,22 +1355,13 @@ getURL(URL).then(<span class="keyword">function</span> <span class="function">on
 <table>
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
-<<<<<<< HEAD
-<td>onFulfilled, onRejected 就是和刚才相同的函数</td>
-=======
 <td>onFulfilled, onRejected 是和刚才相同的函数</td>
->>>>>>> master
 </tr>
 </table>
 </div>
 <div class="paragraph">
-<<<<<<< HEAD
-<p>一般说来，使用<a href="#promise.catch"><code>.catch</code></a>分别写resolve和reject是比较推荐的写法，
-这两者的区别会在<a href="#then-or-catch">then和catch的区别</a>中做介绍。</p>
-=======
 <p>一般说来，使用<a href="#promise.catch"><code>.catch</code></a>来将resolve和reject处理分开来写是比较推荐的做法，
 这两者的区别会在<a href="#then-or-catch">then和catch的区别</a>中再做详细介绍。</p>
->>>>>>> master
 </div>
 <div class="sect4">
 <h5 id="__7">总结</h5>
@@ -1508,11 +1371,7 @@ getURL(URL).then(<span class="keyword">function</span> <span class="function">on
 <div class="ulist">
 <ul>
 <li>
-<<<<<<< HEAD
-<p>用 <code>new Promise</code> 创建promise对象</p>
-=======
 <p>用 <code>new Promise</code> 方法创建promise对象</p>
->>>>>>> master
 </li>
 <li>
 <p>用<a href="#promise.then"><code>.then</code></a> 或 <a href="#promise.catch"><code>.catch</code></a> 添加promise对象的处理函数</p>
@@ -1520,20 +1379,11 @@ getURL(URL).then(<span class="keyword">function</span> <span class="function">on
 </ul>
 </div>
 <div class="paragraph">
-<<<<<<< HEAD
-<p>到此为止我们学习了Promise的基本写法。
-其他多数处理都是由此延伸，并使用预设的静态方法来实现。</p>
-</div>
-<div class="paragraph">
-<p>这里我们并没有接触到有关不用能做到同样事情的回调函数而用Promise代替的优点。
-在接下来的章节中，我们就来看一下作为Promise优点的错误处理组成结构再和回调函数比较一下孰优孰劣。</p>
-=======
 <p>到此为止我们已经学习了Promise的基本写法。
 其他很多处理都是由此基本语法延伸的，也使用了Promise提供的一些静态方法来实现。</p>
 </div>
 <div class="paragraph">
 <p>实际上即使使用回调方式的写法也能完成上面同样的工作，而使用Promise方式的话有什么优点么？在本小节中我们没有讲到两者的对比及Promise的优点。在接下来的章节中，我们将会对Promise优点之一，即错误处理机制进行介绍，以及和传统的回调方式的对比。</p>
->>>>>>> master
 </div>
 </div>
 </div>
@@ -3009,11 +2859,7 @@ Promise实际上每次在方法链中增加一次处理的时候所操作的都�
 <h2 id="chapter3-promise-testing">3. Chapter.3 - Promise测试</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<<<<<<< HEAD
-<p>这章我们学习Promise 测试写法</p>
-=======
 <p>这章我们学习如果编写Promise 的测试代码</p>
->>>>>>> master
 </div>
 <div class="sect2">
 <h3 id="basic-tests">3.1. 基础测试</h3>
@@ -5055,11 +4901,7 @@ timeoutPromise(taskPromise, <span class="integer">1000</span>).then(<span class=
 </div>
 </div>
 <div class="paragraph">
-<<<<<<< HEAD
-<p>虽然在发生超时的时候跑出了异常，但是这样的话我们就不能区分这个异常到底是<em>普通的错误</em>还是<em>超时错误</em>了。</p>
-=======
 <p>虽然在发生超时的时候抛出了异常，但是这样的话我们就不能区分这个异常到底是<em>普通的错误</em>还是<em>超时错误</em>了。</p>
->>>>>>> master
 </div>
 <div class="paragraph">
 <p>为了能区分这个 <code>Error</code> 对象的类型，我们再来定义一个<code>Error</code> 对象的子类 <code>TimeoutError</code>。</p>
@@ -6984,11 +6826,7 @@ Promise.race([p1, p2, p3]).then(<span class="keyword">function</span> (value) {
 <div class="ulist">
 <ul>
 <li>
-<<<<<<< HEAD
-<p>除去kakau和honnkyou的其余部分**</p>
-=======
 <p>除去kakau和honnkyou的其余部分的翻译、整体校对</p>
->>>>>>> master
 </li>
 </ul>
 </div>
@@ -6998,11 +6836,7 @@ Promise.race([p1, p2, p3]).then(<span class="keyword">function</span> (value) {
 <div class="ulist">
 <ul>
 <li>
-<<<<<<< HEAD
-<p>1.1. Promise是什么 <strong>，</strong> 1.2. Promise 简介 <strong>，</strong> 1.3. 编写Promise代码**</p>
-=======
 <p>1.1. Promise是什么、1.2. Promise 简介、1.3. 编写Promise代码</p>
->>>>>>> master
 </li>
 </ul>
 </div>
@@ -7012,11 +6846,7 @@ Promise.race([p1, p2, p3]).then(<span class="keyword">function</span> (value) {
 <div class="ulist">
 <ul>
 <li>
-<<<<<<< HEAD
-<p>3.1. 基本测试 **</p>
-=======
 <p>3.1. 基本测试</p>
->>>>>>> master
 </li>
 </ul>
 </div>
@@ -7062,11 +6892,7 @@ Promise.race([p1, p2, p3]).then(<span class="keyword">function</span> (value) {
 <div id="footer">
 <div id="footer-text">
 Version 1.1.2<br>
-<<<<<<< HEAD
-Last updated 2015-01-24 00:12:28 CST
-=======
-Last updated 2015-01-27 01:35:17 CST
->>>>>>> master
+Last updated 2015-01-28 23:59:30 CST
 </div>
 </div>
 </body>
