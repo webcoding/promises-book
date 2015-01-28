@@ -1,9 +1,9 @@
 [[ch2-promise.then]]
 == Promise#then
 
-在前面的章节里我们对Promise基本的实例方法 `then` 和 `catch` 的使用方法进行了说明
+在前面的章节里我们对Promise基本的实例方法 `then` 和 `catch` 的使用方法进行了说明。
 
-这其中，我想大家已经认识了 `.then().catch()` 这种方法链式的写法了，其实在Promise里可以将任意个方法连在一起作为一个方法链（method chain）。
+这其中，我想大家已经认识了 `.then().catch()` 这种链式方法的写法了，其实在Promise里可以将任意个方法连在一起作为一个方法链（method chain）。
 
 [source,javascript]
 .promise可以写成方法链的形式
@@ -17,17 +17,17 @@ aPromise.then(function taskA(value){
 });
 ----
 
-如果把在 `then` 中注册的每个回调函数称为task的话，那么我们就可以通过Promise方法链方式来编写taskA -> task B 这种流程的逻辑了。
+如果把在 `then` 中注册的每个回调函数称为task的话，那么我们就可以通过Promise方法链方式来编写能以taskA -> task B 这种流程进行处理的逻辑了。
 
 Promise方法链这种叫法有点长（其实是在日语里有点长，中文还可以 --译者注），因此后面我们会简化为 <<promise-chain,promise chain>> 这种叫法。
 
-Promise之所以适合编写异步处理较多的应用，promise chain 应该算是其中的一个原因吧。
+Promise之所以适合编写异步处理较多的应用，promise chain可以算得上是其中的一个原因吧。
 
 在本小节，我们将主要针对使用 `then` 的promise chain的行为和流程进行学习。
 
 === promise chain
 
-在第一章 <<promise-chain,promise chain>> 里我们看到了一各很简单的 
+在第一章 <<promise-chain,promise chain>> 里我们看到了一个很简单的 
 then -> catch 的例子，如果我们将方法链的长度变得更长的话，那在每个promise对象中注册的onFulfilled和onRejected将会怎样执行呢？
 
 [NOTE]
@@ -62,9 +62,9 @@ image::img/promise-then-catch-flow.png[promise-then-catch-flow]
 这些线的意思是在 __Task A__ 或 __Task B__ 的处理中，在下面的情况下就会调用 __onRejected__ 方法。
 
 * 发生异常的时候
-* 返回了一个Rejected状态的promise
+* 返回了一个Rejected状态的promise对象
 
-在 <<how-to-write-promise,第一章>> 中我们已经看到，Promise中的处理习惯上都会采用 `try-catch` 的风格，当发生异常的时候，会被 `catch` 捕获并被由此函数注册的回调函数进行错误处理。
+在 <<how-to-write-promise,第一章>> 中我们已经看到，Promise中的处理习惯上都会采用 `try-catch` 的风格，当发生异常的时候，会被 `catch` 捕获并被由在此函数注册的回调函数进行错误处理。
 
 另一种异常处理策略是通过 __返回一个Rejected状态的promise对象__ 来实现的，这种方法不通过使用 `throw` 就能在promise chain中对 `onRejected` 进行调用。
 
@@ -95,7 +95,7 @@ include::src/promise-then-taska-throw.js[]
 
 [NOTE]
 ====
-在本例中我们在taskA中使用了 `throw` 方法故意制造了一个异常。但在实际中想主动进行onRejected调用的时候，应该返回一个Rejected状态的promise对象。关于这种两种方法的异同，请参考 <<not-throw-use-reject, 使用reject而不是throw>> で解説しています。
+在本例中我们在taskA中使用了 `throw` 方法故意制造了一个异常。但在实际中想主动进行onRejected调用的时候，应该返回一个Rejected状态的promise对象。关于这种两种方法的异同，请参考 <<not-throw-use-reject, 使用reject而不是throw>> 中的讲解。
 ====
 
 === promise chain 中如何传递参数
@@ -131,7 +131,7 @@ image::img/promise-then-passing-value.png[promise-then-passing-value]
 return的值会由 `Promise.resolve(return的返回值);` 进行相应的包装处理，因此不管回调函数中会返回一个什么样的值，最终 `then` 的结果都是返回一个新创建的promise对象。
 
 [NOTE]
-关于这部分内容可以参考 <<then-return-new-promise,每次调用then都会返回一个新创建的promise对象>> ，那里也对一些常见错误进行了介绍。
+关于这部分内容可以参考 <<then-return-new-promise,专栏: 每次调用then都会返回一个新创建的promise对象>> ，那里也对一些常见错误进行了介绍。
 
 也就是说， `Promise#then` 不仅仅是注册一个回调函数那么简单，它还会将回调函数的返回值进行变换，创建并返回一个promise对象。
 

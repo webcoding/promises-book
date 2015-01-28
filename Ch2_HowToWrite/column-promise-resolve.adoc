@@ -1,9 +1,9 @@
 [[promise-is-always-async]]
 == 专栏: Promise只能进行异步操作？
 
-在使用<<Promise.resolve, `Promise.resolve(value)`>> 等方法的饿时候，如果promise对象立刻就能resolve的话，那么你是不是觉得 `.then` 里面指定的方法就是同步调用的呢？
+在使用<<Promise.resolve, `Promise.resolve(value)`>> 等方法的时候，如果promise对象立刻就能进入resolve状态的话，那么你是不是觉得 `.then` 里面指定的方法就是同步调用的呢？
 
-但实际上 `.then` 中指定的方法调用是异步进行的。
+实际上， `.then` 中指定的方法调用是异步进行的。
 
 [role="executable"]
 [source,javascript]
@@ -32,7 +32,7 @@ outer promise
 
 由于 `promise.then` 执行的时候promise对象已经是确定状态，从程序上说对回调函数进行同步调用也是行得通的。
 
-但是即使在调用 `promise.then` 注册回调函数的时候promise对象已经是确定的状态，Promise也会以异步的方式调用该毁掉函数，这是在Promise设计上就决定了方针。
+但是即使在调用 `promise.then` 注册回调函数的时候promise对象已经是确定的状态，Promise也会以异步的方式调用该回调函数，这是在Promise设计上的规定方针。
 
 因此 `<2>` 会最先被调用，最后才会调用回调函数 `<3>` 。
 
@@ -55,7 +55,7 @@ outer promise
 include::embed/embed-mixed-onready.js[]
 ----
 
-<<mixed-onready.js>>会根据执行时的DOM是否装载完毕来决定是对回调函数进行同步或者是异步的调用。
+<<mixed-onready.js>>会根据执行时DOM是否已经装载完毕来决定是对回调函数进行同步调用还是异步调用。
 
 如果在调用onReady之前DOM已经载入的话::
     对回调函数进行同步调用
@@ -64,7 +64,7 @@ include::embed/embed-mixed-onready.js[]
 
 因此，如果这段代码在源文件中出现的位置不同，在控制台上打印的log消息顺序也会不同。
 
-为了解决这个问题，我们可以选择统一使用异步调用方法。
+为了解决这个问题，我们可以选择统一使用异步调用的方式。
 
 [role="executable"]
 [source,javascript]
@@ -84,9 +84,9 @@ ____
 - 如果想在将来某时刻调用异步回调函数的话，可以使用 `setTimeout` 等异步API。
 ____
 
-前面我们看到的 `promise.then` 也属于此类，为了不编码上述的同步异步调用可能引起的混乱，Promise在规范上规定 **Promise只能使用异步调用方式** 。
+前面我们看到的 `promise.then` 也属于此类，为了避免上述中同时使用同步、异步调用可能引起的混乱问题，Promise在规范上规定 **Promise只能使用异步调用方式** 。
 
-最后，将上面的 `onReady` 函数用Promise重写的话，代码如下面所示。
+最后，如果将上面的 `onReady` 函数用Promise重写的话，代码如下面所示。
 
 [role="executable"]
 [source,javascript]

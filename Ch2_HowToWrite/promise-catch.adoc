@@ -1,13 +1,13 @@
 [[ch2-promise-catch]]
 == Promise#catch
 
-在 <<ch2-promise.then, 前面的Promise#then>> 的章节里，我们已经简单的使用了 `Promise#catch` 方法。
+在 <<ch2-promise.then, 前面的Promise#then>> 的章节里，我们已经简单地使用了 `Promise#catch` 方法。
 
 这里我们再说一遍，实际上 <<promise.catch,Promise#catch>> 只是 `promise.then(undefined, onRejected);` 方法的一个别名而已。
 也就是说，这个方法用来注册当promise对象状态变为Rejected时的回调函数。
 
 [NOTE]
-关于如何按场景使用 <<promise.then,Promise#then>> 和 <<promise.catch,Promise#catch>> 可以参考
+关于如何根据场景使用 <<promise.then,Promise#then>> 和 <<promise.catch,Promise#catch>> 可以参考
  <<then-or-catch,then or catch?>> 中介绍的内容。
 
 === IE8的问题
@@ -18,7 +18,7 @@ image:img/promise-catch-error.png["Build Status", link="https://ci.testling.com/
 
 [NOTE]
 ====
-polyfill是一个支持在不具备某功能的浏览器上使用该功能的Library。
+polyfill是一个支持在不具备某一功能的浏览器上使用该功能的Library。
 这里我们使用的例子则来源于 https://github.com/jakearchibald/es6-promise[jakearchibald/es6-promise] 。
 ====
 
@@ -45,11 +45,10 @@ promise.catch(function (error) {
 ====
 在ECMAScript5中保留字也不能作为 http://es5.github.io/#x7.6[Identifier] 即变量名或方法名使用。
 如果我们定义了一个名为 `for` 的变量的话，那么就不能和循环语句的 `for` 区分了。
-而作为属性名的话，我们还是很容易区分 `object.for` 和 `for` 的，仔细想想我们就应该能接受将保留字属性名来使用了。
+而作为属性名的话，我们还是很容易区分 `object.for` 和 `for` 的，仔细想想我们就应该能接受将保留字作为属性名来使用了。
 ====
 
 当然，我们也可以想办法回避这个ECMAScript 3保留字带来的问题。
- here; you’ll have to use :
 
 https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Operators/Property_Accessors#Dot_notation[点标记法（dot notation）] 要求对象的属性必须是有效的标识符（在ECMAScript 3中则不能使用保留字），
 
