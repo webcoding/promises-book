@@ -2,7 +2,7 @@
 = Chapter.3 - Promise测试
 :imagesdir: Ch3_Testing
 
-这章我们学习Promise 测试写法
+这章我们学习如果编写Promise 的测试代码
 
 // Promise基础测试
 include::basic-tests.adoc[]

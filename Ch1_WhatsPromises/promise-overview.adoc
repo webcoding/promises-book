@@ -1,16 +1,15 @@
 [[promises-overview]]
-== Promise Overview
+== Promise简介
 
-以<<es6-promises,ES6 Promises>>标准来定义的API还没有那么多 。
+在 <<es6-promises,ES6 Promises>> 标准中定义的API还不是很多。
 
 目前大致有下面三种类型。
 
 *Constructor*
 
-Promise类似于 `XMLHttpRequest`、从构造函数`Promise` 来新建实例。
-生成promise对象后才能使用。
+Promise类似于 `XMLHttpRequest`，从构造函数 `Promise` 来创建一个新建新`promise`对象作为接口。
 
-生成promise对象、要使用`new`来实例化`Promise` 构造器  。
+要想创建一个promise对象、可以使用`new`来调用`Promise`的构造器来进行实例化。
 
 [source,javascript]
 ----
@@ -38,8 +37,8 @@ reject(失败)时::
 `onFulfilled`、`onRejected` 两个都为可选参数。
 
 `promise.then` 成功和失败时都可以使用。
-另外在只想添加异常处理时和 `promise.then(undefined, onRejected)` 的用法一样。
-`promise.catch(onRejected)` 也可以使用。
+另外在只想对异常进行处理时可以采用 `promise.then(undefined, onRejected)` 这种方式，只指定reject时的回调函数即可。
+不过这种情况下 `promise.catch(onRejected)` 应该是个更好的选择。
 
 [source,javascript]
 promise.catch(onRejected)
@@ -47,14 +46,14 @@ promise.catch(onRejected)
 
 *Static Method*
 
-像`Promise` 这样的全局对象拥有几个静态方法。
+像 `Promise` 这样的全局对象还拥有一些静态方法。
 
-`Promise.all()` 还有 `Promise.resolve()` 等、主要用来作为在操作Promise时的辅助方法。
+包括 `Promise.all()` 还有 `Promise.resolve()` 等在内，主要都是一些对Promise进行操作的辅助方法。
 
 
 === Promise workflow
 
-来看下下面的示例代码。
+我们先来看一看下面的示例代码。
 
 [role="executable"]
 [source,javascript]
@@ -63,21 +62,21 @@ promise.catch(onRejected)
 ----
 include::embed/embed-promise-workflow.js[]
 ----
-<1>  `new` Promise构造器之后，会返回promise对象
-<2> <1>对promise对象用 `.then`来设定返回值后的回调函数。
+<1>  `new` Promise构造器之后，会返回一个promise对象
+<2> <1>为promise对象用设置 `.then` 调用返回值时的回调函数。
 
 `asyncFunction` 这个函数会返回promise对象，
-对这个promise对象用 `then` 来设置resolve后的回调函数，
-用`catch` 来设定发生错误时的回调函数。
+对于这个promise对象，我们调用它的 `then` 方法来设置resolve后的回调函数，
+`catch` 方法来设置发生错误时的回调函数。
 
-这个promise对象会在setTimeout之后的16ms时被resolve,
-这时 `then` 的回调函数会被调用并输出 `'Async Hello world'` 。
+该promise对象会在setTimeout之后的16ms时被resolve,
+这时 `then` 的回调函数会被调用，并输出 `'Async Hello world'` 。
 
-这种情况下 `catch` 的回调函数并不会被执行，
-若在没有`setTimeout` 时发生例外，那么 `catch` 中的回调函数就会被执行。
+在这种情况下 `catch` 的回调函数并不会被执行（因为promise返回了resolve），
+不过如果运行环境没有提供 `setTimeout` 函数的话，那么上面代码在执行中就会产生异常，在 `catch` 中设置的回调函数就会被执行。
 
-当然，像`promise.then(onFulfilled, onRejected)` 一样，
-不使用`catch` 只使用 `then` 时，如下所示即使设置了2个回调函数也将会是相同的逻辑。
+当然，像`promise.then(onFulfilled, onRejected)` 的方法声明一样，
+如果不使用`catch` 方法只使用 `then`方法的话，如下所示的代码也能完成相同的工作。
 
 [source,javascript]
 ----
@@ -90,24 +89,23 @@ asyncFunction().then(function (value) {
 
 === Promise的状态 [[promise-states]]
 
-我们大概了解了Promise的处理流程，接下来让我们来稍微整理一下Promise的状态。
+我们已经大概了解了Promise的处理流程，接下来让我们来稍微整理一下Promise的状态。
 
 用`new Promise` 实例化的promise对象有以下三个状态。
 
 "has-resolution" - Fulfilled::
-    resolve(成功)时。此时会调用 `onFulfilled` 
+    resolve(成功)时。此时会调用 `onFulfilled`
 "has-rejection"  - Rejected::
-    reject(失败)时。此时会调用 `onRejected`  
+    reject(失败)时。此时会调用 `onRejected`
 "unresolved" - Pending::
-    resolve或reject都不是时。也就是promise对象刚被做成后的初期状态等
+    既不是resolve也不是reject的状态。也就是promise对象刚被创建后的初始化状态等
 
-关于读法，
-左侧在<<es6-promises,ES6 Promises>>的式样中被定义的名称，
-右侧时在<<promises-aplus, Promises/A+>>中描述的状态的名称。
+关于上面这三种状态的读法，其中
+左侧为在 <<es6-promises,ES6 Promises>> 规范中定义的术语，
+而右侧则是在 <<promises-aplus, Promises/A+>> 中描述状态的术语。
 
 基本上状态在代码中是不会涉及到的，所以名称也无需太在意。
-在这本书中， http://promises-aplus.github.io/promises-spec/[Promises/A+] 对 __Pending__、__Fulfilled__ 、__Rejected__
-会加以解说。
+在这本书中，我们会基于 http://promises-aplus.github.io/promises-spec/[Promises/A+] 中 __Pending__ 、 __Fulfilled__ 、 __Rejected__ 的状态名称进行讲述。
 
 .promise states
 image::img/promise-states.png[promise-states]
@@ -115,18 +113,18 @@ image::img/promise-states.png[promise-states]
 
 [NOTE]
 ====
-http://people.mozilla.org/~jorendorff/es6-draft.html#sec-promise-objects[ECMAScript Language Specification ECMA-262 6th Edition – DRAFT] 中 `[[PromiseStatus]]` 是由内部定义的状态。
-访问`[[PromiseStatus]]` 的用户API还未被公开，暂时还没有查询方法。
+在 http://people.mozilla.org/~jorendorff/es6-draft.html#sec-promise-objects[ECMAScript Language Specification ECMA-262 6th Edition – DRAFT] 中 `[[PromiseStatus]]` 都是在内部定义的状态。
+由于没有公开的访问 `[[PromiseStatus]]` 的用户API，所以暂时还没有查询其内部状态的方法。
 ====
 
-到此在本文中我们已经介绍了所有的三种状态。
+到此在本文中我们已经介绍了promise所有的三种状态。
 
-promise对象的状态，从__Pending__到__Fulfilled__或__Rejected__之后，
-这个promise对象的状态就不会再发生变化。
+promise对象的状态，从__Pending__转换为__Fulfilled__或__Rejected__之后，
+这个promise对象的状态就不会再发生任何变化。
 
-也就是说，Promise与Event等不同，在`.then` 后执行的函数可以肯定只能被调用一次。
+也就是说，Promise与Event等不同，在`.then` 后执行的函数可以肯定地说只会被调用一次。
 
-另外，__Fulfilled__和__Rejected__两个中的任一状态都可以表示为**Settled**(不变的)。
+另外，__Fulfilled__和__Rejected__这两个中的任一状态都可以表示为**Settled**(不变的)。
 
 Settled::
     resolve(成功) 或 reject(失败)。
@@ -138,6 +136,6 @@ Settled::
 [NOTE]
 ====
 https://speakerdeck.com/kerrick/javascript-promises-thinking-sync-in-an-async-world[JavaScript Promises - Thinking Sync in an Async World // Speaker Deck]
-这个ppt中有关于Promise状态迁移的简单说明。
+这个ppt中有关于Promise状态迁移的非常容易理解的说明。
 ====
 

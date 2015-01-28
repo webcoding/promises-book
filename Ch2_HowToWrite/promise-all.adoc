@@ -1,7 +1,7 @@
 [[ch2-promise-all]]
 == Promise.all
 
-<<Promise.all, `Promise.all`>> 接收一个 promise对象的数组作为参数，当这个数组里的所有promise对象全部变为resolve状态的时候，它才会去调用 `.then` 方法。
+<<Promise.all, `Promise.all`>> 接收一个 promise对象的数组作为参数，当这个数组里的所有promise对象全部变为resolve或reject状态的时候，它才会去调用 `.then` 方法。
 
 前面我们看到的批量获得若干XHR的请求结果的例子，使用 <<Promise.all, `Promise.all`>> 的话代码会非常简单。
 
@@ -23,9 +23,9 @@ main().then(function (value) {
 ----
 
 这个例子的执行方法和 <<xhr-promise.js, 前面的例子>> 一样。
-<<Promise.all, `Promise.all`>> 在以下几点和之前的例子不太一样。
+不过<<Promise.all, `Promise.all`>> 在以下几点和之前的例子有所不同。
 
-* main中的处理变得条理清晰
+* main中的处理流程显得非常清晰
 * Promise.all 接收 promise对象组成的数组作为参数
 
 [source,javascript]
@@ -38,7 +38,7 @@ Promise.all([request.comment(), request.people()]);
 [source,javascript]
 ----
 main().then(function (results) {
-    console.log(results); // [comment, people]の順番
+    console.log(results); // 按照[comment, people]的顺序
 });
 ----
 
@@ -52,7 +52,7 @@ main().then(function (results) {
 include::embed/embed-promise-all-timer.js[]
 ----
 
-`timerPromisefy` 会每隔一定时间（通过参数指定）之后，都会返回一个promise对象，状态为FulFilled，其状态值为传给 `timerPromisefy` 的参数。
+`timerPromisefy` 会每隔一定时间（通过参数指定）之后，返回一个promise对象，状态为FulFilled，其状态值为传给 `timerPromisefy` 的参数。
 
 而传给 `Promise.all` 的则是由上述promise组成的数组。
 
@@ -68,14 +68,14 @@ var promises = [
 
 这时候，每隔1, 32, 64, 128 ms都会有一个promise发生 `resolve` 行为。
 
-也就是说，这个promise对象数组中所有promise都变为resolve状态的话，至少需要128ms。实际我们计算一下<<Promise.all, `Promise.all`>> 的执行时间的话，它确实是需要128ms。
+也就是说，这个promise对象数组中所有promise都变为resolve状态的话，至少需要128ms。实际我们计算一下<<Promise.all, `Promise.all`>> 的执行时间的话，它确实是消耗了128ms的时间。
 
-从上述结果可以看出，传递给 <<Promise.all, `Promise.all`>> 的promise并不是一个个的顺序执行的，而是并行执行的。
+从上述结果可以看出，传递给 <<Promise.all, `Promise.all`>> 的promise并不是一个个的顺序执行的，而是同时开始、并行执行的。
 
 [NOTE]
 ====
 如果这些promise全部串行处理的话，那么需要
 等待1ms -> 等待32ms -> 等待64ms -> ... -> 等待128ms ，全部执行完毕需要225ms的时间。
 
-要想了解更多关于如何使用Promise进行串行处理的内容，可以参考第4章的<<promise-sequence, Promise中的串行处理>>。
+要想了解更多关于如何使用Promise进行串行处理的内容，可以参考第4章的<<promise-sequence, Promise中的串行处理>>中的介绍。
 ====

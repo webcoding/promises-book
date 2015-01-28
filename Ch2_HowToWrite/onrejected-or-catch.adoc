@@ -26,7 +26,7 @@ goodMain(function(){
 });
 ----
 
-上面的代码中， `badMain` 是一个不太好的实现方式（但也不是说它有多坏）， `goodMain` 则是一个能非常好的进行错误处理的版本。
+在上面的代码中， `badMain` 是一个不太好的实现方式（但也不是说它有多坏）， `goodMain` 则是一个能非常好的进行错误处理的版本。
 
 为什么说 `badMain` 不好呢？，因为虽然我们在 `.then` 的第二个参数中指定了用来错误处理的函数，但实际上它却不能捕获第一个参数 `onFulfilled` 指定的函数（本例为 `throwError` ）里面出现的错误。
 
@@ -41,7 +41,7 @@ goodMain(function(){
 [NOTE]
 ====
 `.then` 和 `.catch` 都会创建并返回一个 **新的** promise对象。
-Promise实际上每次在方法链中增加一次处理的时候都是针对不同的promise对象进行的。
+Promise实际上每次在方法链中增加一次处理的时候所操作的都不是完全相同的promise对象。
 ====
 
 [[then-catch-flow]]

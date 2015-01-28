@@ -22,7 +22,8 @@ ifeval::["{backend}" == "html5"]
 </div>
 ++++
 
-icon:twitter[2x, link=https://twitter.com/search?q=%23Promise%E6%9C%AC] Hash tag https://twitter.com/search?q=%23Promise%E6%9C%AC[#Promise本]
+icon:twitter[2x, link=https://twitter.com/search?q=%23Promise%E6%9C%AC] Hash tag https://twitter.com/search?q=%23Promise%E8%BF%B7%E4%BD%A0%E4%B9%A6[#Promise迷你书]
+
 
 icon:rss[2x, link=https://github.com/azu/promises-book/releases.atom] 可以从这里 https://github.com/azu/promises-book/releases.atom[RSS] 得到更新信息
 
@@ -43,16 +44,16 @@ icon:rss[2x, link=https://github.com/azu/promises-book/releases.atom] 可以从�
 ++++
 <div class="download-area">
 <a class="download-button pdf" id="download-pdf" href="http://liubin.github.io/promises-book/javascript-promise-book.pdf" download="javascript-promise-book.pdf">下载本书PDF版本</a>
-<a class="download-button source-code" href="https://github.com/liubin/promises-book/">下载源代码</a>
+<a class="download-button source-code" href="https://github.com/liubin/promises-book/">下载本书源代码</a>
 </div>
 ++++
 
-关于本电子书的创作过程有兴趣的读者，可以下载这个文档供参考 https://gumroad.com/l/javascript-promise[制作过程]。
+关于本电子书的创作过程有兴趣的读者，可以下载这个文档供参考（日文版） https://gumroad.com/l/javascript-promise[制作过程]。
 
-- image:./public/img/gumroad-green.svg[附录下载, link="https://gumroad.com/l/javascript-promise"] https://gumroad.com/l/javascript-promise[附录下载]
-- 本书开始编写的原因，如何编写的，以及编写过程是如何运转的。
+- image:./public/img/gumroad-green.svg[（日文版）附录下载, link="https://gumroad.com/l/javascript-promise"] https://gumroad.com/l/javascript-promise[（日文版）附录下载]
+- 本书开始编写的原因，如何编写的，以及编写过程是如何运作的。
 - 可以在Gumroad上以包括0元在内的任何价格购买本附录内容。
-- 如果你想捐赠，也可以使用本附录链接以任意的价格购买本附录即可。
+- 如果你想捐赠，也可以通过本附录链接以任意的价格购买本附录的方式进行。
 
 '''
 
