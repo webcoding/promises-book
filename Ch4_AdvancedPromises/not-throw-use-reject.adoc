@@ -4,7 +4,7 @@
 Promise的构造函数，以及被 `then` 调用执行的函数基本上都可以认为是在 
 `try...catch` 代码块中执行的，所以在这些代码中即使使用 `throw` ，程序本身也不会因为异常而终止。
 
-在Promise中使用 `throw` 语句的话，会被 `try...catch` 住，最终promise对象也变为Rejected状态。
+如果在Promise中使用 `throw` 语句的话，会被 `try...catch` 住，最终promise对象也变为Rejected状态。
 
 [role="executable"]
 [source,javascript]
@@ -68,12 +68,12 @@ var promise = new Promise(function(resolve, reject){
 var promise = Promise.resolve();
 promise.then(function (value) {
     setTimeout(function () {
-        // 经过一段时间后还没处理完的话就进行reject <2>
+        // 经过一段时间后还没处理完的话就进行reject - 2
     }, 1000);
-    // 比较耗时的处理 <1>
+    // 比较耗时的处理 - 1
     somethingHardWork();
 }).catch(function (error) {
-    // 超时错误 <3>
+    // 超时错误 - 3
 });
 ----
 

@@ -39,7 +39,7 @@ getURL(URL).then(function onFulfilled(value){
 `getURL` 只有在通过XHR取得结果状态为200时才会调用 `resolve` - 也就是只有数据取得成功时，而其他情况（取得失败）时则会调用 `reject` 方法。
 
 
-`resolve(req.response)` 在response的内容中加入了参数。
+`resolve(req.responseText)` 在response的内容中加入了参数。
 resolve方法的参数并没有特别的规则，基本上把要传给回调函数参数放进去就可以了。
 ( `then` 方法可以接收到这个参数值)
 
@@ -80,7 +80,7 @@ image::img/promise-onFulfilled_onRejected.png[promise-resolve-flow]
 首先，我们来尝试一下为 `getURL` 通信成功并取到值时添加的处理函数。
 
 此时所谓的 _通信成功_ ，
-指的就是在被resolve后，_promise对象变为FulFilled状态_ 。
+指的就是在被resolve后， _promise对象变为FulFilled状态_ 。
 
 被**resolve**后的处理，可以在<<promise.then,`.then`>> 方法中传入想要调用的函数。
 
@@ -93,14 +93,14 @@ getURL(URL).then(function onFulfilled(value){ // <1>
 ----
 <1> 为了方便理解我们把函数命名为 `onFulfilled` 
 
-<<xhr-promise.js,getURL函数>> 中的 `resolve(req.response);` 会将promise对象变为resolve（Fulfilled）状态，
+<<xhr-promise.js,getURL函数>> 中的 `resolve(req.responseText);` 会将promise对象变为resolve（Fulfilled）状态，
 同时使用其值调用 `onFulfilled` 函数。
 
 不过目前我们还没有对其中可能发生的错误做任何处理，
 接下来，我们就来为 `getURL` 函数添加发生错误时的异常处理。
 
 此时 _发生错误_ ，
-指的也就是reject后_promise对象变为Rejected状态_。
+指的也就是reject后 _promise对象变为Rejected状态_ 。
 
 被**reject**后的处理，可以在<<promise.then,`.then` 的第二个参数>> 或者是在 <<promise.catch,`.catch`>> 方法中设置想要调用的函数。
 

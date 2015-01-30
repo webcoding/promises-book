@@ -4,12 +4,12 @@
  */
 "use strict";
 function windowOnload() {
-    require("./console-editor").initilize();
-    require("./sync-toc").initilize();
-    require("./bug-report").initilize();
+    require("./console-editor").initialize();
+    require("./sync-toc").initialize();
+    require("./bug-report").initialize();
 }
 var readyState = document.readyState;
-if (readyState == "interactive" || readyState === 'complete') {
+if (readyState === "interactive" || readyState === 'complete') {
     windowOnload();
 } else {
     window.addEventListener("DOMContentLoaded", windowOnload);

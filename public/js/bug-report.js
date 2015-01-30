@@ -11,10 +11,10 @@ function BugReporter() {
     var sections = document.querySelectorAll(".sect2");
     var tocAList = document.querySelectorAll("#toc a");
     this.highlighterUtil = new TOCHighlighter(sections, tocAList, highLightLevel);
-    this.github_issue_point = "https://github.com/azu/promises-book/issues/new";
+    this.github_issue_point = "https://github.com/liubin/promises-book/issues/new";
     this.github_issue_title = "";
     this.github_issue_body = "";
-    this.github_issue_labels = "フィードバック";
+    this.github_issue_labels = "反馈";
 }
 BugReporter.prototype.getSelectedText = function () {
     var sel, text = "";
@@ -44,9 +44,9 @@ BugReporter.prototype.report = function () {
     window.open(url,"promises-book");
 };
 module.exports = BugReporter;
-module.exports.initilize = function () {
+module.exports.initialize = function () {
     var reportElement = document.createElement("button");
-    reportElement.textContent = "バグ報告";
+    reportElement.textContent = "报告Bug";
     reportElement.setAttribute("style", "position:fixed; right:0;bottom:0;");
     var clickEvent = ("ontouchstart" in window) ? "touchend" : "click";
     reportElement.addEventListener(clickEvent, function (event) {

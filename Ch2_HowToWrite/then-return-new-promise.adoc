@@ -72,10 +72,10 @@ bPromise.then(function (value) {
 [source,javascript]
 .✘ `then` 的错误使用方法
 ----
-function anAsyncCall() {
+function badAsyncCall() {
     var promise = Promise.resolve();
     promise.then(function() {
-        // 任意一些处理
+        // 任意处理
         return newVar;
     });
     return promise;

@@ -2,7 +2,7 @@
 = Chapter.4 - Advanced
 :imagesdir: Ch4_AdvancedPromises
 
-在这一章里，我们会基于前面学到的内容，再深入了解一下Promise里更高级的内容，加深对Promise的理解。
+在这一章里，我们会基于前面学到的内容，再深入了解一下Promise里的一些高级内容，加深对Promise的理解。
 
 // promise和类库
 include::promise-library.adoc[]

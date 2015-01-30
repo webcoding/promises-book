@@ -19,7 +19,7 @@ endif::[]
 
 <<promises-aplus, Promises/A+>> 是 <<es6-promises,ES6 Promises>> 的前身，Promise的 `then` 也是来自于此的基于社区的规范。
 
-如果说一个类库兼容 Promises/A+ 的话，那么就是说它除了具有标准的 `then` 方法之外，很多情况下也说明此类库还支持 `Promise.all` 或 `catch` 等功能。
+如果说一个类库兼容 Promises/A+ 的话，那么就是说它除了具有标准的 `then` 方法之外，很多情况下也说明此类库还支持 `Promise.all` 和 `catch` 等功能。
 
 但是 Promises/A+ 实际上只是定义了关于 `Promise#then` 的规范，所以有些类库可能实现了其它诸如 `all` 或 `catch` 等功能，但是可能名字却不一样。
 
@@ -54,6 +54,10 @@ https://github.com/jakearchibald/es6-promise[jakearchibald/es6-promise]::
 https://github.com/yahoo/ypromise[yahoo/ypromise]::
     这是一个独立版本的 http://yuilibrary.com/[YUI] 的 Promise Polyfill，具有和 ES6 Promises 的兼容性。
     本书的示例代码也都是基于这个 ypromise 的 Polyfill 来在线运行的。
+https://github.com/getify/native-promise-only/[getify/native-promise-only]::
+    以作为ES6 Promises的polyfill为目的的类库
+    它严格按照ES6 Promises的规范设计，没有添加在规范中没有定义的功能。
+    如果运行环境有原生的Promise支持的话，则优先使用原生的Promise支持。
 
 ==== Promise扩展类库
 
@@ -72,7 +76,7 @@ Q 和 Bluebird 这两个类库除了都能在浏览器里运行之外，充实�
 
 * https://github.com/kriskowal/q/wiki/API-Reference[API Reference · kriskowal/q Wiki]
 
-Q等文档里详细极少了Q的Deferred和jQuery里的Deferred有哪些异同，以及要怎么进行移植 https://github.com/kriskowal/q/wiki/Coming-from-jQuery[Coming from jQuery] 等都进行了详细的说明。
+Q等文档里详细介绍了Q的Deferred和jQuery里的Deferred有哪些异同，以及要怎么进行迁移 https://github.com/kriskowal/q/wiki/Coming-from-jQuery[Coming from jQuery] 等都进行了详细的说明。
 
 * https://github.com/petkaantonov/bluebird/blob/master/API.md[bluebird/API.md at master · petkaantonov/bluebird]
 

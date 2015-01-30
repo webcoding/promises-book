@@ -11,10 +11,10 @@ image:img/simple320_320.png[azu,32,32]
 管理着个人主页 http://efcl.info/[Web Scratch] 和 http://jser.info/[JSer.info] 。
 
 [[about-translators]]
-= 关于译者（按翻译内容从多到少）
+= 关于译者
 
 * liubin https://github.com/liubin
-  ** 除去kakau和honnkyou的其余部分的翻译、整体校对
+  ** 除去kakau和honnkyou的其余部分的翻译、整体校对，以及源代码，工具部分的翻译
 
 * kaku https://github.com/kaku87
   ** 1.1. Promise是什么、1.2. Promise 简介、1.3. 编写Promise代码

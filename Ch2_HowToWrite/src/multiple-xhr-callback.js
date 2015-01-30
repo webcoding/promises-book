@@ -3,8 +3,8 @@ function getURLCallback(URL, callback) {
     var req = new XMLHttpRequest();
     req.open('GET', URL, true);
     req.onload = function () {
-        if (req.status == 200) {
-            callback(null, req.response);
+        if (req.status === 200) {
+            callback(null, req.responseText);
         } else {
             callback(new Error(req.statusText), req.response);
         }

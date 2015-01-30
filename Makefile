@@ -28,6 +28,7 @@ pdf:
 	@echo "Done!"
 
 cn-pdf:
+	@export JAVA_OPTS="-Xms512m -Xmx512m"
 	@echo "Generate PDF..."
 	@gulp embed
 	@echo "Building asciidoc"
@@ -49,4 +50,4 @@ note-pdf:
 
 
 clean:
-	@rm -f {OUTPUT_FILE}
+	@rm -f {OUTPUT_FILE} javascript-promise-*.pdf javascript-promise-*.xml

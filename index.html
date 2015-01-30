@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="generator" content="Asciidoctor 0.1.4">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="关于JavaScript Promise基本使用方法以及测试的编写方法、应用及反模式等内容的文档。">
+<meta name="description" content="基于JavaScript Promise进行异步编程的基本使用方法以及测试的编写方法、应用及反模式等内容的文档。">
 <meta name="keywords" content="JavaScript, ECMAScript, Promise, 日语, 中文, 使用方法, 教程, 参考手册">
 <title>JavaScript Promise迷你书（中文版）</title>
 <style>
@@ -466,7 +466,7 @@ span.line-numbers { border-right: 1px solid #E5E5E5; color: #999; display: inlin
 <div id="header">
 <h1>JavaScript Promise迷你书（中文版）</h1>
 <span id="author" class="author">原著：azu / 翻译：liubin、kaku、honnkyou</span><br>
-<span id="revnumber">version 1.1.2</span>
+<span id="revnumber">version 1.4.0</span>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
@@ -508,7 +508,7 @@ span.line-numbers { border-right: 1px solid #E5E5E5; color: #999; display: inlin
 <li><a href="#chapter3-promise-testing">3. Chapter.3 - Promise测试</a></li>
 <li>
 <ul class="sectlevel2">
-<li><a href="#basic-tests">3.1. 基础测试</a></li>
+<li><a href="#basic-tests">3.1. 基本测试</a></li>
 <li><a href="#mocha-promise">3.2. Mocha对Promise的支持</a></li>
 <li><a href="#controllable-tests">3.3. 编写可控测试（controllable tests）</a></li>
 </ul>
@@ -540,7 +540,7 @@ span.line-numbers { border-right: 1px solid #E5E5E5; color: #999; display: inlin
 <li><a href="#promise-glossary">6. 用語集</a></li>
 <li><a href="#resouce-link">7. 参考网站</a></li>
 <li><a href="#about-author">8. 关于作者</a></li>
-<li><a href="#about-translators">9. 关于译者（按翻译内容从多到少）</a></li>
+<li><a href="#about-translators">9. 关于译者</a></li>
 <li>
 <ul class="sectlevel2">
 <li><a href="#omake-message">9.1. 给原著者留言、后记</a></li>
@@ -727,7 +727,7 @@ span.line-numbers { border-right: 1px solid #E5E5E5; color: #999; display: inlin
 <p>我们推荐使用内置对Promise支持的浏览器来阅读本书。</p>
 </div>
 <div class="paragraph">
-<p>Firefox &gt; 29、Chrome &gt; 35 的话都支持<a href="#es6-promises">ES6 Promises</a>标准。</p>
+<p>Firefox和Chrome的话都支持<a href="#es6-promises">ES6 Promises</a>标准。</p>
 </div>
 <div class="paragraph">
 <p>此外，虽然不是推荐的阅读环境，但是读者还是能在iOS等移动终端上阅读本书。</p>
@@ -1117,7 +1117,7 @@ asyncFunction().then(<span class="keyword">function</span> (value) {
 </dl>
 </div>
 <div class="paragraph">
-<p>从<em>Pedding</em>和<em>Settled</em>的对称关系来看，Promise状态的种类/迁移是非常简单易懂的。</p>
+<p>从<em>Pending</em>和<em>Settled</em>的对称关系来看，Promise状态的种类/迁移是非常简单易懂的。</p>
 </div>
 <div class="paragraph">
 <p>当promise的对象状态发生变化时，用<code>.then</code> 来定义只会被调用一次的函数。</p>
@@ -1188,8 +1188,8 @@ asyncFunction().then(<span class="keyword">function</span> (value) {
         <span class="keyword">var</span> req = <span class="keyword">new</span> XMLHttpRequest();
         req.open(<span class="string"><span class="delimiter">'</span><span class="content">GET</span><span class="delimiter">'</span></span>, URL, <span class="predefined-constant">true</span>);
         req.<span class="function">onload</span> = <span class="keyword">function</span> () {
-            <span class="keyword">if</span> (req.status == <span class="integer">200</span>) {
-                resolve(req.response);
+            <span class="keyword">if</span> (req.status === <span class="integer">200</span>) {
+                resolve(req.responseText);
             } <span class="keyword">else</span> {
                 reject(<span class="keyword">new</span> Error(req.statusText));
             }
@@ -1213,7 +1213,7 @@ getURL(URL).then(<span class="keyword">function</span> <span class="function">on
 <p><code>getURL</code> 只有在通过XHR取得结果状态为200时才会调用 <code>resolve</code> - 也就是只有数据取得成功时，而其他情况（取得失败）时则会调用 <code>reject</code> 方法。</p>
 </div>
 <div class="paragraph">
-<p><code>resolve(req.response)</code> 在response的内容中加入了参数。
+<p><code>resolve(req.responseText)</code> 在response的内容中加入了参数。
 resolve方法的参数并没有特别的规则，基本上把要传给回调函数参数放进去就可以了。
 ( <code>then</code> 方法可以接收到这个参数值)</p>
 </div>
@@ -1277,7 +1277,7 @@ resolve方法的参数并没有特别的规则，基本上把要传给回调函�
 </div>
 <div class="paragraph">
 <p>此时所谓的 <em>通信成功</em> ，
-指的就是在被resolve后，<em>promise对象变为FulFilled状态</em> 。</p>
+指的就是在被resolve后， <em>promise对象变为FulFilled状态</em> 。</p>
 </div>
 <div class="paragraph">
 <p>被<strong>resolve</strong>后的处理，可以在<a href="#promise.then"><code>.then</code></a> 方法中传入想要调用的函数。</p>
@@ -1299,7 +1299,7 @@ getURL(URL).then(<span class="keyword">function</span> <span class="function">on
 </table>
 </div>
 <div class="paragraph">
-<p><a href="#xhr-promise.js">getURL函数</a> 中的 <code>resolve(req.response);</code> 会将promise对象变为resolve（Fulfilled）状态，
+<p><a href="#xhr-promise.js">getURL函数</a> 中的 <code>resolve(req.responseText);</code> 会将promise对象变为resolve（Fulfilled）状态，
 同时使用其值调用 <code>onFulfilled</code> 函数。</p>
 </div>
 <div class="paragraph">
@@ -1308,7 +1308,7 @@ getURL(URL).then(<span class="keyword">function</span> <span class="function">on
 </div>
 <div class="paragraph">
 <p>此时 <em>发生错误</em> ，
-指的也就是reject后<em>promise对象变为Rejected状态</em>。</p>
+指的也就是reject后 <em>promise对象变为Rejected状态</em> 。</p>
 </div>
 <div class="paragraph">
 <p>被<strong>reject</strong>后的处理，可以在<a href="#promise.then"><code>.then</code> 的第二个参数</a> 或者是在 <a href="#promise.catch"><code>.catch</code></a> 方法中设置想要调用的函数。</p>
@@ -1588,13 +1588,13 @@ promise.then(<span class="keyword">function</span>(value){
 <div class="listingblock executable">
 <div class="content">
 <pre class="CodeRay"><code class="javascript language-javascript"><span class="keyword">var</span> promise = <span class="keyword">new</span> Promise(<span class="keyword">function</span> (resolve){
-    console.log(<span class="string"><span class="delimiter">&quot;</span><span class="content">inner promise</span><span class="delimiter">&quot;</span></span>);<i class="conum" data-value="1"></i><b>(1)</b>
+    console.log(<span class="string"><span class="delimiter">&quot;</span><span class="content">inner promise</span><span class="delimiter">&quot;</span></span>); <span class="comment">// 1</span>
     resolve(<span class="integer">42</span>);
 });
 promise.then(<span class="keyword">function</span>(value){
-    console.log(value); <i class="conum" data-value="3"></i><b>(3)</b>
+    console.log(value); <span class="comment">// 3</span>
 });
-console.log(<span class="string"><span class="delimiter">&quot;</span><span class="content">outer promise</span><span class="delimiter">&quot;</span></span>);<i class="conum" data-value="2"></i><b>(2)</b></code></pre>
+console.log(<span class="string"><span class="delimiter">&quot;</span><span class="content">outer promise</span><span class="delimiter">&quot;</span></span>); <span class="comment">// 2</span></code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1602,9 +1602,9 @@ console.log(<span class="string"><span class="delimiter">&quot;</span><span clas
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>inner promise
-outer promise
-42</pre>
+<pre>inner promise // 1
+outer promise // 2
+42            // 3</pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1641,7 +1641,7 @@ outer promise
 <div class="content">
 <pre class="CodeRay"><code class="javascript language-javascript"><span class="keyword">function</span> <span class="function">onReady</span>(fn) {
     <span class="keyword">var</span> readyState = document.readyState;
-    <span class="keyword">if</span> (readyState == <span class="string"><span class="delimiter">'</span><span class="content">interactive</span><span class="delimiter">'</span></span> || readyState === <span class="string"><span class="delimiter">'</span><span class="content">complete</span><span class="delimiter">'</span></span>) {
+    <span class="keyword">if</span> (readyState === <span class="string"><span class="delimiter">'</span><span class="content">interactive</span><span class="delimiter">'</span></span> || readyState === <span class="string"><span class="delimiter">'</span><span class="content">complete</span><span class="delimiter">'</span></span>) {
         fn();
     } <span class="keyword">else</span> {
         window.addEventListener(<span class="string"><span class="delimiter">'</span><span class="content">DOMContentLoaded</span><span class="delimiter">'</span></span>, fn);
@@ -1679,7 +1679,7 @@ console.log(<span class="string"><span class="delimiter">'</span><span class="co
 <div class="content">
 <pre class="CodeRay"><code class="javascript language-javascript"><span class="keyword">function</span> <span class="function">onReady</span>(fn) {
     <span class="keyword">var</span> readyState = document.readyState;
-    <span class="keyword">if</span> (readyState == <span class="string"><span class="delimiter">'</span><span class="content">interactive</span><span class="delimiter">'</span></span> || readyState === <span class="string"><span class="delimiter">'</span><span class="content">complete</span><span class="delimiter">'</span></span>) {
+    <span class="keyword">if</span> (readyState === <span class="string"><span class="delimiter">'</span><span class="content">interactive</span><span class="delimiter">'</span></span> || readyState === <span class="string"><span class="delimiter">'</span><span class="content">complete</span><span class="delimiter">'</span></span>) {
         setTimeout(fn, <span class="integer">0</span>);
     } <span class="keyword">else</span> {
         window.addEventListener(<span class="string"><span class="delimiter">'</span><span class="content">DOMContentLoaded</span><span class="delimiter">'</span></span>, fn);
@@ -1730,7 +1730,7 @@ console.log(<span class="string"><span class="delimiter">'</span><span class="co
 <pre class="CodeRay"><code class="javascript language-javascript"><span class="keyword">function</span> <span class="function">onReadyPromise</span>() {
     <span class="keyword">return</span> <span class="keyword">new</span> Promise(<span class="keyword">function</span> (resolve, reject) {
         <span class="keyword">var</span> readyState = document.readyState;
-        <span class="keyword">if</span> (readyState == <span class="string"><span class="delimiter">'</span><span class="content">interactive</span><span class="delimiter">'</span></span> || readyState === <span class="string"><span class="delimiter">'</span><span class="content">complete</span><span class="delimiter">'</span></span>) {
+        <span class="keyword">if</span> (readyState === <span class="string"><span class="delimiter">'</span><span class="content">interactive</span><span class="delimiter">'</span></span> || readyState === <span class="string"><span class="delimiter">'</span><span class="content">complete</span><span class="delimiter">'</span></span>) {
             resolve();
         } <span class="keyword">else</span> {
             window.addEventListener(<span class="string"><span class="delimiter">'</span><span class="content">DOMContentLoaded</span><span class="delimiter">'</span></span>, resolve);
@@ -1970,7 +1970,11 @@ promise
 promise
     .then(increment)
     .then(doubleUp)
-    .then(output);</code></pre>
+    .then(output)
+    .<span class="keyword">catch</span>(<span class="keyword">function</span>(error){
+        <span class="comment">// promise chain中出现异常的时候会被调用</span>
+        console.error(error);
+    });</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -2141,6 +2145,10 @@ promise.then(<span class="predefined-constant">undefined</span>, <span class="ke
 <p>由于 <code>catch</code> 标识符可能会导致问题出现，因此一些类库（Library）也采用了 <code>caught</code> 作为函数名，而函数要完成的工作是一样的。</p>
 </div>
 <div class="paragraph">
+<p>而且很多压缩工具自带了将 <code>promise.catch</code> 转换为 <code>promise.["catch"]</code> 的功能，
+所以可能不经意之间也能帮我们解决这个问题。</p>
+</div>
+<div class="paragraph">
 <p>如果各位读者需要支持IE8及以下版本的浏览器的话，那么一定要将这个 <code>catch</code> 问题牢记在心中。</p>
 </div>
 </div>
@@ -2228,10 +2236,10 @@ bPromise.then(<span class="keyword">function</span> (value) {
 <div class="listingblock">
 <div class="title">✘ <code>then</code> 的错误使用方法</div>
 <div class="content">
-<pre class="CodeRay"><code class="javascript language-javascript"><span class="keyword">function</span> <span class="function">anAsyncCall</span>() {
+<pre class="CodeRay"><code class="javascript language-javascript"><span class="keyword">function</span> <span class="function">badAsyncCall</span>() {
     <span class="keyword">var</span> promise = Promise.resolve();
     promise.then(<span class="keyword">function</span>() {
-        <span class="comment">// 任意一些处理</span>
+        <span class="comment">// 任意处理</span>
         <span class="keyword">return</span> newVar;
     });
     <span class="keyword">return</span> promise;
@@ -2287,8 +2295,8 @@ bPromise.then(<span class="keyword">function</span> (value) {
     <span class="keyword">var</span> req = <span class="keyword">new</span> XMLHttpRequest();
     req.open(<span class="string"><span class="delimiter">'</span><span class="content">GET</span><span class="delimiter">'</span></span>, URL, <span class="predefined-constant">true</span>);
     req.<span class="function">onload</span> = <span class="keyword">function</span> () {
-        <span class="keyword">if</span> (req.status == <span class="integer">200</span>) {
-            callback(<span class="predefined-constant">null</span>, req.response);
+        <span class="keyword">if</span> (req.status === <span class="integer">200</span>) {
+            callback(<span class="predefined-constant">null</span>, req.responseText);
         } <span class="keyword">else</span> {
             callback(<span class="keyword">new</span> Error(req.statusText), req.response);
         }
@@ -2359,7 +2367,7 @@ main(<span class="keyword">function</span>(error, results){
 <p>如果将多个XHR处理进行嵌套调用的话层次会比较深，所以使用了 <code>allRequest</code> 函数并在其中对request进行调用。</p>
 </li>
 <li>
-<p>回调函数采用了 <code>callback(error,value)</code> 这种在Node.js中常见的写法</p>
+<p>回调函数采用了 <code>callback(error,value)</code> 这种写法，第一个参数表示错误信息，第二个参数为返回值</p>
 </li>
 </ul>
 </div>
@@ -2411,8 +2419,8 @@ main(<span class="keyword">function</span>(error, results){
         <span class="keyword">var</span> req = <span class="keyword">new</span> XMLHttpRequest();
         req.open(<span class="string"><span class="delimiter">'</span><span class="content">GET</span><span class="delimiter">'</span></span>, URL, <span class="predefined-constant">true</span>);
         req.<span class="function">onload</span> = <span class="keyword">function</span> () {
-            <span class="keyword">if</span> (req.status == <span class="integer">200</span>) {
-                resolve(req.response);
+            <span class="keyword">if</span> (req.status === <span class="integer">200</span>) {
+                resolve(req.responseText);
             } <span class="keyword">else</span> {
                 reject(<span class="keyword">new</span> Error(req.statusText));
             }
@@ -2495,8 +2503,8 @@ main().then(<span class="keyword">function</span> (value) {
         <span class="keyword">var</span> req = <span class="keyword">new</span> XMLHttpRequest();
         req.open(<span class="string"><span class="delimiter">'</span><span class="content">GET</span><span class="delimiter">'</span></span>, URL, <span class="predefined-constant">true</span>);
         req.<span class="function">onload</span> = <span class="keyword">function</span> () {
-            <span class="keyword">if</span> (req.status == <span class="integer">200</span>) {
-                resolve(req.response);
+            <span class="keyword">if</span> (req.status === <span class="integer">200</span>) {
+                resolve(req.responseText);
             } <span class="keyword">else</span> {
                 reject(<span class="keyword">new</span> Error(req.statusText));
             }
@@ -2620,7 +2628,7 @@ Promise.all([
 <td class="content">
 <div class="paragraph">
 <p>如果这些promise全部串行处理的话，那么需要
-等待1ms &#8594; 等待32ms &#8594; 等待64ms &#8594; &#8230; &#8594; 等待128ms ，全部执行完毕需要225ms的时间。</p>
+等待1ms &#8594; 等待32ms &#8594; 等待64ms &#8594; 等待128ms ，全部执行完毕需要225ms的时间。</p>
 </div>
 <div class="paragraph">
 <p>要想了解更多关于如何使用Promise进行串行处理的内容，可以参考第4章的<a href="#promise-sequence">Promise中的串行处理</a>中的介绍。</p>
@@ -2862,19 +2870,19 @@ Promise实际上每次在方法链中增加一次处理的时候所操作的都�
 <p>这章我们学习如果编写Promise 的测试代码</p>
 </div>
 <div class="sect2">
-<h3 id="basic-tests">3.1. 基础测试</h3>
+<h3 id="basic-tests">3.1. 基本测试</h3>
 <div class="paragraph">
-<p><a href="#es6-promises">ES6 Promises</a>的语法等已经学了一遍，
-大家应该能够在实际项目中编写出运用Promise 的Demo。</p>
+<p>关于<a href="#es6-promises">ES6 Promises</a>的语法我们已经学了一些，
+我想大家应该也能够在实际项目中编写Promise 的Demo代码了吧。</p>
 </div>
 <div class="paragraph">
-<p>这时，接下来要苦恼该如何进行的就是Promise 测试的写法。</p>
+<p>这时，接下来你可能要苦恼该如何编写Promise 的测试代码了。</p>
 </div>
 <div class="paragraph">
-<p>那么让我们先来学习下使用http://visionmedia.github.io/mocha/[Mocha]的Promise 的基础测试写法吧。</p>
+<p>那么让我们先来学习下如何使用 <a href="http://mochajs.org/">Mocha</a>来对Promise 进行基本的测试吧。</p>
 </div>
 <div class="paragraph">
-<p>先声明一下，这章中涉及的测试代码都是运行在Node.js环境的。</p>
+<p>先声明一下，这章中涉及的测试代码都是运行在Node.js环境下的。</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -2883,8 +2891,8 @@ Promise实际上每次在方法链中增加一次处理的时候所操作的都�
 <i class="icon-note" title="Note"></i>
 </td>
 <td class="content">
-本书中出现的实例代码都样编写了各种测试。
-测试代码可以参照 <a href="https://github.com/azu/promises-book">azu/promises-book</a> 。
+本书中出现的示例代码也都有相应的测试代码。
+测试代码可以参考 <a href="https://github.com/azu/promises-book">azu/promises-book</a> 。
 </td>
 </tr>
 </table>
@@ -2892,23 +2900,23 @@ Promise实际上每次在方法链中增加一次处理的时候所操作的都�
 <div class="sect3">
 <h4 id="_mocha">3.1.1. Mocha</h4>
 <div class="paragraph">
-<p>在这里，我们不展开详细讲解http://visionmedia.github.io/mocha/[Mocha]了，Mocha是Node.js下的测试框架工具。对
-<a href="http://visionmedia.github.io/mocha/">Mocha</a>感兴趣的可以自行学习。</p>
+<p>Mocha是Node.js下的测试框架工具,在这里，我们并不打算对 <a href="http://mochajs.org/">Mocha</a>本身进行详细讲解。对
+<a href="http://mochajs.org/">Mocha</a>感兴趣的读者可以自行学习。</p>
 </div>
 <div class="paragraph">
-<p>Mocha能够选择BDD、TDD、exports中的任意风格，测试中用到的Assert 方法同样可以跟任意库组合来使用。
-也就是说，Mocha本身只提供执行测试时的框架，其他的需要使用者来选择。</p>
+<p>Mocha可以自由选择BDD、TDD、exports中的任意风格，测试中用到的Assert 方法也同样可以跟任何其他类库组合使用。
+也就是说，Mocha本身只提供执行测试时的框架，而其他部分则由使用者自己选择。</p>
 </div>
 <div class="paragraph">
-<p>这里选择Mocha理由，有下面3点。</p>
+<p>这里我们选择使用Mocha，主要基于下面3点理由。</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>它是非常有名的测试框架</p>
+<p>它是非常著名的测试框架</p>
 </li>
 <li>
-<p>支持Node.jp 和浏览器测试</p>
+<p>支持基于Node.js 和浏览器的测试</p>
 </li>
 <li>
 <p>支持"Promise测试"</p>
@@ -2916,41 +2924,43 @@ Promise实际上每次在方法链中增加一次处理的时候所操作的都�
 </ul>
 </div>
 <div class="paragraph">
-<p>最后至于为什么说<em>支持"Promise测试"</em>，这个我们在后面讲。</p>
+<p>最后至于为什么说 <em>支持"Promise测试"</em> ，这个我们在后面再讲。</p>
 </div>
 <div class="paragraph">
-<p>另外，Assert库我们使用的是 <a href="https://github.com/twada/power-assert">power-assert</a>，
-Assert本身跟Node.js的 <code>assert</code> 模块完全相同，本书中不用太在意。</p>
+<p>要想在本章中使用Mocha，我们需要先通过npm来安装Mocha。</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay"><code class="console language-console">$ npm install -g mocha</code></pre>
+</div>
 </div>
 <div class="paragraph">
-<p>首先，让我们试着编写一个与回调函数测试形式相同的测试。</p>
+<p>另外，Assert库我们使用的是Node.js自带的<code>assert</code>模块，所以不需要额外安装。</p>
+</div>
+<div class="paragraph">
+<p>首先，让我们试着编写一个对传统回调风格的异步函数进行测试的代码。</p>
 </div>
 </div>
 <div class="sect3">
 <h4 id="__11">3.1.2. 回调函数风格的测试</h4>
 <div class="paragraph">
-<p><a href="#promise-is-always-async">column: Promise总是异步?</a>中确认过的，
-Promise中调用由<code>then</code> 绑定的函数的时机总是非同步的。</p>
-</div>
-<div class="paragraph">
-<p>首先让我们试着像回调风格那样编写一个Promise测试。</p>
+<p>如果想使用回调函数风格来对一个异步处理进行测试，使用Mocha的话代码如下所示。</p>
 </div>
 <div class="listingblock">
 <div class="title">basic-test.js</div>
 <div class="content">
-<pre class="CodeRay"><code class="javascript language-javascript"><span class="string"><span class="delimiter">&quot;</span><span class="content">use strict</span><span class="delimiter">&quot;</span></span>;
-<span class="keyword">var</span> assert = require(<span class="string"><span class="delimiter">&quot;</span><span class="content">power-assert</span><span class="delimiter">&quot;</span></span>);
-describe(<span class="string"><span class="delimiter">&quot;</span><span class="content">Basic Test</span><span class="delimiter">&quot;</span></span>, <span class="keyword">function</span> () {
-    context(<span class="string"><span class="delimiter">&quot;</span><span class="content">When Callback(high-order function)</span><span class="delimiter">&quot;</span></span>, <span class="keyword">function</span> () {
-        it(<span class="string"><span class="delimiter">&quot;</span><span class="content">should use `done` for test</span><span class="delimiter">&quot;</span></span>, <span class="keyword">function</span> (done) {
+<pre class="CodeRay"><code class="javascript language-javascript"><span class="keyword">var</span> assert = require(<span class="string"><span class="delimiter">'</span><span class="content">power-assert</span><span class="delimiter">'</span></span>);
+describe(<span class="string"><span class="delimiter">'</span><span class="content">Basic Test</span><span class="delimiter">'</span></span>, <span class="keyword">function</span> () {
+    context(<span class="string"><span class="delimiter">'</span><span class="content">When Callback(high-order function)</span><span class="delimiter">'</span></span>, <span class="keyword">function</span> () {
+        it(<span class="string"><span class="delimiter">'</span><span class="content">should use `done` for test</span><span class="delimiter">'</span></span>, <span class="keyword">function</span> (done) {
             setTimeout(<span class="keyword">function</span> () {
                 assert(<span class="predefined-constant">true</span>);
                 done();
             }, <span class="integer">0</span>);
         });
     });
-    context(<span class="string"><span class="delimiter">&quot;</span><span class="content">When promise object</span><span class="delimiter">&quot;</span></span>, <span class="keyword">function</span> () {
-        it(<span class="string"><span class="delimiter">&quot;</span><span class="content">should use `done` for test?</span><span class="delimiter">&quot;</span></span>, <span class="keyword">function</span> (done) {
+    context(<span class="string"><span class="delimiter">'</span><span class="content">When promise object</span><span class="delimiter">'</span></span>, <span class="keyword">function</span> () {
+        it(<span class="string"><span class="delimiter">'</span><span class="content">should use `done` for test?</span><span class="delimiter">'</span></span>, <span class="keyword">function</span> (done) {
             <span class="keyword">var</span> promise = Promise.resolve(<span class="integer">1</span>);
             <span class="comment">// このテストコードはある欠陥があります</span>
             promise.then(<span class="keyword">function</span> (value) {
@@ -2963,19 +2973,27 @@ describe(<span class="string"><span class="delimiter">&quot;</span><span class="
 </div>
 </div>
 <div class="paragraph">
-<p>Mocha中形参 <code>it</code> 的位置指定类似 <code>done</code> 的实参的话，可以支持异步的测试。
-它在没有调用到<code>done()</code> 之前该测试是不会结束的。</p>
+<p>将这段代码保存为 <code>basic-test.js</code>，之后就可以使用刚才安装的Mocha的命令行工具进行测试了。</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay"><code class="sh language-sh">$ mocha basic-test.js</code></pre>
+</div>
 </div>
 <div class="paragraph">
-<p>Mocha中的异步测试的实现，如下面举的例子那样。</p>
+<p>Mocha的 <code>it</code> 方法指定了 <code>done</code> 参数，在 <code>done()</code> 函数被执行之前，
+该测试一直处于等待状态，这样就可以对异步处理进行测试。</p>
+</div>
+<div class="paragraph">
+<p>Mocha中的异步测试，将会按照下面的步骤执行。</p>
 </div>
 <div id="callback-style-test" class="listingblock">
 <div class="content">
 <pre class="CodeRay"><code class="javascript language-javascript">it(<span class="string"><span class="delimiter">&quot;</span><span class="content">should use `done` for test</span><span class="delimiter">&quot;</span></span>, <span class="keyword">function</span> (done) {
-    <span class="comment">// “&lt;1&gt;”</span>
+    <i class="conum" data-value="1"></i><b>(1)</b>
     setTimeout(<span class="keyword">function</span> () {
         assert(<span class="predefined-constant">true</span>);
-        done();<span class="comment">// “&lt;2&gt;”</span>
+        done();<i class="conum" data-value="2"></i><b>(2)</b>
     }, <span class="integer">0</span>);
 });</code></pre>
 </div>
@@ -2984,29 +3002,29 @@ describe(<span class="string"><span class="delimiter">&quot;</span><span class="
 <table>
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>指定异步处理的callback</td>
+<td>回调式的异步处理</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="2"></i><b>2</b></td>
-<td>调用<code>done</code> 标明测试结束</td>
+<td>调用<code>done</code> 后测试结束</td>
 </tr>
 </table>
 </div>
 <div class="paragraph">
-<p>非常常见的一种编写方式。</p>
+<p>这也是一种非常常见的实现方式。</p>
 </div>
 </div>
 <div class="sect3">
 <h4 id="done-promise-test">3.1.3. 使用<code>done</code> 的Promise测试</h4>
 <div class="paragraph">
-<p>接下来，让我们看看Promise测试。</p>
+<p>接下来，让我们看看如何使用 <code>done</code> 来进行Promise测试。</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay"><code class="javascript language-javascript">it(<span class="string"><span class="delimiter">&quot;</span><span class="content">should use `done` for test?</span><span class="delimiter">&quot;</span></span>, <span class="keyword">function</span> (done) {
-    <span class="keyword">var</span> promise = Promise.resolve(<span class="integer">1</span>);<i class="conum" data-value="1"></i><b>(1)</b>
+    <span class="keyword">var</span> promise = Promise.resolve(<span class="integer">42</span>);<i class="conum" data-value="1"></i><b>(1)</b>
     promise.then(<span class="keyword">function</span> (value) {
-        assert(value === <span class="integer">1</span>);
+        assert(value === <span class="integer">42</span>);
         done();<i class="conum" data-value="2"></i><b>(2)</b>
     });
 });</code></pre>
@@ -3020,24 +3038,24 @@ describe(<span class="string"><span class="delimiter">&quot;</span><span class="
 </tr>
 <tr>
 <td><i class="conum" data-value="2"></i><b>2</b></td>
-<td>调用<code>done</code> 表明测试结束</td>
+<td>调用<code>done</code> 后测试结束</td>
 </tr>
 </table>
 </div>
 <div class="paragraph">
 <p><a href="#Promise.resolve"><code>Promise.resolve</code></a> 用来返回promise对象，
 返回的promise对象状态为FulFilled。
-结果，调用绑定到<code>.then</code> 的回调函数。</p>
+最后，通过 <code>.then</code> 设置的回调函数也会被调用。</p>
 </div>
 <div class="paragraph">
-<p><a href="#promise-is-always-async">column: Promise总是异步?</a> 中也提到的那样，
-promise对象总是异步处理的，所有测试同样需要用异步对应的方式编写。</p>
+<p>像<a href="#promise-is-always-async">专栏: Promise只能进行异步操作？</a> 中已经提到的那样，
+promise对象的调用总是异步进行的，所以测试也同样需要以异步调用的方式来编写。</p>
 </div>
 <div class="paragraph">
-<p>但是，之前的测试代码中<code>assert</code> 失败的情况会出现问题。</p>
+<p>但是，在前面的测试代码中，在<code>assert</code> 失败的情况下就会出现问题。</p>
 </div>
 <div id="promise-assert-fail" class="listingblock">
-<div class="title">错误的测试编写方式</div>
+<div class="title">对异常promise测试</div>
 <div class="content">
 <pre class="CodeRay"><code class="javascript language-javascript">it(<span class="string"><span class="delimiter">&quot;</span><span class="content">should use `done` for test?</span><span class="delimiter">&quot;</span></span>, <span class="keyword">function</span> (done) {
     <span class="keyword">var</span> promise = Promise.resolve();
@@ -3049,26 +3067,26 @@ promise对象总是异步处理的，所有测试同样需要用异步对应的�
 </div>
 </div>
 <div class="paragraph">
-<p>这可测试中 <code>assert</code> 失败了，你可能认为会抛出“测试失败”，
-实际情况却是测试不能正常终了而超时。</p>
+<p>在此次测试中 <code>assert</code> 失败了，所以你可能认为应该抛出“测试失败”的错误，
+而实际情况却是测试并不会结束，直到超时。</p>
 </div>
 <div class="imageblock">
 <div class="content">
 <img src="Ch3_Testing/img/promise-test-timeout.png" alt="promise test timeout">
 </div>
-<div class="title">Figure 7. 测试没有完了产生超时，停在该处。</div>
+<div class="title">Figure 7. 由于测试不会结束，所以直到发生超时时间未知，一直会处于挂起状态。</div>
 </div>
 <div class="paragraph">
-<p><code>assert</code> 失败的情况通常throw一个error，
-测试框架捕获该error，来判断测试失败。</p>
+<p>通常情况下，<code>assert</code> 失败的时候，会throw一个error，
+测试框架会捕获该error，来判断测试失败。</p>
 </div>
 <div class="paragraph">
-<p>但是，Promise的情况下 <code>.then</code> 绑定的执行函数发生的error，
-会被Promise捕获，从而测试框架不会抛出error。</p>
+<p>但是，Promise的情况下 <code>.then</code> 绑定的函数执行时发生的error
+会被Promise捕获，而测试框架则对此error将会一无所知。</p>
 </div>
 <div class="paragraph">
-<p>我们来改善一下<a href="#promise-assert-fail"><code>assert</code> 失败示例</a>，
-让<code>assert</code> 失败时显示测试失败。</p>
+<p>我们来改善一下<a href="#promise-assert-fail"><code>assert</code> 失败的promise测试</a>，
+让它能正确处理 <code>assert</code> 失败时的测试结果。</p>
 </div>
 <div id="promise-assert-fail-fixed" class="listingblock">
 <div class="title">测试正常失败的示例</div>
@@ -3082,21 +3100,21 @@ promise对象总是异步处理的，所有测试同样需要用异步对应的�
 </div>
 </div>
 <div class="paragraph">
-<p>测试正常失败的示例中，为了一定调用<code>done</code> ，
-在最后添加了 <code>.then(done, done);</code> 语句。</p>
+<p>在上面测试正常失败的示例中，为了确保 <code>done</code> 一定会被调用，
+我们在最后添加了 <code>.then(done, done);</code> 语句。</p>
 </div>
 <div class="paragraph">
-<p><code>assert</code> 通过时单纯调用 <code>done()</code> ，<code>assert</code> 失败时调用 <code>done(error)</code> 。</p>
+<p><code>assert</code> 测试通过（成功）时会调用 <code>done()</code> ，而 <code>assert</code> 失败时则调用 <code>done(error)</code> 。</p>
 </div>
 <div class="paragraph">
-<p>这样，终于编写出了跟<a href="#callback-style-test">回调风格的测试</a>相同的Promise测试。</p>
+<p>这样，我们就编写出了和 <a href="#callback-style-test">回调函数风格的测试</a> 相同的Promise测试。</p>
 </div>
 <div class="paragraph">
-<p>但是，我们需要为<code>assert</code> 失败时，额外添加 <code>.then(done, done);</code> 语句。
-要小心编写Promise测试时，如果忘了加上上面的语句会造成测试不能正常终了的情况。</p>
+<p>但是，为了处理 <code>assert</code> 失败的情况，我们需要额外添加 <code>.then(done, done);</code> 的代码。
+这就要求我们在编写Promise测试时要格外小心，忘了加上上面语句的话，很可能就会写出一个永远不会返回直到超时的测试代码。</p>
 </div>
 <div class="paragraph">
-<p>接下来，让我们接着学习一下最初提到的使用mocha理由中的支持"Promises测试"究竟是一种什么机制。</p>
+<p>在下一节，让我们接着学习一下最初提到的使用Mocha理由中的支持"Promises测试"究竟是一种什么机制。</p>
 </div>
 </div>
 </div>
@@ -3119,15 +3137,14 @@ promise对象总是异步处理的，所有测试同样需要用异步对应的�
 <p>这段话的意思是，在对Promise进行测试的时候，不使用 <code>done()</code> 这样的回调风格的代码编写方式，而是返回一个promise对象。</p>
 </div>
 <div class="paragraph">
-<p>那么实际上代码是什么样的呢？这里我们来看个例子应该就好理解了。</p>
+<p>那么实际上代码将会是什么样的呢？这里我们来看个具体的例子应该容易理解了。</p>
 </div>
 <div id="mocha-promise-test.js" class="listingblock">
 <div class="title">mocha-promise-test.js</div>
 <div class="content">
-<pre class="CodeRay"><code class="javascript language-javascript"><span class="string"><span class="delimiter">&quot;</span><span class="content">use strict</span><span class="delimiter">&quot;</span></span>;
-<span class="keyword">var</span> assert = require(<span class="string"><span class="delimiter">&quot;</span><span class="content">power-assert</span><span class="delimiter">&quot;</span></span>);
-describe(<span class="string"><span class="delimiter">&quot;</span><span class="content">Promise Test</span><span class="delimiter">&quot;</span></span>, <span class="keyword">function</span> () {
-    it(<span class="string"><span class="delimiter">&quot;</span><span class="content">should return a promise object</span><span class="delimiter">&quot;</span></span>, <span class="keyword">function</span> () {
+<pre class="CodeRay"><code class="javascript language-javascript"><span class="keyword">var</span> assert = require(<span class="string"><span class="delimiter">'</span><span class="content">power-assert</span><span class="delimiter">'</span></span>);
+describe(<span class="string"><span class="delimiter">'</span><span class="content">Promise Test</span><span class="delimiter">'</span></span>, <span class="keyword">function</span> () {
+    it(<span class="string"><span class="delimiter">'</span><span class="content">should return a promise object</span><span class="delimiter">'</span></span>, <span class="keyword">function</span> () {
         <span class="keyword">var</span> promise = Promise.resolve(<span class="integer">1</span>);
         <span class="keyword">return</span> promise.then(<span class="keyword">function</span> (value) {
             assert(value === <span class="integer">1</span>);
@@ -3140,7 +3157,7 @@ describe(<span class="string"><span class="delimiter">&quot;</span><span class="
 <p>这段代码将前面 <a href="#promise-assert-fail-fixed">前面使用 <code>done</code> 的例子</a> 按照Mocha的Promise测试方式进行了重写。</p>
 </div>
 <div class="paragraph">
-<p>修改的地方主要在下面两点：</p>
+<p>修改的地方主要在以下两点：</p>
 </div>
 <div class="ulist">
 <ul>
@@ -3153,7 +3170,7 @@ describe(<span class="string"><span class="delimiter">&quot;</span><span class="
 </ul>
 </div>
 <div class="paragraph">
-<p>这种写法的话，当 <code>assert</code> 失败的时候，测试本身自然也会失败。</p>
+<p>采用这种写法的话，当 <code>assert</code> 失败的时候，测试本身自然也会失败。</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -3165,7 +3182,7 @@ describe(<span class="string"><span class="delimiter">&quot;</span><span class="
 </div>
 </div>
 <div class="paragraph">
-<p>采用这种方法，就能从根本上省略诸如 <code>.then(done, done);</code> 这样本质上跟测试并无直接关系的代码。</p>
+<p>采用这种方法，就能从根本上省略诸如 <code>.then(done, done);</code> 这样本质上跟测试逻辑并无直接关系的代码。</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -3175,20 +3192,20 @@ describe(<span class="string"><span class="delimiter">&quot;</span><span class="
 </td>
 <td class="content">
 <div class="paragraph">
-<p><a href="http://efcl.info/2014/0314/res3708/">Mocha已经支持对Promises的测试 | Web scratch</a> 这篇文章（日语）里也提到了关于Mocha对Promise进行测试的支持。</p>
+<p><a href="http://efcl.info/2014/0314/res3708/">Mocha已经支持对Promises的测试 | Web scratch</a> 这篇（日语）文章里也提到了关于Mocha对Promise测试的支持。</p>
 </div>
 </td>
 </tr>
 </table>
 </div>
 <div class="sect3">
-<h4 id="__12">3.2.1. 意料之外的测试结果</h4>
+<h4 id="__12">3.2.1. 意料之外（失败的）的测试结果</h4>
 <div class="paragraph">
-<p>因为Mocha提供了对Promise的测试，所以我们会认为这种写法会比较好。
-但是这种代码可能会带来意想不到的意外情况的发生。</p>
+<p>因为Mocha提供了对Promise的测试，所以我们会认为按照Mocha的规则来写会比较好。
+但是这种代码可能会带来意想不到的异常情况的发生。</p>
 </div>
 <div class="paragraph">
-<p>比如对下面的<code>mayBeRejected()</code> 行数的测试代码，该函数返回一个当满足某一条件就变为Rejected的promise对象。</p>
+<p>比如对下面的<code>mayBeRejected()</code> 函数的测试代码，该函数返回一个当满足某一条件就变为Rejected的promise对象。</p>
 </div>
 <div id="mocha-rejected-promise-test" class="listingblock">
 <div class="title">想对Error Object进行测试</div>
@@ -3227,7 +3244,7 @@ it(<span class="string"><span class="delimiter">&quot;</span><span class="conten
 </dl>
 </div>
 <div class="paragraph">
-<p>上面的测试代码，当promise对象变为Rejected的时候，会调用在 <code>onRejected</code> 中注册的函数，会通过测试。</p>
+<p>上面的测试代码，当promise对象变为Rejected的时候，会调用在 <code>onRejected</code> 中注册的函数，从而没有走正promise的处理常流程，测试会成功。</p>
 </div>
 <div class="paragraph">
 <p>这段测试代码的问题在于当<code>mayBeRejected()</code> 返回的是一个
@@ -3255,7 +3272,7 @@ it(<span class="string"><span class="delimiter">&quot;</span><span class="conten
 </div>
 <div class="paragraph">
 <p>在这种情况下，由于在 <code>catch</code> 中注册的 <code>onRejected</code> 函数并不会被调用，因此
-<code>assert</code> 也不会被执行，测试会一直通过。</p>
+<code>assert</code> 也不会被执行，测试会一直通过（passed，成功）。</p>
 </div>
 <div class="paragraph">
 <p>为了解决这个问题，我们可以在 <code>.catch</code> 的前面加入一个 <code>.then</code> 调用，可以理解为如果调用了
@@ -3286,7 +3303,7 @@ it(<span class="string"><span class="delimiter">&quot;</span><span class="conten
 </div>
 <div class="paragraph">
 <p>但是，这种写法会像在前面 <a href="#then-or-catch">then or catch?</a> 中已经介绍的一样，
-<code>failTest</code> 抛出的一次会被 <code>catch</code> 捕获。</p>
+<code>failTest</code> 抛出的异常会被 <code>catch</code> 捕获。</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -3295,7 +3312,7 @@ it(<span class="string"><span class="delimiter">&quot;</span><span class="conten
 <div class="title">Figure 8. Then Catch flow</div>
 </div>
 <div class="paragraph">
-<p>执行流程为 <code>then</code> &#8594; <code>catch</code>，传递给 <code>catch</code> 的Error对象为<code>AssertionError</code>类型 ，
+<p>程序的执行流程为 <code>then</code> &#8594; <code>catch</code>，传递给 <code>catch</code> 的Error对象为<code>AssertionError</code>类型 ，
 这并不是我们想要的东西。</p>
 </div>
 <div class="paragraph">
@@ -3304,13 +3321,13 @@ it(<span class="string"><span class="delimiter">&quot;</span><span class="conten
 </div>
 </div>
 <div class="sect3">
-<h4 id="__13">3.2.2. 明确两种状态，改善测试中的意外状况</h4>
+<h4 id="__13">3.2.2. 明确两种状态，改善测试中的意外（异常）状况</h4>
 <div class="paragraph">
-<p>在编写 <a href="#mocha-rejected-promise-test">上面的对Error对象进行测试的例子</a> 时，
+<p>在编写 <a href="#mocha-rejected-promise-test">上面对Error对象进行测试的例子</a> 时，
 怎么才能剔除那些会意外通过测试的情况呢？</p>
 </div>
 <div class="paragraph">
-<p>最简单的方式就是像下面这样，在测试代码中判断在各种promise对象的状态下，进行如何的操作。</p>
+<p>最简单的方式就是像下面这样，在测试代码中判断在各种promise对象的状态下，应进行如何的操作。</p>
 </div>
 <div class="dlist">
 <dl>
@@ -3341,7 +3358,7 @@ it(<span class="string"><span class="delimiter">&quot;</span><span class="conten
 </div>
 </div>
 <div class="paragraph">
-<p>像这样的话，就能在promise变为FulFilled的时候编写失败用的测试代码了。</p>
+<p>像这样的话，就能在promise变为FulFilled的时候编写出失败用的测试代码了。</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -3351,7 +3368,7 @@ it(<span class="string"><span class="delimiter">&quot;</span><span class="conten
 </div>
 <div class="paragraph">
 <p>在 <a href="#then-or-catch">then or catch?</a> 中我们已经讲过，为了避免遗漏对错误的处理，
-与使用 <code>.then(onFulfilled, onRejected)</code> 的第二个参数相比，
+与使用 <code>.then(onFulfilled, onRejected)</code> 这样带有二个参数的调用形式相比，
 我们更推荐使用 <code>then</code> &#8594; <code>catch</code> 这样的处理方式。</p>
 </div>
 <div class="paragraph">
@@ -3381,7 +3398,7 @@ it(<span class="string"><span class="delimiter">&quot;</span><span class="conten
 <div class="ulist">
 <ul>
 <li>
-<p>为了能将AssertionError传递到测试框架中。</p>
+<p>为了能将AssertionError对象传递到测试框架中。</p>
 </li>
 </ul>
 </div>
@@ -3390,7 +3407,7 @@ it(<span class="string"><span class="delimiter">&quot;</span><span class="conten
 </div>
 <div class="paragraph">
 <p>通过使用 <code>.then(onFulfilled, onRejected)</code> 这种形式的写法，
-可以明确指定promise对象在变为 Fulfilled或Rejected时如何进行处理。</p>
+我们可以明确指定promise对象在变为 Fulfilled或Rejected时如何进行处理。</p>
 </div>
 <div class="paragraph">
 <p>但是，由于需要显示的指定 Rejected时的测试处理，
@@ -3404,7 +3421,7 @@ it(<span class="string"><span class="delimiter">&quot;</span><span class="conten
 </div>
 </div>
 <div class="paragraph">
-<p>在下一小节，我们会介绍如何编写方便对Promise进行测试的helper函数，
+<p>在下一小节，我们会介绍如何编写helper函数以方便编写Promise的测试代码，
 以及怎样去编写更容易理解的测试代码。</p>
 </div>
 </div>
@@ -3412,7 +3429,7 @@ it(<span class="string"><span class="delimiter">&quot;</span><span class="conten
 <div class="sect2">
 <h3 id="controllable-tests">3.3. 编写可控测试（controllable tests）</h3>
 <div class="paragraph">
-<p>在继续进行说明之前，我们先来定义一下什么是可控测试。我们对可控测试的定义如下。</p>
+<p>在继续进行说明之前，我们先来定义一下什么是可控测试。在这里我们对可控测试的定义如下。</p>
 </div>
 <div class="paragraph">
 <p>待测试的promise对象</p>
@@ -3448,7 +3465,7 @@ it(<span class="string"><span class="delimiter">&quot;</span><span class="conten
 </ul>
 </div>
 <div class="paragraph">
-<p>如果能网罗上面的用例（Fail）项的测试的话，那么我们就称其为可控测试。</p>
+<p>如果一个测试能网罗上面的用例（Fail）项，那么我们就称其为可控测试。</p>
 </div>
 <div class="paragraph">
 <p>也就是说，一个测试用例应该包括下面的测试内容。</p>
@@ -3464,7 +3481,7 @@ it(<span class="string"><span class="delimiter">&quot;</span><span class="conten
 </ul>
 </div>
 <div class="paragraph">
-<p>前面的使用了 <code>.then</code> 的代码就是一个期望结果为 Rejected 的测试。</p>
+<p>在前面使用了 <code>.then</code> 的代码就是一个期望结果为 Rejected 的测试。</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -3481,7 +3498,7 @@ it(<span class="string"><span class="delimiter">&quot;</span><span class="conten
 Fulfilled or Rejected 的两者之一。</p>
 </div>
 <div class="paragraph">
-<p>但是 <code>.then</code> 的话在调用的时候可以省略参数，有时候可能会忘记加入使测试失败的条件。</p>
+<p>但是由于 <code>.then</code> 的话在调用的时候可以省略参数，有时候可能会忘记加入使测试失败的条件。</p>
 </div>
 <div class="paragraph">
 <p>因此，我们可以定义一个helper函数，用来明确定义promise期望的状态。</p>
@@ -3527,13 +3544,13 @@ it(<span class="string"><span class="delimiter">'</span><span class="content">sh
 </div>
 </div>
 <div class="paragraph">
-<p><code>shouldRejected</code> 函数接收一个にpromise对象作为参数，并且返回一个带有 <code>catch</code> 方法的对象。</p>
+<p><code>shouldRejected</code> 函数接收一个promise对象作为参数，并且返回一个带有 <code>catch</code> 方法的对象。</p>
 </div>
 <div class="paragraph">
 <p>在这个 <code>catch</code> 中可以使用和 onRejected 里一样的代码，因此我们可以在 <code>catch</code> 使用基于 assertion 方法的测试代码。</p>
 </div>
 <div class="paragraph">
-<p>在 <code>shouldRejected</code> 外部，都是下面这些和普通的promise处理大同小异的代码。</p>
+<p>在 <code>shouldRejected</code> 外部，都是类似如下、和普通的promise处理大同小异的代码。</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
@@ -3541,10 +3558,10 @@ it(<span class="string"><span class="delimiter">'</span><span class="content">sh
 <p>将需要测试的promise对象传递给 <code>shouldRejected</code> 方法</p>
 </li>
 <li>
-<p>在返回的对象的 <code>catch</code> 方法中编写onRejected处理的代码</p>
+<p>在返回的对象的 <code>catch</code> 方法中编写进行onRejected处理的代码</p>
 </li>
 <li>
-<p>在onRejected里使用assertion进行测试</p>
+<p>在onRejected里使用assertion进行判断</p>
 </li>
 </ol>
 </div>
@@ -3556,7 +3573,7 @@ it(<span class="string"><span class="delimiter">'</span><span class="content">sh
 <pre class="CodeRay"><code class="javascript language-javascript">promise.then(failTest, <span class="keyword">function</span>(error){
     assert(error.message === <span class="string"><span class="delimiter">'</span><span class="content">human error</span><span class="delimiter">'</span></span>);
 });
-<span class="comment">// == 几乎这两个是同样的意思</span>
+<span class="comment">// == 几乎这两段代码是同样的意思</span>
 shouldRejected(promise).<span class="keyword">catch</span>(<span class="keyword">function</span> (error) {
     assert(error.message === <span class="string"><span class="delimiter">'</span><span class="content">human error</span><span class="delimiter">'</span></span>);
 });</code></pre>
@@ -3628,13 +3645,13 @@ it(<span class="string"><span class="delimiter">'</span><span class="content">sh
 在 <a href="#done-promise-test">基于<code>done</code> 的测试</a> 中使用的话可能会比较麻烦。</p>
 </div>
 <div class="paragraph">
-<p>是使用基于测试框架对Promis的支持，还是使用基于类似<code>done</code> 这样回调风格的测试方式，每个人都可以自由的选择，只是风格问题，我觉得没必要争一个孰优孰略。</p>
+<p>是使用基于测试框架对Promis的支持，还是使用基于类似<code>done</code> 这样回调风格的测试方式，每个人都可以自由的选择，只是风格问题，我觉得倒没必要去争一个孰优孰劣。</p>
 </div>
 <div class="paragraph">
 <p>比如在 <a href="http://coffeescript.org/">CoffeeScript</a>下进行测试的话，由于CoffeeScript 会隐式的使用return返回，所以使用 <code>done</code> 的话可能更容易理解一些。</p>
 </div>
 <div class="paragraph">
-<p>对Promise进行测试比对通常的非同步函数进行测试坑更多，虽说采取什么样的测试方法是个人的自由，但是采取前后风格一致的测试则是非常重要。</p>
+<p>对Promise进行测试比对通常的异步函数进行测试坑更多，虽说采取什么样的测试方法是个人的自由，但是在同一项目中采取前后风格一致的测试则是非常重要。</p>
 </div>
 </div>
 </div>
@@ -3644,7 +3661,7 @@ it(<span class="string"><span class="delimiter">'</span><span class="content">sh
 <h2 id="chapter4-advanced-promise">4. Chapter.4 - Advanced</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>在这一章里，我们会基于前面学到的内容，再深入了解一下Promise里更高级的内容，加深对Promise的理解。</p>
+<p>在这一章里，我们会基于前面学到的内容，再深入了解一下Promise里的一些高级内容，加深对Promise的理解。</p>
 </div>
 <div class="sect2">
 <h3 id="promise-library">4.1. Promise的实现类库（Library）</h3>
@@ -3666,7 +3683,7 @@ it(<span class="string"><span class="delimiter">'</span><span class="content">sh
 <p><a href="#promises-aplus">Promises/A+</a> 是 <a href="#es6-promises">ES6 Promises</a> 的前身，Promise的 <code>then</code> 也是来自于此的基于社区的规范。</p>
 </div>
 <div class="paragraph">
-<p>如果说一个类库兼容 Promises/A+ 的话，那么就是说它除了具有标准的 <code>then</code> 方法之外，很多情况下也说明此类库还支持 <code>Promise.all</code> 或 <code>catch</code> 等功能。</p>
+<p>如果说一个类库兼容 Promises/A+ 的话，那么就是说它除了具有标准的 <code>then</code> 方法之外，很多情况下也说明此类库还支持 <code>Promise.all</code> 和 <code>catch</code> 等功能。</p>
 </div>
 <div class="paragraph">
 <p>但是 Promises/A+ 实际上只是定义了关于 <code>Promise#then</code> 的规范，所以有些类库可能实现了其它诸如 <code>all</code> 或 <code>catch</code> 等功能，但是可能名字却不一样。</p>
@@ -3731,6 +3748,12 @@ Promise的实现类库数量非常之多，这里我们只是介绍了其中有�
 <p>这是一个独立版本的 <a href="http://yuilibrary.com/">YUI</a> 的 Promise Polyfill，具有和 ES6 Promises 的兼容性。
 本书的示例代码也都是基于这个 ypromise 的 Polyfill 来在线运行的。</p>
 </dd>
+<dt class="hdlist1"><a href="https://github.com/getify/native-promise-only/">getify/native-promise-only</a></dt>
+<dd>
+<p>以作为ES6 Promises的polyfill为目的的类库
+它严格按照ES6 Promises的规范设计，没有添加在规范中没有定义的功能。
+如果运行环境有原生的Promise支持的话，则优先使用原生的Promise支持。</p>
+</dd>
 </dl>
 </div>
 </div>
@@ -3767,7 +3790,7 @@ Promise的实现类库数量非常之多，这里我们只是介绍了其中有�
 </ul>
 </div>
 <div class="paragraph">
-<p>Q等文档里详细极少了Q的Deferred和jQuery里的Deferred有哪些异同，以及要怎么进行移植 <a href="https://github.com/kriskowal/q/wiki/Coming-from-jQuery">Coming from jQuery</a> 等都进行了详细的说明。</p>
+<p>Q等文档里详细介绍了Q的Deferred和jQuery里的Deferred有哪些异同，以及要怎么进行迁移 <a href="https://github.com/kriskowal/q/wiki/Coming-from-jQuery">Coming from jQuery</a> 等都进行了详细的说明。</p>
 </div>
 <div class="ulist">
 <ul>
@@ -3804,10 +3827,10 @@ Promise的实现类库数量非常之多，这里我们只是介绍了其中有�
 <div class="sect2">
 <h3 id="resolve-thenable">4.2. Promise.resolve和Thenable</h3>
 <div class="paragraph">
-<p>在 <a href="#ch2-promise-resolve">第二章的Promise.resolve</a> 中我们已经说过， <code>Promise.resolve</code> 的最大特征之一就是可以转换将thenable的对象转换为promise对象。</p>
+<p>在 <a href="#ch2-promise-resolve">第二章的Promise.resolve</a> 中我们已经说过， <code>Promise.resolve</code> 的最大特征之一就是可以将thenable的对象转换为promise对象。</p>
 </div>
 <div class="paragraph">
-<p>在本小节里，我们将学习一下利用将thenable对象转换为promise对象这个功能都能具体做些什么实际的事情。</p>
+<p>在本小节里，我们将学习一下利用将thenable对象转换为promise对象这个功能都能具体做些什么事情。</p>
 </div>
 <div class="sect3">
 <h4 id="__web_notifications_thenable">4.2.1. 将Web Notifications转换为thenable对象</h4>
@@ -3854,7 +3877,7 @@ Promise的实现类库数量非常之多，这里我们只是介绍了其中有�
 <i class="icon-note" title="Note"></i>
 </td>
 <td class="content">
-是否允许Notification对话框中的可选项，在Firefox中除了允许、拒绝之外，还增加了 <em>永久有效</em> 和 <em>绘画范围内有效</em> 两种额外选项，当然 <code>Notification.permission</code> 的值都是一样的。
+是否允许Notification对话框中的可选项，在Firefox中除了允许、拒绝之外，还增加了 <em>永久有效</em> 和 <em>会话范围内有效</em> 两种额外选项，当然 <code>Notification.permission</code> 的值都是一样的。
 </td>
 </tr>
 </table>
@@ -3864,7 +3887,7 @@ Promise的实现类库数量非常之多，这里我们只是介绍了其中有�
 用户选择的结果会通过 <code>status</code> 参数传给回调函数。</p>
 </div>
 <div class="paragraph">
-<p>从这个毁掉函数我们也可以看出来，用户选择允许还是拒绝通知是异步进行的。</p>
+<p>从这个回调函数我们也可以看出来，用户选择允许还是拒绝通知是异步进行的。</p>
 </div>
 <div class="listingblock executable">
 <div class="content">
@@ -4214,7 +4237,7 @@ Promise.resolve(notifyMessageAsThenable(<span class="string"><span class="delimi
 <div class="ulist">
 <ul>
 <li>
-<p>类库侧没有出现 <code>Promise</code> 的实现</p>
+<p>类库侧没有提供 <code>Promise</code> 的实现</p>
 <div class="ulist">
 <ul>
 <li>
@@ -4247,7 +4270,7 @@ Promise.resolve(notifyMessageAsThenable(<span class="string"><span class="delimi
 <p>Thenable本身并不依赖于<code>Promise</code>功能，但是Promise之外也没有使用Thenable的方式，所以可以认为Thenable间接依赖于Promise。</p>
 </div>
 <div class="paragraph">
-<p>另外，用户需要对 <code>Promise.resolve(thenable)</code> 有所理解才能使用好Thenable，因此作为类库的公开API有一部分会比较难。和公开API想必，更多情况下是在内部使用Thenable。</p>
+<p>另外，用户需要对 <code>Promise.resolve(thenable)</code> 有所理解才能使用好Thenable，因此作为类库的公开API有一部分会比较难。和公开API相比，更多情况下是在内部使用Thenable。</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -4329,7 +4352,7 @@ Q(promise).then(<span class="keyword">function</span>(value){
 <code>try...catch</code> 代码块中执行的，所以在这些代码中即使使用 <code>throw</code> ，程序本身也不会因为异常而终止。</p>
 </div>
 <div class="paragraph">
-<p>在Promise中使用 <code>throw</code> 语句的话，会被 <code>try...catch</code> 住，最终promise对象也变为Rejected状态。</p>
+<p>如果在Promise中使用 <code>throw</code> 语句的话，会被 <code>try...catch</code> 住，最终promise对象也变为Rejected状态。</p>
 </div>
 <div class="listingblock executable">
 <div class="content">
@@ -4405,12 +4428,12 @@ promise.<span class="keyword">catch</span>(<span class="keyword">function</span>
 <pre class="CodeRay"><code class="javascript language-javascript"><span class="keyword">var</span> promise = Promise.resolve();
 promise.then(<span class="keyword">function</span> (value) {
     setTimeout(<span class="keyword">function</span> () {
-        <span class="comment">// 经过一段时间后还没处理完的话就进行reject </span><i class="conum" data-value="2"></i><b>(2)</b>
+        <span class="comment">// 经过一段时间后还没处理完的话就进行reject - 2</span>
     }, <span class="integer">1000</span>);
-    <span class="comment">// 比较耗时的处理 </span><i class="conum" data-value="1"></i><b>(1)</b>
+    <span class="comment">// 比较耗时的处理 - 1</span>
     somethingHardWork();
 }).<span class="keyword">catch</span>(<span class="keyword">function</span> (error) {
-    <span class="comment">// 超时错误 </span><i class="conum" data-value="3"></i><b>(3)</b>
+    <span class="comment">// 超时错误 - 3</span>
 });</code></pre>
 </div>
 </div>
@@ -4614,8 +4637,8 @@ Deferred.prototype.<span class="function">reject</span> = <span class="keyword">
     <span class="keyword">var</span> req = <span class="keyword">new</span> XMLHttpRequest();
     req.open(<span class="string"><span class="delimiter">'</span><span class="content">GET</span><span class="delimiter">'</span></span>, URL, <span class="predefined-constant">true</span>);
     req.<span class="function">onload</span> = <span class="keyword">function</span> () {
-        <span class="keyword">if</span> (req.status == <span class="integer">200</span>) {
-            deferred.resolve(req.response);
+        <span class="keyword">if</span> (req.status === <span class="integer">200</span>) {
+            deferred.resolve(req.responseText);
         } <span class="keyword">else</span> {
             deferred.reject(<span class="keyword">new</span> Error(req.statusText));
         }
@@ -4647,8 +4670,8 @@ getURL(URL).then(<span class="keyword">function</span> <span class="function">on
         <span class="keyword">var</span> req = <span class="keyword">new</span> XMLHttpRequest();
         req.open(<span class="string"><span class="delimiter">'</span><span class="content">GET</span><span class="delimiter">'</span></span>, URL, <span class="predefined-constant">true</span>);
         req.<span class="function">onload</span> = <span class="keyword">function</span> () {
-            <span class="keyword">if</span> (req.status == <span class="integer">200</span>) {
-                resolve(req.response);
+            <span class="keyword">if</span> (req.status === <span class="integer">200</span>) {
+                resolve(req.responseText);
             } <span class="keyword">else</span> {
                 reject(<span class="keyword">new</span> Error(req.statusText));
             }
@@ -4679,7 +4702,7 @@ getURL(URL).then(<span class="keyword">function</span> <span class="function">on
 <p>由于没有被嵌套在函数中，可以减少一层缩进</p>
 </li>
 <li>
-<p>逆にPromiseでのエラーハンドリングは行われていない（TODO：what it means？）</p>
+<p>反过来没有Promise里的错误处理逻辑</p>
 </li>
 </ul>
 </div>
@@ -4730,10 +4753,10 @@ getURL(URL).then(<span class="keyword">function</span> <span class="function">on
 </div>
 </div>
 <div class="paragraph">
-<p>上面我们只是简单的实现了一个 <strong>Deferred</strong> ，我想你已经看到了它和 <strong>Promise</strong> 之间的差异了把。</p>
+<p>上面我们只是简单的实现了一个 <strong>Deferred</strong> ，我想你已经看到了它和 <strong>Promise</strong> 之间的差异了吧。</p>
 </div>
 <div class="paragraph">
-<p>如果说Promise是用来对值进行抽象化的话，Deferred则是对处理还没有结束的状态或操作进行抽象化的对象，我们也可以从这种区别来理解一下这两者的差异。</p>
+<p>如果说Promise是用来对值进行抽象的话，Deferred则是对处理还没有结束的状态或操作进行抽象化的对象，我们也可以从这一层的区别来理解一下这两者之间的差异。</p>
 </div>
 <div class="paragraph">
 <p>换句话说，Promise代表了一个对象，这个对象的状态现在还不确定，但是未来一个时间点它的状态要么变为正常值（FulFilled），要么变为异常值（Rejected）；而Deferred对象表示了一个处理还没有结束的这种事实，在它的处理结束的时候，可以通过Promise来取得处理结果。</p>
@@ -4777,7 +4800,7 @@ getURL(URL).then(<span class="keyword">function</span> <span class="function">on
 <div class="sect2">
 <h3 id="race-delay-timeout">4.5. 使用Promise.race和delay取消XHR请求</h3>
 <div class="paragraph">
-<p>在本小节中，作为在第<a href="#ch2-promise-race">2章</a>所学的 <a href="#Promise.race"><code>Promise.race</code></a> 的用例，我们来看一下如何使用Promise.race来实现超时机制。</p>
+<p>在本小节中，作为在第<a href="#ch2-promise-race">2章</a>所学的 <a href="#Promise.race"><code>Promise.race</code></a> 的具体例子，我们来看一下如何使用Promise.race来实现超时机制。</p>
 </div>
 <div class="paragraph">
 <p>当然XHR有一个 <a href="https://developer.mozilla.org/ja/docs/XMLHttpRequest/Synchronous_and_Asynchronous_Requests">timeout</a> 属性，使用该属性也可以简单实现超时功能，但是为了能支持多个XHR同时超时或者其他功能，我们采用了容易理解的异步方式在XHR中通过超时来实现取消正在进行中的操作。</p>
@@ -4788,7 +4811,7 @@ getURL(URL).then(<span class="keyword">function</span> <span class="function">on
 <p>首先我们来看一下如何在Promise中实现超时。</p>
 </div>
 <div class="paragraph">
-<p>所谓超时就是要在经过一定时间后进行某些操作，使用 <code>setTimeout</code> 的话很好立即。</p>
+<p>所谓超时就是要在经过一定时间后进行某些操作，使用 <code>setTimeout</code> 的话很好理解。</p>
 </div>
 <div class="paragraph">
 <p>首先我们来串讲一个单纯的在Promise中调用  <code>setTimeout</code> 的函数。</p>
@@ -4923,7 +4946,7 @@ timeoutPromise(taskPromise, <span class="integer">1000</span>).then(<span class=
 </td>
 <td class="content">
 <div class="paragraph">
-<p>在ECMAScript6中可以使用 <code>class</code> 语法来正确的实现类之间的继承关系。</p>
+<p>在ECMAScript6中可以使用 <code>class</code> 语法来定义类之间的继承关系。</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -4937,7 +4960,7 @@ timeoutPromise(taskPromise, <span class="integer">1000</span>).then(<span class=
 </table>
 </div>
 <div class="paragraph">
-<p>我们让我们的 <code>TimeoutError</code> 能支持类似 <code>error instanceof TimeoutError</code> 的使用方法，我们还需要进行如下工作。</p>
+<p>为了让我们的 <code>TimeoutError</code> 能支持类似 <code>error instanceof TimeoutError</code> 的使用方法，我们还需要进行如下工作。</p>
 </div>
 <div id="TimeoutError.js" class="listingblock">
 <div class="title">TimeoutError.js</div>
@@ -4960,7 +4983,7 @@ TimeoutError.prototype.constructor = TimeoutError;</code></pre>
 <p>我们定义了 <code>TimeoutError</code> 类和构造函数，这个类继承了Error的prototype。</p>
 </div>
 <div class="paragraph">
-<p>使用方法的话则和普通的 <code>Error</code> 对象一样，使用 <code>throw</code> 语句即可，如下所示。</p>
+<p>它的使用方法和普通的 <code>Error</code> 对象一样，使用 <code>throw</code> 语句即可，如下所示。</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -4975,7 +4998,7 @@ promise.<span class="keyword">catch</span>(<span class="keyword">function</span>
 </div>
 </div>
 <div class="paragraph">
-<p>只有这个 <code>TimeoutError</code> 对象，我们就能很容易区分捕获的到底是因为超时而导致的错误，还是其他原因导致的Error对象了。</p>
+<p>有了这个 <code>TimeoutError</code> 对象，我们就能很容易区分捕获的到底是因为超时而导致的错误，还是其他原因导致的Error对象了。</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -5011,8 +5034,8 @@ promise.<span class="keyword">catch</span>(<span class="keyword">function</span>
     <span class="keyword">var</span> promise = <span class="keyword">new</span> Promise(<span class="keyword">function</span> (resolve, reject) {
             req.open(<span class="string"><span class="delimiter">'</span><span class="content">GET</span><span class="delimiter">'</span></span>, URL, <span class="predefined-constant">true</span>);
             req.<span class="function">onload</span> = <span class="keyword">function</span> () {
-                <span class="keyword">if</span> (req.status == <span class="integer">200</span>) {
-                    resolve(req.response);
+                <span class="keyword">if</span> (req.status === <span class="integer">200</span>) {
+                    resolve(req.responseText);
                 } <span class="keyword">else</span> {
                     reject(<span class="keyword">new</span> Error(req.statusText));
                 }
@@ -5113,8 +5136,8 @@ TimeoutError.prototype.constructor = TimeoutError;
     <span class="keyword">var</span> promise = <span class="keyword">new</span> Promise(<span class="keyword">function</span> (resolve, reject) {
             req.open(<span class="string"><span class="delimiter">'</span><span class="content">GET</span><span class="delimiter">'</span></span>, URL, <span class="predefined-constant">true</span>);
             req.<span class="function">onload</span> = <span class="keyword">function</span> () {
-                <span class="keyword">if</span> (req.status == <span class="integer">200</span>) {
-                    resolve(req.response);
+                <span class="keyword">if</span> (req.status === <span class="integer">200</span>) {
+                    resolve(req.responseText);
                 } <span class="keyword">else</span> {
                     reject(<span class="keyword">new</span> Error(req.statusText));
                 }
@@ -5162,7 +5185,7 @@ timeoutPromise(object.promise, <span class="integer">1000</span>).then(<span cla
 <i class="icon-note" title="Note"></i>
 </td>
 <td class="content">
-通常进行开发的情况下，由于这些逻辑会频繁使用，因此将这些代码分割到不同的文件是一种不错的选择。
+通常进行开发的情况下，由于这些逻辑会频繁使用，因此将这些代码分割保存在不同的文件应该是一个不错的选择。
 </td>
 </tr>
 </table>
@@ -5213,8 +5236,8 @@ timeoutPromise(object.promise, <span class="integer">1000</span>).then(<span cla
             }
         };
         req.<span class="function">onload</span> = <span class="keyword">function</span> () {
-            <span class="keyword">if</span> (req.status == <span class="integer">200</span>) {
-                resolve(req.response);
+            <span class="keyword">if</span> (req.status === <span class="integer">200</span>) {
+                resolve(req.responseText);
             } <span class="keyword">else</span> {
                 reject(<span class="keyword">new</span> Error(req.statusText));
             }
@@ -5309,7 +5332,7 @@ cancelableXHR.abortPromise(xhrPromise);<i class="conum" data-value="2"></i><b>(2
 <div class="sect2">
 <h3 id="promise-done">4.6. 什么是 Promise.prototype.done ？</h3>
 <div class="paragraph">
-<p>如果你使用过其它的Promise实现类库的话，可能见过用<code>done</code>代替<code>then</code>的例子。</p>
+<p>如果你使用过其他的Promise实现类库的话，可能见过用<code>done</code>代替<code>then</code>的例子。</p>
 </div>
 <div class="paragraph">
 <p>这些类库都提供了 <code>Promise.prototype.done</code> 方法，使用起来也和 <code>then</code> 一样，但是这个方法并不会返回promise对象。</p>
@@ -5399,7 +5422,7 @@ promise.then(<span class="keyword">function</span> () {
 </div>
 </div>
 <div class="sect3">
-<h4 id="__22">4.6.2. 沈黙したエラー</h4>
+<h4 id="__22">4.6.2. 消失的错误</h4>
 <div class="paragraph">
 <p>Promise虽然具备了强大的错误处理机制，但是（调试工具不能顺利运行的时候）这个功能会导致人为错误（human error）更加复杂，这也是它的一个缺点。</p>
 </div>
@@ -5463,7 +5486,7 @@ JSONPromise(string).then(<span class="keyword">function</span> (object) {
 </table>
 </div>
 <div class="paragraph">
-<p>如果是<code>JSON.parse</code> 这样比较好找的例子还算好说，如果是拼写错误的话，那么发生了るSyntax Error错误的话将会非常麻烦。</p>
+<p>如果是<code>JSON.parse</code> 这样比较好找的例子还算好说，如果是拼写错误的话，那么发生了Syntax Error错误的话将会非常麻烦。</p>
 </div>
 <div class="listingblock">
 <div class="title">typo错误</div>
@@ -5544,8 +5567,8 @@ JSONPromise(string).then(<span class="keyword">function</span> (object) {
 <div class="sect3">
 <h4 id="_done">4.6.3. done的实现</h4>
 <div class="paragraph">
-<p>Promiseにおける <code>done</code> は先程のエラーの握りつぶしを避けるにはどうするかという方法論として、
-そもそもエラーハンドリングをしなければいい という豪快な解決方法を提供するメソッドです。</p>
+<p>作为方法论，在Promise中 <code>done</code> 是怎么解决上面提到的错误被忽略呢？
+其实它的方法很简单直接，那就是必须要进行错误处理。</p>
 </div>
 <div class="paragraph">
 <p>由于可以在 Promise上实现 <code>done</code> 方法，因此我们看看如何对 <code>Promise.prototype.done</code> 这个Promise的prototype进行扩展。</p>
@@ -5601,7 +5624,7 @@ JSONPromise(string).then(<span class="keyword">function</span> (object) {
 <div class="ulist">
 <ul>
 <li>
-<p><a href="http://techblog.yahoo.co.jp/programming/javascript_error/">JavaScript和异步错误处理 - Yahoo! JAPAN Tech Blog</a></p>
+<p><a href="http://techblog.yahoo.co.jp/programming/javascript_error/">JavaScript和异步错误处理 - Yahoo! JAPAN Tech Blog（日语博客）</a></p>
 </li>
 </ul>
 </div>
@@ -5615,7 +5638,7 @@ JSONPromise(string).then(<span class="keyword">function</span> (object) {
 </div>
 <div class="paragraph">
 <p>如果实现和运行环境实现的比较完美的话，就可以进行 <em>unhandled rejection</em> 检测，<code>done</code>也不一定是必须的了。
-另外像本小节中的 <a href="#promise-prototype-done.js"><code>Promise.prototype.done</code></a>一样，<code>done</code>也可以在既有的Promise之上进行实现，是否也可以说它没有进入到
+另外像本小节中的 <a href="#promise-prototype-done.js"><code>Promise.prototype.done</code></a>一样，<code>done</code>也可以在既有的Promise之上进行实现，也可以说它没有进入到
 <a href="#es6-promises">ES6 Promises</a>的设计规范之中。</p>
 </div>
 <div class="admonitionblock note">
@@ -5654,10 +5677,6 @@ JSONPromise(string).then(<span class="keyword">function</span> (object) {
 </div>
 <div class="paragraph">
 <p>此外，由于 <code>done</code> 不会有返回值，因此不能在它之后进行方法链的创建，为了实现Promise方法风格上的统一，我们也可以使用<code>done</code>方法。</p>
-</div>
-<div class="paragraph">
-<p>また、<code>done</code> は値を返さない事でそれ以上Promise chainを繋げる事ができなくなるため、
-そのような統一感を持たせるという用途で <code>done</code> を使うことも出来ます。</p>
 </div>
 <div class="paragraph">
 <p><a href="#es6-promises">ES6 Promises</a> 本身提供的功能并不是特别多。
@@ -5711,7 +5730,7 @@ JSONPromise(string).then(<span class="keyword">function</span> (object) {
 </td>
 <td class="content">
 <div class="paragraph">
-<p>关于如何创建方法链，可以从参考 <a href="http://taiju.hatenablog.com/entry/20100307/1267962826">方法链的创建方法 - 余味</a> 等资料。</p>
+<p>关于如何创建方法链，可以从参考 <a href="http://taiju.hatenablog.com/entry/20100307/1267962826">方法链的创建方法 - 余味（日语博客）</a> 等资料。</p>
 </div>
 </td>
 </tr>
@@ -5868,7 +5887,7 @@ promise.then(<span class="keyword">function</span> <span class="function">read</
 <p>看到 <code>promise = promise.then(...)</code> 这种写法，会让人以为<code>promise</code>的值会被覆盖，也许你会想是不是promise的chain被截断了。</p>
 </div>
 <div class="paragraph">
-<p>你可以想象为类似 <code>promise = addPromiseChain(promise, fn);</code> 这样的感觉，我们队promise对象<strong>增加</strong>了新的处理，并返回了这个对象，因此即使自己不实现顺序处理的话也不会带来什么问题。</p>
+<p>你可以想象为类似 <code>promise = addPromiseChain(promise, fn);</code> 这样的感觉，我们为promise对象<strong>增加</strong>了新的处理，并返回了这个对象，因此即使自己不实现顺序处理的话也不会带来什么问题。</p>
 </div>
 </div>
 <div class="sect3">
@@ -6076,7 +6095,7 @@ describe(<span class="string"><span class="delimiter">&quot;</span><span class="
 </div>
 </div>
 <div class="paragraph">
-<p>我们看到，在 <code>ArrayAsPromise</code> 中也能使用 Array的方法。而且也和前面的例子类似，原生的Array时同步处理，而 <code>ArrayAsPromise</code> 则是异步处理，这也是它们的不同之处。</p>
+<p>我们看到，在 <code>ArrayAsPromise</code> 中也能使用 Array的方法。而且也和前面的例子类似，原生的Array是同步处理，而 <code>ArrayAsPromise</code> 则是异步处理，这也是它们的不同之处。</p>
 </div>
 <div class="paragraph">
 <p>仔细看一下 <code>ArrayAsPromise</code> 的实现，也许你已经注意到了， <code>Array.prototype</code> 的所有方法都被实现了。
@@ -6142,7 +6161,7 @@ describe(<span class="string"><span class="delimiter">&quot;</span><span class="
 <p>在第2章 <a href="#ch2-promise-all">Promise.all</a> 中，我们已经学习了如何让多个promise对象同时开始执行的方法。</p>
 </div>
 <div class="paragraph">
-<p>但是 <code>Promise.all</code> 方法会同时运行多个promise对象，如果想进行在A处理完成之后再开始B的处理这种顺序执行的话就无能为力了。</p>
+<p>但是 <code>Promise.all</code> 方法会同时运行多个promise对象，如果想进行在A处理完成之后再开始B的处理，对于这种顺序执行的话 <code>Promise.all</code>就无能为力了。</p>
 </div>
 <div class="paragraph">
 <p>此外，在同一章的<a href="#ch2-promise-and-array">Promise和数组</a> 中，我们也介绍了一种效率不是特别高的，使用了 <a href="#multiple-xhr.js">重复使用多个then的方法</a> 来实现如何按顺序进行处理。</p>
@@ -6162,8 +6181,8 @@ describe(<span class="string"><span class="delimiter">&quot;</span><span class="
         <span class="keyword">var</span> req = <span class="keyword">new</span> XMLHttpRequest();
         req.open(<span class="string"><span class="delimiter">'</span><span class="content">GET</span><span class="delimiter">'</span></span>, URL, <span class="predefined-constant">true</span>);
         req.<span class="function">onload</span> = <span class="keyword">function</span> () {
-            <span class="keyword">if</span> (req.status == <span class="integer">200</span>) {
-                resolve(req.response);
+            <span class="keyword">if</span> (req.status === <span class="integer">200</span>) {
+                resolve(req.responseText);
             } <span class="keyword">else</span> {
                 reject(<span class="keyword">new</span> Error(req.statusText));
             }
@@ -6213,8 +6232,8 @@ main().then(<span class="keyword">function</span> (value) {
         <span class="keyword">var</span> req = <span class="keyword">new</span> XMLHttpRequest();
         req.open(<span class="string"><span class="delimiter">'</span><span class="content">GET</span><span class="delimiter">'</span></span>, URL, <span class="predefined-constant">true</span>);
         req.<span class="function">onload</span> = <span class="keyword">function</span> () {
-            <span class="keyword">if</span> (req.status == <span class="integer">200</span>) {
-                resolve(req.response);
+            <span class="keyword">if</span> (req.status === <span class="integer">200</span>) {
+                resolve(req.responseText);
             } <span class="keyword">else</span> {
                 reject(<span class="keyword">new</span> Error(req.statusText));
             }
@@ -6284,8 +6303,8 @@ main().then(<span class="keyword">function</span> (value) {
         <span class="keyword">var</span> req = <span class="keyword">new</span> XMLHttpRequest();
         req.open(<span class="string"><span class="delimiter">'</span><span class="content">GET</span><span class="delimiter">'</span></span>, URL, <span class="predefined-constant">true</span>);
         req.<span class="function">onload</span> = <span class="keyword">function</span> () {
-            <span class="keyword">if</span> (req.status == <span class="integer">200</span>) {
-                resolve(req.response);
+            <span class="keyword">if</span> (req.status === <span class="integer">200</span>) {
+                resolve(req.responseText);
             } <span class="keyword">else</span> {
                 reject(<span class="keyword">new</span> Error(req.statusText));
             }
@@ -6425,8 +6444,8 @@ sequenceTasks(tasks);</code></pre>
         <span class="keyword">var</span> req = <span class="keyword">new</span> XMLHttpRequest();
         req.open(<span class="string"><span class="delimiter">'</span><span class="content">GET</span><span class="delimiter">'</span></span>, URL, <span class="predefined-constant">true</span>);
         req.<span class="function">onload</span> = <span class="keyword">function</span> () {
-            <span class="keyword">if</span> (req.status == <span class="integer">200</span>) {
-                resolve(req.response);
+            <span class="keyword">if</span> (req.status === <span class="integer">200</span>) {
+                resolve(req.responseText);
             } <span class="keyword">else</span> {
                 reject(<span class="keyword">new</span> Error(req.statusText));
             }
@@ -6486,19 +6505,19 @@ main().then(<span class="keyword">function</span> (value) {
 <div class="sect3">
 <h4 id="__30">4.8.4. 总结</h4>
 <div class="paragraph">
-<p>在本小节中，我们对如何在Promise中进行和 <a href="#Promise.all"><code>Promise.all</code></a> 相反，一个个对promise进行处理的实现方式进行了介绍。</p>
+<p>在本小节中，我们对如何在Promise中进行和 <a href="#Promise.all"><code>Promise.all</code></a> 相反，按顺序让promise一个个进行处理的实现方式进行了介绍。</p>
 </div>
 <div class="paragraph">
 <p>为了实现顺序处理，我们也对从过程风格的编码方式到自定义顺序处理函数的方式等实现方式进行了介绍，也再次强调了在Promise领域我们应遵循将处理按照函数进行划分的基本原则。</p>
 </div>
 <div class="paragraph">
-<p>在Promise中如果还使用了Promise chain将多个处理链接起来的话，那么还可能使源代码中的一条语句变得很长。</p>
+<p>在Promise中如果还使用了Promise chain将多个处理连接起来的话，那么还可能使源代码中的一条语句变得很长。</p>
 </div>
 <div class="paragraph">
 <p>这时候如果我们回想一下这些编程的基本原则进行函数拆分的话，代码整体结构会变得非常清晰。</p>
 </div>
 <div class="paragraph">
-<p>此外,Promise的构造函数以及 <code>then</code> 都是高阶函数，如果将处理分割为函数的话，还能得到对函数进行灵活组合使用的副作用，意识到这一点对我们会有一些帮助的。</p>
+<p>此外,Promise的构造函数以及 <code>then</code> 都是高阶函数，如果将处理分割为函数的话，还能得到对函数进行灵活组合使用的副作用，意识到这一点对我们也会有一些帮助的。</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -6736,7 +6755,7 @@ Promise.race([p1, p2, p3]).then(<span class="keyword">function</span> (value) {
 <dl>
 <dt class="hdlist1">ES6 Promises</dt>
 <dd>
-<p>如果想明确表示使用 <a href="http://people.mozilla.org/%7Ejorendorff/es6-draft.html#sec-operations-on-promise-objects">ECMAScript 6th Edition</a> 的话，可以使用<em>ES6</em>作为前缀（prefix）</p>
+<p>如果想明确表示使用 <a href="http://people.mozilla.org/~jorendorff/es6-draft.html#sec-promise-objects">ECMAScript 6th Edition</a> 的话，可以使用<em>ES6</em>作为前缀（prefix）</p>
 </dd>
 </dl>
 </div>
@@ -6817,7 +6836,7 @@ Promise.race([p1, p2, p3]).then(<span class="keyword">function</span> (value) {
 </div>
 </div>
 <div class="sect1">
-<h2 id="about-translators">9. 关于译者（按翻译内容从多到少）</h2>
+<h2 id="about-translators">9. 关于译者</h2>
 <div class="sectionbody">
 <div class="ulist">
 <ul>
@@ -6826,7 +6845,7 @@ Promise.race([p1, p2, p3]).then(<span class="keyword">function</span> (value) {
 <div class="ulist">
 <ul>
 <li>
-<p>除去kakau和honnkyou的其余部分的翻译、整体校对</p>
+<p>除去kakau和honnkyou的其余部分的翻译、整体校对，以及源代码，工具部分的翻译</p>
 </li>
 </ul>
 </div>
@@ -6891,8 +6910,8 @@ Promise.race([p1, p2, p3]).then(<span class="keyword">function</span> (value) {
 </div>
 <div id="footer">
 <div id="footer-text">
-Version 1.1.2<br>
-Last updated 2015-01-28 23:59:30 CST
+Version 1.4.0<br>
+Last updated 2015-01-31 01:49:26 CST
 </div>
 </div>
 </body>
