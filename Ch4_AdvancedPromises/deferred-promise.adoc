@@ -74,7 +74,7 @@ getURL(URL).then(function onFulfilled(value){
 
 * Deferred 的话不需要将代码用Promise括起来
 ** 由于没有被嵌套在函数中，可以减少一层缩进
-** 逆にPromiseでのエラーハンドリングは行われていない（TODO：what it means？）
+** 反过来没有Promise里的错误处理逻辑
 
 在以下方面，它们则完成了同样的工作。
 
@@ -102,9 +102,9 @@ var deferred = new Deferred();
 // 可以在随意的时机对 `resolve`、`reject` 方法进行调用
 ----
 
-上面我们只是简单的实现了一个 **Deferred** ，我想你已经看到了它和 **Promise** 之间的差异了把。
+上面我们只是简单的实现了一个 **Deferred** ，我想你已经看到了它和 **Promise** 之间的差异了吧。
 
-如果说Promise是用来对值进行抽象化的话，Deferred则是对处理还没有结束的状态或操作进行抽象化的对象，我们也可以从这种区别来理解一下这两者的差异。
+如果说Promise是用来对值进行抽象的话，Deferred则是对处理还没有结束的状态或操作进行抽象化的对象，我们也可以从这一层的区别来理解一下这两者之间的差异。
 
 换句话说，Promise代表了一个对象，这个对象的状态现在还不确定，但是未来一个时间点它的状态要么变为正常值（FulFilled），要么变为异常值（Rejected）；而Deferred对象表示了一个处理还没有结束的这种事实，在它的处理结束的时候，可以通过Promise来取得处理结果。
 

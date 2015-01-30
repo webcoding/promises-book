@@ -7,7 +7,7 @@
 
 [NOTE]
 ====
-关于如何创建方法链，可以从参考 http://taiju.hatenablog.com/entry/20100307/1267962826[方法链的创建方法 - 余味] 等资料。
+关于如何创建方法链，可以从参考 http://taiju.hatenablog.com/entry/20100307/1267962826[方法链的创建方法 - 余味（日语博客）] 等资料。
 ====
 
 另一方面，由于Promise <<then-return-new-promise, 每次都会返回一个新的promise对象>> ，所以从表面上看和一般的方法链几乎一模一样。
@@ -95,7 +95,7 @@ promise.then(function read(){
 
 看到 `promise = promise.then(...)` 这种写法，会让人以为`promise`的值会被覆盖，也许你会想是不是promise的chain被截断了。
 
-你可以想象为类似 `promise = addPromiseChain(promise, fn);` 这样的感觉，我们队promise对象**增加**了新的处理，并返回了这个对象，因此即使自己不实现顺序处理的话也不会带来什么问题。
+你可以想象为类似 `promise = addPromiseChain(promise, fn);` 这样的感觉，我们为promise对象**增加**了新的处理，并返回了这个对象，因此即使自己不实现顺序处理的话也不会带来什么问题。
 
 === 两者的区别
 
@@ -198,7 +198,7 @@ include::src/promise-chain/array-promise-chain.js[]
 include::test/array-promise-chain-test.js[]
 ----
 
-我们看到，在 `ArrayAsPromise` 中也能使用 Array的方法。而且也和前面的例子类似，原生的Array时同步处理，而 `ArrayAsPromise` 则是异步处理，这也是它们的不同之处。
+我们看到，在 `ArrayAsPromise` 中也能使用 Array的方法。而且也和前面的例子类似，原生的Array是同步处理，而 `ArrayAsPromise` 则是异步处理，这也是它们的不同之处。
 
 仔细看一下 `ArrayAsPromise` 的实现，也许你已经注意到了， `Array.prototype` 的所有方法都被实现了。
 但是，`Array.prototype` 中也存在着类似`array.indexOf` 等并不会返回数组类型数据的方法，这些方法如果也要支持方法链的话就有些不自然了。

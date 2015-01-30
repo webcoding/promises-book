@@ -1,9 +1,9 @@
 [[resolve-thenable]]
 == Promise.resolve和Thenable
 
-在 <<ch2-promise-resolve,第二章的Promise.resolve>> 中我们已经说过， `Promise.resolve` 的最大特征之一就是可以转换将thenable的对象转换为promise对象。
+在 <<ch2-promise-resolve,第二章的Promise.resolve>> 中我们已经说过， `Promise.resolve` 的最大特征之一就是可以将thenable的对象转换为promise对象。
 
-在本小节里，我们将学习一下利用将thenable对象转换为promise对象这个功能都能具体做些什么实际的事情。
+在本小节里，我们将学习一下利用将thenable对象转换为promise对象这个功能都能具体做些什么事情。
 
 === 将Web Notifications转换为thenable对象
 
@@ -27,12 +27,12 @@ image::img/notification-dialog.png[确认是否允许Notification的对话框]
 用户在这个是否允许Notification的对话框选择后的结果，会通过 `Notification.permission` 传给我们的程序，它的值可能是允许("granted")或拒绝("denied")这二者之一。
 
 [NOTE]
-是否允许Notification对话框中的可选项，在Firefox中除了允许、拒绝之外，还增加了 __永久有效__ 和 __绘画范围内有效__ 两种额外选项，当然 `Notification.permission` 的值都是一样的。
+是否允许Notification对话框中的可选项，在Firefox中除了允许、拒绝之外，还增加了 __永久有效__ 和 __会话范围内有效__ 两种额外选项，当然 `Notification.permission` 的值都是一样的。
 
 在程序中可以通过 `Notification.requestPermission()` 来弹出是否允许Notification对话框，
 用户选择的结果会通过 `status` 参数传给回调函数。
 
-从这个毁掉函数我们也可以看出来，用户选择允许还是拒绝通知是异步进行的。
+从这个回调函数我们也可以看出来，用户选择允许还是拒绝通知是异步进行的。
 
 [role="executable"]
 [source,javascript]
@@ -197,7 +197,7 @@ Promise.resolve(notifyMessageAsThenable("message")).then(function (notification)
 
 <<notification-thenable.js>> 和 <<notification-as-promise.js>>比起来，有以下的不同点。
 
-* 类库侧没有出现 `Promise` 的实现
+* 类库侧没有提供 `Promise` 的实现
 ** 用户通过 `Promise.resolve(thenable)` 来自己实现了 `Promise`
 * 作为Promise使用的时候，需要和 `Promise.resolve(thenable)` 一起配合使用
 
@@ -213,7 +213,7 @@ Thenable风格表现为位于回调和Promise风格中间的一种状态，作�
 
 Thenable本身并不依赖于`Promise`功能，但是Promise之外也没有使用Thenable的方式，所以可以认为Thenable间接依赖于Promise。
 
-另外，用户需要对 `Promise.resolve(thenable)` 有所理解才能使用好Thenable，因此作为类库的公开API有一部分会比较难。和公开API想必，更多情况下是在内部使用Thenable。
+另外，用户需要对 `Promise.resolve(thenable)` 有所理解才能使用好Thenable，因此作为类库的公开API有一部分会比较难。和公开API相比，更多情况下是在内部使用Thenable。
 
 [NOTE]
 ====

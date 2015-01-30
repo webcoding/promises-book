@@ -1,7 +1,7 @@
 [[race-delay-timeout]]
 == 使用Promise.race和delay取消XHR请求
 
-在本小节中，作为在第<<ch2-promise-race,2章>>所学的 <<Promise.race,`Promise.race`>> 的用例，我们来看一下如何使用Promise.race来实现超时机制。
+在本小节中，作为在第<<ch2-promise-race,2章>>所学的 <<Promise.race,`Promise.race`>> 的具体例子，我们来看一下如何使用Promise.race来实现超时机制。
 
 当然XHR有一个 https://developer.mozilla.org/ja/docs/XMLHttpRequest/Synchronous_and_Asynchronous_Requests[timeout] 属性，使用该属性也可以简单实现超时功能，但是为了能支持多个XHR同时超时或者其他功能，我们采用了容易理解的异步方式在XHR中通过超时来实现取消正在进行中的操作。
 
@@ -9,7 +9,7 @@
 
 首先我们来看一下如何在Promise中实现超时。
 
-所谓超时就是要在经过一定时间后进行某些操作，使用 `setTimeout` 的话很好立即。
+所谓超时就是要在经过一定时间后进行某些操作，使用 `setTimeout` 的话很好理解。
 
 首先我们来串讲一个单纯的在Promise中调用  `setTimeout` 的函数。
 
@@ -89,7 +89,7 @@ timeoutPromise(taskPromise, 1000).then(function(value){
 
 [NOTE]
 ====
-在ECMAScript6中可以使用 `class` 语法来正确的实现类之间的继承关系。
+在ECMAScript6中可以使用 `class` 语法来定义类之间的继承关系。
 
 [source,javascript]
 ----
@@ -100,7 +100,7 @@ class MyError extends Error{
 ====
 
 
-我们让我们的 `TimeoutError` 能支持类似 `error instanceof TimeoutError` 的使用方法，我们还需要进行如下工作。
+为了让我们的 `TimeoutError` 能支持类似 `error instanceof TimeoutError` 的使用方法，我们还需要进行如下工作。
 
 [source,javascript]
 [[TimeoutError.js]]
@@ -111,7 +111,7 @@ include::embed/embed-TimeoutError.js[]
 
 我们定义了 `TimeoutError` 类和构造函数，这个类继承了Error的prototype。
 
-使用方法的话则和普通的 `Error` 对象一样，使用 `throw` 语句即可，如下所示。
+它的使用方法和普通的 `Error` 对象一样，使用 `throw` 语句即可，如下所示。
 
 [source,javascript]
 ----
@@ -125,7 +125,7 @@ promise.catch(function(error){
 
 ----
 
-只有这个 `TimeoutError` 对象，我们就能很容易区分捕获的到底是因为超时而导致的错误，还是其他原因导致的Error对象了。
+有了这个 `TimeoutError` 对象，我们就能很容易区分捕获的到底是因为超时而导致的错误，还是其他原因导致的Error对象了。
 
 [NOTE]
 ====
@@ -171,7 +171,7 @@ include::embed/embed-delay-race-cancel-play.js[]
 上面的代码就通过在一定的时间内变为解决状态的promise对象实现了超时处理。
 
 [NOTE]
-通常进行开发的情况下，由于这些逻辑会频繁使用，因此将这些代码分割到不同的文件是一种不错的选择。
+通常进行开发的情况下，由于这些逻辑会频繁使用，因此将这些代码分割保存在不同的文件应该是一个不错的选择。
 
 === promise和操作方法
 
