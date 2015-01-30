@@ -53,7 +53,7 @@ ifeval::["{backend}" == "html5"]
 
 我们推荐使用内置对Promise支持的浏览器来阅读本书。
 
-Firefox > 29、Chrome > 35 的话都支持<<es6-promises,ES6 Promises>>标准。
+Firefox和Chrome的话都支持<<es6-promises,ES6 Promises>>标准。
 
 此外，虽然不是推荐的阅读环境，但是读者还是能在iOS等移动终端上阅读本书。
 

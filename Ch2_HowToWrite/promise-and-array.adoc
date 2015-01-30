@@ -30,7 +30,7 @@ main(function(error, results){
 
 * 直接使用 `JSON.parse` 函数的话可能会抛出异常，所以这里使用了一个包装函数 `jsonParse` 
 * 如果将多个XHR处理进行嵌套调用的话层次会比较深，所以使用了 `allRequest` 函数并在其中对request进行调用。
-* 回调函数采用了 `callback(error,value)` 这种在Node.js中常见的写法
+* 回调函数采用了 `callback(error,value)` 这种写法，第一个参数表示错误信息，第二个参数为返回值
 
 在使用 `jsonParse` 函数的时候我们使用了 `bind` 进行绑定，通过使用这种偏函数（Partial Function）的方式就可以减少匿名函数的使用。（如果在函数回调风格的代码能很好的做到函数分离的话，也能减少匿名函数的数量）
 

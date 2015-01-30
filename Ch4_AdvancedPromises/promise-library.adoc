@@ -54,6 +54,10 @@ https://github.com/jakearchibald/es6-promise[jakearchibald/es6-promise]::
 https://github.com/yahoo/ypromise[yahoo/ypromise]::
     这是一个独立版本的 http://yuilibrary.com/[YUI] 的 Promise Polyfill，具有和 ES6 Promises 的兼容性。
     本书的示例代码也都是基于这个 ypromise 的 Polyfill 来在线运行的。
+https://github.com/getify/native-promise-only/[getify/native-promise-only]::
+    以作为ES6 Promises的polyfill为目的的类库
+    它严格按照ES6 Promises的规范设计，没有添加在规范中没有定义的功能。
+    如果运行环境有原生的Promise支持的话，则优先使用原生的Promise支持。
 
 ==== Promise扩展类库
 

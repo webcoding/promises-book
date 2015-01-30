@@ -4,7 +4,7 @@
  */
 "use strict";
 var Promise = require("ypromise");
-module.exports.initilize = function () {
+module.exports.initialize = function () {
     var consoleUI = require("codemirror-console-ui");
     consoleUI.setUserContext({
         Promise: Promise

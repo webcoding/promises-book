@@ -68,12 +68,12 @@ var promise = new Promise(function(resolve, reject){
 var promise = Promise.resolve();
 promise.then(function (value) {
     setTimeout(function () {
-        // 经过一段时间后还没处理完的话就进行reject <2>
+        // 经过一段时间后还没处理完的话就进行reject - 2
     }, 1000);
-    // 比较耗时的处理 <1>
+    // 比较耗时的处理 - 1
     somethingHardWork();
 }).catch(function (error) {
-    // 超时错误 <3>
+    // 超时错误 - 3
 });
 ----
 

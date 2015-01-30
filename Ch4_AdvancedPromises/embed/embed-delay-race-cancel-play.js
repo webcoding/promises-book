@@ -26,8 +26,8 @@ function cancelableXHR(URL) {
     var promise = new Promise(function (resolve, reject) {
             req.open('GET', URL, true);
             req.onload = function () {
-                if (req.status == 200) {
-                    resolve(req.response);
+                if (req.status === 200) {
+                    resolve(req.responseText);
                 } else {
                     reject(new Error(req.statusText));
                 }

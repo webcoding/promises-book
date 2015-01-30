@@ -4,7 +4,7 @@
 <article xmlns="http://docbook.org/ns/docbook" lang="en">
 <articleinfo>
 <title>JavaScript Promise迷你书（中文版）</title>
-<date>2015-01-27</date>
+<date>2015-01-31</date>
 <author>
 <firstname>原著：azu</firstname>
 <othername>/</othername>
@@ -15,7 +15,7 @@
 <authorinitials>原/翻</authorinitials>
 <revhistory>
 <revision>
-<revnumber>1.1.2</revnumber>
+<revnumber>1.4.0</revnumber>
 
 <authorinitials>原/翻</authorinitials>
 
@@ -353,7 +353,7 @@ asyncFunction().then(function (value) {
 </varlistentry>
 </variablelist>
 
-<simpara>从<emphasis>Pedding</emphasis>和<emphasis>Settled</emphasis>的对称关系来看，Promise状态的种类/迁移是非常简单易懂的。</simpara>
+<simpara>从<emphasis>Pending</emphasis>和<emphasis>Settled</emphasis>的对称关系来看，Promise状态的种类/迁移是非常简单易懂的。</simpara>
 <simpara>当promise的对象状态发生变化时，用<literal>.then</literal> 来定义只会被调用一次的函数。</simpara>
 <note>
 <simpara><ulink url="https://speakerdeck.com/kerrick/javascript-promises-thinking-sync-in-an-async-world">JavaScript Promises - Thinking Sync in an Async World // Speaker Deck</ulink>
@@ -399,8 +399,8 @@ asyncFunction().then(function (value) {
         var req = new XMLHttpRequest();
         req.open('GET', URL, true);
         req.onload = function () {
-            if (req.status == 200) {
-                resolve(req.response);
+            if (req.status === 200) {
+                resolve(req.responseText);
             } else {
                 reject(new Error(req.statusText));
             }
@@ -422,7 +422,7 @@ getURL(URL).then(function onFulfilled(value){
 </formalpara>
 
 <simpara><literal>getURL</literal> 只有在通过XHR取得结果状态为200时才会调用 <literal>resolve</literal> - 也就是只有数据取得成功时，而其他情况（取得失败）时则会调用 <literal>reject</literal> 方法。</simpara>
-<simpara><literal>resolve(req.response)</literal> 在response的内容中加入了参数。
+<simpara><literal>resolve(req.responseText)</literal> 在response的内容中加入了参数。
 resolve方法的参数并没有特别的规则，基本上把要传给回调函数参数放进去就可以了。
 ( <literal>then</literal> 方法可以接收到这个参数值)</simpara>
 <simpara>熟悉Node.js的人，经常会在写回调函数时将 <literal>callback(error, response)</literal> 的第一个参数设为error对象，而在Promise中resolve/reject则担当了这个职责（处理正常和异常的情况），所以
@@ -466,7 +466,7 @@ resolve方法的参数并没有特别的规则，基本上把要传给回调函�
 
 <simpara>首先，我们来尝试一下为 <literal>getURL</literal> 通信成功并取到值时添加的处理函数。</simpara>
 <simpara>此时所谓的 <emphasis>通信成功</emphasis> ，
-指的就是在被resolve后，<emphasis>promise对象变为FulFilled状态</emphasis> 。</simpara>
+指的就是在被resolve后， <emphasis>promise对象变为FulFilled状态</emphasis> 。</simpara>
 <simpara>被<emphasis role="strong">resolve</emphasis>后的处理，可以在<link linkend="promise.then"><literal>.then</literal></link> 方法中传入想要调用的函数。</simpara>
 <programlisting language="javascript" linenumbering="unnumbered">var URL = "http://httpbin.org/get";
 getURL(URL).then(function onFulfilled(value){ <co id="CO2-1"/>
@@ -482,12 +482,12 @@ getURL(URL).then(function onFulfilled(value){ <co id="CO2-1"/>
   
 </calloutlist>
 
-<simpara><link linkend="xhr-promise.js">getURL函数</link> 中的 <literal>resolve(req.response);</literal> 会将promise对象变为resolve（Fulfilled）状态，
+<simpara><link linkend="xhr-promise.js">getURL函数</link> 中的 <literal>resolve(req.responseText);</literal> 会将promise对象变为resolve（Fulfilled）状态，
 同时使用其值调用 <literal>onFulfilled</literal> 函数。</simpara>
 <simpara>不过目前我们还没有对其中可能发生的错误做任何处理，
 接下来，我们就来为 <literal>getURL</literal> 函数添加发生错误时的异常处理。</simpara>
 <simpara>此时 <emphasis>发生错误</emphasis> ，
-指的也就是reject后<emphasis>promise对象变为Rejected状态</emphasis>。</simpara>
+指的也就是reject后 <emphasis>promise对象变为Rejected状态</emphasis> 。</simpara>
 <simpara>被<emphasis role="strong">reject</emphasis>后的处理，可以在<link linkend="promise.then"><literal>.then</literal> 的第二个参数</link> 或者是在 <link linkend="promise.catch"><literal>.catch</literal></link> 方法中设置想要调用的函数。</simpara>
 <simpara>把下面reject时的处理加入到刚才的代码，如下所示。</simpara>
 <programlisting language="javascript" linenumbering="unnumbered">var URL = "http://httpbin.org/status/500"; <co id="CO3-1"/>
@@ -647,18 +647,18 @@ promise.then(function(value){
 <simpara>在使用<link linkend="Promise.resolve"><literal>Promise.resolve(value)</literal></link> 等方法的时候，如果promise对象立刻就能进入resolve状态的话，那么你是不是觉得 <literal>.then</literal> 里面指定的方法就是同步调用的呢？</simpara>
 <simpara>实际上， <literal>.then</literal> 中指定的方法调用是异步进行的。</simpara>
 <programlisting role="executable" language="javascript" linenumbering="unnumbered">var promise = new Promise(function (resolve){
-    console.log("inner promise");<co id="CO5-1"/>
+    console.log("inner promise"); // 1
     resolve(42);
 });
 promise.then(function(value){
-    console.log(value); <co id="CO5-2"/>
+    console.log(value); // 3
 });
-console.log("outer promise");<co id="CO5-3"/></programlisting>
+console.log("outer promise"); // 2</programlisting>
 
 <simpara>执行上面的代码会输出下面的log，从这些log我们清楚地知道了上面代码的执行顺序。</simpara>
-<screen>inner promise
-outer promise
-42</screen>
+<screen>inner promise // 1
+outer promise // 2
+42            // 3</screen>
 
 <simpara>由于JavaScript代码会按照文件的从上到下的顺序执行，所以最开始 <literal>&lt;1&gt;</literal> 会执行，然后是 <literal>resolve(42);</literal> 被执行。这时候 <literal>promise</literal> 对象的已经变为确定状态，FulFilled被设置为了 <literal>42</literal> 。</simpara>
 <simpara>下面的代码 <literal>promise.then</literal> 注册了 <literal>&lt;3&gt;</literal> 这个回调函数，这是本专栏的焦点问题。</simpara>
@@ -676,7 +676,7 @@ outer promise
 <para>
 <programlisting language="javascript" linenumbering="unnumbered">function onReady(fn) {
     var readyState = document.readyState;
-    if (readyState == 'interactive' || readyState === 'complete') {
+    if (readyState === 'interactive' || readyState === 'complete') {
         fn();
     } else {
         window.addEventListener('DOMContentLoaded', fn);
@@ -712,7 +712,7 @@ console.log('==Starting==');</programlisting>
 <para>
 <programlisting language="javascript" linenumbering="unnumbered">function onReady(fn) {
     var readyState = document.readyState;
-    if (readyState == 'interactive' || readyState === 'complete') {
+    if (readyState === 'interactive' || readyState === 'complete') {
         setTimeout(fn, 0);
     } else {
         window.addEventListener('DOMContentLoaded', fn);
@@ -760,7 +760,7 @@ console.log('==Starting==');</programlisting>
 <programlisting language="javascript" linenumbering="unnumbered">function onReadyPromise() {
     return new Promise(function (resolve, reject) {
         var readyState = document.readyState;
-        if (readyState == 'interactive' || readyState === 'complete') {
+        if (readyState === 'interactive' || readyState === 'complete') {
             resolve();
         } else {
             window.addEventListener('DOMContentLoaded', resolve);
@@ -946,7 +946,11 @@ var promise = Promise.resolve(1);
 promise
     .then(increment)
     .then(doubleUp)
-    .then(output);</programlisting>
+    .then(output)
+    .catch(function(error){
+        // promise chain中出现异常的时候会被调用
+        console.error(error);
+    });</programlisting>
 </para>
 </formalpara>
 
@@ -1056,6 +1060,8 @@ promise.then(undefined, function (error) {
 </formalpara>
 
 <simpara>由于 <literal>catch</literal> 标识符可能会导致问题出现，因此一些类库（Library）也采用了 <literal>caught</literal> 作为函数名，而函数要完成的工作是一样的。</simpara>
+<simpara>而且很多压缩工具自带了将 <literal>promise.catch</literal> 转换为 <literal>promise.["catch"]</literal> 的功能，
+所以可能不经意之间也能帮我们解决这个问题。</simpara>
 <simpara>如果各位读者需要支持IE8及以下版本的浏览器的话，那么一定要将这个 <literal>catch</literal> 问题牢记在心中。</simpara>
 </section>
 </section>
@@ -1122,10 +1128,10 @@ bPromise.then(function (value) {
 <formalpara>
 <title>✘ <literal>then</literal> 的错误使用方法</title>
 <para>
-<programlisting language="javascript" linenumbering="unnumbered">function anAsyncCall() {
+<programlisting language="javascript" linenumbering="unnumbered">function badAsyncCall() {
     var promise = Promise.resolve();
     promise.then(function() {
-        // 任意一些处理
+        // 任意处理
         return newVar;
     });
     return promise;
@@ -1167,8 +1173,8 @@ bPromise.then(function (value) {
     var req = new XMLHttpRequest();
     req.open('GET', URL, true);
     req.onload = function () {
-        if (req.status == 200) {
-            callback(null, req.response);
+        if (req.status === 200) {
+            callback(null, req.responseText);
         } else {
             callback(new Error(req.statusText), req.response);
         }
@@ -1237,7 +1243,7 @@ main(function(error, results){
 <simpara>如果将多个XHR处理进行嵌套调用的话层次会比较深，所以使用了 <literal>allRequest</literal> 函数并在其中对request进行调用。</simpara>
 </listitem>
 <listitem>
-<simpara>回调函数采用了 <literal>callback(error,value)</literal> 这种在Node.js中常见的写法</simpara>
+<simpara>回调函数采用了 <literal>callback(error,value)</literal> 这种写法，第一个参数表示错误信息，第二个参数为返回值</simpara>
 </listitem>
 </itemizedlist>
 
@@ -1275,8 +1281,8 @@ function bindJSONParse(error, value){
         var req = new XMLHttpRequest();
         req.open('GET', URL, true);
         req.onload = function () {
-            if (req.status == 200) {
-                resolve(req.response);
+            if (req.status === 200) {
+                resolve(req.responseText);
             } else {
                 reject(new Error(req.statusText));
             }
@@ -1345,8 +1351,8 @@ main().then(function (value) {
         var req = new XMLHttpRequest();
         req.open('GET', URL, true);
         req.onload = function () {
-            if (req.status == 200) {
-                resolve(req.response);
+            if (req.status === 200) {
+                resolve(req.responseText);
             } else {
                 reject(new Error(req.statusText));
             }
@@ -1437,7 +1443,7 @@ Promise.all([
 <simpara>从上述结果可以看出，传递给 <link linkend="Promise.all"><literal>Promise.all</literal></link> 的promise并不是一个个的顺序执行的，而是同时开始、并行执行的。</simpara>
 <note>
 <simpara>如果这些promise全部串行处理的话，那么需要
-等待1ms &#8594; 等待32ms &#8594; 等待64ms &#8594; &#8230; &#8594; 等待128ms ，全部执行完毕需要225ms的时间。</simpara>
+等待1ms &#8594; 等待32ms &#8594; 等待64ms &#8594; 等待128ms ，全部执行完毕需要225ms的时间。</simpara>
 <simpara>要想了解更多关于如何使用Promise进行串行处理的内容，可以参考第4章的<link linkend="promise-sequence">Promise中的串行处理</link>中的介绍。</simpara>
 </note>
 
@@ -1606,62 +1612,61 @@ Promise实际上每次在方法链中增加一次处理的时候所操作的都�
 <title>Chapter.3 - Promise测试</title>
 <simpara>这章我们学习如果编写Promise 的测试代码</simpara>
 <section id="basic-tests">
-<title>基础测试</title>
-<simpara><link linkend="es6-promises">ES6 Promises</link>的语法等已经学了一遍，
-大家应该能够在实际项目中编写出运用Promise 的Demo。</simpara>
-<simpara>这时，接下来要苦恼该如何进行的就是Promise 测试的写法。</simpara>
-<simpara>那么让我们先来学习下使用http://visionmedia.github.io/mocha/[Mocha]的Promise 的基础测试写法吧。</simpara>
-<simpara>先声明一下，这章中涉及的测试代码都是运行在Node.js环境的。</simpara>
+<title>基本测试</title>
+<simpara>关于<link linkend="es6-promises">ES6 Promises</link>的语法我们已经学了一些，
+我想大家应该也能够在实际项目中编写Promise 的Demo代码了吧。</simpara>
+<simpara>这时，接下来你可能要苦恼该如何编写Promise 的测试代码了。</simpara>
+<simpara>那么让我们先来学习下如何使用 <ulink url="http://mochajs.org/">Mocha</ulink>来对Promise 进行基本的测试吧。</simpara>
+<simpara>先声明一下，这章中涉及的测试代码都是运行在Node.js环境下的。</simpara>
 <note>
-<simpara>本书中出现的实例代码都样编写了各种测试。
-测试代码可以参照 <ulink url="https://github.com/azu/promises-book">azu/promises-book</ulink> 。</simpara>
+<simpara>本书中出现的示例代码也都有相应的测试代码。
+测试代码可以参考 <ulink url="https://github.com/azu/promises-book">azu/promises-book</ulink> 。</simpara>
 </note>
 
 <section id="_mocha">
 <title>Mocha</title>
-<simpara>在这里，我们不展开详细讲解http://visionmedia.github.io/mocha/[Mocha]了，Mocha是Node.js下的测试框架工具。对
-<ulink url="http://visionmedia.github.io/mocha/">Mocha</ulink>感兴趣的可以自行学习。</simpara>
-<simpara>Mocha能够选择BDD、TDD、exports中的任意风格，测试中用到的Assert 方法同样可以跟任意库组合来使用。
-也就是说，Mocha本身只提供执行测试时的框架，其他的需要使用者来选择。</simpara>
-<simpara>这里选择Mocha理由，有下面3点。</simpara>
+<simpara>Mocha是Node.js下的测试框架工具,在这里，我们并不打算对 <ulink url="http://mochajs.org/">Mocha</ulink>本身进行详细讲解。对
+<ulink url="http://mochajs.org/">Mocha</ulink>感兴趣的读者可以自行学习。</simpara>
+<simpara>Mocha可以自由选择BDD、TDD、exports中的任意风格，测试中用到的Assert 方法也同样可以跟任何其他类库组合使用。
+也就是说，Mocha本身只提供执行测试时的框架，而其他部分则由使用者自己选择。</simpara>
+<simpara>这里我们选择使用Mocha，主要基于下面3点理由。</simpara>
 <itemizedlist>
 <listitem>
-<simpara>它是非常有名的测试框架</simpara>
+<simpara>它是非常著名的测试框架</simpara>
 </listitem>
 <listitem>
-<simpara>支持Node.jp 和浏览器测试</simpara>
+<simpara>支持基于Node.js 和浏览器的测试</simpara>
 </listitem>
 <listitem>
 <simpara>支持"Promise测试"</simpara>
 </listitem>
 </itemizedlist>
 
-<simpara>最后至于为什么说<emphasis>支持"Promise测试"</emphasis>，这个我们在后面讲。</simpara>
-<simpara>另外，Assert库我们使用的是 <ulink url="https://github.com/twada/power-assert">power-assert</ulink>，
-Assert本身跟Node.js的 <literal>assert</literal> 模块完全相同，本书中不用太在意。</simpara>
-<simpara>首先，让我们试着编写一个与回调函数测试形式相同的测试。</simpara>
+<simpara>最后至于为什么说 <emphasis>支持"Promise测试"</emphasis> ，这个我们在后面再讲。</simpara>
+<simpara>要想在本章中使用Mocha，我们需要先通过npm来安装Mocha。</simpara>
+<programlisting language="console" linenumbering="unnumbered">$ npm install -g mocha</programlisting>
+
+<simpara>另外，Assert库我们使用的是Node.js自带的<literal>assert</literal>模块，所以不需要额外安装。</simpara>
+<simpara>首先，让我们试着编写一个对传统回调风格的异步函数进行测试的代码。</simpara>
 </section>
 <section id="__9">
 <title>回调函数风格的测试</title>
-<simpara><link linkend="promise-is-always-async">column: Promise总是异步?</link>中确认过的，
-Promise中调用由<literal>then</literal> 绑定的函数的时机总是非同步的。</simpara>
-<simpara>首先让我们试着像回调风格那样编写一个Promise测试。</simpara>
+<simpara>如果想使用回调函数风格来对一个异步处理进行测试，使用Mocha的话代码如下所示。</simpara>
 <formalpara>
 <title>basic-test.js</title>
 <para>
-<programlisting language="javascript" linenumbering="unnumbered">"use strict";
-var assert = require("power-assert");
-describe("Basic Test", function () {
-    context("When Callback(high-order function)", function () {
-        it("should use `done` for test", function (done) {
+<programlisting language="javascript" linenumbering="unnumbered">var assert = require('power-assert');
+describe('Basic Test', function () {
+    context('When Callback(high-order function)', function () {
+        it('should use `done` for test', function (done) {
             setTimeout(function () {
                 assert(true);
                 done();
             }, 0);
         });
     });
-    context("When promise object", function () {
-        it("should use `done` for test?", function (done) {
+    context('When promise object', function () {
+        it('should use `done` for test?', function (done) {
             var promise = Promise.resolve(1);
             // このテストコードはある欠陥があります
             promise.then(function (value) {
@@ -1674,40 +1679,43 @@ describe("Basic Test", function () {
 </para>
 </formalpara>
 
-<simpara>Mocha中形参 <literal>it</literal> 的位置指定类似 <literal>done</literal> 的实参的话，可以支持异步的测试。
-它在没有调用到<literal>done()</literal> 之前该测试是不会结束的。</simpara>
-<simpara>Mocha中的异步测试的实现，如下面举的例子那样。</simpara>
+<simpara>将这段代码保存为 <literal>basic-test.js</literal>，之后就可以使用刚才安装的Mocha的命令行工具进行测试了。</simpara>
+<programlisting language="sh" linenumbering="unnumbered">$ mocha basic-test.js</programlisting>
+
+<simpara>Mocha的 <literal>it</literal> 方法指定了 <literal>done</literal> 参数，在 <literal>done()</literal> 函数被执行之前，
+该测试一直处于等待状态，这样就可以对异步处理进行测试。</simpara>
+<simpara>Mocha中的异步测试，将会按照下面的步骤执行。</simpara>
 <programlisting id="callback-style-test" language="javascript" linenumbering="unnumbered">it("should use `done` for test", function (done) {
-    // “&lt;1&gt;”
+    <co id="CO5-1"/>
     setTimeout(function () {
         assert(true);
-        done();// “&lt;2&gt;”
+        done();<co id="CO5-2"/>
     }, 0);
 });</programlisting>
 
 <calloutlist>
   
   <callout arearefs="CO5-1">
-    <para>指定异步处理的callback</para>
+    <para>回调式的异步处理</para>
     
   </callout>
   
-  <callout arearefs="CO5-3">
-    <para>调用<literal>done</literal> 标明测试结束</para>
+  <callout arearefs="CO5-2">
+    <para>调用<literal>done</literal> 后测试结束</para>
     
   </callout>
   
 </calloutlist>
 
-<simpara>非常常见的一种编写方式。</simpara>
+<simpara>这也是一种非常常见的实现方式。</simpara>
 </section>
 <section id="done-promise-test">
 <title>使用<literal>done</literal> 的Promise测试</title>
-<simpara>接下来，让我们看看Promise测试。</simpara>
+<simpara>接下来，让我们看看如何使用 <literal>done</literal> 来进行Promise测试。</simpara>
 <programlisting language="javascript" linenumbering="unnumbered">it("should use `done` for test?", function (done) {
-    var promise = Promise.resolve(1);<co id="CO6-1"/>
+    var promise = Promise.resolve(42);<co id="CO6-1"/>
     promise.then(function (value) {
-        assert(value === 1);
+        assert(value === 42);
         done();<co id="CO6-2"/>
     });
 });</programlisting>
@@ -1720,7 +1728,7 @@ describe("Basic Test", function () {
   </callout>
   
   <callout arearefs="CO6-2">
-    <para>调用<literal>done</literal> 表明测试结束</para>
+    <para>调用<literal>done</literal> 后测试结束</para>
     
   </callout>
   
@@ -1728,12 +1736,12 @@ describe("Basic Test", function () {
 
 <simpara><link linkend="Promise.resolve"><literal>Promise.resolve</literal></link> 用来返回promise对象，
 返回的promise对象状态为FulFilled。
-结果，调用绑定到<literal>.then</literal> 的回调函数。</simpara>
-<simpara><link linkend="promise-is-always-async">column: Promise总是异步?</link> 中也提到的那样，
-promise对象总是异步处理的，所有测试同样需要用异步对应的方式编写。</simpara>
-<simpara>但是，之前的测试代码中<literal>assert</literal> 失败的情况会出现问题。</simpara>
+最后，通过 <literal>.then</literal> 设置的回调函数也会被调用。</simpara>
+<simpara>像<link linkend="promise-is-always-async">专栏: Promise只能进行异步操作？</link> 中已经提到的那样，
+promise对象的调用总是异步进行的，所以测试也同样需要以异步调用的方式来编写。</simpara>
+<simpara>但是，在前面的测试代码中，在<literal>assert</literal> 失败的情况下就会出现问题。</simpara>
 <formalpara id="promise-assert-fail">
-<title>错误的测试编写方式</title>
+<title>对异常promise测试</title>
 <para>
 <programlisting language="javascript" linenumbering="unnumbered">it("should use `done` for test?", function (done) {
     var promise = Promise.resolve();
@@ -1745,10 +1753,10 @@ promise对象总是异步处理的，所有测试同样需要用异步对应的�
 </para>
 </formalpara>
 
-<simpara>这可测试中 <literal>assert</literal> 失败了，你可能认为会抛出“测试失败”，
-实际情况却是测试不能正常终了而超时。</simpara>
+<simpara>在此次测试中 <literal>assert</literal> 失败了，所以你可能认为应该抛出“测试失败”的错误，
+而实际情况却是测试并不会结束，直到超时。</simpara>
 <figure>
-<title>测试没有完了产生超时，停在该处。</title>
+<title>由于测试不会结束，所以直到发生超时时间未知，一直会处于挂起状态。</title>
   <mediaobject>
     <imageobject>
       <imagedata fileref="Ch3_Testing/img/promise-test-timeout.png"/>
@@ -1757,12 +1765,12 @@ promise对象总是异步处理的，所有测试同样需要用异步对应的�
   </mediaobject>
 </figure>
 
-<simpara><literal>assert</literal> 失败的情况通常throw一个error，
-测试框架捕获该error，来判断测试失败。</simpara>
-<simpara>但是，Promise的情况下 <literal>.then</literal> 绑定的执行函数发生的error，
-会被Promise捕获，从而测试框架不会抛出error。</simpara>
-<simpara>我们来改善一下<link linkend="promise-assert-fail"><literal>assert</literal> 失败示例</link>，
-让<literal>assert</literal> 失败时显示测试失败。</simpara>
+<simpara>通常情况下，<literal>assert</literal> 失败的时候，会throw一个error，
+测试框架会捕获该error，来判断测试失败。</simpara>
+<simpara>但是，Promise的情况下 <literal>.then</literal> 绑定的函数执行时发生的error
+会被Promise捕获，而测试框架则对此error将会一无所知。</simpara>
+<simpara>我们来改善一下<link linkend="promise-assert-fail"><literal>assert</literal> 失败的promise测试</link>，
+让它能正确处理 <literal>assert</literal> 失败时的测试结果。</simpara>
 <formalpara id="promise-assert-fail-fixed">
 <title>测试正常失败的示例</title>
 <para>
@@ -1775,13 +1783,13 @@ promise对象总是异步处理的，所有测试同样需要用异步对应的�
 </para>
 </formalpara>
 
-<simpara>测试正常失败的示例中，为了一定调用<literal>done</literal> ，
-在最后添加了 <literal>.then(done, done);</literal> 语句。</simpara>
-<simpara><literal>assert</literal> 通过时单纯调用 <literal>done()</literal> ，<literal>assert</literal> 失败时调用 <literal>done(error)</literal> 。</simpara>
-<simpara>这样，终于编写出了跟<link linkend="callback-style-test">回调风格的测试</link>相同的Promise测试。</simpara>
-<simpara>但是，我们需要为<literal>assert</literal> 失败时，额外添加 <literal>.then(done, done);</literal> 语句。
-要小心编写Promise测试时，如果忘了加上上面的语句会造成测试不能正常终了的情况。</simpara>
-<simpara>接下来，让我们接着学习一下最初提到的使用mocha理由中的支持"Promises测试"究竟是一种什么机制。</simpara>
+<simpara>在上面测试正常失败的示例中，为了确保 <literal>done</literal> 一定会被调用，
+我们在最后添加了 <literal>.then(done, done);</literal> 语句。</simpara>
+<simpara><literal>assert</literal> 测试通过（成功）时会调用 <literal>done()</literal> ，而 <literal>assert</literal> 失败时则调用 <literal>done(error)</literal> 。</simpara>
+<simpara>这样，我们就编写出了和 <link linkend="callback-style-test">回调函数风格的测试</link> 相同的Promise测试。</simpara>
+<simpara>但是，为了处理 <literal>assert</literal> 失败的情况，我们需要额外添加 <literal>.then(done, done);</literal> 的代码。
+这就要求我们在编写Promise测试时要格外小心，忘了加上上面语句的话，很可能就会写出一个永远不会返回直到超时的测试代码。</simpara>
+<simpara>在下一节，让我们接着学习一下最初提到的使用Mocha理由中的支持"Promises测试"究竟是一种什么机制。</simpara>
 </section>
 </section>
 <section id="mocha-promise">
@@ -1794,14 +1802,13 @@ promise对象总是异步处理的，所有测试同样需要用异步对应的�
 </blockquote>
 
 <simpara>这段话的意思是，在对Promise进行测试的时候，不使用 <literal>done()</literal> 这样的回调风格的代码编写方式，而是返回一个promise对象。</simpara>
-<simpara>那么实际上代码是什么样的呢？这里我们来看个例子应该就好理解了。</simpara>
+<simpara>那么实际上代码将会是什么样的呢？这里我们来看个具体的例子应该容易理解了。</simpara>
 <formalpara id="mocha-promise-test.js">
 <title>mocha-promise-test.js</title>
 <para>
-<programlisting language="javascript" linenumbering="unnumbered">"use strict";
-var assert = require("power-assert");
-describe("Promise Test", function () {
-    it("should return a promise object", function () {
+<programlisting language="javascript" linenumbering="unnumbered">var assert = require('power-assert');
+describe('Promise Test', function () {
+    it('should return a promise object', function () {
         var promise = Promise.resolve(1);
         return promise.then(function (value) {
             assert(value === 1);
@@ -1812,7 +1819,7 @@ describe("Promise Test", function () {
 </formalpara>
 
 <simpara>这段代码将前面 <link linkend="promise-assert-fail-fixed">前面使用 <literal>done</literal> 的例子</link> 按照Mocha的Promise测试方式进行了重写。</simpara>
-<simpara>修改的地方主要在下面两点：</simpara>
+<simpara>修改的地方主要在以下两点：</simpara>
 <itemizedlist>
 <listitem>
 <simpara>删除了 <literal>done</literal></simpara>
@@ -1822,23 +1829,23 @@ describe("Promise Test", function () {
 </listitem>
 </itemizedlist>
 
-<simpara>这种写法的话，当 <literal>assert</literal> 失败的时候，测试本身自然也会失败。</simpara>
+<simpara>采用这种写法的话，当 <literal>assert</literal> 失败的时候，测试本身自然也会失败。</simpara>
 <programlisting language="javascript" linenumbering="unnumbered">it("should be fail", function () {
     return Promise.resolve().then(function () {
         assert(false);// =&gt; 测试失败
     });
 });</programlisting>
 
-<simpara>采用这种方法，就能从根本上省略诸如 <literal>.then(done, done);</literal> 这样本质上跟测试并无直接关系的代码。</simpara>
+<simpara>采用这种方法，就能从根本上省略诸如 <literal>.then(done, done);</literal> 这样本质上跟测试逻辑并无直接关系的代码。</simpara>
 <note>
-<simpara><ulink url="http://efcl.info/2014/0314/res3708/">Mocha已经支持对Promises的测试 | Web scratch</ulink> 这篇文章（日语）里也提到了关于Mocha对Promise进行测试的支持。</simpara>
+<simpara><ulink url="http://efcl.info/2014/0314/res3708/">Mocha已经支持对Promises的测试 | Web scratch</ulink> 这篇（日语）文章里也提到了关于Mocha对Promise测试的支持。</simpara>
 </note>
 
 <section id="__10">
-<title>意料之外的测试结果</title>
-<simpara>因为Mocha提供了对Promise的测试，所以我们会认为这种写法会比较好。
-但是这种代码可能会带来意想不到的意外情况的发生。</simpara>
-<simpara>比如对下面的<literal>mayBeRejected()</literal> 行数的测试代码，该函数返回一个当满足某一条件就变为Rejected的promise对象。</simpara>
+<title>意料之外（失败的）的测试结果</title>
+<simpara>因为Mocha提供了对Promise的测试，所以我们会认为按照Mocha的规则来写会比较好。
+但是这种代码可能会带来意想不到的异常情况的发生。</simpara>
+<simpara>比如对下面的<literal>mayBeRejected()</literal> 函数的测试代码，该函数返回一个当满足某一条件就变为Rejected的promise对象。</simpara>
 <formalpara id="mocha-rejected-promise-test">
 <title>想对Error Object进行测试</title>
 <para>
@@ -1878,7 +1885,7 @@ it("is bad pattern", function () {
 </varlistentry>
 </variablelist>
 
-<simpara>上面的测试代码，当promise对象变为Rejected的时候，会调用在 <literal>onRejected</literal> 中注册的函数，会通过测试。</simpara>
+<simpara>上面的测试代码，当promise对象变为Rejected的时候，会调用在 <literal>onRejected</literal> 中注册的函数，从而没有走正promise的处理常流程，测试会成功。</simpara>
 <simpara>这段测试代码的问题在于当<literal>mayBeRejected()</literal> 返回的是一个
 <emphasis role="strong">为FulFilled状态的promise对象时</emphasis>，测试会一直成功。</simpara>
 <programlisting language="javascript" linenumbering="unnumbered">function mayBeRejected(){ <co id="CO8-1"/>
@@ -1900,7 +1907,7 @@ it("is bad pattern", function () {
 </calloutlist>
 
 <simpara>在这种情况下，由于在 <literal>catch</literal> 中注册的 <literal>onRejected</literal> 函数并不会被调用，因此
-<literal>assert</literal> 也不会被执行，测试会一直通过。</simpara>
+<literal>assert</literal> 也不会被执行，测试会一直通过（passed，成功）。</simpara>
 <simpara>为了解决这个问题，我们可以在 <literal>.catch</literal> 的前面加入一个 <literal>.then</literal> 调用，可以理解为如果调用了
 <literal>.then</literal> 的话，那么测试就需要失败。</simpara>
 <programlisting language="javascript" linenumbering="unnumbered">function failTest() { <co id="CO9-1"/>
@@ -1925,7 +1932,7 @@ it("should bad pattern", function () {
 </calloutlist>
 
 <simpara>但是，这种写法会像在前面 <link linkend="then-or-catch">then or catch?</link> 中已经介绍的一样，
-<literal>failTest</literal> 抛出的一次会被 <literal>catch</literal> 捕获。</simpara>
+<literal>failTest</literal> 抛出的异常会被 <literal>catch</literal> 捕获。</simpara>
 <figure>
 <title>Then Catch flow</title>
   <mediaobject>
@@ -1936,16 +1943,16 @@ it("should bad pattern", function () {
   </mediaobject>
 </figure>
 
-<simpara>执行流程为 <literal>then</literal> &#8594; <literal>catch</literal>，传递给 <literal>catch</literal> 的Error对象为<literal>AssertionError</literal>类型 ，
+<simpara>程序的执行流程为 <literal>then</literal> &#8594; <literal>catch</literal>，传递给 <literal>catch</literal> 的Error对象为<literal>AssertionError</literal>类型 ，
 这并不是我们想要的东西。</simpara>
 <simpara>也就是说，我们希望测试<emphasis role="strong">只能</emphasis>通过状态会变为onRejected的promise对象，
 如果promise对象状态为onFulfilled状态的话，那么该测试就会一直通过。</simpara>
 </section>
 <section id="__11">
-<title>明确两种状态，改善测试中的意外状况</title>
-<simpara>在编写 <link linkend="mocha-rejected-promise-test">上面的对Error对象进行测试的例子</link> 时，
+<title>明确两种状态，改善测试中的意外（异常）状况</title>
+<simpara>在编写 <link linkend="mocha-rejected-promise-test">上面对Error对象进行测试的例子</link> 时，
 怎么才能剔除那些会意外通过测试的情况呢？</simpara>
-<simpara>最简单的方式就是像下面这样，在测试代码中判断在各种promise对象的状态下，进行如何的操作。</simpara>
+<simpara>最简单的方式就是像下面这样，在测试代码中判断在各种promise对象的状态下，应进行如何的操作。</simpara>
 <variablelist>
 <varlistentry>
 <term>变为FulFilled状态的时候</term>
@@ -1972,7 +1979,7 @@ it("catch -&gt; then", function () {
     });
 });</programlisting>
 
-<simpara>像这样的话，就能在promise变为FulFilled的时候编写失败用的测试代码了。</simpara>
+<simpara>像这样的话，就能在promise变为FulFilled的时候编写出失败用的测试代码了。</simpara>
 <figure>
 <title>Promise onRejected test</title>
   <mediaobject>
@@ -1984,7 +1991,7 @@ it("catch -&gt; then", function () {
 </figure>
 
 <simpara>在 <link linkend="then-or-catch">then or catch?</link> 中我们已经讲过，为了避免遗漏对错误的处理，
-与使用 <literal>.then(onFulfilled, onRejected)</literal> 的第二个参数相比，
+与使用 <literal>.then(onFulfilled, onRejected)</literal> 这样带有二个参数的调用形式相比，
 我们更推荐使用 <literal>then</literal> &#8594; <literal>catch</literal> 这样的处理方式。</simpara>
 <simpara>但是在编写测试代码的时候，Promise强大的错误处理机制反而成了限制我们的障碍。
 因此我们不得已采取了 <literal>.then(failTest, onRejected)</literal> 这种写法，明确指定promise在各种状态下进行何种的处理。</simpara>
@@ -2006,7 +2013,7 @@ it("catch -&gt; then", function () {
 <simpara>将测试代码集中到 <literal>then</literal> 中处理</simpara>
 <itemizedlist>
 <listitem>
-<simpara>为了能将AssertionError传递到测试框架中。</simpara>
+<simpara>为了能将AssertionError对象传递到测试框架中。</simpara>
 </listitem>
 </itemizedlist>
 
@@ -2014,20 +2021,20 @@ it("catch -&gt; then", function () {
 </itemizedlist>
 
 <simpara>通过使用 <literal>.then(onFulfilled, onRejected)</literal> 这种形式的写法，
-可以明确指定promise对象在变为 Fulfilled或Rejected时如何进行处理。</simpara>
+我们可以明确指定promise对象在变为 Fulfilled或Rejected时如何进行处理。</simpara>
 <simpara>但是，由于需要显示的指定 Rejected时的测试处理，
 像下面这样的代码看起来总是有一些让人感到不太直观的感觉。</simpara>
 <programlisting language="javascript" linenumbering="unnumbered">promise.then(failTest, function(error){
     // 使用assert对error进行测试
 });</programlisting>
 
-<simpara>在下一小节，我们会介绍如何编写方便对Promise进行测试的helper函数，
+<simpara>在下一小节，我们会介绍如何编写helper函数以方便编写Promise的测试代码，
 以及怎样去编写更容易理解的测试代码。</simpara>
 </section>
 </section>
 <section id="controllable-tests">
 <title>编写可控测试（controllable tests）</title>
-<simpara>在继续进行说明之前，我们先来定义一下什么是可控测试。我们对可控测试的定义如下。</simpara>
+<simpara>在继续进行说明之前，我们先来定义一下什么是可控测试。在这里我们对可控测试的定义如下。</simpara>
 <simpara>待测试的promise对象</simpara>
 <itemizedlist>
 <listitem>
@@ -2056,7 +2063,7 @@ it("catch -&gt; then", function () {
 </listitem>
 </itemizedlist>
 
-<simpara>如果能网罗上面的用例（Fail）项的测试的话，那么我们就称其为可控测试。</simpara>
+<simpara>如果一个测试能网罗上面的用例（Fail）项，那么我们就称其为可控测试。</simpara>
 <simpara>也就是说，一个测试用例应该包括下面的测试内容。</simpara>
 <itemizedlist>
 <listitem>
@@ -2067,7 +2074,7 @@ it("catch -&gt; then", function () {
 </listitem>
 </itemizedlist>
 
-<simpara>前面的使用了 <literal>.then</literal> 的代码就是一个期望结果为 Rejected 的测试。</simpara>
+<simpara>在前面使用了 <literal>.then</literal> 的代码就是一个期望结果为 Rejected 的测试。</simpara>
 <programlisting language="javascript" linenumbering="unnumbered">promise.then(failTest, function(error){
     // 通过assert验证error对象
     assert(error instanceof Error);
@@ -2077,7 +2084,7 @@ it("catch -&gt; then", function () {
 <title>必须明确指定转换后的状态</title>
 <simpara>为了编写有效的测试代码， 我们需要明确指定 <link linkend="promise-states">promise的状态</link> 为
 Fulfilled or Rejected 的两者之一。</simpara>
-<simpara>但是 <literal>.then</literal> 的话在调用的时候可以省略参数，有时候可能会忘记加入使测试失败的条件。</simpara>
+<simpara>但是由于 <literal>.then</literal> 的话在调用的时候可以省略参数，有时候可能会忘记加入使测试失败的条件。</simpara>
 <simpara>因此，我们可以定义一个helper函数，用来明确定义promise期望的状态。</simpara>
 <note>
 <simpara>笔者（原著者）创建了一个类库 <ulink url="https://github.com/azu/promise-test-helper">azu/promise-test-helper</ulink> 以方便对Promise进行测试，本文中使用的是这个类库的简略版。</simpara>
@@ -2108,18 +2115,18 @@ it('should be rejected', function () {
 </para>
 </formalpara>
 
-<simpara><literal>shouldRejected</literal> 函数接收一个にpromise对象作为参数，并且返回一个带有 <literal>catch</literal> 方法的对象。</simpara>
+<simpara><literal>shouldRejected</literal> 函数接收一个promise对象作为参数，并且返回一个带有 <literal>catch</literal> 方法的对象。</simpara>
 <simpara>在这个 <literal>catch</literal> 中可以使用和 onRejected 里一样的代码，因此我们可以在 <literal>catch</literal> 使用基于 assertion 方法的测试代码。</simpara>
-<simpara>在 <literal>shouldRejected</literal> 外部，都是下面这些和普通的promise处理大同小异的代码。</simpara>
+<simpara>在 <literal>shouldRejected</literal> 外部，都是类似如下、和普通的promise处理大同小异的代码。</simpara>
 <orderedlist numeration="arabic">
 <listitem>
 <simpara>将需要测试的promise对象传递给 <literal>shouldRejected</literal> 方法</simpara>
 </listitem>
 <listitem>
-<simpara>在返回的对象的 <literal>catch</literal> 方法中编写onRejected处理的代码</simpara>
+<simpara>在返回的对象的 <literal>catch</literal> 方法中编写进行onRejected处理的代码</simpara>
 </listitem>
 <listitem>
-<simpara>在onRejected里使用assertion进行测试</simpara>
+<simpara>在onRejected里使用assertion进行判断</simpara>
 </listitem>
 </orderedlist>
 
@@ -2127,7 +2134,7 @@ it('should be rejected', function () {
 <programlisting language="javascript" linenumbering="unnumbered">promise.then(failTest, function(error){
     assert(error.message === 'human error');
 });
-// == 几乎这两个是同样的意思
+// == 几乎这两段代码是同样的意思
 shouldRejected(promise).catch(function (error) {
     assert(error.message === 'human error');
 });</programlisting>
@@ -2180,15 +2187,15 @@ it('should be fulfilled', function () {
 
 <simpara>此外，本小节中的helper方法都是以 <link linkend="mocha-promise">Mocha对Promise的支持</link> 为前提的，
 在 <link linkend="done-promise-test">基于<literal>done</literal> 的测试</link> 中使用的话可能会比较麻烦。</simpara>
-<simpara>是使用基于测试框架对Promis的支持，还是使用基于类似<literal>done</literal> 这样回调风格的测试方式，每个人都可以自由的选择，只是风格问题，我觉得没必要争一个孰优孰略。</simpara>
+<simpara>是使用基于测试框架对Promis的支持，还是使用基于类似<literal>done</literal> 这样回调风格的测试方式，每个人都可以自由的选择，只是风格问题，我觉得倒没必要去争一个孰优孰劣。</simpara>
 <simpara>比如在 <ulink url="http://coffeescript.org/">CoffeeScript</ulink>下进行测试的话，由于CoffeeScript 会隐式的使用return返回，所以使用 <literal>done</literal> 的话可能更容易理解一些。</simpara>
-<simpara>对Promise进行测试比对通常的非同步函数进行测试坑更多，虽说采取什么样的测试方法是个人的自由，但是采取前后风格一致的测试则是非常重要。</simpara>
+<simpara>对Promise进行测试比对通常的异步函数进行测试坑更多，虽说采取什么样的测试方法是个人的自由，但是在同一项目中采取前后风格一致的测试则是非常重要。</simpara>
 </section>
 </section>
 </section>
 <section id="chapter4-advanced-promise">
 <title>Chapter.4 - Advanced</title>
-<simpara>在这一章里，我们会基于前面学到的内容，再深入了解一下Promise里更高级的内容，加深对Promise的理解。</simpara>
+<simpara>在这一章里，我们会基于前面学到的内容，再深入了解一下Promise里的一些高级内容，加深对Promise的理解。</simpara>
 <section id="promise-library">
 <title>Promise的实现类库（Library）</title>
 <simpara>在本小节里，我们将不打算对浏览器实现的Promise进行说明，而是要介绍一些第三方实现的和Promise兼容的类库。</simpara>
@@ -2197,7 +2204,7 @@ it('should be fulfilled', function () {
 <simpara>为什么需要这些类库呢？我想有些读者不免会有此疑问。首先能想到的原因是有些运行环境并不支持 <link linkend="es6-promises">ES6 Promises</link> 。</simpara>
 <simpara>当我们在网上查找Promise的实现类库的时候，有一个因素是首先要考虑的，那就是是否具有 <link linkend="promises-aplus">Promises/A+兼容性</link> 。</simpara>
 <simpara><link linkend="promises-aplus">Promises/A+</link> 是 <link linkend="es6-promises">ES6 Promises</link> 的前身，Promise的 <literal>then</literal> 也是来自于此的基于社区的规范。</simpara>
-<simpara>如果说一个类库兼容 Promises/A+ 的话，那么就是说它除了具有标准的 <literal>then</literal> 方法之外，很多情况下也说明此类库还支持 <literal>Promise.all</literal> 或 <literal>catch</literal> 等功能。</simpara>
+<simpara>如果说一个类库兼容 Promises/A+ 的话，那么就是说它除了具有标准的 <literal>then</literal> 方法之外，很多情况下也说明此类库还支持 <literal>Promise.all</literal> 和 <literal>catch</literal> 等功能。</simpara>
 <simpara>但是 Promises/A+ 实际上只是定义了关于 <literal>Promise#then</literal> 的规范，所以有些类库可能实现了其它诸如 <literal>all</literal> 或 <literal>catch</literal> 等功能，但是可能名字却不一样。</simpara>
 <simpara>如果我们说一个类库具有 <literal>then</literal> 兼容性的话，实际上指的是 <link linkend="Thenable">Thenable</link> ，它通过使用 <link linkend="Promise.resolve">Promise.resolve</link> 基于ES6 Promise的规定，进行promise对象的变换。</simpara>
 <note>
@@ -2234,6 +2241,14 @@ it('should be fulfilled', function () {
 本书的示例代码也都是基于这个 ypromise 的 Polyfill 来在线运行的。</simpara>
 </listitem>
 </varlistentry>
+<varlistentry>
+<term><ulink url="https://github.com/getify/native-promise-only/">getify/native-promise-only</ulink></term>
+<listitem>
+<simpara>以作为ES6 Promises的polyfill为目的的类库
+它严格按照ES6 Promises的规范设计，没有添加在规范中没有定义的功能。
+如果运行环境有原生的Promise支持的话，则优先使用原生的Promise支持。</simpara>
+</listitem>
+</varlistentry>
 </variablelist>
 
 </section>
@@ -2265,7 +2280,7 @@ it('should be fulfilled', function () {
 </listitem>
 </itemizedlist>
 
-<simpara>Q等文档里详细极少了Q的Deferred和jQuery里的Deferred有哪些异同，以及要怎么进行移植 <ulink url="https://github.com/kriskowal/q/wiki/Coming-from-jQuery">Coming from jQuery</ulink> 等都进行了详细的说明。</simpara>
+<simpara>Q等文档里详细介绍了Q的Deferred和jQuery里的Deferred有哪些异同，以及要怎么进行迁移 <ulink url="https://github.com/kriskowal/q/wiki/Coming-from-jQuery">Coming from jQuery</ulink> 等都进行了详细的说明。</simpara>
 <itemizedlist>
 <listitem>
 <simpara><ulink url="https://github.com/petkaantonov/bluebird/blob/master/API.md">bluebird/API.md at master · petkaantonov/bluebird</ulink></simpara>
@@ -2287,8 +2302,8 @@ it('should be fulfilled', function () {
 </section>
 <section id="resolve-thenable">
 <title>Promise.resolve和Thenable</title>
-<simpara>在 <link linkend="ch2-promise-resolve">第二章的Promise.resolve</link> 中我们已经说过， <literal>Promise.resolve</literal> 的最大特征之一就是可以转换将thenable的对象转换为promise对象。</simpara>
-<simpara>在本小节里，我们将学习一下利用将thenable对象转换为promise对象这个功能都能具体做些什么实际的事情。</simpara>
+<simpara>在 <link linkend="ch2-promise-resolve">第二章的Promise.resolve</link> 中我们已经说过， <literal>Promise.resolve</literal> 的最大特征之一就是可以将thenable的对象转换为promise对象。</simpara>
+<simpara>在本小节里，我们将学习一下利用将thenable对象转换为promise对象这个功能都能具体做些什么事情。</simpara>
 <section id="__web_notifications_thenable">
 <title>将Web Notifications转换为thenable对象</title>
 <simpara>这里我们以桌面通知 API <ulink url="https://developer.mozilla.org/ja/docs/Web/API/notification">Web Notifications</ulink> 为例进行说明。</simpara>
@@ -2318,12 +2333,12 @@ it('should be fulfilled', function () {
 
 <simpara>用户在这个是否允许Notification的对话框选择后的结果，会通过 <literal>Notification.permission</literal> 传给我们的程序，它的值可能是允许("granted")或拒绝("denied")这二者之一。</simpara>
 <note>
-<simpara>是否允许Notification对话框中的可选项，在Firefox中除了允许、拒绝之外，还增加了 <emphasis>永久有效</emphasis> 和 <emphasis>绘画范围内有效</emphasis> 两种额外选项，当然 <literal>Notification.permission</literal> 的值都是一样的。</simpara>
+<simpara>是否允许Notification对话框中的可选项，在Firefox中除了允许、拒绝之外，还增加了 <emphasis>永久有效</emphasis> 和 <emphasis>会话范围内有效</emphasis> 两种额外选项，当然 <literal>Notification.permission</literal> 的值都是一样的。</simpara>
 </note>
 
 <simpara>在程序中可以通过 <literal>Notification.requestPermission()</literal> 来弹出是否允许Notification对话框，
 用户选择的结果会通过 <literal>status</literal> 参数传给回调函数。</simpara>
-<simpara>从这个毁掉函数我们也可以看出来，用户选择允许还是拒绝通知是异步进行的。</simpara>
+<simpara>从这个回调函数我们也可以看出来，用户选择允许还是拒绝通知是异步进行的。</simpara>
 <programlisting role="executable" language="javascript" linenumbering="unnumbered">Notification.requestPermission(function (status) {
     // status的值为 "granted" 或 "denied"
     console.log(status);
@@ -2628,7 +2643,7 @@ Promise.resolve(notifyMessageAsThenable("message")).then(function (notification)
 <simpara><xref linkend="notification-thenable.js"/> 和 <xref linkend="notification-as-promise.js"/>比起来，有以下的不同点。</simpara>
 <itemizedlist>
 <listitem>
-<simpara>类库侧没有出现 <literal>Promise</literal> 的实现</simpara>
+<simpara>类库侧没有提供 <literal>Promise</literal> 的实现</simpara>
 <itemizedlist>
 <listitem>
 <simpara>用户通过 <literal>Promise.resolve(thenable)</literal> 来自己实现了 <literal>Promise</literal></simpara>
@@ -2649,7 +2664,7 @@ Promise.resolve(notifyMessageAsThenable("message")).then(function (notification)
 <simpara>Callback&#8201;&#8212;&#8201;Thenable&#8201;&#8212;&#8201;Promise</simpara>
 <simpara>Thenable风格表现为位于回调和Promise风格中间的一种状态，作为类库的公开API有点不太成熟，所以并不常见。</simpara>
 <simpara>Thenable本身并不依赖于<literal>Promise</literal>功能，但是Promise之外也没有使用Thenable的方式，所以可以认为Thenable间接依赖于Promise。</simpara>
-<simpara>另外，用户需要对 <literal>Promise.resolve(thenable)</literal> 有所理解才能使用好Thenable，因此作为类库的公开API有一部分会比较难。和公开API想必，更多情况下是在内部使用Thenable。</simpara>
+<simpara>另外，用户需要对 <literal>Promise.resolve(thenable)</literal> 有所理解才能使用好Thenable，因此作为类库的公开API有一部分会比较难。和公开API相比，更多情况下是在内部使用Thenable。</simpara>
 <note>
 <simpara>在编写异步处理的类库的时候，推荐采用先编写回调风格的函数，然后再转换为公开API这种方式。</simpara>
 <simpara>貌似Node.js的Core module就采用了这种方式，除了类库提供的基本回调风格的函数之外，用户也可以通过Promise或者Generator等自己擅长的方式进行实现。</simpara>
@@ -2699,7 +2714,7 @@ Q(promise).then(function(value){
 <title>使用reject而不是throw</title>
 <simpara>Promise的构造函数，以及被 <literal>then</literal> 调用执行的函数基本上都可以认为是在
 <literal>try...catch</literal> 代码块中执行的，所以在这些代码中即使使用 <literal>throw</literal> ，程序本身也不会因为异常而终止。</simpara>
-<simpara>在Promise中使用 <literal>throw</literal> 语句的话，会被 <literal>try...catch</literal> 住，最终promise对象也变为Rejected状态。</simpara>
+<simpara>如果在Promise中使用 <literal>throw</literal> 语句的话，会被 <literal>try...catch</literal> 住，最终promise对象也变为Rejected状态。</simpara>
 <programlisting role="executable" language="javascript" linenumbering="unnumbered">var promise = new Promise(function(resolve, reject){
     throw new Error("message");
 });
@@ -2747,12 +2762,12 @@ promise.catch(function(error){
 <programlisting language="javascript" linenumbering="unnumbered">var promise = Promise.resolve();
 promise.then(function (value) {
     setTimeout(function () {
-        // 经过一段时间后还没处理完的话就进行reject <co id="CO11-1"/>
+        // 经过一段时间后还没处理完的话就进行reject - 2
     }, 1000);
-    // 比较耗时的处理 <co id="CO11-2"/>
+    // 比较耗时的处理 - 1
     somethingHardWork();
 }).catch(function (error) {
-    // 超时错误 <co id="CO11-3"/>
+    // 超时错误 - 3
 });</programlisting>
 
 <simpara>上面的超时处理，需要在 <literal>then</literal> 中进行 <literal>reject</literal> 方法调用，但是传递给当前的回调函数的参数只有前面的一promise对象，这该怎么办呢？</simpara>
@@ -2769,12 +2784,12 @@ promise.then(function () {
     var retPromise = new Promise(function (resolve, reject) {
         // resolve or reject 的状态决定 onFulfilled or onRejected 的哪个方法会被调用
     });
-    return retPromise;<co id="CO11-4"/>
+    return retPromise;<co id="CO11-1"/>
 }).then(onFulfilled, onRejected);</programlisting>
 
 <calloutlist>
   
-  <callout arearefs="CO11-2 CO11-4">
+  <callout arearefs="CO11-1">
     <para>后面的then调用哪个回调函数是由promise对象的状态来决定的</para>
     
   </callout>
@@ -2896,8 +2911,8 @@ function getURL(URL) {
     var req = new XMLHttpRequest();
     req.open('GET', URL, true);
     req.onload = function () {
-        if (req.status == 200) {
-            deferred.resolve(req.response);
+        if (req.status === 200) {
+            deferred.resolve(req.responseText);
         } else {
             deferred.reject(new Error(req.statusText));
         }
@@ -2926,8 +2941,8 @@ getURL(URL).then(function onFulfilled(value){
         var req = new XMLHttpRequest();
         req.open('GET', URL, true);
         req.onload = function () {
-            if (req.status == 200) {
-                resolve(req.response);
+            if (req.status === 200) {
+                resolve(req.responseText);
             } else {
                 reject(new Error(req.statusText));
             }
@@ -2955,7 +2970,7 @@ getURL(URL).then(function onFulfilled(value){
 <simpara>由于没有被嵌套在函数中，可以减少一层缩进</simpara>
 </listitem>
 <listitem>
-<simpara>逆にPromiseでのエラーハンドリングは行われていない（TODO：what it means？）</simpara>
+<simpara>反过来没有Promise里的错误处理逻辑</simpara>
 </listitem>
 </itemizedlist>
 
@@ -2989,8 +3004,8 @@ getURL(URL).then(function onFulfilled(value){
 
 // 可以在随意的时机对 `resolve`、`reject` 方法进行调用</programlisting>
 
-<simpara>上面我们只是简单的实现了一个 <emphasis role="strong">Deferred</emphasis> ，我想你已经看到了它和 <emphasis role="strong">Promise</emphasis> 之间的差异了把。</simpara>
-<simpara>如果说Promise是用来对值进行抽象化的话，Deferred则是对处理还没有结束的状态或操作进行抽象化的对象，我们也可以从这种区别来理解一下这两者的差异。</simpara>
+<simpara>上面我们只是简单的实现了一个 <emphasis role="strong">Deferred</emphasis> ，我想你已经看到了它和 <emphasis role="strong">Promise</emphasis> 之间的差异了吧。</simpara>
+<simpara>如果说Promise是用来对值进行抽象的话，Deferred则是对处理还没有结束的状态或操作进行抽象化的对象，我们也可以从这一层的区别来理解一下这两者之间的差异。</simpara>
 <simpara>换句话说，Promise代表了一个对象，这个对象的状态现在还不确定，但是未来一个时间点它的状态要么变为正常值（FulFilled），要么变为异常值（Rejected）；而Deferred对象表示了一个处理还没有结束的这种事实，在它的处理结束的时候，可以通过Promise来取得处理结果。</simpara>
 <simpara>如果各位读者还想深入了解一下Deferred的话，可以参考下面的这些资料。</simpara>
 <itemizedlist>
@@ -3017,12 +3032,12 @@ getURL(URL).then(function onFulfilled(value){
 </section>
 <section id="race-delay-timeout">
 <title>使用Promise.race和delay取消XHR请求</title>
-<simpara>在本小节中，作为在第<link linkend="ch2-promise-race">2章</link>所学的 <link linkend="Promise.race"><literal>Promise.race</literal></link> 的用例，我们来看一下如何使用Promise.race来实现超时机制。</simpara>
+<simpara>在本小节中，作为在第<link linkend="ch2-promise-race">2章</link>所学的 <link linkend="Promise.race"><literal>Promise.race</literal></link> 的具体例子，我们来看一下如何使用Promise.race来实现超时机制。</simpara>
 <simpara>当然XHR有一个 <ulink url="https://developer.mozilla.org/ja/docs/XMLHttpRequest/Synchronous_and_Asynchronous_Requests">timeout</ulink> 属性，使用该属性也可以简单实现超时功能，但是为了能支持多个XHR同时超时或者其他功能，我们采用了容易理解的异步方式在XHR中通过超时来实现取消正在进行中的操作。</simpara>
 <section id="__promise_3">
 <title>让Promise等待指定时间</title>
 <simpara>首先我们来看一下如何在Promise中实现超时。</simpara>
-<simpara>所谓超时就是要在经过一定时间后进行某些操作，使用 <literal>setTimeout</literal> 的话很好立即。</simpara>
+<simpara>所谓超时就是要在经过一定时间后进行某些操作，使用 <literal>setTimeout</literal> 的话很好理解。</simpara>
 <simpara>首先我们来串讲一个单纯的在Promise中调用  <literal>setTimeout</literal> 的函数。</simpara>
 <formalpara id="delayPromise.js">
 <title>delayPromise.js</title>
@@ -3120,14 +3135,14 @@ timeoutPromise(taskPromise, 1000).then(function(value){
 <simpara><literal>Error</literal> 对象是ECMAScript的内建（build in）对象。</simpara>
 <simpara>但是由于stack trace等原因我们不能完美的创建一个继承自 <literal>Error</literal> 的类，不过在这里我们的目的只是为了和Error有所区别，我们将创建一个 <literal>TimeoutError</literal> 类来实现我们的目的。</simpara>
 <note>
-<simpara>在ECMAScript6中可以使用 <literal>class</literal> 语法来正确的实现类之间的继承关系。</simpara>
+<simpara>在ECMAScript6中可以使用 <literal>class</literal> 语法来定义类之间的继承关系。</simpara>
 <programlisting language="javascript" linenumbering="unnumbered">class MyError extends Error{
     // 继承了Error类的对象
 }</programlisting>
 
 </note>
 
-<simpara>我们让我们的 <literal>TimeoutError</literal> 能支持类似 <literal>error instanceof TimeoutError</literal> 的使用方法，我们还需要进行如下工作。</simpara>
+<simpara>为了让我们的 <literal>TimeoutError</literal> 能支持类似 <literal>error instanceof TimeoutError</literal> 的使用方法，我们还需要进行如下工作。</simpara>
 <formalpara id="TimeoutError.js">
 <title>TimeoutError.js</title>
 <para>
@@ -3147,7 +3162,7 @@ TimeoutError.prototype.constructor = TimeoutError;</programlisting>
 </formalpara>
 
 <simpara>我们定义了 <literal>TimeoutError</literal> 类和构造函数，这个类继承了Error的prototype。</simpara>
-<simpara>使用方法的话则和普通的 <literal>Error</literal> 对象一样，使用 <literal>throw</literal> 语句即可，如下所示。</simpara>
+<simpara>它的使用方法和普通的 <literal>Error</literal> 对象一样，使用 <literal>throw</literal> 语句即可，如下所示。</simpara>
 <programlisting language="javascript" linenumbering="unnumbered">var promise = new Promise(function(){
     throw TimeoutError("timeout");
 });
@@ -3157,7 +3172,7 @@ promise.catch(function(error){
 });
 </programlisting>
 
-<simpara>只有这个 <literal>TimeoutError</literal> 对象，我们就能很容易区分捕获的到底是因为超时而导致的错误，还是其他原因导致的Error对象了。</simpara>
+<simpara>有了这个 <literal>TimeoutError</literal> 对象，我们就能很容易区分捕获的到底是因为超时而导致的错误，还是其他原因导致的Error对象了。</simpara>
 <note>
 <simpara>本章里介绍的继承JavaScript内建对象的方法可以参考 <ulink url="http://speakingjs.com/es5/ch28.html">Chapter 28. Subclassing Built-ins</ulink> ，那里有详细的说明。此外 <ulink url="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error">Error - JavaScript | MDN</ulink> 也针对Error对象进行了详细说明。</simpara>
 </note>
@@ -3176,8 +3191,8 @@ promise.catch(function(error){
     var promise = new Promise(function (resolve, reject) {
             req.open('GET', URL, true);
             req.onload = function () {
-                if (req.status == 200) {
-                    resolve(req.response);
+                if (req.status === 200) {
+                    resolve(req.responseText);
                 } else {
                     reject(new Error(req.statusText));
                 }
@@ -3271,8 +3286,8 @@ function cancelableXHR(URL) {
     var promise = new Promise(function (resolve, reject) {
             req.open('GET', URL, true);
             req.onload = function () {
-                if (req.status == 200) {
-                    resolve(req.response);
+                if (req.status === 200) {
+                    resolve(req.responseText);
                 } else {
                     reject(new Error(req.statusText));
                 }
@@ -3313,7 +3328,7 @@ timeoutPromise(object.promise, 1000).then(function (contents) {
 
 <simpara>上面的代码就通过在一定的时间内变为解决状态的promise对象实现了超时处理。</simpara>
 <note>
-<simpara>通常进行开发的情况下，由于这些逻辑会频繁使用，因此将这些代码分割到不同的文件是一种不错的选择。</simpara>
+<simpara>通常进行开发的情况下，由于这些逻辑会频繁使用，因此将这些代码分割保存在不同的文件应该是一个不错的选择。</simpara>
 </note>
 
 </section>
@@ -3349,8 +3364,8 @@ function createXHRPromise(URL) {
             }
         };
         req.onload = function () {
-            if (req.status == 200) {
-                resolve(req.response);
+            if (req.status === 200) {
+                resolve(req.responseText);
             } else {
                 reject(new Error(req.statusText));
             }
@@ -3437,7 +3452,7 @@ cancelableXHR.abortPromise(xhrPromise);<co id="CO12-2"/></programlisting>
 </section>
 <section id="promise-done">
 <title>什么是 Promise.prototype.done ？</title>
-<simpara>如果你使用过其它的Promise实现类库的话，可能见过用<literal>done</literal>代替<literal>then</literal>的例子。</simpara>
+<simpara>如果你使用过其他的Promise实现类库的话，可能见过用<literal>done</literal>代替<literal>then</literal>的例子。</simpara>
 <simpara>这些类库都提供了 <literal>Promise.prototype.done</literal> 方法，使用起来也和 <literal>then</literal> 一样，但是这个方法并不会返回promise对象。</simpara>
 <simpara>虽然 <link linkend="es6-promises">ES6 Promises</link>和<link linkend="promises-aplus">Promises/A+</link>等在设计上并没有对<literal>Promise.prototype.done</literal> 做出任何规定，但是很多实现类库都提供了该方法的实现。</simpara>
 <simpara>在本小节中，我们将会学习什么是 <literal>Promise.prototype.done</literal> ，以及为什么很多类库都提供了对该方法的支持。</simpara>
@@ -3505,7 +3520,7 @@ promise.then(function () {
 <simpara>为什么很多类库都提供了这个和Promise功能相矛盾的函数呢？看一下下面Promise处理失败的例子，也许我们多少就能理解其中原因了吧。</simpara>
 </section>
 <section id="__20">
-<title>沈黙したエラー</title>
+<title>消失的错误</title>
 <simpara>Promise虽然具备了强大的错误处理机制，但是（调试工具不能顺利运行的时候）这个功能会导致人为错误（human error）更加复杂，这也是它的一个缺点。</simpara>
 <simpara>也许你还记得，我们在 <link linkend="then-or-catch">then or catch?</link> 中也看到了类似的内容。</simpara>
 <simpara>像下面那样，我们看一个能返回promise对象的函数。</simpara>
@@ -3556,7 +3571,7 @@ JSONPromise(string).then(function (object) {
   
 </calloutlist>
 
-<simpara>如果是<literal>JSON.parse</literal> 这样比较好找的例子还算好说，如果是拼写错误的话，那么发生了るSyntax Error错误的话将会非常麻烦。</simpara>
+<simpara>如果是<literal>JSON.parse</literal> 这样比较好找的例子还算好说，如果是拼写错误的话，那么发生了Syntax Error错误的话将会非常麻烦。</simpara>
 <formalpara>
 <title>typo错误</title>
 <para>
@@ -3607,8 +3622,8 @@ JSONPromise(string).then(function (object) {
 </section>
 <section id="_done">
 <title>done的实现</title>
-<simpara>Promiseにおける <literal>done</literal> は先程のエラーの握りつぶしを避けるにはどうするかという方法論として、
-そもそもエラーハンドリングをしなければいい という豪快な解決方法を提供するメソッドです。</simpara>
+<simpara>作为方法论，在Promise中 <literal>done</literal> 是怎么解决上面提到的错误被忽略呢？
+其实它的方法很简单直接，那就是必须要进行错误处理。</simpara>
 <simpara>由于可以在 Promise上实现 <literal>done</literal> 方法，因此我们看看如何对 <literal>Promise.prototype.done</literal> 这个Promise的prototype进行扩展。</simpara>
 <formalpara id="promise-prototype-done.js">
 <title>promise-prototype-done.js</title>
@@ -3653,7 +3668,7 @@ if (typeof Promise.prototype.done === "undefined") {
 <simpara>关于为什么异步的<literal>callback</literal>中抛出的异常不会被捕获的原因，可以参考下面内容。</simpara>
 <itemizedlist>
 <listitem>
-<simpara><ulink url="http://techblog.yahoo.co.jp/programming/javascript_error/">JavaScript和异步错误处理 - Yahoo! JAPAN Tech Blog</ulink></simpara>
+<simpara><ulink url="http://techblog.yahoo.co.jp/programming/javascript_error/">JavaScript和异步错误处理 - Yahoo! JAPAN Tech Blog（日语博客）</ulink></simpara>
 </listitem>
 </itemizedlist>
 
@@ -3662,7 +3677,7 @@ if (typeof Promise.prototype.done === "undefined") {
 <simpara>仔细看一下 <link linkend="promise-prototype-done.js"><literal>Promise.prototype.done</literal></link>的代码，我们会发现这个函数什么也没 <literal>return</literal> 。
 也就是说， <literal>done</literal>按照「Promise chain在这里将会中断，如果出现了异常，直接抛到promise外面即可」的原则进行了处理。</simpara>
 <simpara>如果实现和运行环境实现的比较完美的话，就可以进行 <emphasis>unhandled rejection</emphasis> 检测，<literal>done</literal>也不一定是必须的了。
-另外像本小节中的 <link linkend="promise-prototype-done.js"><literal>Promise.prototype.done</literal></link>一样，<literal>done</literal>也可以在既有的Promise之上进行实现，是否也可以说它没有进入到
+另外像本小节中的 <link linkend="promise-prototype-done.js"><literal>Promise.prototype.done</literal></link>一样，<literal>done</literal>也可以在既有的Promise之上进行实现，也可以说它没有进入到
 <link linkend="es6-promises">ES6 Promises</link>的设计规范之中。</simpara>
 <note>
 <simpara>本文中的 <literal>Promise.prototype.done</literal> 的实现方法参考了 <ulink url="https://www.promisejs.org/">promisejs.org</ulink> 。</simpara>
@@ -3684,8 +3699,6 @@ if (typeof Promise.prototype.done === "undefined") {
 
 <simpara>和 <link linkend="then-or-catch">then or catch?</link> 中说到的一样，由Promise内部消化掉的错误，随着调试工具或者类库的改进，大多数情况下也许已经不是特别大的问题了。</simpara>
 <simpara>此外，由于 <literal>done</literal> 不会有返回值，因此不能在它之后进行方法链的创建，为了实现Promise方法风格上的统一，我们也可以使用<literal>done</literal>方法。</simpara>
-<simpara>また、<literal>done</literal> は値を返さない事でそれ以上Promise chainを繋げる事ができなくなるため、
-そのような統一感を持たせるという用途で <literal>done</literal> を使うことも出来ます。</simpara>
 <simpara><link linkend="es6-promises">ES6 Promises</link> 本身提供的功能并不是特别多。
 因此，我想很多时候可能需要我们自己进行扩展或者使用第三方类库。</simpara>
 <simpara>我们好不容易将异步处理统一采用Promise进行统一处理，但是如果做过头了，也会将系统变得特别复杂，因此，保持风格的统一是Promise作为抽象对象非常重要的部分。</simpara>
@@ -3710,7 +3723,7 @@ if (typeof Promise.prototype.done === "undefined") {
 <simpara>在Promise中你可以将 <literal>then</literal> 和 <literal>catch</literal> 等方法连在一起写。这非常像DOM或者jQuery中的方法链。</simpara>
 <simpara>一般的方法链都通过返回 <literal>this</literal> 将多个方法串联起来。</simpara>
 <note>
-<simpara>关于如何创建方法链，可以从参考 <ulink url="http://taiju.hatenablog.com/entry/20100307/1267962826">方法链的创建方法 - 余味</ulink> 等资料。</simpara>
+<simpara>关于如何创建方法链，可以从参考 <ulink url="http://taiju.hatenablog.com/entry/20100307/1267962826">方法链的创建方法 - 余味（日语博客）</ulink> 等资料。</simpara>
 </note>
 
 <simpara>另一方面，由于Promise <link linkend="then-return-new-promise">每次都会返回一个新的promise对象</link> ，所以从表面上看和一般的方法链几乎一模一样。</simpara>
@@ -3832,7 +3845,7 @@ promise.then(function read(){
     });</programlisting>
 
 <simpara>看到 <literal>promise = promise.then(...)</literal> 这种写法，会让人以为<literal>promise</literal>的值会被覆盖，也许你会想是不是promise的chain被截断了。</simpara>
-<simpara>你可以想象为类似 <literal>promise = addPromiseChain(promise, fn);</literal> 这样的感觉，我们队promise对象<emphasis role="strong">增加</emphasis>了新的处理，并返回了这个对象，因此即使自己不实现顺序处理的话也不会带来什么问题。</simpara>
+<simpara>你可以想象为类似 <literal>promise = addPromiseChain(promise, fn);</literal> 这样的感觉，我们为promise对象<emphasis role="strong">增加</emphasis>了新的处理，并返回了这个对象，因此即使自己不实现顺序处理的话也不会带来什么问题。</simpara>
 </section>
 <section id="__22">
 <title>两者的区别</title>
@@ -3996,7 +4009,7 @@ describe("array-promise-chain", function () {
 </para>
 </formalpara>
 
-<simpara>我们看到，在 <literal>ArrayAsPromise</literal> 中也能使用 Array的方法。而且也和前面的例子类似，原生的Array时同步处理，而 <literal>ArrayAsPromise</literal> 则是异步处理，这也是它们的不同之处。</simpara>
+<simpara>我们看到，在 <literal>ArrayAsPromise</literal> 中也能使用 Array的方法。而且也和前面的例子类似，原生的Array是同步处理，而 <literal>ArrayAsPromise</literal> 则是异步处理，这也是它们的不同之处。</simpara>
 <simpara>仔细看一下 <literal>ArrayAsPromise</literal> 的实现，也许你已经注意到了， <literal>Array.prototype</literal> 的所有方法都被实现了。
 但是，<literal>Array.prototype</literal> 中也存在着类似<literal>array.indexOf</literal> 等并不会返回数组类型数据的方法，这些方法如果也要支持方法链的话就有些不自然了。</simpara>
 <simpara>在这里非常重要的一点是，我们可以通过这种方式，为具有接收相同类型数据接口的API动态的创建Promise版的API。
@@ -4035,7 +4048,7 @@ describe("array-promise-chain", function () {
 <section id="promise-sequence">
 <title>使用Promise进行顺序（sequence）处理</title>
 <simpara>在第2章 <link linkend="ch2-promise-all">Promise.all</link> 中，我们已经学习了如何让多个promise对象同时开始执行的方法。</simpara>
-<simpara>但是 <literal>Promise.all</literal> 方法会同时运行多个promise对象，如果想进行在A处理完成之后再开始B的处理这种顺序执行的话就无能为力了。</simpara>
+<simpara>但是 <literal>Promise.all</literal> 方法会同时运行多个promise对象，如果想进行在A处理完成之后再开始B的处理，对于这种顺序执行的话 <literal>Promise.all</literal>就无能为力了。</simpara>
 <simpara>此外，在同一章的<link linkend="ch2-promise-and-array">Promise和数组</link> 中，我们也介绍了一种效率不是特别高的，使用了 <link linkend="multiple-xhr.js">重复使用多个then的方法</link> 来实现如何按顺序进行处理。</simpara>
 <simpara>在本小节中，我们将对如何在Promise中进行顺序处理进行介绍。</simpara>
 <section id="__26">
@@ -4046,8 +4059,8 @@ describe("array-promise-chain", function () {
         var req = new XMLHttpRequest();
         req.open('GET', URL, true);
         req.onload = function () {
-            if (req.status == 200) {
-                resolve(req.response);
+            if (req.status === 200) {
+                resolve(req.responseText);
             } else {
                 reject(new Error(req.statusText));
             }
@@ -4092,8 +4105,8 @@ main().then(function (value) {
         var req = new XMLHttpRequest();
         req.open('GET', URL, true);
         req.onload = function () {
-            if (req.status == 200) {
-                resolve(req.response);
+            if (req.status === 200) {
+                resolve(req.responseText);
             } else {
                 reject(new Error(req.statusText));
             }
@@ -4154,8 +4167,8 @@ main().then(function (value) {
         var req = new XMLHttpRequest();
         req.open('GET', URL, true);
         req.onload = function () {
-            if (req.status == 200) {
-                resolve(req.response);
+            if (req.status === 200) {
+                resolve(req.responseText);
             } else {
                 reject(new Error(req.statusText));
             }
@@ -4259,8 +4272,8 @@ function getURL(URL) {
         var req = new XMLHttpRequest();
         req.open('GET', URL, true);
         req.onload = function () {
-            if (req.status == 200) {
-                resolve(req.response);
+            if (req.status === 200) {
+                resolve(req.responseText);
             } else {
                 reject(new Error(req.statusText));
             }
@@ -4313,11 +4326,11 @@ main().then(function (value) {
 </section>
 <section id="__28">
 <title>总结</title>
-<simpara>在本小节中，我们对如何在Promise中进行和 <link linkend="Promise.all"><literal>Promise.all</literal></link> 相反，一个个对promise进行处理的实现方式进行了介绍。</simpara>
+<simpara>在本小节中，我们对如何在Promise中进行和 <link linkend="Promise.all"><literal>Promise.all</literal></link> 相反，按顺序让promise一个个进行处理的实现方式进行了介绍。</simpara>
 <simpara>为了实现顺序处理，我们也对从过程风格的编码方式到自定义顺序处理函数的方式等实现方式进行了介绍，也再次强调了在Promise领域我们应遵循将处理按照函数进行划分的基本原则。</simpara>
-<simpara>在Promise中如果还使用了Promise chain将多个处理链接起来的话，那么还可能使源代码中的一条语句变得很长。</simpara>
+<simpara>在Promise中如果还使用了Promise chain将多个处理连接起来的话，那么还可能使源代码中的一条语句变得很长。</simpara>
 <simpara>这时候如果我们回想一下这些编程的基本原则进行函数拆分的话，代码整体结构会变得非常清晰。</simpara>
-<simpara>此外,Promise的构造函数以及 <literal>then</literal> 都是高阶函数，如果将处理分割为函数的话，还能得到对函数进行灵活组合使用的副作用，意识到这一点对我们会有一些帮助的。</simpara>
+<simpara>此外,Promise的构造函数以及 <literal>then</literal> 都是高阶函数，如果将处理分割为函数的话，还能得到对函数进行灵活组合使用的副作用，意识到这一点对我们也会有一些帮助的。</simpara>
 <note>
 <simpara>高阶函数指的是一个函数可以接受其参数为函数对象的实例</simpara>
 </note>
@@ -4506,7 +4519,7 @@ Promise.race([p1, p2, p3]).then(function (value) {
 <varlistentry>
 <term>ES6 Promises</term>
 <listitem>
-<simpara>如果想明确表示使用 <ulink url="http://people.mozilla.org/%7Ejorendorff/es6-draft.html#sec-operations-on-promise-objects">ECMAScript 6th Edition</ulink> 的话，可以使用<emphasis>ES6</emphasis>作为前缀（prefix）</simpara>
+<simpara>如果想明确表示使用 <ulink url="http://people.mozilla.org/~jorendorff/es6-draft.html#sec-promise-objects">ECMAScript 6th Edition</ulink> 的话，可以使用<emphasis>ES6</emphasis>作为前缀（prefix）</simpara>
 </listitem>
 </varlistentry>
 </variablelist>
@@ -4592,13 +4605,13 @@ Promise.race([p1, p2, p3]).then(function (value) {
 <simpara>管理着个人主页 <ulink url="http://efcl.info/">Web Scratch</ulink> 和 <ulink url="http://jser.info/">JSer.info</ulink> 。</simpara>
 </section>
 <section id="about-translators">
-<title>关于译者（按翻译内容从多到少）</title>
+<title>关于译者</title>
 <itemizedlist>
 <listitem>
 <simpara>liubin <ulink url="https://github.com/liubin">https://github.com/liubin</ulink></simpara>
 <itemizedlist>
 <listitem>
-<simpara>除去kakau和honnkyou的其余部分的翻译、整体校对</simpara>
+<simpara>除去kakau和honnkyou的其余部分的翻译、整体校对，以及源代码，工具部分的翻译</simpara>
 </listitem>
 </itemizedlist>
 

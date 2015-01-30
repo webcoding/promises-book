@@ -16,7 +16,7 @@
 [[mocha-promise-test.js]]
 .mocha-promise-test.js
 ----
-include::test/mocha-promise-test.js[]
+include::embed/embed-mocha-promise-test.js[]
 ----
 
 这段代码将前面 <<promise-assert-fail-fixed, 前面使用 `done` 的例子>> 按照Mocha的Promise测试方式进行了重写。
