@@ -27,7 +27,7 @@ console.log(thenPromise !== catchPromise);// => true
 
 image::img/then_catch.png[Then Catch flow]
 
-我们在对Promise进行扩展的时候需要牢牢记住这一点，否则稍不留神就有可能对错误的promis对象进行了处理。
+我们在对Promise进行扩展的时候需要牢牢记住这一点，否则稍不留神就有可能对错误的promise对象进行了处理。
 
 如果我们知道了 `then` 方法每次都会创建并返回一个新的promise对象的话，那么我们就应该不难理解下面代码中对 `then` 的使用方式上的差别了。
 

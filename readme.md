@@ -11,6 +11,29 @@ Promises迷你书电子版（中文版）
 
 如果你想捐赠的话，可以到[这里](https://gumroad.com/l/javascript-promise "JavaScript Promise小书 附录")。
 
+
+## 关于作者
+
+- GitHub: [azu](https://github.com/azu)
+- Twitter : [azu_re](https://twitter.com/azu_re)
+
+关注浏览器、JavaScript先关的最新技术。
+
+擅长将将目的作为手段，本书也是因此而成。
+
+管理着个人主页 [Web Scratch](http://efcl.info/) 和 [JSer.info](http://jser.info/) 。
+
+## 关于译者
+
+* [liubin](https://github.com/liubin)
+  * 除去kakau和honnkyou的其余部分的翻译、整体校对，以及源代码，工具部分的翻译
+
+* [kaku](https://github.com/kaku87)
+  * 1.1. Promise是什么、1.2. Promise 简介、1.3. 编写Promise代码
+
+* [honnkyou](https://github.com/honnkyou)
+  * 3.1. 基本测试
+
 ## Installation
 
 本书采用Asciidoc格式编写。

@@ -24,7 +24,7 @@ image::img/deferred-and-promise.png[Deferred和Promise]
 我想各位看到此图应该就很容易理解了，Deferred和Promise并不是处于竞争的关系，而是Deferred内涵了Promise。
 
 [NOTE]
-这是jQuery.Deferred结构的简化版。当然也有的Promise实现并没有内涵Promise。
+这是jQuery.Deferred结构的简化版。当然也有的Deferred实现并没有内涵Promise。
 
 光看图的话也许还难以理解，下面我们就看看看怎么通过Promise来实现Deferred。
 
