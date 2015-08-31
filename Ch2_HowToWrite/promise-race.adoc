@@ -32,7 +32,7 @@ include::embed/embed-promise-race-other.js[]
 
 我们在前面代码的基础上增加了 `console.log` 用来输出调试信息。
 
-执行上面代码的话，我们会看到 winnter和loser promise对象的 `setTimeout` 方法都会执行完毕， `console.log` 也会分别输出它们的信息。
+执行上面代码的话，我们会看到 winner和loser promise对象的 `setTimeout` 方法都会执行完毕， `console.log` 也会分别输出它们的信息。
 
 也就是说， <<Promise.race, `Promise.race`>> 在第一个promise对象变为Fulfilled之后，并不会取消其他promise对象的执行。
 
