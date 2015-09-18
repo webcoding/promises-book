@@ -6,7 +6,7 @@ image:img/simple320_320.png[azu,32,32]
 
 关注浏览器、JavaScript相关的最新技术。
 
-擅长将将目的作为手段，本书也是因此而成。
+擅长将目的作为手段，本书也是因此而成。
 
 管理着个人主页 http://efcl.info/[Web Scratch] 和 http://jser.info/[JSer.info] 。
 
