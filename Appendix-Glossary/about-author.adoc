@@ -4,7 +4,7 @@
 image:img/simple320_320.png[azu,32,32]
 **https://github.com/azu/[azu]** (Twitter : @link:https://twitter.com/azu_re[azu_re] )
 
-关注浏览器、JavaScript先关的最新技术。
+关注浏览器、JavaScript相关的最新技术。
 
 擅长将将目的作为手段，本书也是因此而成。
 
