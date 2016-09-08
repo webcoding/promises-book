@@ -7,7 +7,7 @@
 
 *Constructor*
 
-Promise类似于 `XMLHttpRequest`，从构造函数 `Promise` 来创建一个新建新`promise`对象作为接口。
+Promise类似于 `XMLHttpRequest`，从构造函数 `Promise` 来创建一个 `promise` 对象作为接口。
 
 要想创建一个promise对象、可以使用`new`来调用`Promise`的构造器来进行实例化。
 
