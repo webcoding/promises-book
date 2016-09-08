@@ -10,7 +10,7 @@
 ----
 aPromise.then(function taskA(value){
 // task A
-}).then(function taskB(vaue){
+}).then(function taskB(value){
 // task B
 }).catch(function onRejected(error){
     console.log(error);
