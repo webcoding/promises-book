@@ -87,7 +87,7 @@ function badAsyncCall() {
 由于每次 `promise.then` 调用都会返回一个新创建的promise对象，因此需要像上述方式2那样，采用promise chain的方式将调用进行链式化，修改后的代码如下所示。
 
 [source,javascript]
-.`then` 返回返回新创建的promise对象
+.`then` 返回新创建的promise对象
 ----
 function anAsyncCall() {
     var promise = Promise.resolve();
